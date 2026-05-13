@@ -155,8 +155,8 @@ export interface QueryOptions {
 }
 
 export async function processUserQuery(
-  query: string, 
-  onRouteFound: (routes: any) => void, 
+  query: string,
+  onRouteFound: (routes: any) => void,
   onStatusFound: (status: string) => void,
   options?: QueryOptions
 ) {
@@ -164,32 +164,32 @@ export async function processUserQuery(
     const tarifas = await getTarifasData();
     const encicla = await getEnCiclaData();
     const tiempos = await getTiemposData();
-    
+
     let grounding = '';
     let nearbyContext = '';
 
     if (options?.origin || options?.dest) {
       const allStations = await loadStations();
-      const originNearby = options.origin 
+      const originNearby = options.origin
         ? allStations
-            .map(s => {
-               const dist = calculateDistance(options.origin!.lat, options.origin!.lng, s.lat, s.lng);
-               return { ...s, distance: dist, walkingMinutes: Math.ceil(dist / 80) };
-            })
-            .sort((a, b) => a.distance - b.distance)
-            .slice(0, 8)
-            .map(s => ({...s, tag: 'Origen'}))
+          .map(s => {
+            const dist = calculateDistance(options.origin!.lat, options.origin!.lng, s.lat, s.lng);
+            return { ...s, distance: dist, walkingMinutes: Math.ceil(dist / 80) };
+          })
+          .sort((a, b) => a.distance - b.distance)
+          .slice(0, 8)
+          .map(s => ({ ...s, tag: 'Origen' }))
         : [];
-      
+
       const destNearby = options.dest
         ? allStations
-            .map(s => {
-               const dist = calculateDistance(options.dest!.lat, options.dest!.lng, s.lat, s.lng);
-               return { ...s, distance: dist, walkingMinutes: Math.ceil(dist / 80) };
-            })
-            .sort((a, b) => a.distance - b.distance)
-            .slice(0, 8)
-            .map(s => ({...s, tag: 'Destino'}))
+          .map(s => {
+            const dist = calculateDistance(options.dest!.lat, options.dest!.lng, s.lat, s.lng);
+            return { ...s, distance: dist, walkingMinutes: Math.ceil(dist / 80) };
+          })
+          .sort((a, b) => a.distance - b.distance)
+          .slice(0, 8)
+          .map(s => ({ ...s, tag: 'Destino' }))
         : [];
 
       // Combine and deduplicate
@@ -201,15 +201,15 @@ export async function processUserQuery(
       nearbyContext = relevantStations
         .map(s => `- [Para ${s.tag}] ${s.nombre} (${s.sistema} - Linea ${s.linea}): A ${Math.round(s.distance)} metros de distancia (Caminando: ~${s.walkingMinutes} min) - Coord: LAT ${s.lat.toFixed(5)}, LNG ${s.lng.toFixed(5)}`)
         .join('\n');
-      
+
       grounding = `ESTACIONES RELEVANTES CERCANAS A LA BÚSQUEDA:\n${nearbyContext}\n\nOTRAS ESTACIONES:\n${await getGroundingData()}`;
     } else {
       grounding = await getGroundingData();
     }
-    
+
     // We append the instruction to force the model to call our renderer and ALSO reply in textual steps.
     const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
+      model: 'gemini-2.5-pro',
       contents: query,
       config: {
         systemInstruction: `Eres MetroBot, el asistente inteligente de movilidad de SITVA (Metro, Metrocable, Tranvía, Metroplús, EnCicla) en Medellín Colombia.
@@ -268,10 +268,10 @@ ${grounding}`,
         if (call.name === 'render_route') {
           const args = call.args as any;
           if (args.routes && Array.isArray(args.routes)) {
-             onRouteFound(args.routes);
+            onRouteFound(args.routes);
           }
           if (!textResponse) {
-             textResponse = "¡Listo! Te dejé las rutas abajo  en las tarjetas. Escoge la que prefieras.";
+            textResponse = "¡Listo! Te dejé las rutas abajo  en las tarjetas. Escoge la que prefieras.";
           }
         } else if (call.name === 'get_station_status') {
           const args = call.args as any;
