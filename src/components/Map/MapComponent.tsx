@@ -277,18 +277,36 @@ export function MapComponent({ onSearchRoute, origin, dest, routes, activeRouteI
       // Render intermediate markers and paths
       const segmentsKeys = Object.keys(routePaths).filter(k => k.startsWith('segment-'));
       segmentsKeys.forEach(k => {
+         const positions = routePaths[k];
+         if (!positions || positions.length < 2) return;
+
          const isWalk = k.includes('-walk-');
-         const isWalkOrBike = !k.includes('straight');
+         const isStraight = k.includes('straight');
+
+         // Determinar color basado en el segmento
+         let color = '#3b82f6'; // default blue
+         if (isWalk) color = '#10b981'; // emerald for walk
+         else if (isStraight) {
+           // Intentamos encontrar el modo en la ruta para asignar color real de SITVA
+           const segmentIndex = parseInt(k.split('-').pop() || '0');
+           const step = route.steps[segmentIndex];
+           if (step) {
+             color = getMarkerColor(step.mode);
+           } else {
+             color = '#94a3b8'; // fallback grey
+           }
+         }
+
          polys.push(
-            <Polyline 
-              key={`route-trace-${k}`} 
-              positions={routePaths[k]} 
-              pathOptions={{ 
-                 color: isWalkOrBike ? '#3b82f6' : '#94a3b8', 
-                 weight: isWalkOrBike ? 5 : 4, 
+            <Polyline
+              key={`route-trace-${k}`}
+              positions={positions}
+              pathOptions={{
+                 color: color,
+                 weight: isStraight ? 4 : 5,
                  opacity: 0.8,
-                 dashArray: isWalk ? '8, 8' : (isWalkOrBike ? undefined : '10, 10')
-              }} 
+                 dashArray: isStraight ? '10, 10' : (isWalk ? '8, 8' : undefined)
+              }}
             />
          );
       });
