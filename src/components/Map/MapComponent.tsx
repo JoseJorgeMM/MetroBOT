@@ -81,11 +81,10 @@ export function MapComponent({ onSearchRoute, origin, dest, routes, activeRouteI
 
   useEffect(() => {
     async function updatePaths() {
-      if (!origin || !dest) return;
       const paths: {[key: string]: [number, number][]} = {};
 
       // 1. Walking: Origin -> Route Origin
-      if (routeOrigin) {
+      if (origin && routeOrigin) {
         paths['walk-origin'] = await getRouteGeometry([[origin.lat, origin.lng], [routeOrigin.lat, routeOrigin.lng]], 'foot');
       }
 
@@ -130,7 +129,7 @@ export function MapComponent({ onSearchRoute, origin, dest, routes, activeRouteI
       }
 
       // 3. Walking: Route Dest -> Destination
-      if (routeDest) {
+      if (dest && routeDest) {
         paths['walk-dest'] = await getRouteGeometry([[routeDest.lat, routeDest.lng], [dest.lat, dest.lng]], 'foot');
       }
 
@@ -282,14 +281,18 @@ export function MapComponent({ onSearchRoute, origin, dest, routes, activeRouteI
 
          const isWalk = k.includes('-walk-');
          const isStraight = k.includes('straight');
+         const isEncicla = k.includes('-encicla-');
 
          // Determinar color basado en el segmento
          let color = '#3b82f6'; // default blue
-         if (isWalk) color = '#10b981'; // emerald for walk
-         else if (isStraight) {
-           // Intentamos encontrar el modo en la ruta para asignar color real de SITVA
-           const segmentIndex = parseInt(k.split('-').pop() || '0');
-           const step = route.steps[segmentIndex];
+         const segmentIndex = parseInt(k.split('-').pop() || '0');
+         const step = route.steps[segmentIndex];
+
+         if (isWalk) {
+           color = '#10b981'; // emerald for walk
+         } else if (isEncicla) {
+           color = '#00A4E4'; // encicla color
+         } else if (isStraight) {
            if (step) {
              color = getMarkerColor(step.mode);
            } else {
@@ -303,9 +306,9 @@ export function MapComponent({ onSearchRoute, origin, dest, routes, activeRouteI
               positions={positions}
               pathOptions={{
                  color: color,
-                 weight: isStraight ? 4 : 5,
+                 weight: 5,
                  opacity: 0.8,
-                 dashArray: isStraight ? '10, 10' : (isWalk ? '8, 8' : undefined)
+                 dashArray: isWalk ? '8, 8' : undefined
               }}
             />
          );
