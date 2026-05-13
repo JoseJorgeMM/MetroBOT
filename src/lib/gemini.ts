@@ -209,7 +209,7 @@ export async function processUserQuery(
 
     // We append the instruction to force the model to call our renderer and ALSO reply in textual steps.
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-pro',
+      model: 'gemini-3-flash-preview',
       contents: query,
       config: {
         systemInstruction: `Eres MetroBot, el asistente inteligente de movilidad de SITVA (Metro, Metrocable, Tranvía, Metroplús, EnCicla) en Medellín Colombia.
