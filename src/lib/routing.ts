@@ -8,6 +8,8 @@ export interface RouteOption {
   transfers: number;
   originStation?: { name: string; lat: number; lng: number; };
   destinationStation?: { name: string; lat: number; lng: number; };
+  userOrigin?: { name: string; lat: number; lng: number; };
+  userDest?: { name: string; lat: number; lng: number; };
   steps: RouteStep[];
 }
 

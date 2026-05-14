@@ -45,7 +45,17 @@ export default function App() {
 
     const response = await processUserQuery(
       textToProcess,
-      (newRoutes) => setRoutes(newRoutes),
+      (newRoutes) => {
+        setRoutes(newRoutes);
+        if (newRoutes.length > 0) {
+          if (newRoutes[0].userOrigin) {
+            setOrigin({lat: newRoutes[0].userOrigin.lat, lng: newRoutes[0].userOrigin.lng});
+          }
+          if (newRoutes[0].userDest) {
+            setDest({lat: newRoutes[0].userDest.lat, lng: newRoutes[0].userDest.lng});
+          }
+        }
+      },
       (status) => console.log("Status:", status), // Handled in text response for now
       {
         origin: contextCoords?.origin || origin || undefined,

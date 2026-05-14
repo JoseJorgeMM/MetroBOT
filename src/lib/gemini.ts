@@ -48,6 +48,24 @@ const renderRouteDeclaration: FunctionDeclaration = {
           type: Type.OBJECT,
           properties: {
             id: { type: Type.STRING },
+            userOrigin: {
+              type: Type.OBJECT,
+              properties: {
+                name: { type: Type.STRING },
+                lat: { type: Type.NUMBER },
+                lng: { type: Type.NUMBER }
+              },
+              description: 'The physical start location requested by the user, WITH accurate coordinates (LAT/LNG) found via your knowledge. MUST be provided if the user specifies a physical location like a neighborhood, hospital, etc.'
+            },
+            userDest: {
+              type: Type.OBJECT,
+              properties: {
+                name: { type: Type.STRING },
+                lat: { type: Type.NUMBER },
+                lng: { type: Type.NUMBER }
+              },
+              description: 'The physical destination location requested by the user, WITH accurate coordinates (LAT/LNG) found via your knowledge. MUST be provided if the user specifies a physical location.'
+            },
             originStation: {
               type: Type.OBJECT,
               properties: {
