@@ -292,18 +292,18 @@ ${grounding}`,
               let totalCost = 0;
               let hasUsedMetroplus = false;
               let currentSystem = '';
-              
+
               route.steps.forEach((step: any) => {
-                const mode = step.mode;
+                const mode = (step.mode || '').toLowerCase();
                 if (mode === 'walk' || mode === 'encicla') return;
-                
+
                 // Caso Cable Arví (Línea L)
                 if (step.line?.includes('L') || step.station?.name?.includes('Arví')) {
                    totalCost += 11900; // Tarifa Cable Arví
                    currentSystem = 'arvi';
                    return;
                 }
-                
+
                 if (mode === 'metroplus' || step.line?.includes('O') || step.line?.includes('1') || step.line?.includes('2')) {
                    if (currentSystem !== 'metroplus') {
                       if (!hasUsedMetroplus) {
@@ -311,7 +311,7 @@ ${grounding}`,
                          hasUsedMetroplus = true;
                       } else {
                          // Reingreso a Metroplús agota integración
-                         totalCost += 3820; 
+                         totalCost += 3820;
                       }
                    }
                    currentSystem = 'metroplus';
@@ -324,9 +324,17 @@ ${grounding}`,
                    currentSystem = 'metro';
                 }
               });
-              
+
               if (totalCost > 0) {
                 route.cost = totalCost;
+              } else {
+                // Si hay pasos de transporte pero el costo quedó en 0,
+                // asegurar que no se quede un costo alucinada por la IA
+                const hasSitva = route.steps.some((s: any) => {
+                  const m = (s.mode || '').toLowerCase();
+                  return ['metro', 'metrocable', 'tranvia', 'metroplus'].includes(m);
+                });
+                if (hasSitva) route.cost = 3820;
               }
             });
             onRouteFound(args.routes);
