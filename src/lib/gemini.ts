@@ -287,6 +287,48 @@ ${grounding}`,
         if (call.name === 'render_route') {
           const args = call.args as any;
           if (args.routes && Array.isArray(args.routes)) {
+            // Calculador de costos programático para evitar errores de la IA
+            args.routes.forEach((route: any) => {
+              let totalCost = 0;
+              let hasUsedMetroplus = false;
+              let currentSystem = '';
+              
+              route.steps.forEach((step: any) => {
+                const mode = step.mode;
+                if (mode === 'walk' || mode === 'encicla') return;
+                
+                // Caso Cable Arví (Línea L)
+                if (step.line?.includes('L') || step.station?.name?.includes('Arví')) {
+                   totalCost += 11900; // Tarifa Cable Arví
+                   currentSystem = 'arvi';
+                   return;
+                }
+                
+                if (mode === 'metroplus' || step.line?.includes('O') || step.line?.includes('1') || step.line?.includes('2')) {
+                   if (currentSystem !== 'metroplus') {
+                      if (!hasUsedMetroplus) {
+                         totalCost += (totalCost === 0) ? 3820 : 0;
+                         hasUsedMetroplus = true;
+                      } else {
+                         // Reingreso a Metroplús agota integración
+                         totalCost += 3820; 
+                      }
+                   }
+                   currentSystem = 'metroplus';
+                } else if (['metro', 'metrocable', 'tranvia'].includes(mode)) {
+                   if (totalCost === 0) {
+                      totalCost += 3820;
+                   } else if (currentSystem === 'arvi') {
+                      totalCost += 3820; // De Arví a Metro se paga de nuevo
+                   }
+                   currentSystem = 'metro';
+                }
+              });
+              
+              if (totalCost > 0) {
+                route.cost = totalCost;
+              }
+            });
             onRouteFound(args.routes);
           }
           if (!textResponse) {
