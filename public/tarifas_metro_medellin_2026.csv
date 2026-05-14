@@ -1,137 +1,125 @@
 seccion,subseccion,origen,destino,categoria_usuario,tarifa_vigente_2026,cobro_adicional,detalle,operador_ruta,tarifa_plena,tarifa_integrada
-"tarifas_base","red_metro","","","frecuente","3820","","Metro A/B, Tranvía T, Metroplús O/1/2, Metrocables H/J/K/M/P","","",""
-"tarifas_base","red_metro","","","adulto_mayor","3330","","Metro A/B, Tranvía T, Metroplús O/1/2, Metrocables H/J/K/M/P","","",""
-"tarifas_base","red_metro","","","estudiantil","1600","","Metro A/B, Tranvía T, Metroplús O/1/2, Metrocables H/J/K/M/P","","",""
-"tarifas_base","red_metro","","","pcd","2720","","Metro A/B, Tranvía T, Metroplús O/1/2, Metrocables H/J/K/M/P","","",""
-"tarifas_base","red_metro","","","al_portador_eventual","4400","","Metro A/B, Tranvía T, Metroplús O/1/2, Metrocables H/J/K/M/P","","",""
-"tarifas_base","cable_arvi_l","","","estratos_1_2_3","3900","","Cable Arví Línea L","","",""
-"tarifas_base","cable_arvi_l","","","nacionales_personalizados","11900","","Cable Arví Línea L","","",""
-"tarifas_base","cable_arvi_l","","","extranjeros_general","26700","","Cable Arví Línea L","","",""
-
-"matriz_transbordos","cruzada","Metro A/B","Metro A/B","","3820","no","Misma tarifa base; no segundo cobro","","",""
-"matriz_transbordos","cruzada","Metro A/B","Metrocable H/J/K/M/P","","3820","no","Misma tarifa base; no segundo cobro","","",""
-"matriz_transbordos","cruzada","Metro A/B","Tranvía T","","3820","no","Misma tarifa base; no segundo cobro","","",""
-"matriz_transbordos","cruzada","Metro A/B","Metroplús O/1/2","","3820","no","Misma tarifa base; no segundo cobro","","",""
-"matriz_transbordos","cruzada","Metro A/B","Bus integrado","","","sí","Se cobra tarifa integrada del recorrido","","",""
-"matriz_transbordos","cruzada","Metro A/B","Cable Arví L","","","sí","La Línea L tiene tarifa especial propia","","",""
-
-"matriz_transbordos","cruzada","Metrocable H/J/K/M/P","Metro A/B","","3820","no","Misma tarifa base; no segundo cobro","","",""
-"matriz_transbordos","cruzada","Metrocable H/J/K/M/P","Metrocable H/J/K/M/P","","3820","no","Misma tarifa base; no segundo cobro","","",""
-"matriz_transbordos","cruzada","Metrocable H/J/K/M/P","Tranvía T","","3820","no","Misma tarifa base; no segundo cobro","","",""
-"matriz_transbordos","cruzada","Metrocable H/J/K/M/P","Metroplús O/1/2","","3820","no","Misma tarifa base; no segundo cobro","","",""
-"matriz_transbordos","cruzada","Metrocable H/J/K/M/P","Bus integrado","","","sí","Vía Metro entra como integración con bus","","",""
-"matriz_transbordos","cruzada","Metrocable H/J/K/M/P","Cable Arví L","","","sí","La Línea L conserva cobro especial","","",""
-
-"matriz_transbordos","cruzada","Tranvía T","Metro A/B","","3820","no","Misma tarifa base; no segundo cobro","","",""
-"matriz_transbordos","cruzada","Tranvía T","Metrocable H/J/K/M/P","","3820","no","Misma tarifa base; no segundo cobro","","",""
-"matriz_transbordos","cruzada","Tranvía T","Tranvía T","","3820","no","Misma tarifa base; no segundo cobro","","",""
-"matriz_transbordos","cruzada","Tranvía T","Metroplús O/1/2","","3820","no","Misma tarifa base; no segundo cobro","","",""
-"matriz_transbordos","cruzada","Tranvía T","Bus integrado","","","sí","La integración con bus requiere que el Metro haga parte del trayecto","","",""
-"matriz_transbordos","cruzada","Tranvía T","Cable Arví L","","","sí","La Línea L tiene tarifa especial aparte","","",""
-
-"matriz_transbordos","cruzada","Metroplús O/1/2","Metro A/B","","3820","no","Misma tarifa base; no segundo cobro","","",""
-"matriz_transbordos","cruzada","Metroplús O/1/2","Metrocable H/J/K/M/P","","3820","no","Misma tarifa base; no segundo cobro","","",""
-"matriz_transbordos","cruzada","Metroplús O/1/2","Tranvía T","","3820","no","Misma tarifa base; no segundo cobro","","",""
-"matriz_transbordos","cruzada","Metroplús O/1/2","Metroplús O/1/2","","3820","no","Misma tarifa base; no segundo cobro","","",""
-"matriz_transbordos","cruzada","Metroplús O/1/2","Bus integrado","","","sí","Al entrar al bus integrado se cobra tarifa integrada según la ruta","","",""
-"matriz_transbordos","cruzada","Metroplús O/1/2","Cable Arví L","","","sí","La Línea L se paga aparte","","",""
-
-"matriz_transbordos","cruzada","Bus integrado","Metro A/B","","","sí","Tarifa integrada, no plena, si el Metro entra en el trayecto","","",""
-"matriz_transbordos","cruzada","Bus integrado","Metrocable H/J/K/M/P","","","sí","Aplica vía Red Metro","","",""
-"matriz_transbordos","cruzada","Bus integrado","Tranvía T","","","sí","Aplica solo si el Metro hace parte del recorrido","","",""
-"matriz_transbordos","cruzada","Bus integrado","Metroplús O/1/2","","","sí","Aplica solo si el Metro hace parte del recorrido","","",""
-"matriz_transbordos","cruzada","Bus integrado","Bus integrado","","","condicional","Solo hay doble integración con descuento si el Metro queda en medio; sin Metro pagas plena","","",""
-"matriz_transbordos","cruzada","Bus integrado","Cable Arví L","","","sí","No aparece integración específica publicada con la L; la L mantiene tarifa propia","","",""
-
-"matriz_transbordos","cruzada","Cable Arví L","Metro A/B","","","sí","Tarifa especial propia","","",""
-"matriz_transbordos","cruzada","Cable Arví L","Metrocable H/J/K/M/P","","","sí","Tarifa especial propia","","",""
-"matriz_transbordos","cruzada","Cable Arví L","Tranvía T","","","sí","Tarifa especial propia","","",""
-"matriz_transbordos","cruzada","Cable Arví L","Metroplús O/1/2","","","sí","Tarifa especial propia","","",""
-"matriz_transbordos","cruzada","Cable Arví L","Bus integrado","","","sí","No aparece integración específica publicada; la L mantiene cobro propio","","",""
-"matriz_transbordos","cruzada","Cable Arví L","Cable Arví L","","","sí","Tarifa especial propia","","",""
-
-"esquemas_oficiales","integraciones_1_a_4","","","frecuente","3820","","","","",""
-"esquemas_oficiales","integraciones_1_a_4","","","adulto_mayor","3330","","","","",""
-"esquemas_oficiales","integraciones_1_a_4","","","estudiantil","1600","","","","",""
-"esquemas_oficiales","integraciones_1_a_4","","","pcd","2720","","","","",""
-"esquemas_oficiales","integraciones_1_a_4","","","al_portador_eventual","4400","","","","",""
-
-"esquemas_oficiales","integraciones_5_a_7","","","frecuente","4570","","","","",""
-"esquemas_oficiales","integraciones_5_a_7","","","adulto_mayor","4080","","","","",""
-"esquemas_oficiales","integraciones_5_a_7","","","estudiantil","2350","","","","",""
-"esquemas_oficiales","integraciones_5_a_7","","","pcd","3470","","","","",""
-"esquemas_oficiales","integraciones_5_a_7","","","al_portador_eventual","5150","","","","",""
-
-"esquemas_oficiales","integracion_8","","","frecuente","5320","","","","",""
-"esquemas_oficiales","integracion_8","","","adulto_mayor","4830","","","","",""
-"esquemas_oficiales","integracion_8","","","estudiantil","3100","","","","",""
-"esquemas_oficiales","integracion_8","","","pcd","4220","","","","",""
-"esquemas_oficiales","integracion_8","","","al_portador_eventual","5900","","","","",""
-
-"esquemas_oficiales","integraciones_9_y_10","","","frecuente","6070","","","","",""
-"esquemas_oficiales","integraciones_9_y_10","","","adulto_mayor","5580","","","","",""
-"esquemas_oficiales","integraciones_9_y_10","","","estudiantil","3850","","","","",""
-"esquemas_oficiales","integraciones_9_y_10","","","pcd","4970","","","","",""
-"esquemas_oficiales","integraciones_9_y_10","","","al_portador_eventual","6650","","","","",""
-
-"rutas_integradas","ruta","","","","","", "Barbosa - Bello","Barbosa Porcesito y Transmeba","5050","5890"
-"rutas_integradas","ruta","","","","","", "Barbosa - Medellín","Barbosa Porcesito y Transmeba","5350","7580"
-"rutas_integradas","ruta","","","","","", "Girardota - Bello","Expreso Girardota bus","4050","5040"
-"rutas_integradas","ruta","","","","","", "Girardota - Bello","Expreso Girardota micro","4050","5390"
-"rutas_integradas","ruta","","","","","", "Girardota - Medellín","Expreso Girardota bus y micro","4400","6630"
-"rutas_integradas","ruta","","","","","", "Copacabana - Bello","Coonatra","3900","4740"
-"rutas_integradas","ruta","","","","","", "Copacabana - Medellín","Coonatra","3900","6130"
-"rutas_integradas","ruta","","","","","", "Bello","Bellanita - Bello","3000","4715"
-"rutas_integradas","ruta","","","","","", "Bello","Hatoviejo - Bello","3000","4715"
-"rutas_integradas","ruta","","","","","", "Bello - Medellín","Bellanita","3900","6130"
-"rutas_integradas","ruta","","","","","", "Bello - Medellín","Hatoviejo","3900","6130"
-"rutas_integradas","ruta","","","","","", "San Félix","Bellanita","5800","6780"
-"rutas_integradas","ruta","","","","","", "París","Hatoviejo - Bello","3500","5330"
-"rutas_integradas","ruta","","","","","", "París - Medellín","Hatoviejo","3800","6030"
-"rutas_integradas","ruta","","","","","", "Medellín","Autobuses El Poblado","3800","4715"
-"rutas_integradas","ruta","","","","","", "Medellín","Tax Maya","3800","4715"
-"rutas_integradas","ruta","","","","","", "Medellín","Cootransblan","3000","4715"
-"rutas_integradas","ruta","","","","","", "Medellín","Palenque Robledo bus","3800","4715"
-"rutas_integradas","ruta","","","","","", "Medellín","Palenque Robledo micro","3900","4715"
-"rutas_integradas","ruta","","","","","", "Medellín","Transportes Medellín Castilla","3800","4715"
-"rutas_integradas","ruta","","","","","", "Medellín","Conaltracop","3800","4715"
-"rutas_integradas","ruta","","","","","", "Medellín","Rápido San Cristóbal","3100","4715"
-"rutas_integradas","ruta","","","","","", "Medellín","Translamaya bus","3800","4715"
-"rutas_integradas","ruta","","","","","", "Medellín","Translamaya micro","3800","4715"
-"rutas_integradas","ruta","","","","","", "Medellín","Circular Coonatra","3800","4715"
-"rutas_integradas","ruta","","","","","", "Medellín","Cootrasana bus","3800","4715"
-"rutas_integradas","ruta","","","","","", "Medellín","Cootransvi","3800","no_publicada"
-"rutas_integradas","ruta","","","","","", "Medellín","Transaranjuez","3800","no_publicada"
-"rutas_integradas","ruta","","","","","", "La América","Conducciones América","3000","4715"
-"rutas_integradas","ruta","","","","","", "Floresta - Calasanz","Coonatra","3000","4715"
-"rutas_integradas","ruta","","","","","", "Vereda Parque San Cristóbal","Tax Maya","3000","4715"
-"rutas_integradas","ruta","","","","","", "Nuevo Occidente - Estadio","Rápido San Cristóbal","3800","4715"
-"rutas_integradas","ruta","","","","","", "San Javier","Metrosan","2250","4450"
-"rutas_integradas","ruta","","","","","", "San Antonio de Prado","Cootrasana","3800","4715"
-"rutas_integradas","ruta","","","","","", "Envigado","Cotrasenvi","3600","4765"
-"rutas_integradas","ruta","","","","","", "Envigado","Santra","3600","4765"
-"rutas_integradas","ruta","","","","","", "Envigado - Arenales","Sotrames","4000","5465"
-"rutas_integradas","ruta","","","","","", "Envigado - Catedral","Sotrames","4600","5785"
-"rutas_integradas","ruta","","","","","", "EIA - Palmas","Sotrames","5300","5785"
-"rutas_integradas","ruta","","","","","", "Sabaneta","Cootrans","3600","4765"
-"rutas_integradas","ruta","","","","","", "Itagüí","Rápido La Santa María bus","3800","4715"
-"rutas_integradas","ruta","","","","","", "Itagüí","Rápido La Santa María micro","3800","4715"
-"rutas_integradas","ruta","","","","","", "Itagüí","Automóviles Itagüí bus","3800","4715"
-"rutas_integradas","ruta","","","","","", "Itagüí","Automóviles Itagüí micro","3800","4715"
-"rutas_integradas","ruta","","","","","", "Itagüí","Taxiger bus","3800","4715"
-"rutas_integradas","ruta","","","","","", "Itagüí","Taxiger micro","3800","4715"
-"rutas_integradas","ruta","","","","","", "Itagüí","Transbrasil circular","3700","4715"
-"rutas_integradas","ruta","","","","","", "La Estrella","Temsa bus","3800","4715"
-"rutas_integradas","ruta","","","","","", "La Estrella","Temsa micro","3900","4715"
-"rutas_integradas","ruta","","","","","", "Caldas","Arrieritas","4000","4890"
-"rutas_integradas","ruta","","","","","", "Caldas","La Valeria","4000","4890"
-"rutas_integradas","ruta","","","","","", "Caldas","Mocatán","4000","4890"
-
-"intermunicipales_civica","ruta","","","","","", "Aeropuerto José María Córdova","Combuses","20000","no_publicada"
-"intermunicipales_civica","ruta","","","","","", "La Ceja","Transunidos","13600","0_publicada_como_integracion"
-"intermunicipales_civica","ruta","","","","","", "El Carmen","Flota El Carmen","15500","no_publicada"
-"intermunicipales_civica","ruta","","","","","", "El Retiro","Sotraretiro","12000","no_publicada"
-
-"reglas_generales","ventana_integracion","","","","","", "Integración bus + metro","Sistema Metro","", "Máximo 90 minutos desde el primer pago"
-"reglas_generales","condicion_bus_integrado","","","","","", "Integración con bus","Sistema Metro","", "Aplica cuando el Metro hace parte del recorrido: Metro→bus, bus→Metro o bus→Metro→bus"
-"reglas_generales","sin_metro","","","","","", "Bus integrado sin Metro","Sistema Metro","", "Se cobra tarifa plena de la ruta"
+tarifas_base,red_metro,,,frecuente,3820,,"Metro A/B, Tranvía T, Metroplús O/1/2, Metrocables H/J/K/M/P",,,
+tarifas_base,red_metro,,,adulto_mayor,3330,,"Metro A/B, Tranvía T, Metroplús O/1/2, Metrocables H/J/K/M/P",,,
+tarifas_base,red_metro,,,estudiantil,1600,,"Metro A/B, Tranvía T, Metroplús O/1/2, Metrocables H/J/K/M/P",,,
+tarifas_base,red_metro,,,pcd,2720,,"Metro A/B, Tranvía T, Metroplús O/1/2, Metrocables H/J/K/M/P",,,
+tarifas_base,red_metro,,,al_portador_eventual,4400,,"Metro A/B, Tranvía T, Metroplús O/1/2, Metrocables H/J/K/M/P",,,
+tarifas_base,cable_arvi_l,,,estratos_1_2_3,3900,,Cable Arví Línea L,,,
+tarifas_base,cable_arvi_l,,,nacionales_personalizados,11900,,Cable Arví Línea L,,,
+tarifas_base,cable_arvi_l,,,extranjeros_general,26700,,Cable Arví Línea L,,,
+matriz_transbordos,cruzada,Metro A/B,Metro A/B,,3820,no,Misma tarifa base; no segundo cobro,,,
+matriz_transbordos,cruzada,Metro A/B,Metrocable H/J/K/M/P,,3820,no,Misma tarifa base; no segundo cobro,,,
+matriz_transbordos,cruzada,Metro A/B,Tranvía T,,3820,no,Misma tarifa base; no segundo cobro,,,
+matriz_transbordos,cruzada,Metro A/B,Metroplús O/1/2,,3820,no,Misma tarifa base; no segundo cobro,,,
+matriz_transbordos,cruzada,Metro A/B,Bus integrado,,,sí,Se cobra tarifa integrada del recorrido,,,
+matriz_transbordos,cruzada,Metro A/B,Cable Arví L,,,sí,La Línea L tiene tarifa especial propia,,,
+matriz_transbordos,cruzada,Metrocable H/J/K/M/P,Metro A/B,,3820,no,Misma tarifa base; no segundo cobro,,,
+matriz_transbordos,cruzada,Metrocable H/J/K/M/P,Metrocable H/J/K/M/P,,3820,no,Misma tarifa base; no segundo cobro,,,
+matriz_transbordos,cruzada,Metrocable H/J/K/M/P,Tranvía T,,3820,no,Misma tarifa base; no segundo cobro,,,
+matriz_transbordos,cruzada,Metrocable H/J/K/M/P,Metroplús O/1/2,,3820,no,Misma tarifa base; no segundo cobro,,,
+matriz_transbordos,cruzada,Metrocable H/J/K/M/P,Bus integrado,,,sí,Vía Metro entra como integración con bus,,,
+matriz_transbordos,cruzada,Metrocable H/J/K/M/P,Cable Arví L,,,sí,La Línea L conserva cobro especial,,,
+matriz_transbordos,cruzada,Tranvía T,Metro A/B,,3820,no,Misma tarifa base; no segundo cobro,,,
+matriz_transbordos,cruzada,Tranvía T,Metrocable H/J/K/M/P,,3820,no,Misma tarifa base; no segundo cobro,,,
+matriz_transbordos,cruzada,Tranvía T,Tranvía T,,3820,no,Misma tarifa base; no segundo cobro,,,
+matriz_transbordos,cruzada,Tranvía T,Metroplús O/1/2,,3820,no,Misma tarifa base; no segundo cobro,,,
+matriz_transbordos,cruzada,Tranvía T,Bus integrado,,,sí,La integración con bus requiere que el Metro haga parte del trayecto,,,
+matriz_transbordos,cruzada,Tranvía T,Cable Arví L,,,sí,La Línea L tiene tarifa especial aparte,,,
+matriz_transbordos,cruzada,Metroplús O/1/2,Metro A/B,,3820,no,Misma tarifa base; no segundo cobro,,,
+matriz_transbordos,cruzada,Metroplús O/1/2,Metrocable H/J/K/M/P,,3820,no,Misma tarifa base; no segundo cobro,,,
+matriz_transbordos,cruzada,Metroplús O/1/2,Tranvía T,,3820,no,Misma tarifa base; no segundo cobro,,,
+matriz_transbordos,cruzada,Metroplús O/1/2,Metroplús O/1/2,,3820,sí,Nuevo cobro base al volver a ingresar a Metroplús,,,
+matriz_transbordos,cruzada,Metroplús O/1/2,Bus integrado,,,sí,Al entrar al bus integrado se cobra tarifa integrada según la ruta,,,
+matriz_transbordos,cruzada,Metroplús O/1/2,Cable Arví L,,,sí,La Línea L se paga aparte,,,
+matriz_transbordos,cruzada,Bus integrado,Metro A/B,,,sí,"Tarifa integrada, no plena, si el Metro entra en el trayecto",,,
+matriz_transbordos,cruzada,Bus integrado,Metrocable H/J/K/M/P,,,sí,Aplica vía Red Metro,,,
+matriz_transbordos,cruzada,Bus integrado,Tranvía T,,,sí,Aplica solo si el Metro hace parte del recorrido,,,
+matriz_transbordos,cruzada,Bus integrado,Metroplús O/1/2,,,sí,Aplica solo si el Metro hace parte del recorrido,,,
+matriz_transbordos,cruzada,Bus integrado,Bus integrado,,,condicional,Solo hay doble integración con descuento si el Metro queda en medio; sin Metro pagas plena,,,
+matriz_transbordos,cruzada,Bus integrado,Cable Arví L,,,sí,No aparece integración específica publicada con la L; la L mantiene tarifa propia,,,
+matriz_transbordos,cruzada,Cable Arví L,Metro A/B,,,sí,Tarifa especial propia,,,
+matriz_transbordos,cruzada,Cable Arví L,Metrocable H/J/K/M/P,,,sí,Tarifa especial propia,,,
+matriz_transbordos,cruzada,Cable Arví L,Tranvía T,,,sí,Tarifa especial propia,,,
+matriz_transbordos,cruzada,Cable Arví L,Metroplús O/1/2,,,sí,Tarifa especial propia,,,
+matriz_transbordos,cruzada,Cable Arví L,Bus integrado,,,sí,No aparece integración específica publicada; la L mantiene cobro propio,,,
+matriz_transbordos,cruzada,Cable Arví L,Cable Arví L,,,sí,Tarifa especial propia,,,
+esquemas_oficiales,integraciones_1_a_4,,,frecuente,3820,,,,,
+esquemas_oficiales,integraciones_1_a_4,,,adulto_mayor,3330,,,,,
+esquemas_oficiales,integraciones_1_a_4,,,estudiantil,1600,,,,,
+esquemas_oficiales,integraciones_1_a_4,,,pcd,2720,,,,,
+esquemas_oficiales,integraciones_1_a_4,,,al_portador_eventual,4400,,,,,
+esquemas_oficiales,integraciones_5_a_7,,,frecuente,4570,,,,,
+esquemas_oficiales,integraciones_5_a_7,,,adulto_mayor,4080,,,,,
+esquemas_oficiales,integraciones_5_a_7,,,estudiantil,2350,,,,,
+esquemas_oficiales,integraciones_5_a_7,,,pcd,3470,,,,,
+esquemas_oficiales,integraciones_5_a_7,,,al_portador_eventual,5150,,,,,
+esquemas_oficiales,integracion_8,,,frecuente,5320,,,,,
+esquemas_oficiales,integracion_8,,,adulto_mayor,4830,,,,,
+esquemas_oficiales,integracion_8,,,estudiantil,3100,,,,,
+esquemas_oficiales,integracion_8,,,pcd,4220,,,,,
+esquemas_oficiales,integracion_8,,,al_portador_eventual,5900,,,,,
+esquemas_oficiales,integraciones_9_y_10,,,frecuente,6070,,,,,
+esquemas_oficiales,integraciones_9_y_10,,,adulto_mayor,5580,,,,,
+esquemas_oficiales,integraciones_9_y_10,,,estudiantil,3850,,,,,
+esquemas_oficiales,integraciones_9_y_10,,,pcd,4970,,,,,
+esquemas_oficiales,integraciones_9_y_10,,,al_portador_eventual,6650,,,,,
+rutas_integradas,ruta,,,,,,Barbosa - Bello,Barbosa Porcesito y Transmeba,5050,5890
+rutas_integradas,ruta,,,,,,Barbosa - Medellín,Barbosa Porcesito y Transmeba,5350,7580
+rutas_integradas,ruta,,,,,,Girardota - Bello,Expreso Girardota bus,4050,5040
+rutas_integradas,ruta,,,,,,Girardota - Bello,Expreso Girardota micro,4050,5390
+rutas_integradas,ruta,,,,,,Girardota - Medellín,Expreso Girardota bus y micro,4400,6630
+rutas_integradas,ruta,,,,,,Copacabana - Bello,Coonatra,3900,4740
+rutas_integradas,ruta,,,,,,Copacabana - Medellín,Coonatra,3900,6130
+rutas_integradas,ruta,,,,,,Bello,Bellanita - Bello,3000,4715
+rutas_integradas,ruta,,,,,,Bello,Hatoviejo - Bello,3000,4715
+rutas_integradas,ruta,,,,,,Bello - Medellín,Bellanita,3900,6130
+rutas_integradas,ruta,,,,,,Bello - Medellín,Hatoviejo,3900,6130
+rutas_integradas,ruta,,,,,,San Félix,Bellanita,5800,6780
+rutas_integradas,ruta,,,,,,París,Hatoviejo - Bello,3500,5330
+rutas_integradas,ruta,,,,,,París - Medellín,Hatoviejo,3800,6030
+rutas_integradas,ruta,,,,,,Medellín,Autobuses El Poblado,3800,4715
+rutas_integradas,ruta,,,,,,Medellín,Tax Maya,3800,4715
+rutas_integradas,ruta,,,,,,Medellín,Cootransblan,3000,4715
+rutas_integradas,ruta,,,,,,Medellín,Palenque Robledo bus,3800,4715
+rutas_integradas,ruta,,,,,,Medellín,Palenque Robledo micro,3900,4715
+rutas_integradas,ruta,,,,,,Medellín,Transportes Medellín Castilla,3800,4715
+rutas_integradas,ruta,,,,,,Medellín,Conaltracop,3800,4715
+rutas_integradas,ruta,,,,,,Medellín,Rápido San Cristóbal,3100,4715
+rutas_integradas,ruta,,,,,,Medellín,Translamaya bus,3800,4715
+rutas_integradas,ruta,,,,,,Medellín,Translamaya micro,3800,4715
+rutas_integradas,ruta,,,,,,Medellín,Circular Coonatra,3800,4715
+rutas_integradas,ruta,,,,,,Medellín,Cootrasana bus,3800,4715
+rutas_integradas,ruta,,,,,,Medellín,Cootransvi,3800,no_publicada
+rutas_integradas,ruta,,,,,,Medellín,Transaranjuez,3800,no_publicada
+rutas_integradas,ruta,,,,,,La América,Conducciones América,3000,4715
+rutas_integradas,ruta,,,,,,Floresta - Calasanz,Coonatra,3000,4715
+rutas_integradas,ruta,,,,,,Vereda Parque San Cristóbal,Tax Maya,3000,4715
+rutas_integradas,ruta,,,,,,Nuevo Occidente - Estadio,Rápido San Cristóbal,3800,4715
+rutas_integradas,ruta,,,,,,San Javier,Metrosan,2250,4450
+rutas_integradas,ruta,,,,,,San Antonio de Prado,Cootrasana,3800,4715
+rutas_integradas,ruta,,,,,,Envigado,Cotrasenvi,3600,4765
+rutas_integradas,ruta,,,,,,Envigado,Santra,3600,4765
+rutas_integradas,ruta,,,,,,Envigado - Arenales,Sotrames,4000,5465
+rutas_integradas,ruta,,,,,,Envigado - Catedral,Sotrames,4600,5785
+rutas_integradas,ruta,,,,,,EIA - Palmas,Sotrames,5300,5785
+rutas_integradas,ruta,,,,,,Sabaneta,Cootrans,3600,4765
+rutas_integradas,ruta,,,,,,Itagüí,Rápido La Santa María bus,3800,4715
+rutas_integradas,ruta,,,,,,Itagüí,Rápido La Santa María micro,3800,4715
+rutas_integradas,ruta,,,,,,Itagüí,Automóviles Itagüí bus,3800,4715
+rutas_integradas,ruta,,,,,,Itagüí,Automóviles Itagüí micro,3800,4715
+rutas_integradas,ruta,,,,,,Itagüí,Taxiger bus,3800,4715
+rutas_integradas,ruta,,,,,,Itagüí,Taxiger micro,3800,4715
+rutas_integradas,ruta,,,,,,Itagüí,Transbrasil circular,3700,4715
+rutas_integradas,ruta,,,,,,La Estrella,Temsa bus,3800,4715
+rutas_integradas,ruta,,,,,,La Estrella,Temsa micro,3900,4715
+rutas_integradas,ruta,,,,,,Caldas,Arrieritas,4000,4890
+rutas_integradas,ruta,,,,,,Caldas,La Valeria,4000,4890
+rutas_integradas,ruta,,,,,,Caldas,Mocatán,4000,4890
+intermunicipales_civica,ruta,,,,,,Aeropuerto José María Córdova,Combuses,20000,no_publicada
+intermunicipales_civica,ruta,,,,,,La Ceja,Transunidos,13600,0_publicada_como_integracion
+intermunicipales_civica,ruta,,,,,,El Carmen,Flota El Carmen,15500,no_publicada
+intermunicipales_civica,ruta,,,,,,El Retiro,Sotraretiro,12000,no_publicada
+reglas_generales,ventana_integracion,,,,,,Integración bus + metro,Sistema Metro,,Máximo 90 minutos desde el primer pago
+reglas_generales,condicion_bus_integrado,,,,,,Integración con bus,Sistema Metro,,"Aplica cuando el Metro hace parte del recorrido: Metro→bus, bus→Metro o bus→Metro→bus; no habilita integraciones ilimitadas entre Metroplús y Metro"
+reglas_generales,sin_metro,,,,,,Bus integrado sin Metro,Sistema Metro,,Se cobra tarifa plena de la ruta
+reglas_generales,reingreso_metroplus,,,,,,Metroplús→Metro→Metroplús,Sistema Metro,,El segundo ingreso a Metroplús cobra tarifa base; la integración gratis cubre solo una integración directa
