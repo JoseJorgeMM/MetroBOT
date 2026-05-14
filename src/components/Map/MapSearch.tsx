@@ -104,8 +104,17 @@ export function MapSearch({ onRouteSubmit, onOriginSelect, onDestSelect }: MapSe
     const mapboxToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
     if (mapboxToken) {
       try {
-        const res = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(text + ' Medellin Antioquia')}.json?access_token=${mapboxToken}&country=co&limit=8`);
+        // Definimos un Bounding Box aproximado para Medellín para priorizar resultados locales
+        // [West, South, East, North] -> [-75.7, 6.0, -75.4, 6.5]
+        const bbox = '-75.7,6.0,-75.4,6.5';
+        const query = encodeURIComponent(text);
+
+        // Usamos types=poi para encontrar lugares, restaurantes, centros comerciales, etc.
+        const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${mapboxToken}&country=co&bbox=${bbox}&types=poi,address,place,neighborhood,locality&limit=10`;
+
+        const res = await fetch(url);
         const data = await res.json();
+
         if (data && data.features && data.features.length > 0) {
            const mappedResults = data.features.map((f: any) => ({
              place_id: f.id,
