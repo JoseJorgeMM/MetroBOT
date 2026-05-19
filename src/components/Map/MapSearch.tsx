@@ -132,26 +132,13 @@ export function MapSearch({ onRouteSubmit, onOriginSelect, onDestSelect }: MapSe
       }
     }
 
-    // Fallback to Photon (OSM optimized search)
+    // Fallback to nominatim
     try {
-      const query = encodeURIComponent(normalizeQuery(text));
-      const url = `https://photon.geocode.me/api/search?q=${query}&limit=8`;
-      const res = await fetch(url);
+      const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(normalizeQuery(text))}&limit=8&addressdetails=1&countrycodes=co`);
       const data = await res.json();
-
-      if (data && data.features) {
-        const mappedResults = data.features.map((f: any) => ({
-          place_id: f.properties.osm_id,
-          display_name: (f.properties.name || "Lugar sin nombre") + (f.properties.city ? `, ${f.properties.city}` : '') + (f.properties.country ? `, ${f.properties.country}` : ''),
-          lat: f.geometry.coordinates[1].toString(),
-          lon: f.geometry.coordinates[0].toString(),
-        }));
-        setResults(mappedResults);
-      } else {
-        setResults([]);
-      }
+      setResults(data);
     } catch (e) {
-      console.error("Photon search error:", e);
+      console.error(e);
       setResults([]);
     } finally {
       setLoading(false);
