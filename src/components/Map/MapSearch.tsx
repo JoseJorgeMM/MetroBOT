@@ -112,7 +112,8 @@ export function MapSearch({ onRouteSubmit, onOriginSelect, onDestSelect }: MapSe
           service.getPlacePredictions({
             input: text,
             location: new google.maps.LatLng(6.2442, -75.5812),
-            radius: 50000 // 50km around Medellín center to bias results to the region
+            radius: 50000,
+            componentRestrictions: { country: 'co' } // Restricts results strictly to Colombia
           }, (predictions) => {
             resolve(predictions);
           });
