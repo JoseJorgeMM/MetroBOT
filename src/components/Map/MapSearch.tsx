@@ -108,7 +108,11 @@ export function MapSearch({ onRouteSubmit, onOriginSelect, onDestSelect }: MapSe
           input: text,
         };
 
-        const predictions = await service.getPlacePredictions(request);
+        const predictions = await new Promise<google.maps.places.AutocompletePrediction[] | null>((resolve) => {
+          service.getPlacePredictions(request, (predictions) => {
+            resolve(predictions);
+          });
+        });
 
         if (predictions && predictions.length > 0) {
            const mappedResults = predictions.map((p: any) => ({
