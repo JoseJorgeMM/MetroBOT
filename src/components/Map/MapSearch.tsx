@@ -10,6 +10,7 @@ interface SearchResult {
   lon: string;
   display_name: string;
   isMapbox?: boolean;
+  isGoogle?: boolean;
 }
 
 interface MapSearchProps {
@@ -100,35 +101,29 @@ export function MapSearch({ onRouteSubmit, onOriginSelect, onDestSelect }: MapSe
     }
     setLoading(true);
 
-    // Mapbox Geocoding API as a fallback or primary
-    const mapboxToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
-    if (mapboxToken) {
+    if (window.google && window.google.maps && window.google.maps.places) {
       try {
-        // Definimos un Bounding Box aproximado para Medellín para priorizar resultados locales
-        // [West, South, East, North] -> [-75.7, 6.0, -75.4, 6.5]
-        const bbox = '-75.7,6.0,-75.4,6.5';
-        const query = encodeURIComponent(text);
+        const service = new google.maps.places.AutocompleteService();
+        const request = {
+          input: text,
+        };
 
-        // Usamos types=poi para encontrar lugares, restaurantes, centros comerciales, etc.
-        const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${mapboxToken}&country=co&bbox=${bbox}&types=poi,address,place,neighborhood,locality&limit=10`;
+        const predictions = await service.getPlacePredictions(request);
 
-        const res = await fetch(url);
-        const data = await res.json();
-
-        if (data && data.features && data.features.length > 0) {
-           const mappedResults = data.features.map((f: any) => ({
-             place_id: f.id,
-             display_name: f.place_name,
-             lat: f.center[1].toString(), // Mapbox returns [lng, lat]
-             lon: f.center[0].toString(),
-             isMapbox: true
+        if (predictions && predictions.length > 0) {
+           const mappedResults = predictions.map((p: any) => ({
+             place_id: p.place_id,
+             display_name: p.description,
+             lat: '0',
+             lon: '0',
+             isGoogle: true
            }));
            setResults(mappedResults);
            setLoading(false);
            return;
         }
       } catch (err) {
-        console.error("Mapbox search error:", err);
+        console.error("Google SDK Search error:", err);
       }
     }
 
@@ -181,9 +176,39 @@ export function MapSearch({ onRouteSubmit, onOriginSelect, onDestSelect }: MapSe
   }
 
   const handleSelect = async (r: SearchResult) => {
-    const lat = parseFloat(r.lat);
-    const lng = parseFloat(r.lon);
+    let lat = parseFloat(r.lat);
+    let lng = parseFloat(r.lon);
     const name = r.display_name.split(',')[0];
+
+    if (r.isGoogle) {
+      setLoading(true);
+      try {
+        if (window.google && window.google.maps && window.google.maps.places) {
+          const service = new google.maps.places.PlacesService(document.createElement('div'));
+
+          const getDetails = () => {
+            return new Promise((resolve, reject) => {
+              service.getDetails({ placeId: r.place_id }, (place, status) => {
+                if (status === google.maps.places.PlacesServiceStatus.OK && place && place.geometry && place.geometry.location) {
+                  resolve(place.geometry.location);
+                } else {
+                  reject(status);
+                }
+              });
+            });
+          };
+
+          const location = await getDetails();
+          lat = location.lat();
+          lng = location.lng();
+        }
+      } catch (e) {
+        console.error("Error fetching Google place details:", e);
+      } finally {
+        setLoading(false);
+      }
+    }
+
     applySelection(lat, lng, name);
   };
 
