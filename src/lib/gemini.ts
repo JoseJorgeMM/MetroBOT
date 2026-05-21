@@ -298,13 +298,17 @@ ${grounding}`,
                 if (mode === 'walk' || mode === 'encicla') return;
 
                 // Caso Cable Arví (Línea L)
-                if (step.line?.includes('L') || step.station?.name?.includes('Arví')) {
+                // Verificamos que sea exactamente "L" o "Línea L" para evitar falsos positivos con "Línea A", etc.
+                const isArviLine = step.line === 'L' || step.line === 'Línea L';
+                const isArviStation = step.station?.name?.toLowerCase().includes('arví');
+
+                if (isArviLine || isArviStation) {
                    totalCost += 11900; // Tarifa Cable Arví
                    currentSystem = 'arvi';
                    return;
                 }
 
-                if (mode === 'metroplus' || step.line?.includes('O') || step.line?.includes('1') || step.line?.includes('2')) {
+                if (mode === 'metroplus' || step.line === 'O' || step.line === 'Línea O' || step.line === '1' || step.line === 'Línea 1' || step.line === '2' || step.line === 'Línea 2') {
                    if (currentSystem !== 'metroplus') {
                       if (!hasUsedMetroplus) {
                          totalCost += (totalCost === 0) ? 3820 : 0;

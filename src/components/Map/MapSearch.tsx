@@ -109,7 +109,11 @@ export function MapSearch({ onRouteSubmit, onOriginSelect, onDestSelect }: MapSe
         };
 
         const predictions = await new Promise<google.maps.places.AutocompletePrediction[] | null>((resolve) => {
-          service.getPlacePredictions(request, (predictions) => {
+          service.getPlacePredictions({
+            input: text,
+            location: new google.maps.LatLng(6.2442, -75.5812),
+            radius: 50000 // 50km around Medellín center to bias results to the region
+          }, (predictions) => {
             resolve(predictions);
           });
         });
