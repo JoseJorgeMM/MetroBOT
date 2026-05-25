@@ -250,10 +250,13 @@ ${tiempos}
 REGLAS DE MOVILIDAD:
 1. EnCicla es GRATUITO. Úsalo para distancias cortas o "última milla".
 2. LÍMITE DE BICICLETA: Las distancias en EnCicla NO DEBEN exceder los 3 kilómetros (aprox 15-20 min). Los usuarios no pedalearán distancias extremas ni subirán lomas pronunciadas. Para tramos largos, USA SIEMPRE Metro, Cable o Plus.
-3. PRIORIDAD Y ORDEN MÁXIMO: El orden de las rutas sugeridas en el ARRAY \`routes\` DEBE ser estrictamente de menor a mayor en cuanto a la distancia total que el usuario deba CAMINAR. 
-   - La PRIMERA ruta debe ser la más cómoda: la que encuentre estaciones SITVA (Metro, Cable, Plus, etc.) más cercanas tanto al origen como al destino, de forma que el usuario camine la mínima cantidad de metros o minutos.
-   - Las SIGUIENTES rutas deben ser alternativas donde quizás el usuario camina un poco más, o usa EnCicla, ordenadas hasta llegar a la opción donde deba caminar o pedalear más. 
-   - Asegúrate de ordenar el ARRAY devuelto usando esta regla inquebrantable.
+3. PRIORIDAD Y ORDEN DE RECOMENDACIÓN (Jerarquía de Valor): El orden de las rutas en el ARRAY  debe seguir estrictamente esta jerarquía de prioridad, de la más valorada a la menos valorada:
+   - PRIORIDAD 1 (Esfuerzo Físico Mínimo): La ruta que minimice la distancia de CAMINATA total. Es la prioridad absoluta. Preferimos rutas con más transbordos si eso reduce la caminata.
+   - PRIORIDAD 2 (Uso de Bicicleta): Entre rutas con caminatas similares, se priorizan aquellas que NO requieran usar EnCicla, o que minimicen el tiempo de pedaleo.
+   - PRIORIDAD 3 (Tiempo Total): Entre rutas con esfuerzo físico similar, la que tenga la menor  total.
+   - PRIORIDAD 4 (Costo): El costo total es el factor menos importante. No sacrifiques comodidad ni tiempo solo por ahorrar dinero.
+   - RESULTADO: La PRIMERA ruta debe ser la más "cómoda" (mínima caminata/pedaleo), independientemente de si tiene más transbordos o es más costosa.
+   - Asegúrate de ordenar el ARRAY devuelto siguiendo estrictamente esta jerarquía.
 4. Si existe la lista "ESTACIONES RELEVANTES CERCANAS" abajo, DEBES elegir el origen y el destino de ESA LISTA preferiblemente para minimizar la caminata.
 5. NO inventes estaciones. Usa solo los nombres exactos provistos. \`originStation\` y \`destinationStation\` DEBEN ser siempre ESTACIONES de la red (ej. "Parada Plaza Mayor"), NUNCA el lugar físico buscado por el usuario (ej. "Colegio Jesus Rey" o "Plaza Mayor").
 6. Verifica el sistema: Si la estación dice "Metrocable Linea P", no digas que es "Metro" o "Metroplús".
