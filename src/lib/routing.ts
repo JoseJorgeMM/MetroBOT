@@ -19,6 +19,7 @@ export interface RouteStep {
   duration: number;
   line?: string;
   station?: { name: string; lat: number; lng: number; };
+  cost?: number;
 }
 
 // Global cache for stations to avoid re-fetching
@@ -49,9 +50,9 @@ export async function getRoute(start: string, end: string): Promise<RouteOption[
       cost: 3430,
       transfers: 0,
       steps: [
-        { instruction: `Walk to ${startStation} Station`, mode: 'walk', duration: 4 },
-        { instruction: `Take Metro towards ${endStation}`, mode: 'metro', duration: 15, line: 'Línea A' },
-        { instruction: 'Walk to destination', mode: 'walk', duration: 3 }
+        { instruction: `Walk to ${startStation} Station`, mode: 'walk', duration: 4, cost: 0 },
+        { instruction: `Take Metro towards ${endStation}`, mode: 'metro', duration: 15, line: 'Línea A', cost: 3430 },
+        { instruction: 'Walk to destination', mode: 'walk', duration: 3, cost: 0 }
       ]
     },
     {
@@ -61,9 +62,9 @@ export async function getRoute(start: string, end: string): Promise<RouteOption[
       cost: 3430,
       transfers: 1,
       steps: [
-        { instruction: `Take EnCicla near ${startStation}`, mode: 'encicla', duration: 6 },
-        { instruction: `Take Metro to ${endStation}`, mode: 'metro', duration: 10, line: 'Línea A' },
-        { instruction: 'Walk to destination', mode: 'walk', duration: 2 }
+        { instruction: `Take EnCicla near ${startStation}`, mode: 'encicla', duration: 6, cost: 0 },
+        { instruction: `Take Metro to ${endStation}`, mode: 'metro', duration: 10, line: 'Línea A', cost: 3430 },
+        { instruction: 'Walk to destination', mode: 'walk', duration: 2, cost: 0 }
       ]
     }
   ];
