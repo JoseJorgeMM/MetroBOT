@@ -51,6 +51,7 @@ interface MapComponentProps {
   activeRouteIndex?: number;
   onOriginSelect?: (coords: {lat: number, lng: number, name?: string} | null) => void;
   onDestSelect?: (coords: {lat: number, lng: number, name?: string} | null) => void;
+  darkMode?: boolean;
 }
 
 const createPointMarker = (color: string, iconHtml?: string) => {
@@ -62,7 +63,7 @@ const createPointMarker = (color: string, iconHtml?: string) => {
   });
 };
 
-export function MapComponent({ onSearchRoute, origin, dest, routes, activeRouteIndex = 0, onOriginSelect, onDestSelect }: MapComponentProps) {
+export function MapComponent({ onSearchRoute, origin, dest, routes, activeRouteIndex = 0, onOriginSelect, onDestSelect, darkMode = false }: MapComponentProps) {
   const [stations, setStations] = useState<Station[]>([]);
   const [loading, setLoading] = useState(true);
   const [isLegendExpanded, setIsLegendExpanded] = useState(false);
@@ -341,8 +342,9 @@ export function MapComponent({ onSearchRoute, origin, dest, routes, activeRouteI
         zoomControl={false}
       >
         <TileLayer
+          key={darkMode ? 'dark-tiles' : 'light-tiles'}
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+          url={darkMode ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"}
         />
         <ZoomControl position="topleft" />
         <MapSearch 
@@ -392,32 +394,32 @@ export function MapComponent({ onSearchRoute, origin, dest, routes, activeRouteI
       </MapContainer>
 
       {loading && (
-        <div className="absolute inset-0 bg-white/50 backdrop-blur-sm flex items-center justify-center z-10">
-          <div className="bg-white p-4 rounded-2xl shadow-xl flex items-center space-x-3">
+        <div className="absolute inset-0 bg-background/50 backdrop-blur-sm flex items-center justify-center z-10">
+          <div className="bg-card border border-border p-4 rounded-2xl shadow-xl flex items-center space-x-3">
             <div className="w-6 h-6 border-4 border-sitva-green border-t-transparent rounded-full animate-spin" />
-            <span className="font-bold text-slate-700">Cargando Mapa SITVA...</span>
+            <span className="font-bold text-foreground">Cargando Mapa SITVA...</span>
           </div>
         </div>
       )}
       
       {/* Legend Area */}
       <div 
-        className={`absolute top-[4.5rem] md:top-4 right-3 md:right-4 bg-white/95 backdrop-blur shadow-xl border border-white/50 rounded-2xl z-[1000] flex flex-col transition-all duration-300 pointer-events-auto overflow-hidden ${isLegendExpanded ? 'p-3 w-[150px] md:w-48' : 'p-2 w-auto cursor-pointer hover:bg-white'}`}
+        className={`absolute top-[4.5rem] md:top-4 right-3 md:right-4 bg-card/95 border border-border backdrop-blur shadow-xl rounded-2xl z-[1000] flex flex-col transition-all duration-300 pointer-events-auto overflow-hidden ${isLegendExpanded ? 'p-3 w-[150px] md:w-48' : 'p-2 w-auto cursor-pointer hover:bg-card'}`}
         onClick={() => !isLegendExpanded && setIsLegendExpanded(true)}
       >
          <div className="flex items-center justify-between gap-3">
            <div className="flex items-center gap-2">
-             <div className="p-1 bg-slate-100 rounded-lg">
-               <MapIcon className="w-3.5 h-3.5 text-slate-600" />
+             <div className="p-1 bg-slate-100 dark:bg-slate-800 rounded-lg">
+               <MapIcon className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" />
              </div>
-             <h4 className="text-xs font-bold text-slate-800 whitespace-nowrap">Leyendas</h4>
+             <h4 className="text-xs font-bold text-foreground whitespace-nowrap">Leyendas</h4>
            </div>
            <button 
              onClick={(e) => {
                e.stopPropagation();
                setIsLegendExpanded(!isLegendExpanded);
              }}
-             className="p-1 hover:bg-slate-100 rounded-lg transition-colors ml-1"
+             className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors ml-1"
            >
              {isLegendExpanded ? <ChevronDown className="w-3.5 h-3.5 text-slate-400" /> : <ChevronUp className="w-3.5 h-3.5 text-slate-400" />}
            </button>
@@ -426,25 +428,25 @@ export function MapComponent({ onSearchRoute, origin, dest, routes, activeRouteI
          {isLegendExpanded && (
            <div className="mt-3 flex flex-col gap-2 animate-in fade-in slide-in-from-top-1 duration-200">
              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full border border-white/50 shadow-sm" style={{ backgroundColor: getMarkerColor('Metro') }}></div>
-                <span className="text-[11px] font-medium text-slate-600">Metro</span>
+                 <div className="w-3 h-3 rounded-full border border-white/50 dark:border-slate-800 shadow-sm" style={{ backgroundColor: getMarkerColor('Metro') }}></div>
+                 <span className="text-[11px] font-medium text-foreground/80">Metro</span>
              </div>
              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full border border-white/50 shadow-sm" style={{ backgroundColor: getMarkerColor('Cable') }}></div>
-                <span className="text-[11px] font-medium text-slate-600">Metrocable</span>
+                 <div className="w-3 h-3 rounded-full border border-white/50 dark:border-slate-800 shadow-sm" style={{ backgroundColor: getMarkerColor('Cable') }}></div>
+                 <span className="text-[11px] font-medium text-foreground/80">Metrocable</span>
              </div>
              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full border border-white/50 shadow-sm" style={{ backgroundColor: getMarkerColor('Metroplus') }}></div>
-                <span className="text-[11px] font-medium text-slate-600">Metroplús</span>
+                 <div className="w-3 h-3 rounded-full border border-white/50 dark:border-slate-800 shadow-sm" style={{ backgroundColor: getMarkerColor('Metroplus') }}></div>
+                 <span className="text-[11px] font-medium text-foreground/80">Metroplús</span>
              </div>
              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full border border-white/50 shadow-sm" style={{ backgroundColor: getMarkerColor('EnCicla') }}></div>
-                <span className="text-[11px] font-medium text-slate-600">EnCicla</span>
+                 <div className="w-3 h-3 rounded-full border border-white/50 dark:border-slate-800 shadow-sm" style={{ backgroundColor: getMarkerColor('EnCicla') }}></div>
+                 <span className="text-[11px] font-medium text-foreground/80">EnCicla</span>
              </div>
              
-             <div className="mt-2 pt-2 border-t border-slate-100 flex items-center gap-2">
+             <div className="mt-2 pt-2 border-t border-border flex items-center gap-2">
                <Info className="w-3 h-3 text-sitva-blue" />
-               <span className="text-[10px] font-bold text-slate-500">Estaciones: {stations.length}</span>
+               <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">Estaciones: {stations.length}</span>
              </div>
            </div>
          )}

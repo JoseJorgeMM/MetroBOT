@@ -14,9 +14,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : "button"
     
     const variants = {
-      default: "bg-slate-900 text-white hover:bg-slate-800",
-      outline: "border border-slate-200 bg-white hover:bg-slate-100 text-slate-900",
-      ghost: "hover:bg-slate-100 text-slate-900",
+      default: "bg-slate-900 text-white hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-950 dark:hover:bg-slate-200",
+      outline: "border border-slate-200 bg-white hover:bg-slate-100 text-slate-900 dark:border-slate-800 dark:bg-slate-950 dark:hover:bg-slate-900 dark:text-slate-100",
+      ghost: "hover:bg-slate-100 text-slate-900 dark:hover:bg-slate-900 dark:text-slate-100",
       sitva: "bg-sitva-green text-white hover:bg-sitva-green/90",
       encicla: "bg-encicla text-white hover:bg-encicla/90",
     }

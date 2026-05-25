@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { MapComponent } from './components/Map/MapComponent';
 import { Input } from './components/ui/input';
 import { Button } from './components/ui/button';
-import { Send, Menu, MessageSquare, AlertCircle } from 'lucide-react';
+import { Send, Menu, MessageSquare, AlertCircle, Sun, Moon } from 'lucide-react';
 import { processUserQuery } from './lib/gemini';
 import { RouteOption } from './lib/routing';
 import { RouteCard } from './components/RouteCards/RouteCard';
@@ -21,6 +21,26 @@ export default function App() {
   
   const [origin, setOrigin] = useState<{lat: number, lng: number} | null>(null);
   const [dest, setDest] = useState<{lat: number, lng: number} | null>(null);
+
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) return savedTheme === 'dark';
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (darkMode) {
+      root.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      root.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [darkMode]);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -88,7 +108,7 @@ El mensaje para el usuario no debe contener coordenadas.`;
   };
 
   return (
-    <div className="relative w-full h-[100dvh] overflow-hidden bg-slate-50 flex flex-col md:flex-row font-sans">
+    <div className="relative w-full h-[100dvh] overflow-hidden bg-background text-foreground flex flex-col md:flex-row font-sans transition-colors duration-300">
       {/* Real Map Component Area */}
       <div className="absolute inset-0 z-0 md:relative md:flex-1 h-full">
         <MapComponent 
@@ -99,6 +119,7 @@ El mensaje para el usuario no debe contener coordenadas.`;
           activeRouteIndex={activeRouteIndex}
           onOriginSelect={(coords) => setOrigin(coords ? {lat: coords.lat, lng: coords.lng} : null)}
           onDestSelect={(coords) => setDest(coords ? {lat: coords.lat, lng: coords.lng} : null)}
+          darkMode={darkMode}
         />
         
         {/* Support Card Positioned on the Map */}
@@ -108,26 +129,38 @@ El mensaje para el usuario no debe contener coordenadas.`;
       </div>
 
       {/* Floating Header (Mobile) */}
-      <div className="absolute top-0 left-0 right-0 p-4 z-20 flex justify-between items-center bg-gradient-to-b from-white/80 to-transparent md:hidden pointer-events-none">
+      <div className="absolute top-0 left-0 right-0 p-4 z-20 flex justify-between items-center bg-gradient-to-b from-background/80 via-background/40 to-transparent md:hidden pointer-events-none">
         <div className="flex items-center space-x-2 pointer-events-auto">
-          <img src="/logo_chat.png" alt="MetroBot" className="w-10 h-10 rounded-full shadow-lg object-cover bg-white" />
-          <span className="font-bold text-slate-900 text-lg drop-shadow-sm">MetroBot</span>
+          <img src="/logo_chat.png" alt="MetroBot" className="w-10 h-10 rounded-full shadow-lg object-cover bg-card border border-border" />
+          <span className="font-bold text-foreground text-lg drop-shadow-sm">MetroBot</span>
         </div>
-        <Button variant="outline" size="icon" className="rounded-full shadow-md bg-white/90 backdrop-blur pointer-events-auto">
-          <Menu className="w-5 h-5" />
-        </Button>
+        <div className="flex items-center space-x-2 pointer-events-auto">
+          {/* Professional Theme Toggle Mobile */}
+          <Button 
+            variant="outline" 
+            size="icon" 
+            className="rounded-full shadow-md bg-card border-border text-foreground hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
+            onClick={() => setDarkMode(!darkMode)}
+            title="Cambiar tema"
+          >
+            {darkMode ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5 text-slate-700" />}
+          </Button>
+          <Button variant="outline" size="icon" className="rounded-full shadow-md bg-card border-border text-foreground hover:bg-slate-100 dark:hover:bg-slate-800">
+            <Menu className="w-5 h-5" />
+          </Button>
+        </div>
       </div>
 
       {/* Sidebar / Bottom Sheet */}
-      <div className={`absolute bottom-0 left-0 right-0 z-20 flex flex-col bg-white rounded-t-3xl shadow-[0_-8px_30px_rgb(0,0,0,0.12)] transition-all duration-300 ease-in-out md:relative md:w-96 md:h-full md:rounded-none md:shadow-xl ${isChatOpen ? 'h-[60dvh]' : 'h-[5.5rem]'} md:h-full overflow-hidden`}>
+      <div className={`absolute bottom-0 left-0 right-0 z-20 flex flex-col bg-card border-t border-border/30 md:border-t-0 md:border-l md:border-sidebar-border transition-all duration-300 ease-in-out md:relative md:w-96 md:h-full md:rounded-none md:shadow-xl ${isChatOpen ? 'h-[60dvh]' : 'h-[5.5rem]'} md:h-full overflow-hidden`}>
         
         {/* Drag Handle (Mobile) */}
         <div 
           className="w-full h-8 flex flex-col items-center justify-start pt-3 cursor-pointer shrink-0 md:hidden z-10"
           onClick={() => setIsChatOpen(!isChatOpen)}
         >
-          <div className="w-12 h-1.5 bg-slate-200 rounded-full mb-1" />
-          {!isChatOpen && <span className="text-[10px] text-slate-400 font-medium">Desliza o toca para abrir el chat</span>}
+          <div className="w-12 h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full mb-1" />
+          {!isChatOpen && <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium">Desliza o toca para abrir el chat</span>}
         </div>
 
         {/* Support floating button for mobile when chat is closed or small */}
@@ -138,30 +171,40 @@ El mensaje para el usuario no debe contener coordenadas.`;
         )}
 
         {/* Desktop Header */}
-        <div className="hidden md:flex items-center justify-between p-6 border-b border-slate-100 shrink-0">
+        <div className="hidden md:flex items-center justify-between p-6 border-b border-sidebar-border shrink-0">
           <div className="flex items-center space-x-3">
-            <img src="/logo_chat.png" alt="MetroBot" className="w-10 h-10 rounded-full shadow-md object-cover bg-white" />
+            <img src="/logo_chat.png" alt="MetroBot" className="w-10 h-10 rounded-full shadow-md object-cover bg-card border border-border" />
             <div>
-              <h1 className="font-bold text-slate-900">MetroBot</h1>
-              <p className="text-xs text-slate-500">Asistente SITVA</p>
+              <h1 className="font-bold text-foreground">MetroBot</h1>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Asistente SITVA</p>
             </div>
           </div>
+          {/* Professional Theme Toggle Desktop */}
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="rounded-full text-foreground hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
+            onClick={() => setDarkMode(!darkMode)}
+            title="Cambiar tema"
+          >
+            {darkMode ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5 text-slate-700" />}
+          </Button>
         </div>
 
         {/* Content Area */}
-        <div className={`flex-1 overflow-y-auto p-4 space-y-4 ${!isChatOpen ? 'hidden md:block' : 'block'}`}>
+        <div className={`flex-1 overflow-y-auto p-4 space-y-4 bg-background ${!isChatOpen ? 'hidden md:block' : 'block'}`}>
           
           {/* Messages */}
           <div className="space-y-4 mb-4">
             {messages.map((msg, idx) => (
               <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start items-end space-x-2'}`}>
                 {msg.role === 'assistant' && (
-                  <img src="/logo_chat.png" alt="MetroBot" className="w-8 h-8 rounded-full shadow-sm object-cover shrink-0" />
+                  <img src="/logo_chat.png" alt="MetroBot" className="w-8 h-8 rounded-full shadow-sm object-cover shrink-0 bg-white dark:bg-slate-850" />
                 )}
-                <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm ${
+                <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-sm ${
                   msg.role === 'user' 
-                    ? 'bg-sitva-green text-white rounded-br-sm' 
-                    : 'bg-slate-100 text-slate-800 rounded-bl-sm'
+                    ? 'bg-chat-bubble-user text-chat-bubble-user-text rounded-br-sm' 
+                    : 'bg-chat-bubble-assistant text-chat-bubble-assistant-text rounded-bl-sm'
                 }`}>
                   {msg.content}
                 </div>
@@ -169,11 +212,11 @@ El mensaje para el usuario no debe contener coordenadas.`;
             ))}
             {isLoading && (
               <div className="flex justify-start items-end space-x-2">
-                <img src="/logo_chat.png" alt="MetroBot" className="w-8 h-8 rounded-full shadow-sm object-cover shrink-0" />
-                <div className="bg-slate-100 rounded-2xl rounded-bl-sm px-4 py-3 flex space-x-1 h-[44px] items-center">
-                  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" />
-                  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
-                  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }} />
+                <img src="/logo_chat.png" alt="MetroBot" className="w-8 h-8 rounded-full shadow-sm object-cover shrink-0 bg-white dark:bg-slate-850" />
+                <div className="bg-chat-bubble-assistant text-chat-bubble-assistant-text rounded-2xl rounded-bl-sm px-4 py-3 flex space-x-1 h-[44px] items-center shadow-sm">
+                  <div className="w-2 h-2 bg-slate-400 dark:bg-slate-500 rounded-full animate-bounce" />
+                  <div className="w-2 h-2 bg-slate-400 dark:bg-slate-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+                  <div className="w-2 h-2 bg-slate-400 dark:bg-slate-500 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }} />
                 </div>
               </div>
             )}
@@ -189,7 +232,7 @@ El mensaje para el usuario no debe contener coordenadas.`;
                 exit={{ opacity: 0, y: -20 }}
                 className="space-y-4 mt-4"
               >
-                <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wider px-1">Rutas Sugeridas</h3>
+                <h3 className="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider px-1">Rutas Sugeridas</h3>
                 {routes.map((route, idx) => (
                   <div key={route.id} onClick={() => setActiveRouteIndex(idx)} className="cursor-pointer">
                     <RouteCard 
@@ -210,28 +253,28 @@ El mensaje para el usuario no debe contener coordenadas.`;
         </div>
 
         {/* Input Area */}
-        <div className="p-4 bg-white border-t border-slate-100 shrink-0 relative z-20">
+        <div className="p-4 bg-sidebar-bg border-t border-sidebar-border shrink-0 relative z-20">
           <form onSubmit={handleSubmit} className="relative flex items-center mb-2">
             <Input 
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onFocus={() => setIsChatOpen(true)}
               placeholder="Escribe un mensaje o lugar..." 
-              className="pr-12 bg-slate-50 border-transparent focus-visible:ring-sitva-green/50 focus-visible:bg-white text-[15px]"
+              className="pr-12 bg-input border-border text-foreground placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-sitva-green/50 focus-visible:bg-card text-[15px]"
             />
             <Button 
               type="submit" 
               size="icon" 
               variant="ghost" 
-              className="absolute right-1 w-10 h-10 text-sitva-green hover:text-sitva-green hover:bg-sitva-green/10 rounded-full"
+              className="absolute right-1 w-10 h-10 text-sitva-green hover:text-sitva-green hover:bg-sitva-green/10 dark:hover:bg-sitva-green/20 rounded-full cursor-pointer"
               disabled={isLoading || !query.trim()}
             >
               <Send className="w-5 h-5" />
             </Button>
           </form>
           <div className="text-center">
-            <span className="text-[10px] text-slate-400 font-medium tracking-wide">
-              Developed by <span className="font-bold text-slate-500">AI-LAB Jesús Rey</span>
+            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium tracking-wide">
+              Developed by <span className="font-bold text-slate-500 dark:text-slate-400">AI-LAB Jesús Rey</span>
             </span>
           </div>
         </div>

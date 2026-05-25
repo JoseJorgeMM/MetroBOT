@@ -9,30 +9,30 @@ export function SupportCard() {
   const whatsappUrl = `https://wa.me/57${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
   return (
-    <div className={`bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-white/50 transition-all duration-300 pointer-events-auto overflow-hidden ${isExpanded ? 'w-64 p-4' : 'w-48 p-3 cursor-pointer select-none hover:bg-white'}`}
+    <div className={`bg-card/95 backdrop-blur-md rounded-2xl shadow-xl border border-border transition-all duration-300 pointer-events-auto overflow-hidden ${isExpanded ? 'w-64 p-4' : 'w-48 p-3 cursor-pointer select-none hover:bg-card'}`}
       onClick={() => !isExpanded && setIsExpanded(true)}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="p-1.5 bg-blue-100 rounded-lg">
-            <HelpCircle className="w-4 h-4 text-blue-600" />
+          <div className="p-1.5 bg-blue-100 dark:bg-blue-950/50 rounded-lg">
+            <HelpCircle className="w-4 h-4 text-blue-600 dark:text-blue-400" />
           </div>
-          <h4 className="text-sm font-bold text-slate-800">Soporte EnCicla</h4>
+          <h4 className="text-sm font-bold text-foreground">Soporte EnCicla</h4>
         </div>
         <button 
           onClick={(e) => {
             e.stopPropagation();
             setIsExpanded(!isExpanded);
           }}
-          className="p-1 hover:bg-slate-100 rounded-lg transition-colors"
+          className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer"
         >
-          {isExpanded ? <ChevronDown className="w-4 h-4 text-slate-400" /> : <ChevronUp className="w-4 h-4 text-slate-400" />}
+          {isExpanded ? <ChevronDown className="w-4 h-4 text-slate-400 dark:text-slate-500" /> : <ChevronUp className="w-4 h-4 text-slate-400 dark:text-slate-500" />}
         </button>
       </div>
       
       {isExpanded && (
         <div className="mt-3">
-          <p className="text-xs text-slate-600 mb-3 leading-relaxed">
+          <p className="text-xs text-slate-600 dark:text-slate-400 mb-3 leading-relaxed">
             ¿Necesitas ayuda con una bicicleta o el estado de una estación?
           </p>
 
