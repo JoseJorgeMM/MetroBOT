@@ -260,7 +260,11 @@ REGLAS DE MOVILIDAD:
 4. Si existe la lista "ESTACIONES RELEVANTES CERCANAS" abajo, DEBES elegir el origen y el destino de ESA LISTA preferiblemente para minimizar la caminata.
 5. NO inventes estaciones. Usa solo los nombres exactos provistos. \`originStation\` y \`destinationStation\` DEBEN ser siempre ESTACIONES de la red (ej. "Parada Plaza Mayor"), NUNCA el lugar físico buscado por el usuario (ej. "Colegio Jesus Rey" o "Plaza Mayor").
 6. Verifica el sistema: Si la estación dice "Metrocable Linea P", no digas que es "Metro" o "Metroplús".
-7. TIEMPOS EXACTOS (SITVA): Para calcular la \`duration\` en minutos de cada paso en el sistema SITVA, debes usar la tabla de TIEMPOS DE DESPLAZAMIENTO. Suma el "tiempo_total_estimado_min" (movimiento + espera) de los segmentos involucrados y no inventes los tiempos.
+7. TIEMPOS EXACTOS (SITVA): Para calcular la \`duration\` de los trayectos en SITVA, usa la tabla de TIEMPOS DE DESPLAZAMIENTO siguiendo estrictamente esta regla:
+   - Suma el "espera_promedio_min" SOLO una vez al inicio de cada modo de transporte o línea.
+   - Para los segmentos siguientes dentro del mismo trayecto, suma únicamente el "tiempo_movimiento_promedio_min".
+   - NO sumes la espera en cada estación intermedia, ya que el usuario solo espera el bus/tren al inicio.
+   - No inventes los tiempos; básate siempre en los datos del CSV.
 8. TIEMPO DE CAMINATA REALISTA: Asume una velocidad de caminata urbana estándar de 4.5 a 5 km/h (aproximadamente 12 a 15 minutos por kilómetro). Al calcular el tiempo de caminar hasta una estación, utiliza las coordenadas y calcula la distancia realista (asumiendo cuadras urbanas, no línea recta). No subestimes el tiempo de caminar.
 9. CÁLCULO DE COSTOS EXACTOS: El campo "cost" debe calcularse de forma precisa con el CSV. Si el viaje es solo dentro de la red (Metro, Tranvía, Metroplús, Cables -excepto Arví-) el costo inicial es la tarifa base frecuente (ej. 3820). Caminar y EnCicla tienen costo 0. Transbordos directos entre Metro/Tranvía/Cables/Metroplús son gratuitos según la "matriz_transbordos". REGLA DE METROPLÚS: El transbordo Metroplús -> Metro (o viceversa) es gratis, PERO si la ruta exige salir y volver a ingresar al mismo sistema (ej. Metroplús -> Metro -> Metroplús), se cobra nuevamente la tarifa base al reingresar, sumando otro pasaje. Si el viaje incluye Cable Arví, suma su tarifa especial.
 
