@@ -1,6 +1,7 @@
 import { GoogleGenAI, Type, FunctionDeclaration } from '@google/genai';
 import { getStationStatus } from './routing';
 import { loadStations, calculateDistance } from './stations';
+import { getLocalOfflineRoute } from './localRouter';
 
 let ai: GoogleGenAI;
 try {
@@ -377,7 +378,54 @@ ${grounding}`,
 
     return textResponse || "No estoy seguro de cómo ayudarte con eso. Intenta pedirme una ruta, por ejemplo, hacia el Parque Arví, o pregúntame por el estado del Metrocable Línea K.";
   } catch (error) {
-    console.error("Gemini API Error:", error);
-    return "Lo siento, tuve un problema conectándome al sistema. Intenta nuevamente en un momento.";
+    console.warn("Gemini API Error, falling back to local routing:", error);
+    try {
+      let originLat = options?.origin?.lat;
+      let originLng = options?.origin?.lng;
+      let destLat = options?.dest?.lat;
+      let destLng = options?.dest?.lng;
+
+      if (!originLat || !destLat) {
+        // Try parsing station names from query
+        const stations = await loadStations();
+        const foundStations: any[] = [];
+        const queryLower = query.toLowerCase();
+
+        // Sort stations by name length descending to avoid partial match issues
+        const sortedStations = [...stations].sort((a, b) => b.nombre.length - a.nombre.length);
+
+        sortedStations.forEach(s => {
+          const nameLower = s.nombre.toLowerCase();
+          if (queryLower.includes(nameLower) && !foundStations.some(fs => fs.nombre === s.nombre)) {
+            foundStations.push(s);
+          }
+        });
+
+        if (foundStations.length >= 2) {
+          // Assume first is origin, second is destination
+          originLat = foundStations[0].lat;
+          originLng = foundStations[0].lng;
+          destLat = foundStations[1].lat;
+          destLng = foundStations[1].lng;
+        } else if (foundStations.length === 1) {
+          // Use search origin/dest coords or central station
+          destLat = foundStations[0].lat;
+          destLng = foundStations[0].lng;
+          originLat = stations[0].lat;
+          originLng = stations[0].lng;
+        }
+      }
+
+      if (originLat && originLng && destLat && destLng) {
+        const offlineRoutes = await getLocalOfflineRoute(originLat, originLng, destLat, destLng);
+        if (offlineRoutes && offlineRoutes.length > 0) {
+          onRouteFound(offlineRoutes);
+          return "⚠️ **Modo Sin Conexión / Local Activo**: He calculado las mejores opciones de ruta usando el algoritmo local del sistema offline (Dijkstra) ya que el servicio inteligente de Gemini no responde. ¡Aquí tienes las opciones!";
+        }
+      }
+    } catch (offlineError) {
+      console.error("Local routing fallback failed:", offlineError);
+    }
+    return "Lo siento, tuve un problema conectándome al sistema y no se pudo calcular la ruta de forma local. Intenta nuevamente en un momento.";
   }
 }

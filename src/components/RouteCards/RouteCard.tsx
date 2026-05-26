@@ -70,9 +70,11 @@ export function RouteCard({ route, isSelected }: RouteCardProps) {
                 <p className="text-sm text-slate-700 dark:text-slate-300">{step.instruction}</p>
                 {step.line && <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">{step.line}</p>}
               </div>
-              <div className="flex items-center space-x-2">
-                <span className="text-xs font-medium text-slate-450 dark:text-slate-500">${step.cost?.toLocaleString('es-CO') ?? '0'}</span>
-                <span className="text-xs font-medium text-slate-450 dark:text-slate-500">{step.duration}m</span>
+              <div className="flex items-center space-x-2 shrink-0">
+                <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">
+                  {step.cost !== undefined ? `$${step.cost.toLocaleString('es-CO')}` : '$0'}
+                </span>
+                <span className="text-xs text-slate-400 dark:text-slate-500">{step.duration} min</span>
               </div>
             </div>
           ))}
