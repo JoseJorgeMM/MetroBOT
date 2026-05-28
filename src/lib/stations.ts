@@ -102,6 +102,28 @@ export async function loadStations(): Promise<Station[]> {
       allStations.push(...enciclaStations);
     }
 
+    // Load Integrated routes
+    try {
+      const integratedRes = await fetch('/rutas_integradas.json');
+      if (integratedRes.ok) {
+        const routes = await integratedRes.json();
+        routes.forEach((route: any) => {
+          route.stops.forEach((stop: any, idx: number) => {
+            allStations.push({
+              id: `integrado-${route.id}-${idx}`,
+              lat: stop.lat,
+              lng: stop.lng,
+              sistema: 'Integrado',
+              nombre: stop.name,
+              linea: route.id
+            });
+          });
+        });
+      }
+    } catch (e) {
+      console.error("Error loading integrated routes in loadStations:", e);
+    }
+
     return allStations;
   } catch (error) {
     console.error("Error loading stations:", error);

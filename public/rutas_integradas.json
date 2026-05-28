@@ -1,0 +1,5723 @@
+[
+  {
+    "id": "C3-001",
+    "name": "Ruta Integrada C3-001",
+    "stops": [
+      {
+        "name": "Estación Aguacatala Avenida Regional - Calle 12 Sur",
+        "lat": 6.195731,
+        "lng": -75.582615
+      },
+      {
+        "name": "Br. Guayabal Calle 12 Sur - Carrera 50e",
+        "lat": 6.207926571948856,
+        "lng": -75.58373993131879
+      },
+      {
+        "name": "Avenida. 80 #10 Sur-3 a 10 Sur-171 Guayabal",
+        "lat": 6.207940156921305,
+        "lng": -75.58417268635242
+      },
+      {
+        "name": "Universidad De Antioquia - Posgrados Avenida 80 - Calle 10 Sur",
+        "lat": 6.200044,
+        "lng": -75.584577
+      },
+      {
+        "name": "Br. Guayabal Avenida 80 - Calle 8 Sur",
+        "lat": 6.202515,
+        "lng": -75.58415
+      },
+      {
+        "name": "Br. Guayabal Avenida 80 - Carrera 51",
+        "lat": 6.208325092189185,
+        "lng": -75.58427150371925
+      },
+      {
+        "name": "Av. 80 #51-2 a 51-90",
+        "lat": 6.207808779601931,
+        "lng": -75.58788397934035
+      },
+      {
+        "name": "Centro Comercial El Rodeo Avenida 80 - Carrera 52",
+        "lat": 6.2072924670146765,
+        "lng": -75.59149645496146
+      },
+      {
+        "name": "Cra. 56a #3 Sur-74 a 3 Sur-2",
+        "lat": 6.207044931808877,
+        "lng": -75.59143035874544
+      },
+      {
+        "name": "Campos De Paz Avenida 80 - Calle 67",
+        "lat": 6.206797396603078,
+        "lng": -75.59136426252942
+      },
+      {
+        "name": "Av. 80 #67-252 a 67-282",
+        "lat": 6.209830198301539,
+        "lng": -75.59364963126471
+      },
+      {
+        "name": "Centro Comercial Arkadia Avenida 80 - Calle 1",
+        "lat": 6.212863,
+        "lng": -75.595935
+      },
+      {
+        "name": "Br. Diego Echavarría Avenida 80 - Calle 2a",
+        "lat": 6.215864,
+        "lng": -75.597439
+      },
+      {
+        "name": "Centro Comercial Rodeo Plaza Avenida 80 - Carrera 76",
+        "lat": 6.206517232348657,
+        "lng": -75.59091816977312
+      },
+      {
+        "name": "Av. 80 #9-97 a 9-3",
+        "lat": 6.214775116174328,
+        "lng": -75.59515408488656
+      },
+      {
+        "name": "Colegio De La Inmaculada Avenida 80 - Calle 15a",
+        "lat": 6.223033,
+        "lng": -75.59939
+      },
+      {
+        "name": "Clinica Vida Avenida 80 - Calle 19",
+        "lat": 6.224614627081977,
+        "lng": -75.5985325373312
+      },
+      {
+        "name": "Av. 80 #20a-2 a 20a-244",
+        "lat": 6.226196254163954,
+        "lng": -75.59767507466239
+      },
+      {
+        "name": "Br. Belén Avenida 80 - Calle 24",
+        "lat": 6.227777881245931,
+        "lng": -75.59681761199357
+      },
+      {
+        "name": "Av. 80 #25-2 a 25-56",
+        "lat": 6.229502695153328,
+        "lng": -75.59446011978793
+      },
+      {
+        "name": "Br. La Palma Avenida 80 - Calle 26",
+        "lat": 6.231227509060725,
+        "lng": -75.59210262758228
+      },
+      {
+        "name": "Av. 80 #45",
+        "lat": 6.229400883026469,
+        "lng": -75.59459338375599
+      },
+      {
+        "name": "Belen La Palma Avenida. 80",
+        "lat": 6.227574256992213,
+        "lng": -75.5970841399297
+      },
+      {
+        "name": "Cl. 28 #80a-32",
+        "lat": 6.229105101415946,
+        "lng": -75.59468257853074
+      },
+      {
+        "name": "Br. La Palma Avenida 80 - Calle 30a",
+        "lat": 6.23063594583968,
+        "lng": -75.59228101713177
+      },
+      {
+        "name": "Avenida 80 - Calle 32b",
+        "lat": 6.2248184548664,
+        "lng": -75.59067001427647
+      },
+      {
+        "name": "Br. Villa De Aburrá Avenida 80 - Calle 32b",
+        "lat": 6.219000963893119,
+        "lng": -75.58905901142117
+      },
+      {
+        "name": "Av. 80 #32e-67 a 32e-1",
+        "lat": 6.213183472919839,
+        "lng": -75.58744800856587
+      },
+      {
+        "name": "Avenida. 80 Con Calle. 33 Sur - Norte",
+        "lat": 6.20736598194656,
+        "lng": -75.58583700571059
+      },
+      {
+        "name": "Avenida. 80 Con Calle. 33 Norte - Sur",
+        "lat": 6.2015484909732805,
+        "lng": -75.5842260028553
+      }
+    ]
+  },
+  {
+    "id": "C3-001A",
+    "name": "Ruta Integrada C3-001A",
+    "stops": [
+      {
+        "name": "Estación Aguacatala",
+        "lat": 6.193919630894213,
+        "lng": -75.58180954383404
+      },
+      {
+        "name": "Calle 11 Sur #50-222 a 50-248",
+        "lat": 6.195460136825083,
+        "lng": -75.58252563800673
+      },
+      {
+        "name": "Calle 12 Sur #50C-22",
+        "lat": 6.1970006427559525,
+        "lng": -75.58324173217943
+      },
+      {
+        "name": "Avenida 80 #10 Sur-3 a 10 Sur-171",
+        "lat": 6.198541148686822,
+        "lng": -75.58395782635213
+      },
+      {
+        "name": "Universidad De Antioquia Sede Posgrado",
+        "lat": 6.200081654617692,
+        "lng": -75.58467392052482
+      },
+      {
+        "name": "Br. Guayabal Avenida 80 - Calle 8 Sur",
+        "lat": 6.202490326713073,
+        "lng": -75.58423836577174
+      },
+      {
+        "name": "Br. Guayabal Avenida 80 - Carrera 51",
+        "lat": 6.202674978539628,
+        "lng": -75.58429019168905
+      },
+      {
+        "name": "Centro Comercial El Rodeo Avenida 80 - Carrera 52",
+        "lat": 6.204146752325685,
+        "lng": -75.58651119456724
+      },
+      {
+        "name": "Cementerio Campos De Paz Avenida 80 - Carrera 67",
+        "lat": 6.206800600688072,
+        "lng": -75.59108575330723
+      },
+      {
+        "name": "Avenida 80 #3 Sur-1 a 3 Sur-137",
+        "lat": 6.208695128913819,
+        "lng": -75.59287374174839
+      },
+      {
+        "name": "Urbanización Kalamari Calle 1 - Diagonal 75d",
+        "lat": 6.210589657139565,
+        "lng": -75.59466173018956
+      },
+      {
+        "name": "Br. La Mota Calle 1 Sur - Carrera 77a",
+        "lat": 6.212350329041174,
+        "lng": -75.59384889911624
+      },
+      {
+        "name": "Calle 1 #75d-76 a 75d-154, Belén",
+        "lat": 6.22772944596677,
+        "lng": -75.59661830896248
+      },
+      {
+        "name": "Br. Rodeo Carrera 79 - Calle 1 Sur",
+        "lat": 6.20730108536319,
+        "lng": -75.59089407864597
+      },
+      {
+        "name": "Calle 1 #77A-90",
+        "lat": 6.2085339630599865,
+        "lng": -75.59154949244825
+      },
+      {
+        "name": "Urbanización Quintas De Marbella Carrera 79 - Calle 2b Sur",
+        "lat": 6.2097668407567825,
+        "lng": -75.59220490625053
+      },
+      {
+        "name": "Carrera 79 # 1 Sur-145",
+        "lat": 6.210999718453579,
+        "lng": -75.59286032005281
+      },
+      {
+        "name": "Br. La Mota Calle 2b Sur - Carrera 75",
+        "lat": 6.2122325961503755,
+        "lng": -75.5935157338551
+      },
+      {
+        "name": "Calle 2b Sur #78b-25 a 78b-1",
+        "lat": 6.212193186271973,
+        "lng": -75.59351141348219
+      },
+      {
+        "name": "Urbanización Los Cabos Carrera 75 - Calle 2a Sur",
+        "lat": 6.212153776393571,
+        "lng": -75.59350709310928
+      },
+      {
+        "name": "Carrera 75da con Calle 2b Sur Villas de la Mota",
+        "lat": 6.212114366515169,
+        "lng": -75.59350277273637
+      },
+      {
+        "name": "Urbanización Los Cabos Carrera 75 - Calle 6 Sur",
+        "lat": 6.20526755857972,
+        "lng": -75.5996271198683
+      },
+      {
+        "name": "Br. La Mota Carrera 75 - Calle 2b Sur",
+        "lat": 6.212494536591964,
+        "lng": -75.593827478447
+      },
+      {
+        "name": "Calle Arriba #70-117 a 70-1",
+        "lat": 6.209829499696671,
+        "lng": -75.59227979287863
+      },
+      {
+        "name": "Conjunto Residencial Mirador Del Rodeo Carrera 75 - Calle 2 Sur",
+        "lat": 6.207164462801377,
+        "lng": -75.59073210731025
+      },
+      {
+        "name": "Club El Rodeo Avenida 80 - Calle 1",
+        "lat": 6.2106093747084605,
+        "lng": -75.59483852295791
+      },
+      {
+        "name": "Campos De Paz Avenida 80 - Carrera 67",
+        "lat": 6.206527504374048,
+        "lng": -75.59142519178208
+      },
+      {
+        "name": "Av. 80 #65-231 a 65-223, Guayabal",
+        "lat": 6.208370608185789,
+        "lng": -75.58397491380029
+      },
+      {
+        "name": "Capilla Campos De Paz Avenida 80 - Carrera 53",
+        "lat": 6.206884985091652,
+        "lng": -75.59055356474597
+      },
+      {
+        "name": "Barrio Cristo Rey Avenida 80 Occidente",
+        "lat": 6.207351023181505,
+        "lng": -75.58823452411698
+      },
+      {
+        "name": "Calle 5 Sur #51-85",
+        "lat": 6.207817061271358,
+        "lng": -75.58591548348798
+      },
+      {
+        "name": "Br. Guayabal Avenida 80 - Calle 8 Sur",
+        "lat": 6.208283099361211,
+        "lng": -75.58359644285899
+      },
+      {
+        "name": "6°11'58.7\"\"N 75°35'05.3\"\"W",
+        "lat": 6.208089633754298,
+        "lng": -75.58385350104912
+      },
+      {
+        "name": "Br. Guayabal Avenida 80 Calle 10b Sur",
+        "lat": 6.207896168147385,
+        "lng": -75.58411055923925
+      },
+      {
+        "name": "Calle 12 Sur #50e20",
+        "lat": 6.201397578082483,
+        "lng": -75.58209741783048
+      },
+      {
+        "name": "Fábrica De Licores Y Alcoholes De Antioquia Calle 12 Sur - Carrera 50c",
+        "lat": 6.194898988017583,
+        "lng": -75.5800842764217
+      },
+      {
+        "name": "Avenida Las Vegas Calle 15 Sur - Carrera 48",
+        "lat": 6.195626318740793,
+        "lng": -75.58172454758595
+      },
+      {
+        "name": "Estación Aguacatala",
+        "lat": 6.193919630894213,
+        "lng": -75.58180954383404
+      }
+    ]
+  },
+  {
+    "id": "C3-002",
+    "name": "Ruta Integrada C3-002",
+    "stops": [
+      {
+        "name": "Estación Aguacatala",
+        "lat": 6.193919630894213,
+        "lng": -75.58180954383404
+      },
+      {
+        "name": "Calle 89 #42-391 a 42-1",
+        "lat": 6.197427516689512,
+        "lng": -75.5823258472669
+      },
+      {
+        "name": "Br. San Fernando Calle 89 - Carrera 49",
+        "lat": 6.200935402484812,
+        "lng": -75.58284215069975
+      },
+      {
+        "name": "Calle 12 Sur #51-131 a 51-3",
+        "lat": 6.204443288280112,
+        "lng": -75.5833584541326
+      },
+      {
+        "name": "Br. Guayabal Carrera 51 - Calle 10 Sur",
+        "lat": 6.207951174075411,
+        "lng": -75.58387475756545
+      },
+      {
+        "name": "Carrera 51 #9 Sur-92 a 9 Sur-34",
+        "lat": 6.204843405727395,
+        "lng": -75.5840231976567
+      },
+      {
+        "name": "Br. Guayabal Carrera 51 - Calle 8 Sur",
+        "lat": 6.201735637379379,
+        "lng": -75.58417163774796
+      },
+      {
+        "name": "Parroquia María Madre De Los Huérfanos Carrera 50e - Calle 7 Sur",
+        "lat": 6.202576088178398,
+        "lng": -75.5850001217783
+      },
+      {
+        "name": "Carrera 51 # 6 Sur-62",
+        "lat": 6.203416538977416,
+        "lng": -75.58582860580863
+      },
+      {
+        "name": "Centro Comercial El Rodeo Avenida 80 - Carrera 52",
+        "lat": 6.204256989776435,
+        "lng": -75.58665708983897
+      },
+      {
+        "name": "Campos De Paz Avenida 80 - Carrera 67",
+        "lat": 6.207055976407302,
+        "lng": -75.58898727634619
+      },
+      {
+        "name": "Clínica Las Américas Auna Carrera 70 - Calle 2",
+        "lat": 6.211416315728279,
+        "lng": -75.594142089839
+      },
+      {
+        "name": "Br. Diego Echavarria Carrera 70 - Calle 9",
+        "lat": 6.213276026216792,
+        "lng": -75.59387358702241
+      },
+      {
+        "name": "Carrera 70 # 3-87",
+        "lat": 6.215135736705305,
+        "lng": -75.59360508420583
+      },
+      {
+        "name": "Aeroparque Juan Pablo II Carrera 70 - Calle 13",
+        "lat": 6.216995447193818,
+        "lng": -75.59333658138925
+      },
+      {
+        "name": "Carrera 70 #10a-57 a 10a-1",
+        "lat": 6.218855157682331,
+        "lng": -75.59306807857266
+      },
+      {
+        "name": "Aeroparque Juan Pablo II Carrera 70 - Calle 16",
+        "lat": 6.220714868170844,
+        "lng": -75.59279957575608
+      },
+      {
+        "name": "Carrera 70 #10a-57 a 10a-1",
+        "lat": 6.222574578659357,
+        "lng": -75.5925310729395
+      },
+      {
+        "name": "Br. San Bernardo Carrera 70 - Calle 24",
+        "lat": 6.22443428914787,
+        "lng": -75.5922625701229
+      },
+      {
+        "name": "Carrera 70 #16-291 a 16-229",
+        "lat": 6.226293999636383,
+        "lng": -75.5919940673063
+      },
+      {
+        "name": "Br. San Bernardo Carrera 70 - Calle 26",
+        "lat": 6.2281537101248965,
+        "lng": -75.59172556448972
+      },
+      {
+        "name": "Carrera 70 #29-21",
+        "lat": 6.23001342061341,
+        "lng": -75.59145706167314
+      },
+      {
+        "name": "Estación Rosales Carrera 70 - Calle 30",
+        "lat": 6.231873131101923,
+        "lng": -75.59118855885654
+      },
+      {
+        "name": "Cra. 69C # 30C-41",
+        "lat": 6.233732841590436,
+        "lng": -75.59092005603995
+      },
+      {
+        "name": "Iglesia Jesús De La Buena Esperanza Sur - Norte",
+        "lat": 6.23559255207895,
+        "lng": -75.59065155322337
+      },
+      {
+        "name": "Cra. 70 # 32-126",
+        "lat": 6.237452262567464,
+        "lng": -75.59038305040679
+      },
+      {
+        "name": "Br. Belén Rosales Carrera 70 - Avenida Bolivariana",
+        "lat": 6.239311973055977,
+        "lng": -75.59011454759019
+      },
+      {
+        "name": "Centro Comercial Unicentro Avenida. Bolivariana - Calel 34b",
+        "lat": 6.23871106563766,
+        "lng": -75.5902064352198
+      },
+      {
+        "name": "Calle 34 #101",
+        "lat": 6.239151264049642,
+        "lng": -75.58929440422054
+      },
+      {
+        "name": "Avenida 33 Con Carrera 66b",
+        "lat": 6.239591462461624,
+        "lng": -75.58838237322126
+      },
+      {
+        "name": "Glorieta Bulerías Avenida 33 - Avenida Bolivariana",
+        "lat": 6.2387824728623,
+        "lng": -75.5902446547665
+      },
+      {
+        "name": "Glorieta Bulerías Diagonal 74b - Calle 32f",
+        "lat": 6.23913099680685,
+        "lng": -75.58907688027294
+      },
+      {
+        "name": "Av. Bolivariana #32ee-2 a 32ee-88",
+        "lat": 6.236279065863566,
+        "lng": -75.59093774714266
+      },
+      {
+        "name": "Br. Rosales Avenida Bolivariana - Transversal 32d",
+        "lat": 6.233427134920282,
+        "lng": -75.59279861401238
+      },
+      {
+        "name": "Calle 32A #71-91 a 71-1",
+        "lat": 6.230575203976998,
+        "lng": -75.59465948088209
+      },
+      {
+        "name": "Br. Belén Rosales Carrera 70 - Calle 32a",
+        "lat": 6.227723273033714,
+        "lng": -75.5965203477518
+      },
+      {
+        "name": "Carrera 70 #30a152",
+        "lat": 6.228187617713759,
+        "lng": -75.59473886300322
+      },
+      {
+        "name": "Estación Rosales Carrera 70 - Calle 30",
+        "lat": 6.228651962393804,
+        "lng": -75.59295737825462
+      },
+      {
+        "name": "Br. San Bernardo Carrera 70 - Calle 26",
+        "lat": 6.228651962393804,
+        "lng": -75.59295737825462
+      },
+      {
+        "name": "Br. San Bernardo Carrera 70 - Calle 24",
+        "lat": 6.226715751871444,
+        "lng": -75.5927726963234
+      },
+      {
+        "name": "Carrera 70 #17-55 a 17-1",
+        "lat": 6.224779541349084,
+        "lng": -75.59258801439216
+      },
+      {
+        "name": "Aeroparque Juan Pablo II Carrera 70 - Calle 15",
+        "lat": 6.2228433308267235,
+        "lng": -75.59240333246093
+      },
+      {
+        "name": "Carrera 70 #17-55 a 17-1",
+        "lat": 6.220907120304363,
+        "lng": -75.5922186505297
+      },
+      {
+        "name": "Aeroparque Juan Pablo II Carrera 70 - Calle 13",
+        "lat": 6.218970909782003,
+        "lng": -75.59203396859846
+      },
+      {
+        "name": "Carrera 70 #17-55 a 17-1",
+        "lat": 6.217034699259644,
+        "lng": -75.59184928666721
+      },
+      {
+        "name": "Br. Diego Echavarria Carrera 70 - Calle 9a",
+        "lat": 6.215098488737284,
+        "lng": -75.59166460473598
+      },
+      {
+        "name": "Carrera 70 #11-2 a 11-54",
+        "lat": 6.213162278214924,
+        "lng": -75.59147992280475
+      },
+      {
+        "name": "Clínica Las Américas Auna Carrera 70 - Calle 3",
+        "lat": 6.211226067692564,
+        "lng": -75.5912952408735
+      },
+      {
+        "name": "Carrera 70 #3-2 a 3-204",
+        "lat": 6.209289857170205,
+        "lng": -75.59111055894226
+      },
+      {
+        "name": "Club El Rodeo Avenida 80 - Calle 1",
+        "lat": 6.207353646647845,
+        "lng": -75.59092587701103
+      },
+      {
+        "name": "Carrera 70 con Calle 1",
+        "lat": 6.208870810719169,
+        "lng": -75.59265930554224
+      },
+      {
+        "name": "Campos De Paz Avenida 80 - Carrera 67",
+        "lat": 6.2103879747904935,
+        "lng": -75.59439273407344
+      },
+      {
+        "name": "Capilla Campos De Paz Avenida 80 - Carrera 53",
+        "lat": 6.207515301099972,
+        "lng": -75.59057363774347
+      },
+      {
+        "name": "Barrio Cristo Rey Avenida 80 Occidente",
+        "lat": 6.206093414206312,
+        "lng": -75.58866055122769
+      },
+      {
+        "name": "Calle 3 Sur #51-87 a 51-1",
+        "lat": 6.204671527312652,
+        "lng": -75.5867474647119
+      },
+      {
+        "name": "Br. Guayabal Avenida 80 - Calle 8 Sur",
+        "lat": 6.203249640418991,
+        "lng": -75.58483437819612
+      },
+      {
+        "name": "Br. Guayabal Avenida 80 - Calle 10b Sur",
+        "lat": 6.198991315894702,
+        "lng": -75.58492608988901
+      },
+      {
+        "name": "Fábrica De Licores Y Alcoholes De Antioquia Calle 12 Sur - Carrera 50c",
+        "lat": 6.19410348547895,
+        "lng": -75.58236538990624
+      },
+      {
+        "name": "Estación Aguacatala",
+        "lat": 6.193919630894213,
+        "lng": -75.58180954383404
+      }
+    ]
+  },
+  {
+    "id": "C3-003M",
+    "name": "Ruta Integrada C3-003M",
+    "stops": [
+      {
+        "name": "Estación Parque Belén (Carrera 76 - Calle 30, Medellín)",
+        "lat": 6.2281351784369505,
+        "lng": -75.59667384888087
+      },
+      {
+        "name": "Quebrada Chocho (Carrera 76 - Calle 27, Medellín)",
+        "lat": 6.228049689487696,
+        "lng": -75.59666550790509
+      },
+      {
+        "name": "Br. San Bernardo (Kr 76 - Cl 20a, Medellín)",
+        "lat": 6.227964200538441,
+        "lng": -75.5966571669293
+      },
+      {
+        "name": "Parque Biblioteca Belén (Kr 76 - Cl 19, Medellín)",
+        "lat": 6.227878711589187,
+        "lng": -75.59664882595351
+      },
+      {
+        "name": "Colegio De La Inmaculada (Kr 76 - Cl 13, Medellín)",
+        "lat": 6.225890662553394,
+        "lng": -75.59745955561766
+      },
+      {
+        "name": "Edificio Panorama (Kr 76 - Cl 10, Medellín)",
+        "lat": 6.223902613517601,
+        "lng": -75.59827028528181
+      },
+      {
+        "name": "Unidad Residencial Sorrento II (Kr 76 - Av 80, Medellín)",
+        "lat": 6.221914564481807,
+        "lng": -75.59908101494597
+      },
+      {
+        "name": "Unidad Residencial La Guaira (Kr 76 - Cl 5, Medellín)",
+        "lat": 6.219926515446014,
+        "lng": -75.5998917446101
+      },
+      {
+        "name": "Unidad Residencial Mediterráneo (Cl 3c - Kr 78, Medellín)",
+        "lat": 6.217938466410221,
+        "lng": -75.60070247427424
+      },
+      {
+        "name": "Br. Belén El Rincón (Kr 78b - Cl 3, Medellín)",
+        "lat": 6.215950417374427,
+        "lng": -75.6015132039384
+      },
+      {
+        "name": "Parroquia San Bartolomé (Kr 79 - Cl 2b, Medellín)",
+        "lat": 6.215769091629426,
+        "lng": -75.60158892675736
+      },
+      {
+        "name": "Br. Belén El Rincón (Cl 2b - Kr 81a, Medellín)",
+        "lat": 6.215587765884425,
+        "lng": -75.60166464957634
+      },
+      {
+        "name": "Br. El Ñeque (Kr 81a - Cl 1 Sur, Medellín)",
+        "lat": 6.215805643665557,
+        "lng": -75.60167068742845
+      },
+      {
+        "name": "Escuela Antonio Ricaurte (Cl 2 - Kr 80, Medellín)",
+        "lat": 6.216023521446688,
+        "lng": -75.60167672528056
+      },
+      {
+        "name": "Br. Belén El Rincón (Kr 79 - Cl 1b, Medellín)",
+        "lat": 6.216241399227821,
+        "lng": -75.60168276313267
+      },
+      {
+        "name": "Br. Rodeo (Kr 79 - Cl 1 Sur, Medellín)",
+        "lat": 6.206632844500121,
+        "lng": -75.59127602338877
+      },
+      {
+        "name": "Urbanización Quintas De Marbella (Kr 79 - Cl 2b Sur, Medellín)",
+        "lat": 6.206814603986995,
+        "lng": -75.59112502347853
+      },
+      {
+        "name": "Parroquia Santa María Mazzarello (Kr 79 - Cl 3a Sur, Medellín)",
+        "lat": 6.206996363473869,
+        "lng": -75.59097402356828
+      },
+      {
+        "name": "Urbanización Reserva De San Nicolás (Kr 79 - Cl 6 Sur, Medellín)",
+        "lat": 6.207178122960743,
+        "lng": -75.59082302365803
+      },
+      {
+        "name": "Conjunto Residencial Remanso Del Rodeo (Cl 6 Sur - Kr 79c, Medellín)",
+        "lat": 6.2073598824476175,
+        "lng": -75.5906720237478
+      },
+      {
+        "name": "Br. La Capilla (Cl 6 Sur - Kr 80, Medellín)",
+        "lat": 6.207318776244833,
+        "lng": -75.5906621617999
+      },
+      {
+        "name": "Br. La Capilla (Cl 6 Sur - Kr 80b, Medellín)",
+        "lat": 6.207277670042048,
+        "lng": -75.590652299852
+      },
+      {
+        "name": "Br. La Capilla (Cl 6 Sur - Kr 83, Medellín)",
+        "lat": 6.207236563839263,
+        "lng": -75.5906424379041
+      },
+      {
+        "name": "Br. Bartolomé (Cl 5 Sur - Kr 84, Medellín)",
+        "lat": 6.2071954576364785,
+        "lng": -75.59063257595619
+      },
+      {
+        "name": "Acueducto Manzanillo (Vía Manzanillo, Medellín)",
+        "lat": 6.207154351433694,
+        "lng": -75.59062271400829
+      },
+      {
+        "name": "Br. La Hondonada (Vía Manzanillo, Medellín)",
+        "lat": 6.207113245230909,
+        "lng": -75.59061285206039
+      },
+      {
+        "name": "Vereda Manzanillo (Vía Manzanillo, Medellín)",
+        "lat": 6.207072139028124,
+        "lng": -75.59060299011249
+      },
+      {
+        "name": "Finca La Marina (Vía Manzanillo, Medellín)",
+        "lat": 6.2070310328253395,
+        "lng": -75.59059312816458
+      },
+      {
+        "name": "Acueducto Manzanillo (Vía Manzanillo, Medellín)",
+        "lat": 6.206989926622555,
+        "lng": -75.59058326621668
+      },
+      {
+        "name": "Br. Bartolomé (Cl 5 Sur - Kr 84, Medellín)",
+        "lat": 6.20694882041977,
+        "lng": -75.59057340426878
+      },
+      {
+        "name": "Br. La Capilla (Cl 6 Sur - Kr 83, Medellín)",
+        "lat": 6.206907714216985,
+        "lng": -75.5905635423209
+      },
+      {
+        "name": "Br. La Capilla (Cl 6 Sur - Kr 80b, Medellín)",
+        "lat": 6.2068666080142005,
+        "lng": -75.59055368037299
+      },
+      {
+        "name": "Br. La Capilla (Cl 6 Sur - Kr 80, Medellín)",
+        "lat": 6.206825501811416,
+        "lng": -75.59054381842509
+      },
+      {
+        "name": "Conjunto Residencial Remanso Del Rodeo (Cl 6 Sur - Kr 79c, Medellín)",
+        "lat": 6.206784395608631,
+        "lng": -75.5905339564772
+      },
+      {
+        "name": "Urbanización Reserva De San Nicolás (Kr 79 - Cl 6 Sur, Medellín)",
+        "lat": 6.206907977670124,
+        "lng": -75.59100095999895
+      },
+      {
+        "name": "Ciudadela El Rodeo (Kr 79 - Cl 3a Sur, Medellín)",
+        "lat": 6.2070315597316155,
+        "lng": -75.5914679635207
+      },
+      {
+        "name": "Urbanización Camino Del Rodeo (Kr 79 - Cl 2b Sur, Medellín)",
+        "lat": 6.206911367405862,
+        "lng": -75.59138164657392
+      },
+      {
+        "name": "Urbanizacion Bosques Del Rodeo (Kr 79 - Cl 1 Sur, Medellín)",
+        "lat": 6.207419319106432,
+        "lng": -75.5914950026328
+      },
+      {
+        "name": "Br. Belén El Rincón (Kr 79 - Cl 1b, Medellín)",
+        "lat": 6.215928475562336,
+        "lng": -75.60165495089227
+      },
+      {
+        "name": "Escuela Antonio Ricaurte (Cl 2 - Kr 80, Medellín)",
+        "lat": 6.215809109358622,
+        "lng": -75.6017525077387
+      },
+      {
+        "name": "Br. El Ñeque (Kr 81a - Cl 1 Sur, Medellín)",
+        "lat": 6.215689743154908,
+        "lng": -75.60185006458514
+      },
+      {
+        "name": "Br. Belén El Rincón (Cl 2b - Kr 81a, Medellín)",
+        "lat": 6.2155703769511925,
+        "lng": -75.60194762143156
+      },
+      {
+        "name": "Br. Belén El Rincón (Kr 79 - Cl 2b, Medellín)",
+        "lat": 6.21647634665976,
+        "lng": -75.6020141309458
+      },
+      {
+        "name": "Br. Belén El Rincón (Kr 78b - Cl 3, Medellín)",
+        "lat": 6.215503233614035,
+        "lng": -75.60178870108228
+      },
+      {
+        "name": "Br. Belén El Rincón (Cl 3c - Kr 78, Medellín)",
+        "lat": 6.215766786092209,
+        "lng": -75.60169365260181
+      },
+      {
+        "name": "Br. La Mota (Kr 76 - Cl 5, Medellín)",
+        "lat": 6.211528197115795,
+        "lng": -75.59405292597638
+      },
+      {
+        "name": "Centro Comercial Mall Gran Vía (Kr 76 - Av 80, Medellín)",
+        "lat": 6.215727339783413,
+        "lng": -75.5948962070079
+      },
+      {
+        "name": "Br. Las Playas (Kr 76 - Cl 10, Medellín)",
+        "lat": 6.219926482451031,
+        "lng": -75.59573948803943
+      },
+      {
+        "name": "Colegio De La Inmaculada (Kr 76 - Cl 13, Medellín)",
+        "lat": 6.224125625118649,
+        "lng": -75.59658276907095
+      },
+      {
+        "name": "Parque Biblioteca Belén (Kr 76 - Cl 19, Medellín)",
+        "lat": 6.228324767786266,
+        "lng": -75.59742605010246
+      },
+      {
+        "name": "Br. San Bernardo (Kr 76 - Cl 21, Medellín)",
+        "lat": 6.228261405177496,
+        "lng": -75.5971818413774
+      },
+      {
+        "name": "Edificio San Miguel (Kr 76 - Cl 27, Medellín)",
+        "lat": 6.228198042568725,
+        "lng": -75.59693763265236
+      },
+      {
+        "name": "Estación Parque Belén (Kr 76 - Cl 30, Medellín)",
+        "lat": 6.228134679959955,
+        "lng": -75.59669342392732
+      }
+    ]
+  },
+  {
+    "id": "C3-003P",
+    "name": "Ruta Integrada C3-003P",
+    "stops": [
+      {
+        "name": "Estación Parque Belén (Kr 76 - Cl 30, Medellín)",
+        "lat": 6.22801175581618,
+        "lng": -75.59674692445356
+      },
+      {
+        "name": "Quebrada Chocho (Kr 76 - Cl 27, Medellín)",
+        "lat": 6.228035234598565,
+        "lng": -75.5967946343066
+      },
+      {
+        "name": "Br. San Bernardo (Kr 76 - Cl 20a, Medellín)",
+        "lat": 6.22805871338095,
+        "lng": -75.59684234415965
+      },
+      {
+        "name": "Parque Biblioteca Belén (Kr 76 - Cl 19, Medellín)",
+        "lat": 6.228082192163335,
+        "lng": -75.59689005401269
+      },
+      {
+        "name": "Colegio De La Inmaculada (Kr 76 - Cl 13, Medellín)",
+        "lat": 6.226078625057545,
+        "lng": -75.59767671140267
+      },
+      {
+        "name": "Edificio Panorama (Kr 76 - Cl 10, Medellín)",
+        "lat": 6.2240750579517545,
+        "lng": -75.59846336879265
+      },
+      {
+        "name": "Unidad Residencial Sorrento II (Kr 76 - Av 80, Medellín)",
+        "lat": 6.2220714908459644,
+        "lng": -75.59925002618263
+      },
+      {
+        "name": "Unidad Residencial La Guaira (Kr 76 - Cl 5, Medellín)",
+        "lat": 6.220067923740174,
+        "lng": -75.60003668357263
+      },
+      {
+        "name": "Unidad Residencial Mediterráneo (Cl 3c - Kr 78, Medellín)",
+        "lat": 6.218064356634384,
+        "lng": -75.60082334096262
+      },
+      {
+        "name": "Br. Belén El Rincón (Kr 78b - Cl 3, Medellín)",
+        "lat": 6.216060789528594,
+        "lng": -75.6016099983526
+      },
+      {
+        "name": "Parroquia San Bartolomé (Kr 79 - Cl 2b, Medellín)",
+        "lat": 6.216244769694337,
+        "lng": -75.60167335529674
+      },
+      {
+        "name": "Br. Belén El Rincón (Cl 2b - Kr 81a, Medellín)",
+        "lat": 6.21642874986008,
+        "lng": -75.60173671224088
+      },
+      {
+        "name": "Urbanización Nueva York (Cl 2b - Kr 81b, Medellín)",
+        "lat": 6.2164050684386325,
+        "lng": -75.6017324378321
+      },
+      {
+        "name": "Urbanización Río De Janeiro (Cl 2b - Kr 84, Medellín)",
+        "lat": 6.216381387017185,
+        "lng": -75.60172816342332
+      },
+      {
+        "name": "Urbanización Estambul (Cl 2b - Kr 84f, Medellín)",
+        "lat": 6.216357705595737,
+        "lng": -75.60172388901454
+      },
+      {
+        "name": "Urbanización Aura (Cl 2b - Kr 81, Medellín)",
+        "lat": 6.216334024174289,
+        "lng": -75.60171961460576
+      },
+      {
+        "name": "Acueducto Manzanillo (Cl 5a Sur - Kr 81, Medellín)",
+        "lat": 6.216310342752841,
+        "lng": -75.60171534019698
+      },
+      {
+        "name": "Vereda Manzanillo (Vía El Salado - Altavista, Medellín)",
+        "lat": 6.216286661331393,
+        "lng": -75.6017110657882
+      },
+      {
+        "name": "Vereda Manzanillo (Vía El Salado - Altavista, Medellín)",
+        "lat": 6.216262979909946,
+        "lng": -75.60170679137941
+      },
+      {
+        "name": "Vereda El Jardín (Vía El Salado - Altavista, Medellín)",
+        "lat": 6.216239298488498,
+        "lng": -75.60170251697063
+      },
+      {
+        "name": "Vereda El Jardín (Vía El Salado - Altavista, Medellín)",
+        "lat": 6.21621561706705,
+        "lng": -75.60169824256185
+      },
+      {
+        "name": "Vereda El Jardín (Vía El Salado - Altavista, Medellín)",
+        "lat": 6.216191935645602,
+        "lng": -75.60169396815307
+      },
+      {
+        "name": "Vereda El Jardín (Vía El Salado - Altavista, Medellín)",
+        "lat": 6.216168254224154,
+        "lng": -75.60168969374429
+      },
+      {
+        "name": "Aula Ambiental Manzanillo (Vía El Salado - Altavista, Medellín)",
+        "lat": 6.2161445728027065,
+        "lng": -75.60168541933551
+      },
+      {
+        "name": "Verda La Piscina (Vía El Salado - Altavista, Medellín)",
+        "lat": 6.216120891381259,
+        "lng": -75.60168114492673
+      },
+      {
+        "name": "Vereda El Jardín (Vía El Salado - Altavista, Medellín)",
+        "lat": 6.216097209959811,
+        "lng": -75.60167687051795
+      },
+      {
+        "name": "Vereda El Jardín (Vía El Salado - Altavista, Medellín)",
+        "lat": 6.216073528538363,
+        "lng": -75.60167259610917
+      },
+      {
+        "name": "Vereda El Jardín (Vía El Salado - Altavista, Medellín)",
+        "lat": 6.216049847116915,
+        "lng": -75.60166832170039
+      },
+      {
+        "name": "Vereda El Jardín (Vía El Salado - Altavista, Medellín)",
+        "lat": 6.216026165695467,
+        "lng": -75.6016640472916
+      },
+      {
+        "name": "Vereda Manzanillo (Vía El Salado - Altavista, Medellín)",
+        "lat": 6.21600248427402,
+        "lng": -75.60165977288281
+      },
+      {
+        "name": "Vereda Manzanillo (Vía El Salado - Altavista, Medellín)",
+        "lat": 6.215978802852572,
+        "lng": -75.60165549847403
+      },
+      {
+        "name": "Acueducto Manzanillo (Vía Manzanillo, Medellín)",
+        "lat": 6.215955121431124,
+        "lng": -75.60165122406525
+      },
+      {
+        "name": "Unidad Campestre Al Parque (Cl 2b - Kr 81, Medellín)",
+        "lat": 6.215931440009676,
+        "lng": -75.60164694965646
+      },
+      {
+        "name": "Urbanización Camino Del Parque (Cl 2b - Kr 84f, Medellín)",
+        "lat": 6.215907758588228,
+        "lng": -75.60164267524766
+      },
+      {
+        "name": "Br. Villa Verde (Cl 2b - Kr 84, Medellín)",
+        "lat": 6.2158840771667805,
+        "lng": -75.60163840083888
+      },
+      {
+        "name": "Urbanización Nueva York (Cl 2b - Kr 81b, Medellín)",
+        "lat": 6.215860395745333,
+        "lng": -75.6016341264301
+      },
+      {
+        "name": "Br. Belén El Rincón (Cl 2b - Kr 81a, Medellín)",
+        "lat": 6.215836714323884,
+        "lng": -75.6016298520213
+      },
+      {
+        "name": "Br. Belén El Rincón (Kr 79 - Cl 2b, Medellín)",
+        "lat": 6.216302733811345,
+        "lng": -75.60224569591011
+      },
+      {
+        "name": "Br. Belén El Rincón (Kr 78b - Cl 3, Medellín)",
+        "lat": 6.216264123238609,
+        "lng": -75.60176858184035
+      },
+      {
+        "name": "Br. Belén El Rincón (Cl 3c - Kr 78, Medellín)",
+        "lat": 6.215570850064281,
+        "lng": -75.6023498926687
+      },
+      {
+        "name": "Br. La Mota (Kr 76 - Cl 5, Medellín)",
+        "lat": 6.211650959500539,
+        "lng": -75.59399464577362
+      },
+      {
+        "name": "Centro Comercial Mall Gran Vía (Kr 76 - Av 80, Medellín)",
+        "lat": 6.215654830717267,
+        "lng": -75.59478181596225
+      },
+      {
+        "name": "Br. Las Playas (Kr 76 - Cl 10, Medellín)",
+        "lat": 6.219658701933995,
+        "lng": -75.59556898615087
+      },
+      {
+        "name": "Colegio De La Inmaculada (Kr 76 - Cl 13, Medellín)",
+        "lat": 6.223662573150724,
+        "lng": -75.59635615633948
+      },
+      {
+        "name": "Parque Biblioteca Belén (Kr 76 - Cl 19, Medellín)",
+        "lat": 6.227666444367452,
+        "lng": -75.59714332652811
+      },
+      {
+        "name": "Br. San Bernardo (Kr 76 - Cl 21, Medellín)",
+        "lat": 6.227685222045153,
+        "lng": -75.59716811223652
+      },
+      {
+        "name": "Edificio San Miguel (Kr 76 - Cl 27, Medellín)",
+        "lat": 6.227703999722854,
+        "lng": -75.59719289794492
+      },
+      {
+        "name": "Estación Parque Belén (Kr 76 - Cl 30, Medellín)",
+        "lat": 6.227722777400554,
+        "lng": -75.59721768365331
+      }
+    ]
+  },
+  {
+    "id": "C3-003RA",
+    "name": "Ruta Integrada C3-003RA",
+    "stops": [
+      {
+        "name": "Estación Parque Belén (Kr 76 - Cl 30, Medellín)",
+        "lat": 6.228454936566393,
+        "lng": -75.59704189589179
+      },
+      {
+        "name": "Quebrada Chocho (Kr 76 - Cl 27, Medellín)",
+        "lat": 6.228154297256073,
+        "lng": -75.59695228062729
+      },
+      {
+        "name": "Br. San Bernardo (Kr 76 - Cl 20a, Medellín)",
+        "lat": 6.227853657945753,
+        "lng": -75.5968626653628
+      },
+      {
+        "name": "Parque Biblioteca Belén (Kr 76 - Cl 19, Medellín)",
+        "lat": 6.227553018635433,
+        "lng": -75.5967730500983
+      },
+      {
+        "name": "Colegio De La Inmaculada (Kr 76 - Cl 13, Medellín)",
+        "lat": 6.217509599197072,
+        "lng": -75.59366586592782
+      },
+      {
+        "name": "Br. Rodeo (Kr 79 - Cl 1 Sur, Medellín)",
+        "lat": 6.20746617975871,
+        "lng": -75.59055868175732
+      },
+      {
+        "name": "Urbanización Quintas De Marbella (Kr 79 - Cl 2b Sur, Medellín)",
+        "lat": 6.207278725592813,
+        "lng": -75.59060720805242
+      },
+      {
+        "name": "Parroquia Santa María Mazzarello (Kr 79 - Cl 3a Sur, Medellín)",
+        "lat": 6.207091271426916,
+        "lng": -75.59065573434752
+      },
+      {
+        "name": "Urbanización Reserva De San Nicolás (Kr 79 - Cl 6 Sur, Medellín)",
+        "lat": 6.2069038172610185,
+        "lng": -75.59070426064261
+      },
+      {
+        "name": "Urbanización Rodeo De Santa Ana (Kr 79c - Cl 6a Sur, Medellín)",
+        "lat": 6.206716363095122,
+        "lng": -75.59075278693771
+      },
+      {
+        "name": "Urbanización Rodeo De San Simón (Kr 79c - Cl 9 Sur, Medellín)",
+        "lat": 6.206541656078079,
+        "lng": -75.59083475290254
+      },
+      {
+        "name": "Urbanización Rodeo De Santa María (Cl 9 Sur - Kr 79c, Medellín)",
+        "lat": 6.206626560747861,
+        "lng": -75.59066956384538
+      },
+      {
+        "name": "Urbanización Rodeo Alto (Cl 9a Sur - Kr 82, Medellín)",
+        "lat": 6.206648594716089,
+        "lng": -75.59090666122479
+      },
+      {
+        "name": "Urbanización Rodeo De Santa María (Cl 9 Sur - Kr 79c, Medellín)",
+        "lat": 6.207353463403631,
+        "lng": -75.59098709628996
+      },
+      {
+        "name": "Urbanización Rodeo De San Simón (Kr 79c - Cl 9 Sur, Medellín)",
+        "lat": 6.206859941484909,
+        "lng": -75.59094499524613
+      },
+      {
+        "name": "Urbanización Rodeo De Santa Ana (Kr 79c - Cl 6a Sur, Medellín)",
+        "lat": 6.207440790431061,
+        "lng": -75.59053765862778
+      },
+      {
+        "name": "Urbanización Reserva De San Nicolás (Kr 79 - Cl 6 Sur, Medellín)",
+        "lat": 6.207052392919161,
+        "lng": -75.59072431326982
+      },
+      {
+        "name": "Ciudadela El Rodeo (Kr 79 - Cl 3a Sur, Medellín)",
+        "lat": 6.20666399540726,
+        "lng": -75.59091096791185
+      },
+      {
+        "name": "Urbanización Camino Del Rodeo (Kr 79 - Cl 2b Sur, Medellín)",
+        "lat": 6.207454369103246,
+        "lng": -75.59128664573095
+      },
+      {
+        "name": "Urbanizacion Bosques Del Rodeo (Kr 79 - Cl 1 Sur, Medellín)",
+        "lat": 6.207291031126076,
+        "lng": -75.5914808232817
+      },
+      {
+        "name": "Br. Las Playas (Kr 76 - Cl 10, Medellín)",
+        "lat": 6.214048294740278,
+        "lng": -75.5933548602109
+      },
+      {
+        "name": "Colegio De La Inmaculada (Kr 76 - Cl 13, Medellín)",
+        "lat": 6.220805558354481,
+        "lng": -75.59522889714009
+      },
+      {
+        "name": "Parque Biblioteca Belén (Kr 76 - Cl 19, Medellín)",
+        "lat": 6.227562821968685,
+        "lng": -75.5971029340693
+      },
+      {
+        "name": "Br. San Bernardo (Kr 76 - Cl 21, Medellín)",
+        "lat": 6.227705001225995,
+        "lng": -75.5970470413598
+      },
+      {
+        "name": "Edificio San Miguel (Kr 76 - Cl 27, Medellín)",
+        "lat": 6.227847180483304,
+        "lng": -75.59699114865029
+      },
+      {
+        "name": "Estación Parque Belén (Kr 76 - Cl 30, Medellín)",
+        "lat": 6.227989359740614,
+        "lng": -75.59693525594079
+      }
+    ]
+  },
+  {
+    "id": "C3-003RLC",
+    "name": "Ruta Integrada C3-003RLC",
+    "stops": [
+      {
+        "name": "Estación Parque Belén (Kr 76 - Cl 30, Medellín)",
+        "lat": 6.228387773878205,
+        "lng": -75.59693669332383
+      },
+      {
+        "name": "Quebrada Chocho (Kr 76 - Cl 27, Medellín)",
+        "lat": 6.228144708016429,
+        "lng": -75.59709225684779
+      },
+      {
+        "name": "Br. San Bernardo (Kr 76 - Cl 20a, Medellín)",
+        "lat": 6.227901642154652,
+        "lng": -75.59724782037175
+      },
+      {
+        "name": "Parque Biblioteca Belén (Kr 76 - Cl 19, Medellín)",
+        "lat": 6.2276585762928764,
+        "lng": -75.59740338389571
+      },
+      {
+        "name": "Colegio De La Inmaculada (Kr 76 - Cl 13, Medellín)",
+        "lat": 6.225774797334554,
+        "lng": -75.59810357309823
+      },
+      {
+        "name": "Edificio Panorama (Kr 76 - Cl 10, Medellín)",
+        "lat": 6.223891018376232,
+        "lng": -75.59880376230075
+      },
+      {
+        "name": "Unidad Residencial Sorrento II (Kr 76 - Av 80, Medellín)",
+        "lat": 6.222007239417909,
+        "lng": -75.59950395150327
+      },
+      {
+        "name": "Unidad Residencial La Guaira (Kr 76 - Cl 5, Medellín)",
+        "lat": 6.220123460459587,
+        "lng": -75.60020414070578
+      },
+      {
+        "name": "Unidad Residencial Mediterráneo (Cl 3c - Kr 78, Medellín)",
+        "lat": 6.218239681501265,
+        "lng": -75.6009043299083
+      },
+      {
+        "name": "Br. Belén El Rincón (Kr 78b - Cl 3, Medellín)",
+        "lat": 6.216355902542942,
+        "lng": -75.60160451911082
+      },
+      {
+        "name": "Parroquia San Bartolomé (Kr 79 - Cl 2b, Medellín)",
+        "lat": 6.216060588920731,
+        "lng": -75.60203522248077
+      },
+      {
+        "name": "Br. Belén El Rincón (Cl 2b - Kr 81a, Medellín)",
+        "lat": 6.215765275298522,
+        "lng": -75.60246592585071
+      },
+      {
+        "name": "Br. El Ñeque (Kr 81a - Cl 1 Sur, Medellín)",
+        "lat": 6.215960896076798,
+        "lng": -75.60238412006915
+      },
+      {
+        "name": "Escuela Antonio Ricaurte (Cl 2 - Kr 80, Medellín)",
+        "lat": 6.216156516855072,
+        "lng": -75.60230231428758
+      },
+      {
+        "name": "Br. Belén El Rincón (Kr 79 - Cl 1b, Medellín)",
+        "lat": 6.216352137633348,
+        "lng": -75.60222050850604
+      },
+      {
+        "name": "Br. Rodeo (Kr 79 - Cl 1 Sur, Medellín)",
+        "lat": 6.207369362623968,
+        "lng": -75.59078889987663
+      },
+      {
+        "name": "Urbanización Quintas De Marbella (Kr 79 - Cl 2b Sur, Medellín)",
+        "lat": 6.207332181924525,
+        "lng": -75.59101566616181
+      },
+      {
+        "name": "Urbanización Vegas Del Rodeo (Cl 2b Sur - Kr 79, Medellín)",
+        "lat": 6.2072950012250825,
+        "lng": -75.59124243244698
+      },
+      {
+        "name": "Br. La Mota (Cl 2b Sur - Kr 75, Medellín)",
+        "lat": 6.212427296209632,
+        "lng": -75.59389783594446
+      },
+      {
+        "name": "Urbanización Los Cabos (Kr 75 - Cl 2a Sur, Medellín)",
+        "lat": 6.212408069609628,
+        "lng": -75.59380576372715
+      },
+      {
+        "name": "Br. La Mota (Kr 75 - Cl 2b Sur, Medellín)",
+        "lat": 6.212388843009625,
+        "lng": -75.59371369150983
+      },
+      {
+        "name": "Urbanización Villas Del Rodeo (Cl 2b Sur - Kr 75, Medellín)",
+        "lat": 6.207223855683373,
+        "lng": -75.59069450047696
+      },
+      {
+        "name": "Urbanización Vegas Del Rodeo (Cl 2b Sur - Kr 79, Medellín)",
+        "lat": 6.207347178064103,
+        "lng": -75.59147530805295
+      },
+      {
+        "name": "Urbanización Camino Del Rodeo (Kr 79 - Cl 2b Sur, Medellín)",
+        "lat": 6.20712182441429,
+        "lng": -75.5912845824145
+      },
+      {
+        "name": "Urbanizacion Bosques Del Rodeo (Kr 79 - Cl 1 Sur, Medellín)",
+        "lat": 6.20749183241552,
+        "lng": -75.59056633494524
+      },
+      {
+        "name": "Br. Belén El Rincón (Kr 79 - Cl 1b, Medellín)",
+        "lat": 6.215997289589436,
+        "lng": -75.60183567509318
+      },
+      {
+        "name": "Escuela Antonio Ricaurte (Cl 2 - Kr 80, Medellín)",
+        "lat": 6.2159746659826425,
+        "lng": -75.60192670154191
+      },
+      {
+        "name": "Br. El Ñeque (Kr 81a - Cl 1 Sur, Medellín)",
+        "lat": 6.21595204237585,
+        "lng": -75.60201772799064
+      },
+      {
+        "name": "Br. Belén El Rincón (Cl 2b - Kr 81a, Medellín)",
+        "lat": 6.215929418769057,
+        "lng": -75.60210875443936
+      },
+      {
+        "name": "Br. Belén El Rincón (Kr 79 - Cl 2b, Medellín)",
+        "lat": 6.2156928304697425,
+        "lng": -75.60201803789377
+      },
+      {
+        "name": "Br. Belén El Rincón (Kr 78b - Cl 3, Medellín)",
+        "lat": 6.215733445101417,
+        "lng": -75.60163868694154
+      },
+      {
+        "name": "Br. Belén El Rincón (Cl 3c - Kr 78, Medellín)",
+        "lat": 6.216167472994603,
+        "lng": -75.6017765166985
+      },
+      {
+        "name": "Br. La Mota (Kr 76 - Cl 5, Medellín)",
+        "lat": 6.211864440716167,
+        "lng": -75.59422401396797
+      },
+      {
+        "name": "Centro Comercial Mall Gran Vía (Kr 76 - Av 80, Medellín)",
+        "lat": 6.21593186136028,
+        "lng": -75.5948378889822
+      },
+      {
+        "name": "Br. Las Playas (Kr 76 - Cl 10, Medellín)",
+        "lat": 6.219999282004395,
+        "lng": -75.59545176399642
+      },
+      {
+        "name": "Colegio De La Inmaculada (Kr 76 - Cl 13, Medellín)",
+        "lat": 6.224066702648509,
+        "lng": -75.59606563901065
+      },
+      {
+        "name": "Parque Biblioteca Belén (Kr 76 - Cl 19, Medellín)",
+        "lat": 6.228134123292622,
+        "lng": -75.59667951402488
+      },
+      {
+        "name": "Br. San Bernardo (Kr 76 - Cl 21, Medellín)",
+        "lat": 6.227963120893081,
+        "lng": -75.59682039987688
+      },
+      {
+        "name": "Edificio San Miguel (Kr 76 - Cl 27, Medellín)",
+        "lat": 6.227792118493541,
+        "lng": -75.59696128572887
+      },
+      {
+        "name": "Estación Parque Belén (Kr 76 - Cl 30, Medellín)",
+        "lat": 6.227621116094,
+        "lng": -75.59710217158084
+      }
+    ]
+  },
+  {
+    "id": "C3-003RV",
+    "name": "Ruta Integrada C3-003RV",
+    "stops": [
+      {
+        "name": "Estación Parque Belén (Kr 76 - Cl 30, Medellín)",
+        "lat": 6.227840329072333,
+        "lng": -75.59696796134348
+      },
+      {
+        "name": "Más horarios: 15:00, 15:30",
+        "lat": 6.228002173592952,
+        "lng": -75.59707043094599
+      },
+      {
+        "name": "Quebrada Chocho (Kr 76 - Cl 27, Medellín)",
+        "lat": 6.228164018113571,
+        "lng": -75.59717290054851
+      },
+      {
+        "name": "Br. San Bernardo (Kr 76 - Cl 20a, Medellín)",
+        "lat": 6.22832586263419,
+        "lng": -75.59727537015104
+      },
+      {
+        "name": "Parque Biblioteca Belén (Kr 76 - Cl 19, Medellín)",
+        "lat": 6.228487707154808,
+        "lng": -75.59737783975355
+      },
+      {
+        "name": "Colegio De La Inmaculada (Kr 76 - Cl 13, Medellín)",
+        "lat": 6.217823518778966,
+        "lng": -75.59399074597687
+      },
+      {
+        "name": "Br. Rodeo (Kr 79 - Cl 1 Sur, Medellín)",
+        "lat": 6.207159330403123,
+        "lng": -75.5906036522002
+      },
+      {
+        "name": "Urbanización Quintas De Marbella (Kr 79 - Cl 2b Sur, Medellín)",
+        "lat": 6.207047472273895,
+        "lng": -75.59061003013989
+      },
+      {
+        "name": "Parroquia Santa María Mazzarello (Kr 79 - Cl 3a Sur, Medellín)",
+        "lat": 6.206935614144666,
+        "lng": -75.59061640807955
+      },
+      {
+        "name": "Urbanización Reserva De San Nicolás (Kr 79 - Cl 6 Sur, Medellín)",
+        "lat": 6.206823756015439,
+        "lng": -75.59062278601922
+      },
+      {
+        "name": "Urbanización Rodeo De Santa Ana (Kr 79c - Cl 6a Sur, Medellín)",
+        "lat": 6.20671189788621,
+        "lng": -75.59062916395891
+      },
+      {
+        "name": "Urbanización Rodeo De San Simón (Kr 79c - Cl 9 Sur, Medellín)",
+        "lat": 6.207086709677655,
+        "lng": -75.59073748331707
+      },
+      {
+        "name": "Urbanización Rayo De Sol (Cl 9 Sur - Kr 78c, Medellín)",
+        "lat": 6.207137763344729,
+        "lng": -75.59082245812175
+      },
+      {
+        "name": "Urbanización Sol Del Rodeo (Cl 9b Sur - Kr 79c, Medellín)",
+        "lat": 6.207188817011804,
+        "lng": -75.59090743292643
+      },
+      {
+        "name": "Urbanización Rodeo Verde (Cl 9b Sur - Kr 79a, Medellín)",
+        "lat": 6.207264128672181,
+        "lng": -75.59126486928382
+      },
+      {
+        "name": "Urbanización Sol Del Rodeo (Cl 9b Sur - Kr 79c, Medellín)",
+        "lat": 6.207244058997295,
+        "lng": -75.5913307203459
+      },
+      {
+        "name": "Urbanización Rayo De Sol (Cl 9 Sur - Kr 78c, Medellín)",
+        "lat": 6.206923614312222,
+        "lng": -75.59102206572109
+      },
+      {
+        "name": "Urbanización Rodeo De San Simón (Kr 79c - Cl 9 Sur, Medellín)",
+        "lat": 6.20660316962715,
+        "lng": -75.5907134110963
+      },
+      {
+        "name": "Urbanización Rodeo De Santa Ana (Kr 79c - Cl 6a Sur, Medellín)",
+        "lat": 6.206729570616942,
+        "lng": -75.59062771425543
+      },
+      {
+        "name": "Urbanización Reserva De San Nicolás (Kr 79 - Cl 6 Sur, Medellín)",
+        "lat": 6.2067039505061965,
+        "lng": -75.59094285672998
+      },
+      {
+        "name": "Ciudadela El Rodeo (Kr 79 - Cl 3a Sur, Medellín)",
+        "lat": 6.206678330395451,
+        "lng": -75.59125799920452
+      },
+      {
+        "name": "Urbanización Camino Del Rodeo (Kr 79 - Cl 2b Sur, Medellín)",
+        "lat": 6.207196653203113,
+        "lng": -75.59101823270835
+      },
+      {
+        "name": "Urbanizacion Bosques Del Rodeo (Kr 79 - Cl 1 Sur, Medellín)",
+        "lat": 6.207326646221157,
+        "lng": -75.59070915336778
+      },
+      {
+        "name": "Br. Las Playas (Kr 76 - Cl 10, Medellín)",
+        "lat": 6.214235598635174,
+        "lng": -75.59273505585534
+      },
+      {
+        "name": "Colegio De La Inmaculada (Kr 76 - Cl 13, Medellín)",
+        "lat": 6.221144551049191,
+        "lng": -75.5947609583429
+      },
+      {
+        "name": "Parque Biblioteca Belén (Kr 76 - Cl 19, Medellín)",
+        "lat": 6.228053503463207,
+        "lng": -75.59678686083045
+      },
+      {
+        "name": "Br. San Bernardo (Kr 76 - Cl 21, Medellín)",
+        "lat": 6.228080368787386,
+        "lng": -75.59678919186152
+      },
+      {
+        "name": "Edificio San Miguel (Kr 76 - Cl 27, Medellín)",
+        "lat": 6.2281072341115635,
+        "lng": -75.5967915228926
+      },
+      {
+        "name": "Estación Parque Belén (Kr 76 - Cl 30, Medellín)",
+        "lat": 6.228134099435742,
+        "lng": -75.59679385392367
+      }
+    ]
+  },
+  {
+    "id": "C3-004B",
+    "name": "Ruta Integrada C3-004B",
+    "stops": [
+      {
+        "name": "Estación Los Alpes (Kr 83 - Cl 30, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. Altavista Baja (Kr 83 - Cl 21, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. Aliadas (Cl 20 - Kr 84f, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. Aliadas (Kr 88 - Cl 20, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. Buenavista (Cl 19b - Kr 89, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. Buenavista (Cl 18 - Kr 89, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Cancha Los Chivos (Cl 18 - Kr 90, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. Mano De Dios (Cl 18 - Kr 92b, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. Mano De Dios (Cl 18 - Kr 94, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. El Jardín (Cl 18 - Kr 95, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. La Playa (Cl 18 - Kr 97, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. La Esperanza (Cl 18 - Kr 100, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Quebrada Chocho (Cl 18 - Kr 102, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Biblioteca Pública Altavista (Cl 18 - Kr 103, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Colegio Débora Arango (Cl 18 - Kr 104, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Casa De Gobierno Altavista (Cl 18 - Kr 106, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. Manzanares (Cl 18 - Kr 108, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. Manzanares (Cl 18 - Kr 110, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. Sabor Latino (Cl 18 - Kr 110a, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Subestación De Policia Altavista (Cl 17 - Kr 112, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. Altavista (Cl 18 - Kr 113, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Vereda Buga (Kr 113 - Cl 18, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Vereda Buga (Vía Buga, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Vereda Buga (Kr 113 - Cl 18, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. Altavista (Cl 18 - Kr 113, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Subestación De Policia Altavista (Cl 17 - Kr 112, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. Sabor Latino (Cl 18 - Kr 110a, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. Manzanares (Cl 18 - Kr 110, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. Manzanares (Cl 18 - Kr 106c, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Casa De Gobierno Altavista (Cl 18 - Kr 106, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Colegio Débora Arango (Cl 18 - Kr 104, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Biblioteca Pública Altavista (Cl 18 - Kr 103, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Quebrada Chocho (Cl 18 - Kr 102, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. La Esperanza (Cl 18 - Kr 100, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. La Playa (Cl 18 - Kr 97, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. El Jardín (Cl 18 - Kr 95, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. Mano De Dios (Cl 18 - Kr 94, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. Mano De Dios (Cl 18 - Kr 92b, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Cancha Los Chivos (Cl 18 - Kr 90, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. Buenavista (Cl 18 - Kr 89, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. Buenavista (Cl 19b - Kr 89, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. Aliadas (Kr 88 - Cl 20, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Cancha Buenavista (Kr 84f - Cl 18, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. La Gloria Belén (Cl 19 - Kr 82b, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Parroquia María Madre Admirable (Cl 19b - Kr 82a, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Br. Altavista Baja (Kr 82a - Cl 21, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Edificio Bora Bora (Kr 82a - Cl 27a, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      },
+      {
+        "name": "Estación Los Alpes (Kr 83 - Cl 30, Medellín)",
+        "lat": 6.227904328756535,
+        "lng": -75.59685064930213
+      }
+    ]
+  },
+  {
+    "id": "C3-004P",
+    "name": "Ruta Integrada C3-004P",
+    "stops": [
+      {
+        "name": "Estación Los Alpes (Kr 83 - Cl 30, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. Altavista Baja (Kr 83 - Cl 21, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. Aliadas (Cl 20 - Kr 84f, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. Aliadas (Kr 88 - Cl 20, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. Buenavista (Cl 19b - Kr 89, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. Buenavista (Cl 18 - Kr 89, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Cancha Los Chivos (Cl 18 - Kr 90, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. Mano De Dios (Cl 18 - Kr 92b, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. Mano De Dios (Cl 18 - Kr 94, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. El Jardín (Cl 18 - Kr 95, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. La Playa (Cl 18 - Kr 97, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. La Esperanza (Cl 18 - Kr 100, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Quebrada Chocho (Cl 18 - Kr 102, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Biblioteca Pública Altavista (Cl 18 - Kr 103, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Colegio Débora Arango (Cl 18 - Kr 104, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Casa De Gobierno Altavista (Cl 18 - Kr 106, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. Manzanares (Cl 18 - Kr 108, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. Manzanares (Cl 18 - Kr 110, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. Sabor Latino (Cl 18 - Kr 110a, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Subestación De Policia Altavista (Cl 17 - Kr 112, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Colegio Cedepro (Kr 112 - Cl 13, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. La Perla (Kr 112 - Cl 12, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Colegio Cedepro (Kr 112 - Cl 13, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. La Perla (Kr 112 - Cl 14, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Subestación De Policia Altavista (Cl 17 - Kr 112, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. Sabor Latino (Cl 18 - Kr 110a, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. Manzanares (Cl 18 - Kr 110, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. Manzanares (Cl 18 - Kr 106c, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Casa De Gobierno Altavista (Cl 18 - Kr 106, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Colegio Débora Arango (Cl 18 - Kr 104, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Biblioteca Pública Altavista (Cl 18 - Kr 103, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Quebrada Chocho (Cl 18 - Kr 102, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. La Esperanza (Cl 18 - Kr 100, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. La Playa (Cl 18 - Kr 97, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. El Jardín (Cl 18 - Kr 95, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. Mano De Dios (Cl 18 - Kr 94, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. Mano De Dios (Cl 18 - Kr 92b, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Cancha Los Chivos (Cl 18 - Kr 90, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. Buenavista (Cl 18 - Kr 89, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. Buenavista (Cl 19b - Kr 89, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. Aliadas (Kr 88 - Cl 20, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Cancha Buenavista (Kr 84f - Cl 18, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. La Gloria Belén (Cl 19 - Kr 82b, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Parroquia María Madre Admirable (Cl 19b - Kr 82a, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Br. Altavista Baja (Kr 82a - Cl 21, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Edificio Bora Bora (Kr 82a - Cl 27a, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      },
+      {
+        "name": "Estación Los Alpes (Kr 83 - Cl 30, Medellín)",
+        "lat": 6.227511555166589,
+        "lng": -75.59658256026447
+      }
+    ]
+  },
+  {
+    "id": "C3-005",
+    "name": "Ruta Integrada C3-005",
+    "stops": [
+      {
+        "name": "Universidad De Medellín (Kr 87 - Cl 30b, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Br. Las Mercedes (Cl 32a - Kr 15, Medellín)",
+        "lat": 6.263555616510587,
+        "lng": -75.5702590505362
+      },
+      {
+        "name": "Colegio Horacio Muñoz Suescún (Cl 32 - Kr 87a, Medellín)",
+        "lat": 6.25767847787667,
+        "lng": -75.57469010530852
+      },
+      {
+        "name": "Urbanización Cristales (Kr 88 - Cl 31e, Medellín)",
+        "lat": 6.251801339242753,
+        "lng": -75.57912116008085
+      },
+      {
+        "name": "Parroquia Nuestra Señora De La Anunciación (Cl 31c - Kr 89a, Medellín)",
+        "lat": 6.245924200608837,
+        "lng": -75.58355221485317
+      },
+      {
+        "name": "Unidad Altos Del Castillo Etapa 2 (Cl 31b - Kr 89e, Medellín)",
+        "lat": 6.240047061974921,
+        "lng": -75.5879832696255
+      },
+      {
+        "name": "Br. Las Violetas (Cl 31b - Kr 100, Medellín)",
+        "lat": 6.234169923341005,
+        "lng": -75.59241432439782
+      },
+      {
+        "name": "Br. Belencito (Cl 31b - Kr 102, Medellín)",
+        "lat": 6.228292784707088,
+        "lng": -75.59684537917015
+      },
+      {
+        "name": "Br. La Isla (Cl 31b - Kr 104, Medellín)",
+        "lat": 6.2298164873158814,
+        "lng": -75.59569658719214
+      },
+      {
+        "name": "Br. La Arenera (Cl 31aa - Kr 106, Medellín)",
+        "lat": 6.2313401899246745,
+        "lng": -75.59454779521413
+      },
+      {
+        "name": "Br. Guanteros (Kr 110 - Cl 30a, Medellín)",
+        "lat": 6.232863892533468,
+        "lng": -75.59339900323612
+      },
+      {
+        "name": "Br. El Rubí (Cl 31a - Kr 110, Medellín)",
+        "lat": 6.234387595142261,
+        "lng": -75.5922502112581
+      },
+      {
+        "name": "Br. La Soberana (Cl 31a - Kr 112, Medellín)",
+        "lat": 6.235911297751054,
+        "lng": -75.5911014192801
+      },
+      {
+        "name": "Br. El Limonar (Vía Aguas Frías, Medellín)",
+        "lat": 6.237435000359847,
+        "lng": -75.58995262730208
+      },
+      {
+        "name": "Br. Los Canos (Vía Aguas Frías, Medellín)",
+        "lat": 6.23895870296864,
+        "lng": -75.58880383532407
+      },
+      {
+        "name": "Br. Los Canos (Vía Aguas Frías, Medellín)",
+        "lat": 6.240482405577433,
+        "lng": -75.58765504334606
+      },
+      {
+        "name": "Estadero Campo Alegre (Vía Aguas Frías, Medellín)",
+        "lat": 6.242006108186226,
+        "lng": -75.58650625136805
+      },
+      {
+        "name": "Br. Los Canos (Vía Aguas Frías, Medellín)",
+        "lat": 6.243529810795019,
+        "lng": -75.58535745939004
+      },
+      {
+        "name": "Br. Los Canos (Vía Aguas Frías, Medellín)",
+        "lat": 6.245053513403812,
+        "lng": -75.58420866741203
+      },
+      {
+        "name": "Br. El Limonar (Vía Aguas Frías, Medellín)",
+        "lat": 6.246577216012605,
+        "lng": -75.58305987543402
+      },
+      {
+        "name": "Br. La Soberana (Cl 31a - Kr 112, Medellín)",
+        "lat": 6.2481009186213985,
+        "lng": -75.581911083456
+      },
+      {
+        "name": "Br. El Rubí (Cl 31a - Kr 110, Medellín)",
+        "lat": 6.249624621230192,
+        "lng": -75.580762291478
+      },
+      {
+        "name": "Br. Guanteros (Kr 110 - Cl 30a, Medellín)",
+        "lat": 6.251148323838985,
+        "lng": -75.57961349949998
+      },
+      {
+        "name": "Br. La Arenera (Kr 106 - Cl 31aa, Medellín)",
+        "lat": 6.252672026447778,
+        "lng": -75.57846470752197
+      },
+      {
+        "name": "Br. La Isla (Cl 31b - Kr 104, Medellín)",
+        "lat": 6.254195729056571,
+        "lng": -75.57731591554396
+      },
+      {
+        "name": "Br. Las Violetas (Cl 31b - Kr 101b, Medellín)",
+        "lat": 6.255719431665364,
+        "lng": -75.57616712356595
+      },
+      {
+        "name": "Br. Las Violetas (Cl 31b - Kr 100, Medellín)",
+        "lat": 6.257243134274157,
+        "lng": -75.57501833158794
+      },
+      {
+        "name": "Ladrillera Las Mercedes (Cl 31b - Kr 89e, Medellín)",
+        "lat": 6.25876683688295,
+        "lng": -75.57386953960993
+      },
+      {
+        "name": "Br. Las Violetas (Cl 31b - Kr 89, Medellín)",
+        "lat": 6.260290539491743,
+        "lng": -75.57272074763192
+      },
+      {
+        "name": "Unidad Altos Del Castillo Etapa 1 (Cl 32 - Kr 87d, Medellín)",
+        "lat": 6.261814242100536,
+        "lng": -75.57157195565391
+      },
+      {
+        "name": "Colegio Horacio Muñoz Suescún (Cl 32 - Kr 87a, Medellín)",
+        "lat": 6.263337944709329,
+        "lng": -75.5704231636759
+      },
+      {
+        "name": "Br. Las Mercedes (Cl 32a - Kr 15, Medellín)",
+        "lat": 6.2648616473181225,
+        "lng": -75.56927437169789
+      },
+      {
+        "name": "Colegio San Roberto Belarmino (Kr 84 - Cl 32a, Medellín)",
+        "lat": 6.266385349926916,
+        "lng": -75.56812557971988
+      },
+      {
+        "name": "Parque Quimbaya (Kr 84 - Cl 31, Medellín)",
+        "lat": 6.26790905253571,
+        "lng": -75.56697678774188
+      },
+      {
+        "name": "Universidad De Medellín (Kr 87 - Cl 30b, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      }
+    ]
+  },
+  {
+    "id": "C3-006",
+    "name": "Ruta Integrada C3-006",
+    "stops": [
+      {
+        "name": "Universidad De Medellín (Kr 87 - Cl 30b, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Más horarios: 15:00, 15:30",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Br. Las Violetas (Kr 87c - Cl 31a, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Br. Las Violetas (Kr 89 - Cl 31, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Br. Las Violetas (Kr 89 - Cl 31b, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Colegio República De Venezuela (Cl 31b - Kr 89d, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Br. Las Violetas (Kr 89b - Cl 30c, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Br. Las Violetas (Cl 30c - Kr 89, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Br. El Morro (Kr 89 - Cl 30a, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Br. El Morro (Cl 30 - Kr 89b, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Br. El Morro (Cl 30 - Kr 88b, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Br. El Morro (Cl 30a - Kr 89, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Br. Las Violetas (Cl 30c - Kr 89, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Br. Las Violetas (Kr 87c - Cl 31a, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Estación Universidad De Medellín (Kr 87 - Cl 30, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Universidad De Medellín (Cl 28 - Kr 87, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Parque Villa Café (Kr 88 - Cl 27, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Urbanización Villa Café (Kr 89d - Cl 27, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Urbanización Villa Café (Cl 28 - Kr 89c, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Urbanización Villa Café (Cl 28 - Kr 89, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Universidad De Medellín (Cl 28 - Kr 87, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Universidad De Medellín (Kr 87 - Cl 30b, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      }
+    ]
+  },
+  {
+    "id": "C3-007",
+    "name": "Ruta Integrada C3-007",
+    "stops": [
+      {
+        "name": "Estación La Palma (Cl 30 - Kr 80a, Medellín)",
+        "lat": 6.23099818361687,
+        "lng": -75.5921563307569
+      },
+      {
+        "name": "Más horarios: 15:00, 15:30",
+        "lat": 6.229629753648655,
+        "lng": -75.59438256764386
+      },
+      {
+        "name": "Metrosalud Belén (Cl 27 - Kr 78a, Medellín)",
+        "lat": 6.22826132368044,
+        "lng": -75.59660880453082
+      },
+      {
+        "name": "Urbanización Tierralta (Cl 21 - Kr 81, Medellín)",
+        "lat": 6.228268802000418,
+        "lng": -75.59662573504504
+      },
+      {
+        "name": "Parroquia María Madre Admirable (Cl 19b - Kr 82a, Medellín)",
+        "lat": 6.228276280320396,
+        "lng": -75.59664266555926
+      },
+      {
+        "name": "Br. Altavista Baja (Cl 19 - Kr 82c, Medellín)",
+        "lat": 6.228283758640375,
+        "lng": -75.59665959607348
+      },
+      {
+        "name": "Br. Aliadas (Kr 83 - Cl 17, Medellín)",
+        "lat": 6.228291236960353,
+        "lng": -75.5966765265877
+      },
+      {
+        "name": "Urbanización Portón De Galicia (Cl 15 - Kr 81b, Medellín)",
+        "lat": 6.2282987152803315,
+        "lng": -75.59669345710192
+      },
+      {
+        "name": "Urbanización Bernalejas (Cl 15 - Kr 81, Medellín)",
+        "lat": 6.22830619360031,
+        "lng": -75.59671038761614
+      },
+      {
+        "name": "Urbanización Cedros De La Colina (Dg 79a - Kr 76, Medellín)",
+        "lat": 6.228313671920288,
+        "lng": -75.59672731813036
+      },
+      {
+        "name": "Unidad Residencial La Guaira (Kr 76 - Cl 5, Medellín)",
+        "lat": 6.228321150240267,
+        "lng": -75.59674424864458
+      },
+      {
+        "name": "Urbanización Vivalto (Cl 5 - Kr 81, Medellín)",
+        "lat": 6.228328628560245,
+        "lng": -75.5967611791588
+      },
+      {
+        "name": "Parroquia Loma Bernal (Kr 83 - Cl 5, Medellín)",
+        "lat": 6.228336106880223,
+        "lng": -75.59677810967302
+      },
+      {
+        "name": "Urbanización La Plaza Living (Cl 3f - Kr 79b, Medellín)",
+        "lat": 6.228343585200202,
+        "lng": -75.59679504018725
+      },
+      {
+        "name": "Urbanización Aviva Affinity (Kr 84f - Cl 3d, Medellín)",
+        "lat": 6.228351063520181,
+        "lng": -75.59681197070147
+      },
+      {
+        "name": "Urbanización Arabella (Kr 84b - Cl 3d, Medellín)",
+        "lat": 6.22835854184016,
+        "lng": -75.59682890121569
+      },
+      {
+        "name": "Parque Loma De Los Bernal (Kr 84b - Cl 4a, Medellín)",
+        "lat": 6.228366020160139,
+        "lng": -75.59684583172991
+      },
+      {
+        "name": "Colegio Padre Manyanet (Cl 8 - Kr 84f, Medellín)",
+        "lat": 6.228373498480117,
+        "lng": -75.59686276224413
+      },
+      {
+        "name": "Urbanización Torres De Valbuena (Cl 8 - Kr 84f, Medellín)",
+        "lat": 6.228380976800096,
+        "lng": -75.59687969275835
+      },
+      {
+        "name": "Urbanización Oasis De Los Bernal (Cl 8 - Kr 84f, Medellín)",
+        "lat": 6.228388455120076,
+        "lng": -75.59689662327257
+      },
+      {
+        "name": "Br. Aliadas (Kr 83a - Cl 9, Medellín)",
+        "lat": 6.228395933440054,
+        "lng": -75.59691355378679
+      },
+      {
+        "name": "Br. Aliadas (Kr 83 - Cl 17, Medellín)",
+        "lat": 6.228403411760032,
+        "lng": -75.59693048430101
+      },
+      {
+        "name": "Br. La Gloria Belén (Cl 19 - Kr 82b, Medellín)",
+        "lat": 6.228410890080012,
+        "lng": -75.59694741481523
+      },
+      {
+        "name": "Parroquia San Francisco Javier (Cl 19b - Kr 81, Medellín)",
+        "lat": 6.229852582067025,
+        "lng": -75.59449560274479
+      },
+      {
+        "name": "Br. La Palma (Av 80 - Cl 26, Medellín)",
+        "lat": 6.231294274054037,
+        "lng": -75.59204379067434
+      },
+      {
+        "name": "Estación La Palma (Cl 30 - Kr 80a, Medellín)",
+        "lat": 6.231149771463956,
+        "lng": -75.5922469797645
+      }
+    ]
+  },
+  {
+    "id": "C3-007A",
+    "name": "Ruta Integrada C3-007A",
+    "stops": [
+      {
+        "name": "Estación La Palma (Cl 30 - Kr 80a, Medellín)",
+        "lat": 6.2310995872616415,
+        "lng": -75.59174183450841
+      },
+      {
+        "name": "Metrosalud Belén (Cl 27 - Kr 78a, Medellín)",
+        "lat": 6.22808514247026,
+        "lng": -75.59650494746425
+      },
+      {
+        "name": "Urbanización Tierralta (Cl 21 - Kr 81, Medellín)",
+        "lat": 6.228054134854932,
+        "lng": -75.5965596290724
+      },
+      {
+        "name": "Parroquia María Madre Admirable (Cl 19b - Kr 82a, Medellín)",
+        "lat": 6.228023127239604,
+        "lng": -75.59661431068055
+      },
+      {
+        "name": "Br. Altavista Baja (Cl 19 - Kr 82c, Medellín)",
+        "lat": 6.227992119624276,
+        "lng": -75.5966689922887
+      },
+      {
+        "name": "Br. Aliadas (Cl 19 - Kr 83d, Medellín)",
+        "lat": 6.227961112008948,
+        "lng": -75.59672367389685
+      },
+      {
+        "name": "Seminario Padre Manyanet (Kr 84f - Cl 9, Medellín)",
+        "lat": 6.227930104393621,
+        "lng": -75.596778355505
+      },
+      {
+        "name": "Colegio Padre Manyanet (Cl 8 - Kr 84f, Medellín)",
+        "lat": 6.227899096778293,
+        "lng": -75.59683303711314
+      },
+      {
+        "name": "Urbanización Torres De Valbuena (Cl 8 - Kr 84f, Medellín)",
+        "lat": 6.227868089162964,
+        "lng": -75.59688771872129
+      },
+      {
+        "name": "Urbanización Oasis De Los Bernal (Cl 8 - Kr 84f, Medellín)",
+        "lat": 6.227837081547635,
+        "lng": -75.59694240032944
+      },
+      {
+        "name": "Condominio San Silvestre (Cl 9 - Kr 84, Medellín)",
+        "lat": 6.227806073932308,
+        "lng": -75.59699708193759
+      },
+      {
+        "name": "Edificio Boreal (Cl 7 - Kr 83, Medellín)",
+        "lat": 6.22777506631698,
+        "lng": -75.59705176354574
+      },
+      {
+        "name": "Urbanización Alizares (Cl 7 - Kr 81, Medellín)",
+        "lat": 6.227744058701651,
+        "lng": -75.59710644515388
+      },
+      {
+        "name": "Urbanización Bissó (Cl 7 - Kr 81, Medellín)",
+        "lat": 6.227713051086322,
+        "lng": -75.59716112676202
+      },
+      {
+        "name": "Urbanización San Martín (Dg 80 - Cl 7, Medellín)",
+        "lat": 6.2276820434709945,
+        "lng": -75.59721580837017
+      },
+      {
+        "name": "Urbanización Santamaría De La Loma (Kr 81 - Cl 15, Medellín)",
+        "lat": 6.227651035855667,
+        "lng": -75.59727048997831
+      },
+      {
+        "name": "Cancha La Nubia (Cl 15 - Kr 82bb, Medellín)",
+        "lat": 6.227620028240338,
+        "lng": -75.59732517158645
+      },
+      {
+        "name": "Br. Aliadas (Kr 83 - Cl 17, Medellín)",
+        "lat": 6.227589020625009,
+        "lng": -75.59737985319458
+      },
+      {
+        "name": "Br. La Gloria Belén (Cl 19 - Kr 82b, Medellín)",
+        "lat": 6.2275580130096815,
+        "lng": -75.59743453480273
+      },
+      {
+        "name": "Parroquia San Francisco Javier (Cl 19b - Kr 81, Medellín)",
+        "lat": 6.229360559887606,
+        "lng": -75.59481887705167
+      },
+      {
+        "name": "Br. La Palma (Av 80 - Cl 26, Medellín)",
+        "lat": 6.23116310676553,
+        "lng": -75.59220321930061
+      },
+      {
+        "name": "Estación La Palma (Cl 30 - Kr 80a, Medellín)",
+        "lat": 6.2313759968292315,
+        "lng": -75.59203518952556
+      }
+    ]
+  },
+  {
+    "id": "C3-008",
+    "name": "Ruta Integrada C3-008",
+    "stops": [
+      {
+        "name": "Estación Rosales (Kr 70 - Cl 30, Medellín)",
+        "lat": 6.212052036355292,
+        "lng": -75.59360452180553
+      },
+      {
+        "name": "Br. San Bernardo (Kr 70 - Cl 26, Medellín)",
+        "lat": 6.212026023714415,
+        "lng": -75.59359170429944
+      },
+      {
+        "name": "Br. San Bernardo (Kr 70 - Cl 24, Medellín)",
+        "lat": 6.212000011073538,
+        "lng": -75.59357888679335
+      },
+      {
+        "name": "Aeroparque Juan Pablo II (Kr 70 - Cl 15, Medellín)",
+        "lat": 6.211973998432661,
+        "lng": -75.59356606928726
+      },
+      {
+        "name": "Aeroparque Juan Pablo II (Kr 70 - Cl 13, Medellín)",
+        "lat": 6.211947985791784,
+        "lng": -75.59355325178117
+      },
+      {
+        "name": "Br. Diego Echavarria (Kr 70 - Cl 9a, Medellín)",
+        "lat": 6.211921973150906,
+        "lng": -75.5935404342751
+      },
+      {
+        "name": "Br. Diego Echavarria (Cl 9 - Kr 72, Medellín)",
+        "lat": 6.211895960510029,
+        "lng": -75.59352761676901
+      },
+      {
+        "name": "Br. Diego Echavarria (Cl 9 - Av 80, Medellín)",
+        "lat": 6.211869947869152,
+        "lng": -75.59351479926292
+      },
+      {
+        "name": "Br. La Mota (Dg 75d - Cl 2b, Medellín)",
+        "lat": 6.211843935228274,
+        "lng": -75.59350198175684
+      },
+      {
+        "name": "Br. La Mota (Cl 2b - Kr 76a, Medellín)",
+        "lat": 6.2118384488755085,
+        "lng": -75.5935086344089
+      },
+      {
+        "name": "Br. La Mota (Cl 1 Sur - Kr 77a, Medellín)",
+        "lat": 6.21220459844128,
+        "lng": -75.59372511570902
+      },
+      {
+        "name": "Br. Belén El Rincón (Kr 79 - Cl 1b, Medellín)",
+        "lat": 6.215787579802623,
+        "lng": -75.60213705315294
+      },
+      {
+        "name": "Br. Belén El Rincón (Kr 79 - Cl 2b, Medellín)",
+        "lat": 6.2163525379669355,
+        "lng": -75.6019362422123
+      },
+      {
+        "name": "Br. Belén El Rincón (Kr 78b - Cl 3, Medellín)",
+        "lat": 6.215525240933573,
+        "lng": -75.602369373713
+      },
+      {
+        "name": "Br. Balcones De La Serranía (Kr 79b - Cl 4a, Medellín)",
+        "lat": 6.215650200645806,
+        "lng": -75.60220913578294
+      },
+      {
+        "name": "Br. Belén El Rincón (Kr 78b - Cl 3, Medellín)",
+        "lat": 6.215775160358038,
+        "lng": -75.6020488978529
+      },
+      {
+        "name": "Parroquia San Bartolomé (Kr 79 - Cl 2b, Medellín)",
+        "lat": 6.2160749486831115,
+        "lng": -75.60224042126166
+      },
+      {
+        "name": "Br. Belén El Rincón (Kr 79 - Cl 1b, Medellín)",
+        "lat": 6.216374737008186,
+        "lng": -75.60243194467043
+      },
+      {
+        "name": "Urbanizacion Bosques Del Rodeo (Cl 1 Sur - Kr 77a, Medellín)",
+        "lat": 6.207185726807004,
+        "lng": -75.59145910707647
+      },
+      {
+        "name": "Br. La Mota (Cl 2b - Kr 76a, Medellín)",
+        "lat": 6.21230044989711,
+        "lng": -75.59429784858722
+      },
+      {
+        "name": "Br. La Mota (Cl 5 - Av 80, Medellín)",
+        "lat": 6.212286150123187,
+        "lng": -75.59371987936031
+      },
+      {
+        "name": "Br. Diego Echavarria (Cl 9 - Av 80, Medellín)",
+        "lat": 6.2122601374823105,
+        "lng": -75.59370706185422
+      },
+      {
+        "name": "Br. Diego Echavarria (Cl 9 - Kr 71, Medellín)",
+        "lat": 6.212234124841434,
+        "lng": -75.59369424434813
+      },
+      {
+        "name": "Br. Diego Echavarria (Cl 9 - Kr 70, Medellín)",
+        "lat": 6.212208112200557,
+        "lng": -75.59368142684204
+      },
+      {
+        "name": "Aeroparque Juan Pablo II (Kr 70 - Cl 13, Medellín)",
+        "lat": 6.21218209955968,
+        "lng": -75.59366860933595
+      },
+      {
+        "name": "Aeroparque Juan Pablo II (Kr 70 - Cl 16, Medellín)",
+        "lat": 6.212156086918802,
+        "lng": -75.59365579182986
+      },
+      {
+        "name": "Br. San Bernardo (Kr 70 - Cl 24, Medellín)",
+        "lat": 6.212130074277924,
+        "lng": -75.59364297432377
+      },
+      {
+        "name": "Br. San Bernardo (Kr 70 - Cl 26, Medellín)",
+        "lat": 6.2121040616370475,
+        "lng": -75.59363015681768
+      },
+      {
+        "name": "Estación Rosales (Kr 70 - Cl 30, Medellín)",
+        "lat": 6.212078048996171,
+        "lng": -75.59361733931159
+      }
+    ]
+  },
+  {
+    "id": "C6-001",
+    "name": "Ruta Integrada C6-001",
+    "stops": [
+      {
+        "name": "Estación Acevedo (Cr 52 - Cl 108, Medellín)",
+        "lat": 6.29994259053742,
+        "lng": -75.55855570731788
+      },
+      {
+        "name": "Colegio Finca La Mesa (Cr 52 - Cl 117, Medellín)",
+        "lat": 6.307481367986624,
+        "lng": -75.55732555094579
+      },
+      {
+        "name": "Urbanización Plaza Del Rio (Cl 123 - Cr 52, Medellín)",
+        "lat": 6.315020145435829,
+        "lng": -75.5560953945737
+      },
+      {
+        "name": "Hotel Las Olas (Cr 52 - Cl 125, Medellín)",
+        "lat": 6.322558922885033,
+        "lng": -75.55486523820161
+      },
+      {
+        "name": "Br. El Playón (Cl 20d - Cr 43c, Bello)",
+        "lat": 6.330097700334238,
+        "lng": -75.55363508182951
+      },
+      {
+        "name": "Br. Zamora (Cl 20d - Cr 42d, Bello)",
+        "lat": 6.330097700334238,
+        "lng": -75.55363508182951
+      },
+      {
+        "name": "Carrera 42 # 20d-22",
+        "lat": 6.297008612659559,
+        "lng": -75.55848494224117
+      },
+      {
+        "name": "Hospital Zamora (Cl 21 - Cr 42, Bello)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Br. Zamora (Cl 21 - Cr 41g, Bello)",
+        "lat": 6.330097700334238,
+        "lng": -75.55363508182951
+      },
+      {
+        "name": "Cancha Santa Rita (Cl 21 - Cr 41, Bello)",
+        "lat": 6.330097700334238,
+        "lng": -75.55363508182951
+      },
+      {
+        "name": "Parroquia Santa Rita (Cr 40a - Cl 21c, Bello)",
+        "lat": 6.330097700334238,
+        "lng": -75.55363508182951
+      },
+      {
+        "name": "Br. Santa Rita (Cl 21 - Cr 40c, Bello)",
+        "lat": 6.330097700334238,
+        "lng": -75.55363508182951
+      },
+      {
+        "name": "Br. Santa Rita (Cl 21c - Cr 40c, Bello)",
+        "lat": 6.330097700334238,
+        "lng": -75.55363508182951
+      },
+      {
+        "name": "Los Edificios (Cr 41g - Cl 20c, Bello)",
+        "lat": 6.330097700334238,
+        "lng": -75.55363508182951
+      },
+      {
+        "name": "Br. Zamora (Cl 21d - Cr 41e, Bello)",
+        "lat": 6.330097700334238,
+        "lng": -75.55363508182951
+      },
+      {
+        "name": "Hospital Zamora (Cl 21 - Cr 42, Bello)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Br. Zamora (Cl 20e - Cr 42c, Bello)",
+        "lat": 6.330097700334238,
+        "lng": -75.55363508182951
+      },
+      {
+        "name": "Br. Zamora (Cl 20e - Cr 44, Bello)",
+        "lat": 6.330097700334238,
+        "lng": -75.55363508182951
+      },
+      {
+        "name": "Hotel Las Olas (Cr 52 - Cl 125, Medellín)",
+        "lat": 6.322558922885033,
+        "lng": -75.5548652382016
+      },
+      {
+        "name": "Iglesia María Auxiliadora (Cr 52 - Cl 123a, Medellín)",
+        "lat": 6.315020145435828,
+        "lng": -75.55609539457369
+      },
+      {
+        "name": "Parque La Frontera (Cr 52 - Cl 117, Medellín)",
+        "lat": 6.3074813679866235,
+        "lng": -75.55732555094579
+      },
+      {
+        "name": "Estación Acevedo (Cr 52 - Cl 108, Medellín)",
+        "lat": 6.29994259053742,
+        "lng": -75.55855570731788
+      }
+    ]
+  },
+  {
+    "id": "C6-002",
+    "name": "Ruta Integrada C6-002",
+    "stops": [
+      {
+        "name": "Comando Policía (Cl 67 - Cr 64, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Universidad De Antioquia (Av. Barranquilla - Kr 55a, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Estación Hospital (Cr 51 - Cl 67, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Br. Manrique Central (Cl 68 - Cr 48, Medellín)",
+        "lat": 6.26156307255331,
+        "lng": -75.56428058686465
+      },
+      {
+        "name": "Iglesia Jesús De Las Misericordias (Cr 47 - Cl 67, Medellín)",
+        "lat": 6.25920662012174,
+        "lng": -75.56522637107648
+      },
+      {
+        "name": "Br. Prado (Cr 48 - Cl 65f, Medellín)",
+        "lat": 6.25685016769017,
+        "lng": -75.56617215528829
+      },
+      {
+        "name": "Br. Prado (Cl 63a - Cr 47, Medellín)",
+        "lat": 6.25685016769017,
+        "lng": -75.56617215528829
+      },
+      {
+        "name": "Br. Prado (Cr 47 - Cl 65f, Medellín)",
+        "lat": 6.25685016769017,
+        "lng": -75.56617215528829
+      },
+      {
+        "name": "Br. La Mansión (Cr 45c - Cl 65, Medellín)",
+        "lat": 6.257064390638495,
+        "lng": -75.5660861749054
+      },
+      {
+        "name": "Br. La Mansión (Cl 65 - Cr 43, Medellín)",
+        "lat": 6.257278613586819,
+        "lng": -75.5660001945225
+      },
+      {
+        "name": "Iglesia San Miguel Arcángel (Cr 41 - Cl 64, Medellín)",
+        "lat": 6.257492836535143,
+        "lng": -75.56591421413961
+      },
+      {
+        "name": "Br. Villa Hermosa (Cr 40 - Cl 65, Medellín)",
+        "lat": 6.257707059483468,
+        "lng": -75.56582823375672
+      },
+      {
+        "name": "Parque Villa Hermosa (Cl 66 - Cr 39a, Medellín)",
+        "lat": 6.257921282431792,
+        "lng": -75.56574225337383
+      },
+      {
+        "name": "Br. Villa Hermosa (Cr 37 - Cl 66, Medellín)",
+        "lat": 6.258135505380117,
+        "lng": -75.56565627299094
+      },
+      {
+        "name": "Br. Villa Hermosa (Cr 37 - Cl 66d, Medellín)",
+        "lat": 6.258349728328441,
+        "lng": -75.56557029260804
+      },
+      {
+        "name": "Quebrada El Ahorcado (Cr 36a - Cl 66g, Medellín)",
+        "lat": 6.2585639512767655,
+        "lng": -75.56548431222515
+      },
+      {
+        "name": "Br. Manrique Oriental (Cl 68 - Cr 36a, Medellín)",
+        "lat": 6.25877817422509,
+        "lng": -75.56539833184226
+      },
+      {
+        "name": "Br. Gaitán (Cr 36 - Cl 70, Medellín)",
+        "lat": 6.258992397173414,
+        "lng": -75.56531235145937
+      },
+      {
+        "name": "Br. Gaitán (Cr 36 - Cl 71, Medellín)",
+        "lat": 6.259206620121739,
+        "lng": -75.56522637107648
+      },
+      {
+        "name": "Br. Raizal (Cl 71a - Cr 34, Medellín)",
+        "lat": 6.259420843070063,
+        "lng": -75.56514039069359
+      },
+      {
+        "name": "Br. Versalles (Cr 30 - Cl 71a, Medellín)",
+        "lat": 6.2596350660183875,
+        "lng": -75.5650544103107
+      },
+      {
+        "name": "Iglesia San Sebastián (Cr 29 - Cl 71a, Medellín)",
+        "lat": 6.259849288966712,
+        "lng": -75.5649684299278
+      },
+      {
+        "name": "Br. Versalles (Cr 28 - Cl 69, Medellín)",
+        "lat": 6.260063511915036,
+        "lng": -75.56488244954491
+      },
+      {
+        "name": "Br. Versalles (Cl 68a - Cr 28, Medellín)",
+        "lat": 6.260277734863361,
+        "lng": -75.56479646916202
+      },
+      {
+        "name": "Br. Versalles (Cr 31a - Cl 68a, Medellín)",
+        "lat": 6.260491957811685,
+        "lng": -75.56471048877913
+      },
+      {
+        "name": "Br. Versalles (Cr 31a - Cl 70, Medellín)",
+        "lat": 6.2607061807600095,
+        "lng": -75.56462450839624
+      },
+      {
+        "name": "Metrosalud Raizal (Cr 31a - Cl 71a, Medellín)",
+        "lat": 6.260920403708334,
+        "lng": -75.56453852801334
+      },
+      {
+        "name": "Colegio Olaya Herrera (Cr 32 - Cl 71a, Medellín)",
+        "lat": 6.261134626656658,
+        "lng": -75.56445254763045
+      },
+      {
+        "name": "Br. Raizal (Cl 71a - Cr 34, Medellín)",
+        "lat": 6.261348849604983,
+        "lng": -75.56436656724756
+      },
+      {
+        "name": "Br. Gaitán (Cr 36 - Cl 71, Medellín)",
+        "lat": 6.261563072553307,
+        "lng": -75.56428058686467
+      },
+      {
+        "name": "Br. Gaitán (Cr 37 - Cl 70, Medellín)",
+        "lat": 6.2617772955016315,
+        "lng": -75.56419460648178
+      },
+      {
+        "name": "Br. Manrique Oriental (Cl 68 - Cr 36a, Medellín)",
+        "lat": 6.261991518449957,
+        "lng": -75.56410862609889
+      },
+      {
+        "name": "Quebrada El Ahorcado (Cr 36a - Cl 66g, Medellín)",
+        "lat": 6.262205741398281,
+        "lng": -75.564022645716
+      },
+      {
+        "name": "Br. Villa Hermosa (Cr 37 - Cl 66d, Medellín)",
+        "lat": 6.262419964346606,
+        "lng": -75.5639366653331
+      },
+      {
+        "name": "Br. Villa Hermosa (Cr 37 - Cl 66, Medellín)",
+        "lat": 6.262634187294931,
+        "lng": -75.56385068495021
+      },
+      {
+        "name": "Parque Villa Hermosa (Cl 66 - Cr 39a, Medellín)",
+        "lat": 6.262848410243256,
+        "lng": -75.56376470456732
+      },
+      {
+        "name": "Br. Villa Hermosa (Cr 40 - Cl 65, Medellín)",
+        "lat": 6.263062633191581,
+        "lng": -75.56367872418443
+      },
+      {
+        "name": "Br. La Mansión (Cl 65 - Cr 42, Medellín)",
+        "lat": 6.263276856139905,
+        "lng": -75.56359274380154
+      },
+      {
+        "name": "Br. La Mansión (Cr 45c - Cl 65, Medellín)",
+        "lat": 6.26349107908823,
+        "lng": -75.56350676341863
+      },
+      {
+        "name": "Estación Palos Verdes (Cr 45 - Cl 66, Medellín)",
+        "lat": 6.263705302036556,
+        "lng": -75.56342078303572
+      },
+      {
+        "name": "Estación Hospital (Cr 51 - Cl 67, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Parque De La República (Cl 68 - Kr 51b)",
+        "lat": 6.266676140064692,
+        "lng": -75.56458139920835
+      },
+      {
+        "name": "Universidad De Antioquia (Av. Barranquilla - Kr 55a, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Comando Policía (Cl 67 - Cr 64, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      }
+    ]
+  },
+  {
+    "id": "C6-002A",
+    "name": "Ruta Integrada C6-002A",
+    "stops": [
+      {
+        "name": "Estación Hospital (Cr 51 - Cl 67, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Br. Manrique Central (Cl 68 - Cr 48, Medellín)",
+        "lat": 6.26156307255331,
+        "lng": -75.56428058686465
+      },
+      {
+        "name": "Iglesia Jesús De Las Misericordias (Cr 47 - Cl 67, Medellín)",
+        "lat": 6.25920662012174,
+        "lng": -75.56522637107648
+      },
+      {
+        "name": "Br. Prado (Cr 48 - Cl 65f, Medellín)",
+        "lat": 6.25685016769017,
+        "lng": -75.56617215528829
+      },
+      {
+        "name": "Br. Prado (Cl 63a - Cr 47, Medellín)",
+        "lat": 6.25685016769017,
+        "lng": -75.56617215528829
+      },
+      {
+        "name": "Br. Prado (Cr 47 - Cl 65f, Medellín)",
+        "lat": 6.25685016769017,
+        "lng": -75.56617215528829
+      },
+      {
+        "name": "Br. La Mansión (Cr 45c - Cl 65, Medellín)",
+        "lat": 6.257064390638495,
+        "lng": -75.5660861749054
+      },
+      {
+        "name": "Br. La Mansión (Cl 65 - Cr 43, Medellín)",
+        "lat": 6.257278613586819,
+        "lng": -75.5660001945225
+      },
+      {
+        "name": "Iglesia San Miguel Arcángel (Cr 41 - Cl 64, Medellín)",
+        "lat": 6.257492836535143,
+        "lng": -75.56591421413961
+      },
+      {
+        "name": "Br. Villa Hermosa (Cr 40 - Cl 65, Medellín)",
+        "lat": 6.257707059483468,
+        "lng": -75.56582823375672
+      },
+      {
+        "name": "Parque Villa Hermosa (Cl 66 - Cr 39a, Medellín)",
+        "lat": 6.257921282431792,
+        "lng": -75.56574225337383
+      },
+      {
+        "name": "Br. Villa Hermosa (Cr 37 - Cl 66, Medellín)",
+        "lat": 6.258135505380117,
+        "lng": -75.56565627299094
+      },
+      {
+        "name": "Br. Villa Hermosa (Cr 37 - Cl 66d, Medellín)",
+        "lat": 6.258349728328441,
+        "lng": -75.56557029260804
+      },
+      {
+        "name": "Quebrada El Ahorcado (Cr 36a - Cl 66g, Medellín)",
+        "lat": 6.2585639512767655,
+        "lng": -75.56548431222515
+      },
+      {
+        "name": "Br. Manrique Oriental (Cl 68 - Cr 36a, Medellín)",
+        "lat": 6.25877817422509,
+        "lng": -75.56539833184226
+      },
+      {
+        "name": "Br. Gaitán (Cr 36 - Cl 70, Medellín)",
+        "lat": 6.258992397173414,
+        "lng": -75.56531235145937
+      },
+      {
+        "name": "Br. Gaitán (Cr 36 - Cl 71, Medellín)",
+        "lat": 6.259206620121739,
+        "lng": -75.56522637107648
+      },
+      {
+        "name": "Br. Raizal (Cl 71a - Cr 34, Medellín)",
+        "lat": 6.259420843070063,
+        "lng": -75.56514039069359
+      },
+      {
+        "name": "Br. Versalles (Cr 30 - Cl 71a, Medellín)",
+        "lat": 6.2596350660183875,
+        "lng": -75.5650544103107
+      },
+      {
+        "name": "Iglesia San Sebastián (Cr 29 - Cl 71a, Medellín)",
+        "lat": 6.259849288966712,
+        "lng": -75.5649684299278
+      },
+      {
+        "name": "Br. Versalles (Cr 28 - Cl 69, Medellín)",
+        "lat": 6.260063511915036,
+        "lng": -75.56488244954491
+      },
+      {
+        "name": "Br. Versalles (Cl 68a - Cr 28, Medellín)",
+        "lat": 6.260277734863361,
+        "lng": -75.56479646916202
+      },
+      {
+        "name": "Br. Versalles (Cr 31a - Cl 68a, Medellín)",
+        "lat": 6.260491957811685,
+        "lng": -75.56471048877913
+      },
+      {
+        "name": "Br. Versalles (Cr 31a - Cl 70, Medellín)",
+        "lat": 6.2607061807600095,
+        "lng": -75.56462450839624
+      },
+      {
+        "name": "Metrosalud Raizal (Cr 31a - Cl 71a, Medellín)",
+        "lat": 6.260920403708334,
+        "lng": -75.56453852801334
+      },
+      {
+        "name": "Colegio Olaya Herrera (Cr 32 - Cl 71a, Medellín)",
+        "lat": 6.261134626656658,
+        "lng": -75.56445254763045
+      },
+      {
+        "name": "Br. Raizal (Cl 71a - Cr 34, Medellín)",
+        "lat": 6.261348849604983,
+        "lng": -75.56436656724756
+      },
+      {
+        "name": "Br. Gaitán (Cr 36 - Cl 71, Medellín)",
+        "lat": 6.261563072553307,
+        "lng": -75.56428058686467
+      },
+      {
+        "name": "Br. Gaitán (Cr 37 - Cl 70, Medellín)",
+        "lat": 6.2617772955016315,
+        "lng": -75.56419460648178
+      },
+      {
+        "name": "Br. Manrique Oriental (Cl 68 - Cr 36a, Medellín)",
+        "lat": 6.261991518449957,
+        "lng": -75.56410862609889
+      },
+      {
+        "name": "Quebrada El Ahorcado (Cr 36a - Cl 66g, Medellín)",
+        "lat": 6.262205741398281,
+        "lng": -75.564022645716
+      },
+      {
+        "name": "Br. Villa Hermosa (Cr 37 - Cl 66d, Medellín)",
+        "lat": 6.262419964346606,
+        "lng": -75.5639366653331
+      },
+      {
+        "name": "Br. Villa Hermosa (Cr 37 - Cl 66, Medellín)",
+        "lat": 6.262634187294931,
+        "lng": -75.56385068495021
+      },
+      {
+        "name": "Parque Villa Hermosa (Cl 66 - Cr 39a, Medellín)",
+        "lat": 6.262848410243256,
+        "lng": -75.56376470456732
+      },
+      {
+        "name": "Br. Villa Hermosa (Cr 40 - Cl 65, Medellín)",
+        "lat": 6.263062633191581,
+        "lng": -75.56367872418443
+      },
+      {
+        "name": "Br. La Mansión (Cl 65 - Cr 42, Medellín)",
+        "lat": 6.263276856139905,
+        "lng": -75.56359274380154
+      },
+      {
+        "name": "Br. La Mansión (Cr 45c - Cl 65, Medellín)",
+        "lat": 6.26349107908823,
+        "lng": -75.56350676341863
+      },
+      {
+        "name": "Estación Palos Verdes (Cr 45 - Cl 66, Medellín)",
+        "lat": 6.263705302036556,
+        "lng": -75.56342078303572
+      },
+      {
+        "name": "Estación Hospital (Cr 51 - Cl 67, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      }
+    ]
+  },
+  {
+    "id": "C6-003",
+    "name": "Ruta Integrada C6-003",
+    "stops": [
+      {
+        "name": "Parque De La Vida (Cr 51d - Cl 62, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Estación Hospital (Cr 51 - Cl 67, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Br. Manrique Central (Cl 72 - Cr 48a, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Hospital Consejo De Medellín (Cr 49 - Cl 72a, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Parque El Calvario (Cr 49 - Cl 77, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Plaza De Mercado Campo Valdés (Cr 49a - Cl 80, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Br. Campo Valdés (Cr 49 - Cl 83, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Quebrada La Bermejala (Cr 49 - Cl 85c, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Colegio Francisco Luis Hernández Betancur (Cr 50aa - Cl 86a, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Escuela Ana Frank (Cr 50aa - Cl 87, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Br. San Cayetano (Cr 50d - Cl 88, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Comfama Aranjuez (Cr 51b - Cl 89, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Colegio Monseñor Francisco Cristóbal Toro (Cl 90 - Cr 50c, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Br. La Piñuela (Cl 90 - Cr 50, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Br. La Piñuela (Cl 89 - Cr 49a, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Quebrada La Bermejala (Cr 49 - Cl 85c, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Br. Campo Valdés (Cr 49 - Cl 83, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Plaza De Mercado Campo Valdés (Cr 49a - Cl 80, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Parque El Calvario (Cr 49 - Cl 77, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Hospital Consejo De Medellín (Cr 49 - Cl 72a, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Cementerio De San Pedro (Cr 50 - Cl 68, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Estación Hospital (Av. Bolívar - Cl 66, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Parque De La Vida (Cr 51d - Cl 62, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      }
+    ]
+  },
+  {
+    "id": "C6-004",
+    "name": "Ruta Integrada C6-004",
+    "stops": [
+      {
+        "name": "Estación Exposiciones (Cr 51 - Cl 38, Medellín)",
+        "lat": 6.238419853172829,
+        "lng": -75.57316365269969
+      },
+      {
+        "name": "Centro Comercial San Diego (Cl 37 - Cr 43, Medellín)",
+        "lat": 6.253911257586777,
+        "lng": -75.56959582023923
+      },
+      {
+        "name": "Br. San Diego (Cr 38 - Cl 26, Medellín)",
+        "lat": 6.269402662000726,
+        "lng": -75.56602798777877
+      },
+      {
+        "name": "Br. San Diego (Cr 38 - Cl 30, Medellín)",
+        "lat": 6.284894066414675,
+        "lng": -75.5624601553183
+      },
+      {
+        "name": "Avenida Las Palmas (Cr 37a - Cl 29, Medellín)",
+        "lat": 6.300385470828624,
+        "lng": -75.55889232285784
+      },
+      {
+        "name": "Br. La Asomadera (Cr 37a - Cl 29, Medellín)",
+        "lat": 6.315876875242573,
+        "lng": -75.5553244903974
+      },
+      {
+        "name": "Br. La Asomadera (Cl 29c - Cr 33, Medellín)",
+        "lat": 6.315876875242573,
+        "lng": -75.5553244903974
+      },
+      {
+        "name": "Br. La Asomadera (Cr 33 - Cl 29, Medellín)",
+        "lat": 6.315876875242573,
+        "lng": -75.5553244903974
+      },
+      {
+        "name": "Br. La Asomadera (Cr 33 - Cl 29a, Medellín)",
+        "lat": 6.315876875242573,
+        "lng": -75.5553244903974
+      },
+      {
+        "name": "Br. La Asomadera (Cr 30 - Cl 27a, Medellín)",
+        "lat": 6.315876875242573,
+        "lng": -75.5553244903974
+      },
+      {
+        "name": "Br. La Asomadera (Cr 31 - Cl 19a, Medellín)",
+        "lat": 6.315876875242573,
+        "lng": -75.5553244903974
+      },
+      {
+        "name": "Br. La Asomadera (Cl 31 - Cr 30, Medellín)",
+        "lat": 6.315876875242573,
+        "lng": -75.5553244903974
+      },
+      {
+        "name": "Br. Loreto (Cr 32 - Cl 31, Medellín)",
+        "lat": 6.31034423080902,
+        "lng": -75.55659871627613
+      },
+      {
+        "name": "Br. Loreto (Cr 32 - Cl 34, Medellín)",
+        "lat": 6.304811586375466,
+        "lng": -75.55787294215486
+      },
+      {
+        "name": "Br. Loreto (Cr 28e - Cl 38b, Medellín)",
+        "lat": 6.299278941941913,
+        "lng": -75.55914716803359
+      },
+      {
+        "name": "Centro De Salud Loreto (Cr 28a - Cl 38f, Medellín)",
+        "lat": 6.29374629750836,
+        "lng": -75.56042139391232
+      },
+      {
+        "name": "Br. La Milagrosa (Cr 28a - Cl 38f, Medellín)",
+        "lat": 6.2882136530748065,
+        "lng": -75.56169561979105
+      },
+      {
+        "name": "Br. La Milagrosa (Cl 42 - Cr 27, Medellín)",
+        "lat": 6.282681008641253,
+        "lng": -75.56296984566978
+      },
+      {
+        "name": "Br. Cataluña (Cr 25a - Cl 24, Medellín)",
+        "lat": 6.2771483642077,
+        "lng": -75.56424407154853
+      },
+      {
+        "name": "Br. Cataluña (Cl 40 - Cr 25, Medellín)",
+        "lat": 6.271615719774147,
+        "lng": -75.56551829742726
+      },
+      {
+        "name": "Br. Cataluña (Cl 40 - Cr 21, Medellín)",
+        "lat": 6.266083075340593,
+        "lng": -75.56679252330599
+      },
+      {
+        "name": "Batallón Bomboná (Cl 40 - Cr 21, Medellín)",
+        "lat": 6.26055043090704,
+        "lng": -75.56806674918474
+      },
+      {
+        "name": "Batallón Bomboná (Cr 21 - Cl 36, Medellín)",
+        "lat": 6.255017786473488,
+        "lng": -75.56934097506348
+      },
+      {
+        "name": "Batallón Bomboná (Cr 20 - Cl 34, Medellín)",
+        "lat": 6.249485142039934,
+        "lng": -75.57061520094221
+      },
+      {
+        "name": "Ermita Del Padre Marianito (Cl 34 - Cr 19, Medellín)",
+        "lat": 6.243952497606381,
+        "lng": -75.57188942682095
+      }
+    ]
+  },
+  {
+    "id": "C6-004A",
+    "name": "Ruta Integrada C6-004A",
+    "stops": [
+      {
+        "name": "Paradero Ruta 094 (Av. Oriental - Cl 47, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Br. Colon (Cl 47 - Cr 44, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Br. Bomboná No. 1 (Cl 47 - Cr 39, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Fundación Ximena Rico Llano (Cl 47a - Cr 37, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Br. Gerona (Cl 45 - Cr 33a, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Br. La Milagrosa (Cl 45 - Cr 30, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Br. La Milagrosa (Cl 45 - Cr 28, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Br. Miraflores (Cr 27 - Cl 45, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Br. Miraflores (Cr 24 - Cl 47, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Colegio Nuestra Señora Del Rosario (Cr 22 - Cl 47, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Br. Miraflores (Cr 22a - Cl 45, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Distrito Militar 27 (Cl 45 - Cr 21, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Br. Los Cerros (Cl 46a - Cr 16e, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Batallón Bomboná (Cr 16a - Cl 45, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Batallón Bomboná (Cr 15c - Cl 40, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Br. Bomboná 2 (Cr 15b - Cl 36c, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Br. Bomboná 2 (Cl 36 - Cr 15, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Batallón Bomboná (Cl 35 - Cr 16, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Batallón Bomboná (Cr 20 - Cl 34, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Ermita Del Padre Marianito (Cl 34 - Cr 19, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      }
+    ]
+  },
+  {
+    "id": "C6-005",
+    "name": "Ruta Integrada C6-005",
+    "stops": [
+      {
+        "name": "Paradero Ruta 094 (Av. Oriental - Cl 47, Medellín)",
+        "lat": 6.234701548646735,
+        "lng": -75.54226428077868
+      },
+      {
+        "name": "Br. Colon (Cl 47 - Cr 44, Medellín)",
+        "lat": 6.236041084391087,
+        "lng": -75.54459142454287
+      },
+      {
+        "name": "Br. Bomboná No. 1 (Cl 47 - Cr 39, Medellín)",
+        "lat": 6.237380620135439,
+        "lng": -75.54691856830706
+      },
+      {
+        "name": "Fundación Ximena Rico Llano (Cl 47a - Cr 37, Medellín)",
+        "lat": 6.238720155879791,
+        "lng": -75.54924571207124
+      },
+      {
+        "name": "Br. Gerona (Cl 45 - Cr 33a, Medellín)",
+        "lat": 6.240059691624142,
+        "lng": -75.55157285583542
+      },
+      {
+        "name": "Br. Buenos Aires (Cl 48 - Cr 30, Medellín)",
+        "lat": 6.241399227368494,
+        "lng": -75.55389999959961
+      },
+      {
+        "name": "Universidad Cooperativa (Cl 48 - Cr 29, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      },
+      {
+        "name": "Parroquia Santa Mónica (Cl 49 - Cr 26, Medellín)",
+        "lat": 6.255578772850553,
+        "lng": -75.5574696709073
+      },
+      {
+        "name": "Br. Miraflores (Cl 48 - Cr 25, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Centro Comercial La Central (Cl 49 - Cr 20b, Medellín)",
+        "lat": 6.240795593039467,
+        "lng": -75.54809198949113
+      },
+      {
+        "name": "Colegio El Divino Salvador (Cl 46 - Cr 20a, Medellín)",
+        "lat": 6.2398663955223315,
+        "lng": -75.54707263293155
+      },
+      {
+        "name": "Br. Los Cerros (Cl 46a - Cr 16e, Medellín)",
+        "lat": 6.238937198005196,
+        "lng": -75.54605327637196
+      },
+      {
+        "name": "Br. Los Cerros (Cl 46 - Cr 15d, Medellín)",
+        "lat": 6.238008000488061,
+        "lng": -75.54503391981238
+      },
+      {
+        "name": "Br. Los Cerros (Cl 46 - Cr 14b, Medellín)",
+        "lat": 6.237078802970926,
+        "lng": -75.5440145632528
+      },
+      {
+        "name": "Br. Los Cerros (Cr 14a - Cl 45cc, Medellín)",
+        "lat": 6.23614960545379,
+        "lng": -75.54299520669323
+      },
+      {
+        "name": "Br. La Pastora (Cl 45a - Cr 13, Medellín)",
+        "lat": 6.235220407936655,
+        "lng": -75.54197585013365
+      },
+      {
+        "name": "Br. La Pastora (Cr 8 - Cl 44c, Medellín)",
+        "lat": 6.234291210419519,
+        "lng": -75.54095649357407
+      },
+      {
+        "name": "Br. Caunces De Oriente (Cr 9a - Cl 44, Medellín)",
+        "lat": 6.233362012902384,
+        "lng": -75.5399371370145
+      },
+      {
+        "name": "Br. Caunces De Oriente (Cl 43d - Cr 8, Medellín)",
+        "lat": 6.233362012902384,
+        "lng": -75.5399371370145
+      }
+    ]
+  },
+  {
+    "id": "C6-006",
+    "name": "Ruta Integrada C6-006",
+    "stops": [
+      {
+        "name": "Br.Villa Liliam (Cr 8a - Cl 57, Medellín)",
+        "lat": 6.239381622783503,
+        "lng": -75.54150995613847
+      },
+      {
+        "name": "Br.Villa Liliam (Cr 9 - Cl 54, Medellín",
+        "lat": 6.238589119081416,
+        "lng": -75.54182718500141
+      },
+      {
+        "name": "Br.Villa Liliam (Cr 9 - Cl 52, Medellín)",
+        "lat": 6.2387895108391245,
+        "lng": -75.54236433091545
+      },
+      {
+        "name": "Quebrada La Castro (Cl 52 - Cr 10, Medellín)",
+        "lat": 6.2360757618707545,
+        "lng": -75.54115073396497
+      },
+      {
+        "name": "Estación Oriente (Cl 52 - Cr 12, Medellín)",
+        "lat": 6.233362012902384,
+        "lng": -75.5399371370145
+      },
+      {
+        "name": "Br. Villatina (Cl 52 - Cr 13, Medellín)",
+        "lat": 6.235131116126298,
+        "lng": -75.5439110969203
+      },
+      {
+        "name": "Br. Alejandro Echavarría (Cr 15a - Cl 52, Medellín)",
+        "lat": 6.2355094486512535,
+        "lng": -75.5417391340117
+      },
+      {
+        "name": "Br. Alejandro Echavarría (Cr 17 - Cl 50a, Medellín)",
+        "lat": 6.2355094486512535,
+        "lng": -75.5417391340117
+      }
+    ]
+  },
+  {
+    "id": "C6-007",
+    "name": "Ruta Integrada C6-007",
+    "stops": [
+      {
+        "name": "Paradero Ruta 094 (Av. Oriental - Cl 47, Medellín)",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Br. Colon (Cl 47 - Cr 44, Medellín)",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Br. Bomboná No. 1 (Cl 47 - Cr 39, Medellín)",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Fundación Ximena Rico Llano (Cl 47a - Cr 37, Medellín)",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Br. Gerona (Cl 45 - Cr 33a, Medellín)",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Br. La Milagrosa (Cl 45 - Cr 30, Medellín)",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Br. La Milagrosa (Cl 45 - Cr 28, Medellín)",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Br. La Milagrosa (Cl 42 - Cr 27, Medellín)",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Br. Cataluña (Cr 25a - Cl 24, Medellín)",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Br. Cataluña (Cr 23 - Cl 40, Medellín)",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Br. Cataluña (Cr 22c - Cl 37, Medellín)",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Br. Cataluña (Cl 37 - Cr 22c, Medellín)",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Br. Cataluña (Cl 37 - Cr 24a, Medellín)",
+        "lat": 6.2995,
+        "lng": -75.5684
+      }
+    ]
+  },
+  {
+    "id": "C6-008",
+    "name": "Ruta Integrada C6-008",
+    "stops": [
+      {
+        "name": "Estación Prado (Kr 51d - Cl 58, Medellín)",
+        "lat": 6.25685016769017,
+        "lng": -75.56617215528829
+      },
+      {
+        "name": "Br. Prado (Cl 61 - Cr 50, Medellín)",
+        "lat": 6.25685016769017,
+        "lng": -75.56617215528829
+      },
+      {
+        "name": "Br. Los Ángeles (Cl 61 - Cr 45, Medellín)",
+        "lat": 6.255562714560706,
+        "lng": -75.56376146630906
+      },
+      {
+        "name": "Br. Los Ángeles (Cl 57 - Cr 41, Medellín)",
+        "lat": 6.254275261431243,
+        "lng": -75.56135077732984
+      },
+      {
+        "name": "Parque Obrero (Cl 58 - Cr 39, Medellín)",
+        "lat": 6.2529878083017785,
+        "lng": -75.55894008835061
+      },
+      {
+        "name": "Colegio Alfonso López Pumarejo (Cl 58 - Cr 36a, Medellín)",
+        "lat": 6.251700355172314,
+        "lng": -75.55652939937139
+      },
+      {
+        "name": "Br. Enciso (Cl 58 - Cr 32, Medellín)",
+        "lat": 6.250412902042851,
+        "lng": -75.55411871039215
+      },
+      {
+        "name": "Br. Enciso (Cl 58 - Cr 31, Medellín)",
+        "lat": 6.249125448913388,
+        "lng": -75.5517080214129
+      },
+      {
+        "name": "Br. Enciso (Cl 58 - Cr 28a, Medellín)",
+        "lat": 6.247837995783923,
+        "lng": -75.54929733243368
+      },
+      {
+        "name": "Br. La Ladera (Cl 57c - Cr 27, Medellín)",
+        "lat": 6.246550542654459,
+        "lng": -75.54688664345446
+      },
+      {
+        "name": "Br. El Pinal (Cr 26a - Cl 56b, Medellín)",
+        "lat": 6.245263089524996,
+        "lng": -75.54447595447522
+      },
+      {
+        "name": "Br. El Pinal (Cr 25bb - Cl 56, Medellín)",
+        "lat": 6.245263089524996,
+        "lng": -75.54447595447522
+      },
+      {
+        "name": "Br. El Pinal (Cl 56b - Cr 25aa, Medellín)",
+        "lat": 6.245263089524996,
+        "lng": -75.54447595447522
+      },
+      {
+        "name": "Estación El Pinal (Cl 56e - Cr 25, Medellín)",
+        "lat": 6.245263089524996,
+        "lng": -75.54447595447522
+      },
+      {
+        "name": "Br. El Pinal (Cr 25 - Cl 56a, Medellín)",
+        "lat": 6.245263089524996,
+        "lng": -75.54447595447522
+      },
+      {
+        "name": "Br. El Pinal (Cr 24aa - Cl 56, Medellín)",
+        "lat": 6.245263089524996,
+        "lng": -75.54447595447522
+      },
+      {
+        "name": "Br. La Libertad (Cl 55 - Cr 22a, Medellín)",
+        "lat": 6.249125448913388,
+        "lng": -75.5517080214129
+      },
+      {
+        "name": "Br. La Libertad (Cl 56a - Cr 20a, Medellín)",
+        "lat": 6.2529878083017785,
+        "lng": -75.5589400883506
+      }
+    ]
+  },
+  {
+    "id": "C6-009",
+    "name": "Ruta Integrada C6-009",
+    "stops": [
+      {
+        "name": "Estación Prado (Kr 51d - Cl 58, Medellín)",
+        "lat": 6.25685016769017,
+        "lng": -75.56617215528829
+      },
+      {
+        "name": "Plazuela Tomás Cipriano De Mosquera (Av. Oriental - Kr 48, Medellín)",
+        "lat": 6.255562714560706,
+        "lng": -75.56376146630906
+      },
+      {
+        "name": "Avenida Oriental (Cl 57 - Av. Oriental, Medellín)",
+        "lat": 6.254275261431243,
+        "lng": -75.56135077732984
+      },
+      {
+        "name": "Parque Obrero (Cl 58 - Cr 39, Medellín)",
+        "lat": 6.2529878083017785,
+        "lng": -75.55894008835061
+      },
+      {
+        "name": "Colegio Alfonso López Pumarejo (Cl 58 - Cr 36a, Medellín)",
+        "lat": 6.251700355172314,
+        "lng": -75.55652939937139
+      },
+      {
+        "name": "Br. Enciso (Cl 58 - Cr 32, Medellín)",
+        "lat": 6.250412902042851,
+        "lng": -75.55411871039215
+      },
+      {
+        "name": "Br. Enciso (Cl 58 - Cr 31, Medellín)",
+        "lat": 6.249125448913388,
+        "lng": -75.5517080214129
+      },
+      {
+        "name": "Br. Enciso (Cl 58 - Cr 28a, Medellín)",
+        "lat": 6.247837995783923,
+        "lng": -75.54929733243368
+      },
+      {
+        "name": "Br. La Ladera (Cl 57c - Cr 27, Medellín)",
+        "lat": 6.246550542654459,
+        "lng": -75.54688664345446
+      },
+      {
+        "name": "Br. El Pinal (Cr 26a - Cl 56b, Medellín)",
+        "lat": 6.245263089524996,
+        "lng": -75.54447595447522
+      },
+      {
+        "name": "Br. El Pinal (Cr 25bb - Cl 56, Medellín)",
+        "lat": 6.245263089524996,
+        "lng": -75.54447595447522
+      },
+      {
+        "name": "Estación El Pinal (Cl 56e - Cr 25, Medellín)",
+        "lat": 6.245263089524996,
+        "lng": -75.54447595447522
+      },
+      {
+        "name": "Br. La Libertad (Cl 56bc - Cr 20b, Medellín)",
+        "lat": 6.23931255121369,
+        "lng": -75.54220654574486
+      },
+      {
+        "name": "Uva Sol De Oriente (Cr 23 - Cl 23, Medellín)",
+        "lat": 6.233362012902384,
+        "lng": -75.5399371370145
+      },
+      {
+        "name": "Br. Trece De Noviembre (Cr 23 - Cl 56hc, Medellín)",
+        "lat": 6.245106090296277,
+        "lng": -75.5530546461514
+      }
+    ]
+  },
+  {
+    "id": "C6-010",
+    "name": "Ruta Integrada C6-010",
+    "stops": [
+      {
+        "name": "Cabecera Caicedo-Villatna (Cr 17b - Cl 56ee, Medellín)",
+        "lat": 6.24577203324522,
+        "lng": -75.55518345411522
+      },
+      {
+        "name": "Br. Villatina (Cr 17b - Cl 56e, Medellín)",
+        "lat": 6.234693898800269,
+        "lng": -75.54419475294218
+      },
+      {
+        "name": "Calle 56d # 16-17",
+        "lat": 6.234654649818548,
+        "lng": -75.54427325616041
+      },
+      {
+        "name": "Br. Villatina (Cr 16 - Cl 56a, Medellín)",
+        "lat": 6.2346154008368275,
+        "lng": -75.54435175937863
+      },
+      {
+        "name": "Br. Villatina (Cl 55 - Cr 16, Medellín)",
+        "lat": 6.234929124633613,
+        "lng": -75.5435160243866
+      },
+      {
+        "name": "Br. Villatina (Cl 54 - Cr 16, Medellín)",
+        "lat": 6.235214413062141,
+        "lng": -75.54426279301114
+      },
+      {
+        "name": "Br. Villatina (Cr 13 - Cl 52b, Medellín)",
+        "lat": 6.234731447302319,
+        "lng": -75.54398368531287
+      },
+      {
+        "name": "Br. Villatina (Cl 52 - Cr 13, Medellín)",
+        "lat": 6.235480642588995,
+        "lng": -75.54404840587976
+      },
+      {
+        "name": "Br. Alejandro Echavarría (Cl 52 - Cr 16, Medellín)",
+        "lat": 6.2355094486512535,
+        "lng": -75.5417391340117
+      },
+      {
+        "name": "Estación Loyola (Cl 52 - Cr 20, Medellín)",
+        "lat": 6.239028041681428,
+        "lng": -75.5451756476183
+      },
+      {
+        "name": "Estación Miraflores (Cl 52 - Cr 25a, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Br. Sucre (Cl 52 - Cr 27, Medellín)",
+        "lat": 6.2438855587185405,
+        "lng": -75.55154860451321
+      },
+      {
+        "name": "Br. Sucre (Cl 52 - Cr 32, Medellín)",
+        "lat": 6.246046326880479,
+        "lng": -75.55398586297572
+      },
+      {
+        "name": "Br. Sucre (Cr 31 - Cl 54a, Medellín)",
+        "lat": 6.248207095042417,
+        "lng": -75.55642312143823
+      },
+      {
+        "name": "Calle 54, 372-3794",
+        "lat": 6.250367863204356,
+        "lng": -75.55886037990075
+      },
+      {
+        "name": "Parque De Boston",
+        "lat": 6.252528631366294,
+        "lng": -75.56129763836326
+      },
+      {
+        "name": "Br. Villa Nueva (Av. Oriental - Cl 57, Medellín)",
+        "lat": 6.254689399528232,
+        "lng": -75.56373489682576
+      },
+      {
+        "name": "Estación Prado (Kr 51d - Cl 58, Medellín)",
+        "lat": 6.25685016769017,
+        "lng": -75.56617215528829
+      }
+    ]
+  },
+  {
+    "id": "C6-011",
+    "name": "Ruta Integrada C6-011",
+    "stops": [
+      {
+        "name": "Carrera 46a, 94-94",
+        "lat": 6.296272054478761,
+        "lng": -75.5518969353113
+      },
+      {
+        "name": "Carrera 46a, 99-52",
+        "lat": 6.296272054478761,
+        "lng": -75.5518969353113
+      },
+      {
+        "name": "Carrera 46a, 1012-10186",
+        "lat": 6.296272054478761,
+        "lng": -75.5518969353113
+      },
+      {
+        "name": "Cra 46a Con Cll 104",
+        "lat": 6.296272054478761,
+        "lng": -75.5518969353113
+      },
+      {
+        "name": "Cra 46 Con Cll 107, Est. Andalucía",
+        "lat": 6.296272054478761,
+        "lng": -75.5518969353113
+      },
+      {
+        "name": "Cra 46 Con Cll 108",
+        "lat": 6.296272054478761,
+        "lng": -75.5518969353113
+      },
+      {
+        "name": "Cra 46 Con Cll 110",
+        "lat": 6.296272054478761,
+        "lng": -75.5518969353113
+      },
+      {
+        "name": "Calle 120, 471-4749",
+        "lat": 6.296272054478761,
+        "lng": -75.5518969353113
+      },
+      {
+        "name": "Cra 46 Con Cll 116",
+        "lat": 6.296272054478761,
+        "lng": -75.5518969353113
+      },
+      {
+        "name": "Cra 46 Con Cll 110",
+        "lat": 6.296272054478761,
+        "lng": -75.5518969353113
+      },
+      {
+        "name": "Cra 46 Con Cll 108",
+        "lat": 6.296272054478761,
+        "lng": -75.5518969353113
+      },
+      {
+        "name": "Carrera 47, 1061-1069",
+        "lat": 6.296272054478761,
+        "lng": -75.5518969353113
+      },
+      {
+        "name": "Br. Villa Del Socorro (Cr 46a - Cl 102, Medellín)",
+        "lat": 6.296272054478761,
+        "lng": -75.5518969353113
+      },
+      {
+        "name": "Colegio La Asunción (Cr 46a - Cl 99, Medellín)",
+        "lat": 6.296272054478761,
+        "lng": -75.5518969353113
+      },
+      {
+        "name": "Calle 94, 482-4870",
+        "lat": 6.296272054478761,
+        "lng": -75.5518969353113
+      },
+      {
+        "name": "Carrera 46a, 94-94",
+        "lat": 6.296272054478761,
+        "lng": -75.5518969353113
+      }
+    ]
+  },
+  {
+    "id": "C6-012",
+    "name": "Ruta Integrada C6-012",
+    "stops": [
+      {
+        "name": "Cll 114 Con Cra 49c",
+        "lat": 6.29994259053742,
+        "lng": -75.55855570731788
+      },
+      {
+        "name": "Más horarios: 15:45, 16:00",
+        "lat": 6.29994259053742,
+        "lng": -75.55855570731788
+      },
+      {
+        "name": "Carrera 50a, 1171",
+        "lat": 6.29994259053742,
+        "lng": -75.55855570731788
+      },
+      {
+        "name": "Calle 114, 49c1",
+        "lat": 6.29994259053742,
+        "lng": -75.55855570731788
+      },
+      {
+        "name": "Cll 109 Con 50 B",
+        "lat": 6.29994259053742,
+        "lng": -75.55855570731788
+      },
+      {
+        "name": "Estación Acevedo (Cr 52 - Cl 108, Medellín)",
+        "lat": 6.29994259053742,
+        "lng": -75.55855570731788
+      },
+      {
+        "name": "Cra 49 B Con Cll 106",
+        "lat": 6.29994259053742,
+        "lng": -75.55855570731788
+      },
+      {
+        "name": "Cra 49 Con Cll 105b",
+        "lat": 6.29994259053742,
+        "lng": -75.55855570731788
+      },
+      {
+        "name": "Cra 49 B Con Cll 103b",
+        "lat": 6.29994259053742,
+        "lng": -75.55855570731788
+      },
+      {
+        "name": "Cra 49 B Con Cll 98a",
+        "lat": 6.29994259053742,
+        "lng": -75.55855570731788
+      },
+      {
+        "name": "Estación Parque De Aranjuez (Cr 49a - Cl 92, Medellín)",
+        "lat": 6.29994259053742,
+        "lng": -75.55855570731788
+      },
+      {
+        "name": "Parque De Aranjuez (Cr 48 - Cl 93, Medellín)",
+        "lat": 6.29994259053742,
+        "lng": -75.55855570731788
+      },
+      {
+        "name": "Biblioteca Santa Cruz (Cr 47b - Cl 98a, Medellín)",
+        "lat": 6.29994259053742,
+        "lng": -75.55855570731788
+      },
+      {
+        "name": "Iglesia Nuestra Señora De La Asunción (Cr 49 - Cl 98a, Medellín)",
+        "lat": 6.29994259053742,
+        "lng": -75.55855570731788
+      },
+      {
+        "name": "Cll 103 Con Cra 49b",
+        "lat": 6.29994259053742,
+        "lng": -75.55855570731788
+      },
+      {
+        "name": "Cra 49 B Con Cll 105a",
+        "lat": 6.29994259053742,
+        "lng": -75.55855570731788
+      },
+      {
+        "name": "Cra 49 B Con Cll 106",
+        "lat": 6.29994259053742,
+        "lng": -75.55855570731788
+      },
+      {
+        "name": "Cra 49 A Con Cll 107",
+        "lat": 6.29994259053742,
+        "lng": -75.55855570731788
+      },
+      {
+        "name": "Cra 49 B Con Cll 108",
+        "lat": 6.29994259053742,
+        "lng": -75.55855570731788
+      },
+      {
+        "name": "Cll 114 Con Cra 49c",
+        "lat": 6.29994259053742,
+        "lng": -75.55855570731788
+      }
+    ]
+  },
+  {
+    "id": "C6-013",
+    "name": "Ruta Integrada C6-013",
+    "stops": [
+      {
+        "name": "Carrera 42b - Calle 101a",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Colegio Santa Cruz (Cl 103 - Cr 42c, Medellín)",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Br. Santa Cruz (Cr 43a - Cl 103, Medellín)",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Br. Villa Del Socorro (Cr 46a - Cl 104, Medellín)",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Carrera 48, 103b1-103b35",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Carrera 48a, 103c2-103c36",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Cra 49 B Con Cll 103b",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Cra 49 B Con Cll 98a",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Cll 98 - Cra 49b",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Calle 98, 50aa2, I.E. República Honduras",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Estación Tricentenario (Cr 55 - Cl 97a, Medellín)",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Calle 98, 50aa1, I.E. República Honduras",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Cll 98 - Cra 49b",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Iglesia Nuestra Señora De La Asunción (Cr 49 - Cl 98a, Medellín)",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Cll 103 Con Cra 49b",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Carrera 48a, 103b1-103b37",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Carrera 48, 103a2-103a34",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Cra 46a Con Cll 104",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Carrera 43a - Calle 103",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Colegio Santa Cruz (Cl 103 - Cr 42c, Medellín)",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Carrera 42c - Calle 101a",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Carrera 42b - Calle 101a",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      }
+    ]
+  },
+  {
+    "id": "C6-015",
+    "name": "Ruta Integrada C6-015",
+    "stops": [
+      {
+        "name": "Calle 100, 35a2",
+        "lat": 6.2600427806619745,
+        "lng": -75.56489077022711
+      },
+      {
+        "name": "Carrera 37, 991",
+        "lat": 6.259814736878274,
+        "lng": -75.56498229773148
+      },
+      {
+        "name": "Carrera 37, 95a-90",
+        "lat": 6.259586693094574,
+        "lng": -75.56507382523584
+      },
+      {
+        "name": "Cra 38 - Cll 95a",
+        "lat": 6.259358649310874,
+        "lng": -75.56516535274021
+      },
+      {
+        "name": "Cra 42b - Cll 92",
+        "lat": 6.259130605527174,
+        "lng": -75.56525688024458
+      },
+      {
+        "name": "Cra 42b - Cll 91",
+        "lat": 6.258902561743474,
+        "lng": -75.56534840774894
+      },
+      {
+        "name": "Cra 42b - Cll 87",
+        "lat": 6.258674517959774,
+        "lng": -75.56543993525331
+      },
+      {
+        "name": "Carrera 43, 861",
+        "lat": 6.258446474176074,
+        "lng": -75.56553146275768
+      },
+      {
+        "name": "Calle 86, 44-01",
+        "lat": 6.258218430392374,
+        "lng": -75.56562299026204
+      },
+      {
+        "name": "Carrera 46, 851",
+        "lat": 6.2579903866086735,
+        "lng": -75.56571451776642
+      },
+      {
+        "name": "Carrera 46, 831",
+        "lat": 6.2577623428249725,
+        "lng": -75.56580604527079
+      },
+      {
+        "name": "Carrera 46, 79-52",
+        "lat": 6.2575342990412715,
+        "lng": -75.56589757277516
+      },
+      {
+        "name": "Carrera 46, 79-52",
+        "lat": 6.257306255257571,
+        "lng": -75.56598910027954
+      },
+      {
+        "name": "Carrera 46, 731",
+        "lat": 6.257078211473871,
+        "lng": -75.56608062778392
+      },
+      {
+        "name": "Carrera 47, 701, I.E Altos De Prado",
+        "lat": 6.25685016769017,
+        "lng": -75.56617215528829
+      },
+      {
+        "name": "Calle 69, 48a-87",
+        "lat": 6.2592066201217404,
+        "lng": -75.56522637107646
+      },
+      {
+        "name": "Estación San Pedro (Cl 67 - Cr 50, Medellín)",
+        "lat": 6.26156307255331,
+        "lng": -75.56428058686464
+      },
+      {
+        "name": "Estación Hospital Buses",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Estación San Pedro (Cr 50 - Cl 66, Medellín)",
+        "lat": 6.26369148120118,
+        "lng": -75.5634263301572
+      },
+      {
+        "name": "Estación Palos Verdes (Cl 66 - Cr 45, Medellín)",
+        "lat": 6.26346343741748,
+        "lng": -75.56351785766157
+      },
+      {
+        "name": "Carrera 44, 68-12",
+        "lat": 6.26323539363378,
+        "lng": -75.56360938516593
+      },
+      {
+        "name": "Carrera 44, 70a-07",
+        "lat": 6.26300734985008,
+        "lng": -75.5637009126703
+      },
+      {
+        "name": "Carrera 44, 742, Casa Gardeliana",
+        "lat": 6.2627793060663794,
+        "lng": -75.56379244017467
+      },
+      {
+        "name": "Carrera 44, 782",
+        "lat": 6.262551262282679,
+        "lng": -75.56388396767903
+      },
+      {
+        "name": "Carrera 44, 822",
+        "lat": 6.262323218498979,
+        "lng": -75.5639754951834
+      },
+      {
+        "name": "Carrera 43b, 842",
+        "lat": 6.262095174715279,
+        "lng": -75.56406702268777
+      },
+      {
+        "name": "Cra 42b - Cll 87",
+        "lat": 6.261867130931579,
+        "lng": -75.56415855019213
+      },
+      {
+        "name": "Cra 42b - Cll 92",
+        "lat": 6.261639087147879,
+        "lng": -75.5642500776965
+      },
+      {
+        "name": "Cra 42b - Cll 92",
+        "lat": 6.261411043364179,
+        "lng": -75.56434160520087
+      },
+      {
+        "name": "Calle 95a - Cra 38",
+        "lat": 6.261182999580479,
+        "lng": -75.56443313270523
+      },
+      {
+        "name": "Calle 95a, 37-2",
+        "lat": 6.2609549557967785,
+        "lng": -75.5645246602096
+      },
+      {
+        "name": "Br. San Pablo (Cr 36 - Cl 97, Medellín)",
+        "lat": 6.260726912013078,
+        "lng": -75.56461618771397
+      },
+      {
+        "name": "Carrera 35a, 9956",
+        "lat": 6.260498868229378,
+        "lng": -75.56470771521833
+      },
+      {
+        "name": "Calle 100, 35a2",
+        "lat": 6.260270824445678,
+        "lng": -75.5647992427227
+      }
+    ]
+  },
+  {
+    "id": "C6-016",
+    "name": "Ruta Integrada C6-016",
+    "stops": [
+      {
+        "name": "Carrera 37 - Calle 107e",
+        "lat": 6.288544269118305,
+        "lng": -75.56591908104998
+      },
+      {
+        "name": "Carrera 37, 107a1",
+        "lat": 6.289570300123865,
+        "lng": -75.56602675931653
+      },
+      {
+        "name": "Calle 103, 36b2",
+        "lat": 6.290596331129424,
+        "lng": -75.56613443758307
+      },
+      {
+        "name": "Carrera 34, 1021",
+        "lat": 6.291622362134984,
+        "lng": -75.56624211584962
+      },
+      {
+        "name": "Carrera 34 - Calle 100",
+        "lat": 6.292648393140543,
+        "lng": -75.56634979411616
+      },
+      {
+        "name": "Carrera 34 - Calle 95a",
+        "lat": 6.2936744241461025,
+        "lng": -75.56645747238271
+      },
+      {
+        "name": "Carrera 36, 91a37",
+        "lat": 6.294700455151662,
+        "lng": -75.56656515064925
+      },
+      {
+        "name": "Carrera 36, 87123",
+        "lat": 6.295726486157221,
+        "lng": -75.5666728289158
+      },
+      {
+        "name": "Carrera 36, 86b1-86b105",
+        "lat": 6.296752517162781,
+        "lng": -75.56678050718234
+      },
+      {
+        "name": "Carrera 39, 85a31",
+        "lat": 6.29777854816834,
+        "lng": -75.56688818544889
+      },
+      {
+        "name": "Carrera 39, 841",
+        "lat": 6.2988045791739,
+        "lng": -75.56699586371545
+      },
+      {
+        "name": "Carrera 39, #81-40",
+        "lat": 6.299830610179459,
+        "lng": -75.567103541982
+      },
+      {
+        "name": "Carrera 39, 79a1",
+        "lat": 6.300856641185018,
+        "lng": -75.56721122024854
+      },
+      {
+        "name": "Sena",
+        "lat": 6.301882672190578,
+        "lng": -75.5673188985151
+      },
+      {
+        "name": "Br. Manrique Central (Cl 71a - Cr 41, Medellín)",
+        "lat": 6.282901098587729,
+        "lng": -75.56532685058397
+      },
+      {
+        "name": "Unidad Hospitalaria Manrique (Cl 67 - Cr 43, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Estación Palos Verdes (Cr 45 - Cl 66, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Estación Hospital (Cr 51 - Cl 67, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Br. San Pedro (Cl 68 - Cr 49, Medellín)",
+        "lat": 6.2649455559904395,
+        "lng": -75.56344248091938
+      },
+      {
+        "name": "Br. Manrique Central (Cl 68 - Cr 48, Medellín)",
+        "lat": 6.265971586995999,
+        "lng": -75.56355015918592
+      },
+      {
+        "name": "Iglesia Jesús De Las Misericordias (Cr 47 - Cl 67, Medellín)",
+        "lat": 6.266997618001558,
+        "lng": -75.56365783745247
+      },
+      {
+        "name": "Estación Palos Verdes (Cl 66 - Cr 45, Medellín)",
+        "lat": 6.268023649007118,
+        "lng": -75.56376551571901
+      },
+      {
+        "name": "Carrera 43 - Calle 67",
+        "lat": 6.269049680012677,
+        "lng": -75.56387319398556
+      },
+      {
+        "name": "Br. Manrique Central (Cr 41 - Cl 70a, Medellín)",
+        "lat": 6.270075711018237,
+        "lng": -75.5639808722521
+      },
+      {
+        "name": "Carrera 40, 7294",
+        "lat": 6.271101742023796,
+        "lng": -75.56408855051865
+      },
+      {
+        "name": "Carrera 40, 782",
+        "lat": 6.272127773029355,
+        "lng": -75.56419622878519
+      },
+      {
+        "name": "Carrera 39 - Calle 79a",
+        "lat": 6.273153804034915,
+        "lng": -75.56430390705174
+      },
+      {
+        "name": "Carrera 39, 812",
+        "lat": 6.274179835040474,
+        "lng": -75.56441158531828
+      },
+      {
+        "name": "Carrera 39, 842",
+        "lat": 6.275205866046034,
+        "lng": -75.56451926358483
+      },
+      {
+        "name": "Carrera 39, 85a31",
+        "lat": 6.276231897051593,
+        "lng": -75.56462694185137
+      },
+      {
+        "name": "Carrera 36 - Calle 86b",
+        "lat": 6.2772579280571525,
+        "lng": -75.56473462011792
+      },
+      {
+        "name": "Carrera 36, 892",
+        "lat": 6.278283959062712,
+        "lng": -75.56484229838446
+      },
+      {
+        "name": "Cra 36 - Cll - 92b",
+        "lat": 6.279309990068271,
+        "lng": -75.56494997665101
+      },
+      {
+        "name": "Carrera 34 - Calle 95a",
+        "lat": 6.280336021073831,
+        "lng": -75.56505765491755
+      },
+      {
+        "name": "Carrera 34 - Calle 100",
+        "lat": 6.28136205207939,
+        "lng": -75.5651653331841
+      },
+      {
+        "name": "Carrera 34, 1022",
+        "lat": 6.28238808308495,
+        "lng": -75.56527301145064
+      },
+      {
+        "name": "Br. Granizal (Cl 104 - Cr 36b, Medellín)",
+        "lat": 6.283414114090509,
+        "lng": -75.56538068971719
+      },
+      {
+        "name": "Carrera 37 - Calle 107",
+        "lat": 6.2844401450960685,
+        "lng": -75.56548836798373
+      },
+      {
+        "name": "Carrera 37 - Calle 107e",
+        "lat": 6.285466176101628,
+        "lng": -75.56559604625028
+      },
+      {
+        "name": "Carrera 37, 107a1",
+        "lat": 6.286492207107187,
+        "lng": -75.56570372451682
+      },
+      {
+        "name": "Calle 103, 36b2",
+        "lat": 6.287518238112747,
+        "lng": -75.56581140278337
+      }
+    ]
+  },
+  {
+    "id": "C6-018",
+    "name": "Ruta Integrada C6-018",
+    "stops": [
+      {
+        "name": "Calle 101b, 382",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Carrera 42b, 101aa1",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Calle 100a - Carrera 42c",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Carrera 44 - Calle 97",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Carrera 45a - Calle 96",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Carrera 45a, 93-19",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Calle 94, 482-4870",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Colegio José Eusebio Caro (Cl 94 - Cr 50, Medellín)",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Br. San Isidro (Cl 94 - Cr 50c, Medellín)",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Br. San Isidro (Cr 52 - Cl 94, Medellín)",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Estación Tricentenario (Cr 55 - Cl 97a, Medellín)",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Puente Madre Laura (Cr 53 - Cl 93, Medellín)",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Br. San Isidro (Cl 93 - Cr 51, Medellín)",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Br. Aranjuez (Cl 93 - Cr 50b, Medellín)",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Estación Parque De Aranjuez (Cr 49a - Cl 92, Medellín)",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Br. Aranjuez (Cl 92 - Cr 48, Medellín)",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Carrera 46 - Calle 92",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Carrera 45a - Calle 93",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Carrera 45a - Calle 96",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Carrera 44 - Calle 97",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Calle 100a - Carrera 42c",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Carrera 42b - Calle 101a",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Calle 101b, 382",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      }
+    ]
+  },
+  {
+    "id": "C6-019",
+    "name": "Ruta Integrada C6-019",
+    "stops": [
+      {
+        "name": "Carrera 30a, 772",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 32, 772-7732",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 32, 79100, Unidad Deportiva El Raizal",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 36c, 79b9",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 40, 781",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Calle 78, 4184, El Pomar",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 43, 761, Casa Gardeliana",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 45, 72-114, Estación Gardel",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 43, 762, Casa Gardeliana",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Calle 78, 4183, El Pomar",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 40, 782",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 36c, 79b10",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 32, 7999, Unidad Deportiva El Raizal",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 32, 771",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 30a, 772",
+        "lat": 6.2995,
+        "lng": -75.5684
+      }
+    ]
+  },
+  {
+    "id": "C6-019A",
+    "name": "Ruta Integrada C6-019A",
+    "stops": [
+      {
+        "name": "Calle 85b, 3448, I.E República Barbados",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 36, 84a1",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 32, 80-13, U.V.A De La Armonía",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 32, 801",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 36c, 79b9",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 40, 781",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Calle 78, 4184, El Pomar",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 43, 761, Casa Gardeliana",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 45, 72-114, Estación Gardel",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 43, 762, Casa Gardeliana",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Calle 78, 4183, El Pomar",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 40, 782",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 36c, 79b10",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 32, 802",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 32, 80-13, Barrio El Jardín",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Carrera 36, 842",
+        "lat": 6.2995,
+        "lng": -75.5684
+      },
+      {
+        "name": "Calle 85b, 3448, I.E República Barbados",
+        "lat": 6.2995,
+        "lng": -75.5684
+      }
+    ]
+  },
+  {
+    "id": "C6-020",
+    "name": "Ruta Integrada C6-020",
+    "stops": [
+      {
+        "name": "Br. San José De La Cima (Cr 31 - Cl 93, Medellín)",
+        "lat": 6.247329169623107,
+        "lng": -75.56538621247408
+      },
+      {
+        "name": "Br. San José De La Cima (Cr 31b - Cl 92c, Medellín)",
+        "lat": 6.247329169623107,
+        "lng": -75.56538621247408
+      },
+      {
+        "name": "Br. San José De La Cima (Cr 31b - Cl 91, Medellín)",
+        "lat": 6.247329169623107,
+        "lng": -75.56538621247408
+      },
+      {
+        "name": "Br. San José De La Cima (Cr 32 - Cl 91, Medellín)",
+        "lat": 6.247329169623107,
+        "lng": -75.56538621247408
+      },
+      {
+        "name": "Iglesia San Blas (Cl 89a - Cr 36, Medellín)",
+        "lat": 6.249029445432446,
+        "lng": -75.56542019580407
+      },
+      {
+        "name": "Iglesia San Blas (Cl 89 - Cr 36c, Medellín)",
+        "lat": 6.250729721241784,
+        "lng": -75.56545417913405
+      },
+      {
+        "name": "Centro Salud San Blas (Cl 89 - Cr 39, Medellín)",
+        "lat": 6.252429997051123,
+        "lng": -75.56548816246404
+      },
+      {
+        "name": "Centro Salud San Blas (Cr 40 - Cl 88, Medellín)",
+        "lat": 6.254130272860461,
+        "lng": -75.56552214579402
+      },
+      {
+        "name": "Colegio Gabriel Restrepo Moreno (Cr 41 - Cl 85, Medellín)",
+        "lat": 6.255830548669799,
+        "lng": -75.565556129124
+      },
+      {
+        "name": "Br. Santa Inés (Cr 41 - Cl 83, Medellín)",
+        "lat": 6.2575308244791366,
+        "lng": -75.56559011245399
+      },
+      {
+        "name": "Br. Santa Inés (Cr 41 - Cl 81, Medellín)",
+        "lat": 6.259231100288475,
+        "lng": -75.56562409578397
+      },
+      {
+        "name": "Colegio San Lorenzo De Aburrá (Cl 80 - Cr 41, Medellín)",
+        "lat": 6.260931376097814,
+        "lng": -75.56565807911396
+      },
+      {
+        "name": "Estación Manrique (Cl 80 - Cr 44, Medellín)",
+        "lat": 6.262631651907151,
+        "lng": -75.56569206244394
+      },
+      {
+        "name": "Br. Campo Valdés (Cl 80 - Cr 47, Medellín)",
+        "lat": 6.264331927716489,
+        "lng": -75.56572604577393
+      },
+      {
+        "name": "Parque Brasilia (Cl 80 - Cr 50, Medellín)",
+        "lat": 6.266032203525827,
+        "lng": -75.56576002910391
+      },
+      {
+        "name": "Colegio Francisco Miranda (Cl 80 - Cr 50c, Medellín)",
+        "lat": 6.267732479335166,
+        "lng": -75.56579401243388
+      },
+      {
+        "name": "Estación Universidad (Cr 53 - Cl 73, Medellín)",
+        "lat": 6.2694327551445035,
+        "lng": -75.56582799576387
+      }
+    ]
+  },
+  {
+    "id": "C6-021",
+    "name": "Ruta Integrada C6-021",
+    "stops": [
+      {
+        "name": "Estación Tricentenario (Cr 55 - Cl 97a, Medellín)",
+        "lat": 6.290315341690465,
+        "lng": -75.56471672756503
+      },
+      {
+        "name": "Puente Madre Laura (Cr 53 - Cl 93, Medellín)",
+        "lat": 6.290685130542017,
+        "lng": -75.56344169962463
+      },
+      {
+        "name": "Br. San Isidro (Cl 93 - Cr 51, Medellín)",
+        "lat": 6.291054919393569,
+        "lng": -75.56216667168424
+      },
+      {
+        "name": "Br. Aranjuez (Cl 93 - Cr 50b, Medellín)",
+        "lat": 6.291424708245121,
+        "lng": -75.56089164374384
+      },
+      {
+        "name": "Estación Parque De Aranjuez (Cr 49a - Cl 92, Medellín)",
+        "lat": 6.2917944970966735,
+        "lng": -75.55961661580345
+      },
+      {
+        "name": "Br. Aranjuez (Cl 92 - Cr 48, Medellín)",
+        "lat": 6.292164285948226,
+        "lng": -75.55834158786305
+      },
+      {
+        "name": "Parque De Aranjuez (Cr 48 - Cl 93, Medellín)",
+        "lat": 6.292534074799778,
+        "lng": -75.55706655992266
+      },
+      {
+        "name": "Br. Aranjuez (Cr 48 - Cl 94, Medellín)",
+        "lat": 6.29290386365133,
+        "lng": -75.55579153198227
+      },
+      {
+        "name": "Biblioteca Santa Cruz (Cr 47b - Cl 98a, Medellín)",
+        "lat": 6.293273652502882,
+        "lng": -75.55451650404186
+      },
+      {
+        "name": "Iglesia Nuestra Señora De La Asunción (Cr 49 - Cl 98a, Medellín)",
+        "lat": 6.293643441354434,
+        "lng": -75.55324147610146
+      },
+      {
+        "name": "Colegio La Asunción (Cl 100 - Cr 47, Medellín)",
+        "lat": 6.294013230205987,
+        "lng": -75.55196644816107
+      },
+      {
+        "name": "Br. Villa Del Socorro (Cr 45a - Cl 101, Medellín)",
+        "lat": 6.294383019057539,
+        "lng": -75.55069142022066
+      },
+      {
+        "name": "Colegio Santa Cruz (Cl 103 - Cr 42c, Medellín)",
+        "lat": 6.2947528079090915,
+        "lng": -75.54941639228025
+      },
+      {
+        "name": "Br. Popular (Cr 42c - Cl 104, Medellín)",
+        "lat": 6.295122596760645,
+        "lng": -75.54814136433986
+      },
+      {
+        "name": "Br. Popular (Cl 105 - Cr 39, Medellín)",
+        "lat": 6.295122596760645,
+        "lng": -75.54814136433986
+      },
+      {
+        "name": "Br. Granizal (Cr 37a - Cl 104, Medellín)",
+        "lat": 6.292718969225555,
+        "lng": -75.55642904595244
+      }
+    ]
+  },
+  {
+    "id": "C6-022",
+    "name": "Ruta Integrada C6-022",
+    "stops": [
+      {
+        "name": "Br. La Cruz (Cr 24 - Cl 79g, Medellín)",
+        "lat": 6.257393964405148,
+        "lng": -75.56595389739326
+      },
+      {
+        "name": "Br. La Cruz (Cr 24 - Cl 75c, Medellín)",
+        "lat": 6.257937761120126,
+        "lng": -75.56573563949823
+      },
+      {
+        "name": "Br. La Cruz (Cr 25 - Cl 75c, Medellín)",
+        "lat": 6.258481557835104,
+        "lng": -75.56551738160319
+      },
+      {
+        "name": "Parroquia De La Sabiduría (Cr 25 - Cl 77, Medellín)",
+        "lat": 6.259025354550082,
+        "lng": -75.56529912370814
+      },
+      {
+        "name": "Br. Versalles (Cr 27c - Cl 77, Medellín)",
+        "lat": 6.25956915126506,
+        "lng": -75.56508086581312
+      },
+      {
+        "name": "Br. Versalles (Cr 27c - Cl 79c, Medellín)",
+        "lat": 6.260112947980037,
+        "lng": -75.56486260791809
+      },
+      {
+        "name": "Colegio Ramón Munera Lopera (Cr 30 - Cl 77, Medellín)",
+        "lat": 6.260656744695015,
+        "lng": -75.56464435002304
+      },
+      {
+        "name": "Br. El Raizal (Cr 32 - Cl 75d, Medellín)",
+        "lat": 6.261200541409993,
+        "lng": -75.564426092128
+      },
+      {
+        "name": "Br. El Raizal (Cl 75b - Cr 36, Medellín)",
+        "lat": 6.26174433812497,
+        "lng": -75.56420783423297
+      },
+      {
+        "name": "Br. El Raizal (Cl 75 - Cr 37, Medellín)",
+        "lat": 6.262288134839947,
+        "lng": -75.56398957633795
+      },
+      {
+        "name": "Parque Gaitán Manrique Oriental (Cr 37 - Cl 71a, Medellín)",
+        "lat": 6.262831931554925,
+        "lng": -75.5637713184429
+      },
+      {
+        "name": "Br. Manrique Central (Cl 71a - Cr 41, Medellín)",
+        "lat": 6.263375728269903,
+        "lng": -75.56355306054786
+      },
+      {
+        "name": "Unidad Hospitalaria Manrique (Cl 67 - Cr 43, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Estación Palos Verdes (Cr 45 - Cl 66, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Estación San Pedro (Cl 67 - Cr 50, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Estación Hospital (Av. Bolívar - Cl 66, Medellín)",
+        "lat": 6.26391952498488,
+        "lng": -75.56333480265283
+      },
+      {
+        "name": "Estación Prado (Av. Bolívar - Cl 58, Medellín)",
+        "lat": 6.25685016769017,
+        "lng": -75.56617215528829
+      }
+    ]
+  },
+  {
+    "id": "C6-023",
+    "name": "Ruta Integrada C6-023",
+    "stops": [
+      {
+        "name": "Quebrada Santa Bárbara (Cl 51b - Cr 1bb, Medellín)",
+        "lat": 6.2345566954244145,
+        "lng": -75.54124773830539
+      },
+      {
+        "name": "Br. Juan Pablo II (Cl 49a - Cr 2, Medellín)",
+        "lat": 6.235751377946446,
+        "lng": -75.54255833959627
+      },
+      {
+        "name": "Br. Juan Pablo II (Cl 49a - Cr 2bb, Medellín)",
+        "lat": 6.236946060468477,
+        "lng": -75.54386894088715
+      },
+      {
+        "name": "Colegio Arzobispo Tulio Botero Salazar (Cl 49a - Cr 3a, Medellín)",
+        "lat": 6.238140742990508,
+        "lng": -75.54517954217803
+      },
+      {
+        "name": "Br. Jesús (Cl 49a - Cr 5, Medellín)",
+        "lat": 6.2393354255125395,
+        "lng": -75.54649014346893
+      },
+      {
+        "name": "Br. Jesús (Cl 49a - Cr 6a, Medellín)",
+        "lat": 6.240530108034571,
+        "lng": -75.54780074475983
+      },
+      {
+        "name": "Subestación Eléctrica De Miraflores (Cl 49 - Cr 7, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Estación De Policía De Buenos Aires (Cl 49 - Cr 9b, Medellín)",
+        "lat": 6.241399227368494,
+        "lng": -75.55389999959961
+      },
+      {
+        "name": "Estación Oriente (Cl 49a - Cr 12, Medellín)",
+        "lat": 6.233362012902384,
+        "lng": -75.5399371370145
+      }
+    ]
+  },
+  {
+    "id": "C6-024",
+    "name": "Ruta Integrada C6-024",
+    "stops": [
+      {
+        "name": "Quebrada Santa Bárbara (Cl 51b - Cr 1bb, Medellín)",
+        "lat": 6.234422363756822,
+        "lng": -75.54031829319672
+      },
+      {
+        "name": "Br. Juan Pablo II (Cl 52 - Cr 2a, Medellín)",
+        "lat": 6.235482714611261,
+        "lng": -75.54069944937893
+      },
+      {
+        "name": "Br. Juan Pablo II (Cr 3 - Cl 52, Medellín)",
+        "lat": 6.2365430654657,
+        "lng": -75.54108060556115
+      },
+      {
+        "name": "Br. Las Estancias (Cl 52 - Cr 5, Medellín)",
+        "lat": 6.237603416320139,
+        "lng": -75.54146176174336
+      },
+      {
+        "name": "Br.Villa Liliam (Cl 52 - Cr 6, Medellín)",
+        "lat": 6.238663767174578,
+        "lng": -75.54184291792556
+      },
+      {
+        "name": "Br.Villa Liliam (Cl 52 - Cr 8, Medellín)",
+        "lat": 6.239387731598035,
+        "lng": -75.5416104617525
+      },
+      {
+        "name": "Quebrada La Castro (Cl 52 - Cr 10, Medellín)",
+        "lat": 6.2363748722502095,
+        "lng": -75.5407737993835
+      },
+      {
+        "name": "Estación Oriente (Cl 52 - Cr 12, Medellín)",
+        "lat": 6.233362012902384,
+        "lng": -75.5399371370145
+      },
+      {
+        "name": "Br. Villatina (Cl 52 - Cr 13, Medellín)",
+        "lat": 6.2345806510543325,
+        "lng": -75.5443918902964
+      },
+      {
+        "name": "Br. Alejandro Echavarría (Cr 15a - Cl 52, Medellín)",
+        "lat": 6.2355094486512535,
+        "lng": -75.5417391340117
+      },
+      {
+        "name": "Br. Alejandro Echavarría (Cr 17 - Cl 50a, Medellín)",
+        "lat": 6.2355094486512535,
+        "lng": -75.5417391340117
+      },
+      {
+        "name": "Br. Alejandro Echavarría (Cr 17 - Cl 49, Medellín)",
+        "lat": 6.2355094486512535,
+        "lng": -75.5417391340117
+      },
+      {
+        "name": "Br. Alejandro Echavarría (Cl 49 - Cr 14, Medellín)",
+        "lat": 6.2355094486512535,
+        "lng": -75.5417391340117
+      },
+      {
+        "name": "Estación Oriente (Cl 49a - Cr 12, Medellín)",
+        "lat": 6.233362012902384,
+        "lng": -75.5399371370145
+      }
+    ]
+  },
+  {
+    "id": "C6-025",
+    "name": "Ruta Integrada C6-025",
+    "stops": [
+      {
+        "name": "Medellín-Santa Elena",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Vía Sta Elena-Medellín",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Cl 46",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Via Medellín-Via Santa Elena, 2ag56",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Carrera 3b, 482-4884",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Calle 49, 431",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Subestación Eléctrica De Miraflores (Cl 49 - Cr 7, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Via Medellín-Via Santa Elena, 11c2",
+        "lat": 6.237543401729493,
+        "lng": -75.5445242415326
+      },
+      {
+        "name": "Estación Oriente (Cl 49a - Cr 12, Medellín)",
+        "lat": 6.233362012902384,
+        "lng": -75.5399371370145
+      },
+      {
+        "name": "Estación De Policía De Buenos Aires (Cl 49 - Cr 9b, Medellín)",
+        "lat": 6.241399227368494,
+        "lng": -75.55389999959961
+      },
+      {
+        "name": "Subestación Eléctrica De Miraflores (Cl 45e - Cr 6c, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Br. Jesús (Cr 6 - Cl 47a, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Br. Jesús (Cl 48 - Cr 47, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Br. 8 De Marzo (Cl 46 - Cr 2 Ag, Medellín)",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Cl 46 Con Cr 1aa",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Medellín-Santa Elena",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Vía Sta Elena-Medellín",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      },
+      {
+        "name": "Medellín-Santa Elena",
+        "lat": 6.241724790556602,
+        "lng": -75.54911134605071
+      }
+    ]
+  }
+]
