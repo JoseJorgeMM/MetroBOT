@@ -103,6 +103,8 @@ export async function loadStations(): Promise<Station[]> {
     }
 
     // Load Integrated routes
+    // We no longer add these to the general stations list to avoid cluttering the map
+    /*
     try {
       const integratedRes = await fetch('/rutas_integradas.json');
       if (integratedRes.ok) {
@@ -113,7 +115,7 @@ export async function loadStations(): Promise<Station[]> {
               id: `integrado-${route.id}-${idx}`,
               lat: stop.lat,
               lng: stop.lng,
-              sistema: 'Metroplús',
+              sistema: 'Integrado',
               nombre: stop.name,
               linea: route.id
             });
@@ -123,6 +125,7 @@ export async function loadStations(): Promise<Station[]> {
     } catch (e) {
       console.error("Error loading integrated routes in loadStations:", e);
     }
+    */
 
     return allStations;
   } catch (error) {

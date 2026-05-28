@@ -154,6 +154,26 @@ async function getEnCiclaData() {
   return cachedEnCicla;
 }
 
+let cachedIntegratedRoutes: string = '';
+
+async function getIntegratedRoutesData() {
+  if (cachedIntegratedRoutes) return cachedIntegratedRoutes;
+  try {
+    const res = await fetch('/rutas_integradas.json');
+    if (res.ok) {
+      const data = await res.json();
+      // Convert routes to a compact text format for the AI context
+      cachedIntegratedRoutes = data.map((r: any) =>
+        `Ruta Articulada ${r.id} (${r.name}): Stops: ${r.stops.map((s: any) => s.name).join(' -> ')}`
+      ).join('\n');
+    }
+  } catch (e) {
+    console.error("Error loading integrated routes:", e);
+  }
+  return cachedIntegratedRoutes;
+}
+
+
 let cachedTiempos: string = '';
 
 async function getTiemposData() {
@@ -184,6 +204,8 @@ export async function processUserQuery(
     const tarifas = await getTarifasData();
     const encicla = await getEnCiclaData();
     const tiempos = await getTiemposData();
+    const rutasArticuladas = await getIntegratedRoutesData();
+
 
     let grounding = '';
     let nearbyContext = '';
@@ -240,7 +262,12 @@ DATOS OFICIALES REALES DE TARIFAS 2026:
 ${tarifas}
 === FIN DOCUMENTO DE TARIFAS (CSV) ===
 
-DATOS DE ESTACIONES ENCICLA:
+    DATOS DE ESTACIONES ENCICLA:
+    ${encicla}
+
+    DATOS DE RUTAS DE BUSES ARTICULADOS (SISTEMA INTEGRADO):
+    ${rutasArticuladas}
+
 ${encicla}
 
 DATOS DE ESTACIONES Y TIEMPOS DE DESPLAZAMIENTO (Minutos):
