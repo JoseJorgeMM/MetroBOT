@@ -95,8 +95,12 @@ export function MapComponent({ onSearchRoute, origin, dest, routes, activeRouteI
         const stepPoints: { point: [number, number], mode: string }[] = [];
         
         if (routeOrigin) {
-           // We assume the first station is part of the first step's mode, or we just keep it
-           stepPoints.push({ point: [routeOrigin.lat, routeOrigin.lng], mode: 'walk' });
+           // Only add as a walk step if the origin is actually different from the routeOrigin
+           if (origin && (origin.lat !== routeOrigin.lat || origin.lng !== routeOrigin.lng)) {
+             stepPoints.push({ point: [routeOrigin.lat, routeOrigin.lng], mode: 'walk' });
+           } else {
+             stepPoints.push({ point: [routeOrigin.lat, routeOrigin.lng], mode: 'metro' });
+           }
         }
         
         currentRoute.steps.forEach(step => {
@@ -309,7 +313,7 @@ export function MapComponent({ onSearchRoute, origin, dest, routes, activeRouteI
                  color: color,
                  weight: 5,
                  opacity: 0.8,
-                 dashArray: isWalk ? '8, 8' : undefined
+                 dashArray: (isWalk && !isStraight) ? '8, 8' : undefined
               }}
             />
          );
