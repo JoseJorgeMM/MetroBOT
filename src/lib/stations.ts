@@ -103,6 +103,8 @@ export async function loadStations(): Promise<Station[]> {
     }
 
     // Load Integrated routes
+    // We no longer add these to the general stations list to avoid cluttering the map
+    /*
     try {
       const integratedRes = await fetch('/rutas_integradas.json');
       if (integratedRes.ok) {
@@ -123,6 +125,7 @@ export async function loadStations(): Promise<Station[]> {
     } catch (e) {
       console.error("Error loading integrated routes in loadStations:", e);
     }
+    */
 
     return allStations;
   } catch (error) {

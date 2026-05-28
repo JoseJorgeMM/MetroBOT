@@ -259,9 +259,9 @@ export function MapComponent({ onSearchRoute, origin, dest, routes, activeRouteI
       route.steps.forEach((step, idx) => {
         if (step.station) {
           const latlng: [number, number] = [step.station.lat, step.station.lng];
-          
-          // Only show intermediate markers if it's not the last/dest station
-          if (step.station.name !== routeDest?.name && step.station.name !== routeOrigin?.name) {
+
+          // Only show intermediate markers if it's not the last/dest station AND it's not a bus route
+          if (step.mode !== 'bus' && step.station.name !== routeDest?.name && step.station.name !== routeOrigin?.name) {
              intermediateMarkers.push(
                <Marker key={`inter-${idx}`} position={latlng} icon={createPointMarker(getMarkerColor(step.mode))}>
                  <Popup>
