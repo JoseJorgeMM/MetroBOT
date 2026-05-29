@@ -87,7 +87,7 @@ const renderRouteDeclaration: FunctionDeclaration = {
             },
             modes: {
               type: Type.ARRAY,
-              items: { type: Type.STRING, description: "'metro' | 'metrocable' | 'tranvia' | 'metroplus' | 'encicla' | 'walk'" }
+              items: { type: Type.STRING, description: "'metro' | 'metrocable' | 'tranvia' | 'metroplus' | 'bus_articulado' | 'encicla' | 'walk'" }
             },
             duration: { type: Type.INTEGER, description: 'Total duration in minutes' },
             cost: { type: Type.INTEGER, description: 'Total cost in COP (e.g., 3430)' },
@@ -98,7 +98,7 @@ const renderRouteDeclaration: FunctionDeclaration = {
                 type: Type.OBJECT,
                 properties: {
                   instruction: { type: Type.STRING, description: 'Clear instruction e.g. "Camina a la estación Acevedo", "Toma la Línea A hacia La Estrella"' },
-                  mode: { type: Type.STRING, description: "'metro' | 'metrocable' | 'tranvia' | 'metroplus' | 'encicla' | 'walk'" },
+                  mode: { type: Type.STRING, description: "'metro' | 'metrocable' | 'tranvia' | 'metroplus' | 'bus_articulado' | 'encicla' | 'walk'" },
                   duration: { type: Type.INTEGER },
                   cost: { type: Type.INTEGER, description: 'The individual cost of this step in COP (e.g., 0 or 3820). Set to 0 if it is a free transfer, walk or EnCicla.' },
                   line: { type: Type.STRING, description: 'Optional. e.g., "Línea A"' },
@@ -254,8 +254,10 @@ export async function processUserQuery(
       model: 'gemini-2.5-flash',
       contents: query,
       config: {
-        systemInstruction: `Eres MetroBot, el asistente inteligente de movilidad de SITVA (Metro, Metrocable, Tranvía, Metroplús, EnCicla) en Medellín Colombia.
+        systemInstruction: `Eres MetroBot, el asistente inteligente de movilidad de SITVA (Metro, Metrocable, Tranvía, Metroplús, EnCicla y Buses Articulados) en Medellín Colombia.
 Tu objetivo es dar rutas REALISTAS y ÚTILES. Por ejemplo, No sugieras caminar 1km si hay una estación a 200 metros.
+
+SISTEMA DE BUSES ARTICULADOS: Tienes acceso a la lista de "Rutas Articuladas". Estos buses operan en calles normales (sin carril exclusivo) y sirven como alimentadores hacia el Metro o Metroplús. Si el usuario necesita llegar a un punto donde pasa una de estas rutas, DEBES considerarla como una opción válida y eficiente.
 
 DATOS OFICIALES REALES DE TARIFAS 2026:
 === INICIO DOCUMENTO DE TARIFAS (CSV) ===
@@ -264,6 +266,9 @@ ${tarifas}
 
     DATOS DE ESTACIONES ENCICLA:
     ${encicla}
+
+    DATOS DE RUTAS DE BUSES ARTICULADOS (SISTEMA INTEGRADO):
+    ${rutasArticuladas}
 
     DATOS DE RUTAS DE BUSES ARTICULADOS (SISTEMA INTEGRADO):
     ${rutasArticuladas}
@@ -277,7 +282,7 @@ ${tiempos}
 
 REGLAS DE MOVILIDAD:
 1. EnCicla es GRATUITO. Úsalo para distancias cortas o "última milla".
-2. LÍMITE DE BICICLETA: Las distancias en EnCicla NO DEBEN exceder los 3 kilómetros (aprox 15-20 min). Los usuarios no pedalearán distancias extremas ni subirán lomas pronunciadas. Para tramos largos, USA SIEMPRE Metro, Cable o Plus.
+2. LÍMITE DE BICICLETA: Las distancias en EnCicla NO DEBEN exceder los 3 kilómetros (aprox 15-20 min). Los usuarios no pedalearán distancias extremas ni subirán lomas pronunciadas. Para tramos largos, USA SIEMPRE Metro, Cable, Plus o Buses Articulados.
 3. PRIORIDAD Y ORDEN DE RECOMENDACIÓN (Jerarquía de Valor): El orden de las rutas en el ARRAY  debe seguir estrictamente esta jerarquía de prioridad, de la más valorada a la menos valorada:
    - PRIORIDAD 1 (Esfuerzo Físico Mínimo): La ruta que minimice la distancia de CAMINATA total. Es la prioridad absoluta. Preferimos rutas con más transbordos si eso reduce la caminata.
    - PRIORIDAD 2 (Uso de Bicicleta): Entre rutas con caminatas similares, se priorizan aquellas que NO requieran usar EnCicla, o que minimicen el tiempo de pedaleo.
