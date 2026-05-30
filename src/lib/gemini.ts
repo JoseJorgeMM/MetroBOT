@@ -310,7 +310,7 @@ INSTRUCCIONES DE RESPUESTA:
    d) Llama a 'render_route' con el JSON que contiene un ARRAY de TODAS las opciones de rutas válidas que encontraste. INCLUYE las coordenadas de CADA estación intermedia en cada paso (steps) para que se vean en el mapa.
 3. Texto:
    - "¡Qué más! Te tengo estas opciones para tu ruta..."
-   - Enumera las opciones brevemente.
+   - Enumera las opciones brevemente sin dar detalles.
 
 DATOS DE RED SITVA:
 ${grounding}`,
