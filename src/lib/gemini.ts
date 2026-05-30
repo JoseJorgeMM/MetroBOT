@@ -164,7 +164,7 @@ async function getIntegratedRoutesData() {
       const data = await res.json();
       // Convert routes to a compact text format for the AI context
       cachedIntegratedRoutes = data.map((r: any) =>
-        `Ruta Articulada ${r.id} (${r.name}): Stops: ${r.stops.map((s: any) => s.name).join(' -> ')}`
+        `Ruta Articulada ${r.id} (${r.name}): Stops: ${r.stops.map((s: any) => `${s.name} (LAT ${s.lat}, LNG ${s.lng})`).join(' -> ')}`
       ).join('\n');
     }
   } catch (e) {

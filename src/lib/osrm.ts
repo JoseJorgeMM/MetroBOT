@@ -7,11 +7,11 @@ export async function getRouteGeometry(points: [number, number][], profile: 'foo
   
   let baseUrl = '';
   if (profile === 'foot') {
-    baseUrl = 'https://routing.openstreetmap.de/routed-foot/route/v1/driving';
+    baseUrl = 'https://routing.openstreetmap.de/routed-foot/route/v1/walking';
   } else if (profile === 'bike') {
-    baseUrl = 'https://routing.openstreetmap.de/routed-bike/route/v1/driving';
+    baseUrl = 'https://routing.openstreetmap.de/routed-bike/route/v1/cycling';
   } else {
-    baseUrl = `https://router.project-osrm.org/route/v1/car`;
+    baseUrl = `https://router.project-osrm.org/route/v1/driving`;
   }
 
   const url = `${baseUrl}/${coords}?overview=full&geometries=geojson`;
