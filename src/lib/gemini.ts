@@ -311,8 +311,6 @@ INSTRUCCIONES DE RESPUESTA:
 3. Texto:
    - "¡Qué más! Te tengo estas opciones para tu ruta..."
    - Enumera las opciones brevemente.
-   - Explica claramente y de forma breve dónde hacer transbordo (especialmente si cambia de sistema o línea).
-   - NO muestres coordenadas numéricas en el texto para el usuario.
 
 DATOS DE RED SITVA:
 ${grounding}`,
@@ -327,84 +325,84 @@ ${grounding}`,
       for (const call of functionCalls) {
         if (call.name === 'render_route') {
           const args = call.args as any;
-              // Calculador de costos programático para evitar errores de la IA
-            args.routes.forEach((route: any) => {
-              let totalCost = 0;
-              let hasUsedMetroplus = false;
-              let currentSystem = '';
+          // Calculador de costos programático para evitar errores de la IA
+          args.routes.forEach((route: any) => {
+            let totalCost = 0;
+            let hasUsedMetroplus = false;
+            let currentSystem = '';
 
-              route.steps.forEach((step: any) => {
-                const mode = (step.mode || '').toLowerCase();
-                if (mode === 'walk' || mode === 'encicla') {
-                  step.cost = 0;
-                  return;
+            route.steps.forEach((step: any) => {
+              const mode = (step.mode || '').toLowerCase();
+              if (mode === 'walk' || mode === 'encicla') {
+                step.cost = 0;
+                return;
+              }
+
+              // Caso Cable Arví (Línea L)
+              // Verificamos que sea exactamente "L" o "Línea L" para evitar falsos positivos con "Línea A", etc.
+              const isArviLine = step.line === 'L' || step.line === 'Línea L';
+              const isArviStation = step.station?.name?.toLowerCase().includes('arví');
+
+              if (isArviLine || isArviStation) {
+                step.cost = 11900;
+                totalCost += 11900; // Tarifa Cable Arví
+                currentSystem = 'arvi';
+                return;
+              }
+
+              if (mode === 'metroplus' || step.line === 'O' || step.line === 'Línea O' || step.line === '1' || step.line === 'Línea 1' || step.line === '2' || step.line === 'Línea 2') {
+                let stepCost = 0;
+                if (currentSystem !== 'metroplus') {
+                  if (!hasUsedMetroplus) {
+                    stepCost = (totalCost === 0) ? 3820 : 0;
+                    hasUsedMetroplus = true;
+                  } else {
+                    // Reingreso a Metroplús agota integración
+                    stepCost = 3820;
+                  }
                 }
-
-                // Caso Cable Arví (Línea L)
-                // Verificamos que sea exactamente "L" o "Línea L" para evitar falsos positivos con "Línea A", etc.
-                const isArviLine = step.line === 'L' || step.line === 'Línea L';
-                const isArviStation = step.station?.name?.toLowerCase().includes('arví');
-
-                if (isArviLine || isArviStation) {
-                   step.cost = 11900;
-                   totalCost += 11900; // Tarifa Cable Arví
-                   currentSystem = 'arvi';
-                   return;
+                step.cost = stepCost;
+                totalCost += stepCost;
+                currentSystem = 'metroplus';
+              } else if (['metro', 'metrocable', 'tranvia'].includes(mode)) {
+                let stepCost = 0;
+                if (totalCost === 0) {
+                  stepCost = 3820;
+                } else if (currentSystem === 'arvi') {
+                  stepCost = 3820; // De Arví a Metro se paga de nuevo
                 }
-
-                if (mode === 'metroplus' || step.line === 'O' || step.line === 'Línea O' || step.line === '1' || step.line === 'Línea 1' || step.line === '2' || step.line === 'Línea 2') {
-                   let stepCost = 0;
-                   if (currentSystem !== 'metroplus') {
-                      if (!hasUsedMetroplus) {
-                         stepCost = (totalCost === 0) ? 3820 : 0;
-                         hasUsedMetroplus = true;
-                      } else {
-                         // Reingreso a Metroplús agota integración
-                         stepCost = 3820;
-                      }
-                   }
-                   step.cost = stepCost;
-                   totalCost += stepCost;
-                   currentSystem = 'metroplus';
-                } else if (['metro', 'metrocable', 'tranvia'].includes(mode)) {
-                   let stepCost = 0;
-                   if (totalCost === 0) {
-                      stepCost = 3820;
-                   } else if (currentSystem === 'arvi') {
-                      stepCost = 3820; // De Arví a Metro se paga de nuevo
-                   }
-                   step.cost = stepCost;
-                   totalCost += stepCost;
-                   currentSystem = 'metro';
-                } else {
-                   step.cost = 0;
-                }
-              });
-
-              if (totalCost > 0) {
-                route.cost = totalCost;
+                step.cost = stepCost;
+                totalCost += stepCost;
+                currentSystem = 'metro';
               } else {
-                // Si hay pasos de transporte pero el costo quedó en 0,
-                // asegurar que no se quede un costo alucinado por la IA
-                const transitSteps = route.steps.filter((s: any) => {
-                  const m = (s.mode || '').toLowerCase();
-                  return ['metro', 'metrocable', 'tranvia', 'metroplus'].includes(m);
-                });
-                if (transitSteps.length > 0) {
-                  route.cost = 3820;
-                  transitSteps.forEach((s: any, idx: number) => {
-                    s.cost = (idx === 0) ? 3820 : 0;
-                  });
-                }
+                step.cost = 0;
               }
             });
-            onRouteFound(args.routes);
-            } else if (call.name === 'get_station_status') {
-              const args = call.args as any;
-              const status = await getStationStatus(args.stationId);
-              onStatusFound(status);
-              return `Estado para ${args.stationId}: ${status}`;
+
+            if (totalCost > 0) {
+              route.cost = totalCost;
+            } else {
+              // Si hay pasos de transporte pero el costo quedó en 0,
+              // asegurar que no se quede un costo alucinado por la IA
+              const transitSteps = route.steps.filter((s: any) => {
+                const m = (s.mode || '').toLowerCase();
+                return ['metro', 'metrocable', 'tranvia', 'metroplus'].includes(m);
+              });
+              if (transitSteps.length > 0) {
+                route.cost = 3820;
+                transitSteps.forEach((s: any, idx: number) => {
+                  s.cost = (idx === 0) ? 3820 : 0;
+                });
+              }
             }
+          });
+          onRouteFound(args.routes);
+        } else if (call.name === 'get_station_status') {
+          const args = call.args as any;
+          const status = await getStationStatus(args.stationId);
+          onStatusFound(status);
+          return `Estado para ${args.stationId}: ${status}`;
+        }
       }
     }
 
