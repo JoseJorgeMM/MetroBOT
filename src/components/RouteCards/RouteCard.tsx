@@ -9,6 +9,8 @@ const ModeIcon = ({ mode, className }: { mode: string, className?: string }) => 
     case 'metrocable': return <CableCar className={className} />;
     case 'tranvia': return <TramFront className={className} />;
     case 'metroplus': return <Bus className={className} />;
+    case 'bus':
+    case 'bus_articulado': return <Bus className={className} />;
     case 'encicla': return <Bike className={className} />;
     case 'walk': return <Footprints className={className} />;
     default: return <Footprints className={className} />;
@@ -21,6 +23,8 @@ const ModeColor = (mode: string) => {
     case 'metrocable': return 'text-sitva-red';
     case 'tranvia': return 'text-sitva-green';
     case 'metroplus': return 'text-sitva-blue';
+    case 'bus':
+    case 'bus_articulado': return 'text-slate-600 dark:text-slate-400';
     case 'encicla': return 'text-encicla';
     case 'walk': return 'text-slate-400';
     default: return 'text-slate-400';
