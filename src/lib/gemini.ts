@@ -27,8 +27,6 @@ async function getTarifasData() {
     const res = await fetch('/tarifas_metro_medellin_2026.csv');
     if (res.ok) {
       cachedTarifas = await res.text();
-    } else {
-      console.warn("No se pudo cargar el CSV de tarifas.");
     }
   } catch (e) {
     console.error("Error cargando CSV de tarifas:", e);
@@ -154,23 +152,16 @@ async function getEnCiclaData() {
   return cachedEnCicla;
 }
 
-let cachedIntegratedRoutes: string = '';
-
 async function getIntegratedRoutesData() {
-  if (cachedIntegratedRoutes) return cachedIntegratedRoutes;
   try {
     const res = await fetch('/rutas_integradas.json');
     if (res.ok) {
-      const data = await res.json();
-      // Convert routes to a compact text format for the AI context
-      cachedIntegratedRoutes = data.map((r: any) =>
-        `Ruta Articulada ${r.id} (${r.name}): Stops: ${r.stops.map((s: any) => `${s.name} (LAT ${s.lat}, LNG ${s.lng})`).join(' -> ')}`
-      ).join('\n');
+      return await res.json();
     }
   } catch (e) {
     console.error("Error loading integrated routes:", e);
   }
-  return cachedIntegratedRoutes;
+  return [];
 }
 
 
@@ -204,11 +195,11 @@ export async function processUserQuery(
     const tarifas = await getTarifasData();
     const encicla = await getEnCiclaData();
     const tiempos = await getTiemposData();
-    const rutasArticuladas = await getIntegratedRoutesData();
-
+    const allIntegratedRoutes = await getIntegratedRoutesData();
 
     let grounding = '';
     let nearbyContext = '';
+    let integratedContext = '';
 
     if (options?.origin || options?.dest) {
       const allStations = await loadStations();
@@ -234,7 +225,6 @@ export async function processUserQuery(
           .map(s => ({ ...s, tag: 'Destino' }))
         : [];
 
-      // Combine and deduplicate
       const relevantStations = [...originNearby, ...destNearby].reduce((acc, curr) => {
         if (!acc.find(s => s.id === curr.id)) acc.push(curr);
         return acc;
@@ -244,76 +234,60 @@ export async function processUserQuery(
         .map(s => `- [Para ${s.tag}] ${s.nombre} (${s.sistema} - Linea ${s.linea}): A ${Math.round(s.distance)} metros de distancia (Caminando: ~${s.walkingMinutes} min) - Coord: LAT ${s.lat.toFixed(5)}, LNG ${s.lng.toFixed(5)}`)
         .join('\n');
 
-      grounding = `ESTACIONES RELEVANTES CERCANAS A LA BÚSQUEDA:\n${nearbyContext}\n\nOTRAS ESTACIONES:\n${await getGroundingData()}`;
+      // 2. Contexto de paradas de Buses Integrados (Filtrado por cercanía)
+      const nearbyBusStops: any[] = [];
+      allIntegratedRoutes.forEach((route: any) => {
+        route.stops.forEach((stop: any) => {
+            if (options.origin) {
+              const dOrig = calculateDistance(options.origin.lat, options.origin.lng, stop.lat, stop.lng);
+              if (dOrig < 1000) nearbyBusStops.push({ ...stop, routeId: route.id, routeName: route.name, dist: dOrig, tag: 'Origen' });
+            }
+            if (options.dest) {
+              const dDest = calculateDistance(options.dest.lat, options.dest.lng, stop.lat, stop.lng);
+              if (dDest < 1000) nearbyBusStops.push({ ...stop, routeId: route.id, routeName: route.name, dist: dDest, tag: 'Destino' });
+            }
+        });
+      });
+
+      const bestBusStops = nearbyBusStops
+        .sort((a, b) => a.dist - b.dist)
+        .slice(0, 15);
+
+      integratedContext = bestBusStops
+        .map(s => `- [Para ${s.tag}] Parada "${s.name}" (Bus Articulado ${s.routeId}): A ${Math.round(s.dist)} metros (Caminando: ~${Math.ceil(s.dist/80)} min) - Coord: LAT ${s.lat}, LNG ${s.lng}`)
+        .join('\n');
+
+      grounding = `ESTACIONES RELEVANTES CERCANAS A LA BÚSQUEDA:\n${nearbyContext}\n\nPARADAS DE BUSES INTEGRADOS CERCANAS:\n${integratedContext}\n\nOTRAS ESTACIONES DEL SISTEMA:\n${await getGroundingData()}`;
     } else {
       grounding = await getGroundingData();
     }
 
-    // We append the instruction to force the model to call our renderer and ALSO reply in textual steps.
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-2.0-flash',
       contents: query,
       config: {
         systemInstruction: `Eres MetroBot, el asistente inteligente de movilidad de SITVA (Metro, Metrocable, Tranvía, Metroplús, EnCicla y Buses Articulados) en Medellín Colombia.
-Tu objetivo es dar rutas REALISTAS y ÚTILES. Por ejemplo, No sugieras caminar 1km si hay una estación a 200 metros.
+Tu objetivo es dar rutas REALISTAS y ÚTILES. Prioriza SIEMPRE minimizar la caminata usando el sistema integrado (Buses).
 
-SISTEMA DE BUSES ARTICULADOS: Tienes acceso a la lista de "Rutas Articuladas". Estos buses operan en calles normales (sin carril exclusivo) y sirven como alimentadores hacia el Metro o Metroplús. Si el usuario está cerca a un punto donde pasa alguno de estos buses, DEBES considerarla obligatoriamente como una opción válida.
+REGLAS DE ORO:
+1. MINIMIZAR CAMINATA: Si hay una parada de BUS ARTICULADO cerca del usuario (ver lista PARADAS CERCANAS), ÚSALA obligatoriamente para evitar que camine a una estación lejana.
+2. COORDINADAS PRECISAS: Al llamar a 'render_route', usa las coordenadas EXACTAS provistas en las listas de "CERCANAS" tanto para 'originStation' como para los 'steps'.
+3. NO INVENTAR: No inventes estaciones.
 
-DATOS OFICIALES REALES DE TARIFAS 2026:
-=== INICIO DOCUMENTO DE TARIFAS (CSV) ===
+DATOS OFICIALES SITVA 2026:
+=== TARIFAS ===
 ${tarifas}
-=== FIN DOCUMENTO DE TARIFAS (CSV) ===
-
-    DATOS DE ESTACIONES ENCICLA:
-    ${encicla}
-
-    DATOS DE RUTAS DE BUSES ARTICULADOS (SISTEMA INTEGRADO):
-    ${rutasArticuladas}
-
-    DATOS DE RUTAS DE BUSES ARTICULADOS (SISTEMA INTEGRADO):
-    ${rutasArticuladas}
-
+=== TIEMPOS ===
+${tiempos}
+=== ENCICLA ===
 ${encicla}
 
-DATOS DE ESTACIONES Y TIEMPOS DE DESPLAZAMIENTO (Minutos):
-=== INICIO DOCUMENTO DE TIEMPOS (CSV) ===
-${tiempos}
-=== FIN DOCUMENTO DE TIEMPOS (CSV) ===
-
-REGLAS DE MOVILIDAD:
-1. EnCicla es GRATUITO. Úsalo para distancias cortas o "última milla".
-2. LÍMITE DE BICICLETA: Las distancias en EnCicla NO DEBEN exceder los 3 kilómetros (aprox 15-20 min). Los usuarios no pedalearán distancias extremas ni subirán lomas pronunciadas. Para tramos largos, USA SIEMPRE Metro, Cable, Plus o Buses Articulados.
-3. PRIORIDAD Y ORDEN DE RECOMENDACIÓN (Jerarquía de Valor): El orden de las rutas en el ARRAY  debe seguir estrictamente esta jerarquía de prioridad, de la más valorada a la menos valorada:
-   - PRIORIDAD 1 (Esfuerzo Físico Mínimo): La ruta que minimice la distancia de CAMINATA total. Es la prioridad absoluta. Preferimos rutas con más transbordos si eso reduce la caminata.
-   - PRIORIDAD 2 (Uso de Bicicleta): Entre rutas con caminatas similares, se priorizan aquellas que NO requieran usar EnCicla, o que minimicen el tiempo de pedaleo.
-   - PRIORIDAD 3 (Tiempo Total): Entre rutas con esfuerzo físico similar, la que tenga la menor  total.
-   - PRIORIDAD 4 (Costo): El costo total es el factor menos importante. No sacrifiques comodidad ni tiempo solo por ahorrar dinero.
-   - RESULTADO: La PRIMERA ruta debe ser la más "cómoda" (mínima caminata/pedaleo), independientemente de si tiene más transbordos o es más costosa.
-   - Asegúrate de ordenar el ARRAY devuelto siguiendo estrictamente esta jerarquía.
-4. Si existe la lista "ESTACIONES RELEVANTES CERCANAS" abajo, DEBES elegir el origen y el destino de ESA LISTA preferiblemente para minimizar la caminata.
-5. NO inventes estaciones. Usa solo los nombres exactos provistos. \`originStation\` y \`destinationStation\` DEBEN ser siempre ESTACIONES de la red (ej. "Parada Plaza Mayor"), NUNCA el lugar físico buscado por el usuario (ej. "Colegio Jesus Rey" o "Plaza Mayor").
-6. Verifica el sistema: Si la estación dice "Metrocable Linea P", no digas que es "Metro" o "Metroplús".
-7. TIEMPOS EXACTOS (SITVA): Para calcular la \`duration\` de los trayectos en SITVA, usa la tabla de TIEMPOS DE DESPLAZAMIENTO siguiendo estrictamente esta regla:
-   - Suma el "espera_promedio_min" SOLO una vez al inicio de cada modo de transporte o línea.
-   - Para los segmentos siguientes dentro del mismo trayecto, suma únicamente el "tiempo_movimiento_promedio_min".
-   - NO sumes la espera en cada estación intermedia, ya que el usuario solo espera el bus/tren al inicio.
-   - No inventes los tiempos; básate siempre en los datos del CSV.
-8. TIEMPO DE CAMINATA REALISTA: Asume una velocidad de caminata urbana estándar de 4.5 a 5 km/h (aproximadamente 12 a 15 minutos por kilómetro). Al calcular el tiempo de caminar hasta una estación, utiliza las coordenadas y calcula la distancia realista (asumiendo cuadras urbanas, no línea recta). No subestimes el tiempo de caminar.
-9. CÁLCULO DE COSTOS EXACTOS: El campo "cost" debe calcularse de forma precisa con el CSV. Si el viaje es solo dentro de la red (Metro, Tranvía, Metroplús, Cables -excepto Arví-) el costo inicial es la tarifa base frecuente (ej. 3820). Caminar y EnCicla tienen costo 0. Transbordos directos entre Metro/Tranvía/Cables/Metroplús son gratuitos según la "matriz_transbordos". REGLA DE METROPLÚS: El transbordo Metroplús -> Metro (o viceversa) es gratis, PERO si la ruta exige salir y volver a ingresar al mismo sistema (ej. Metroplús -> Metro -> Metroplús), se cobra nuevamente la tarifa base al reingresar, sumando otro pasaje. Si el viaje incluye Cable Arví, suma su tarifa especial.
-
 INSTRUCCIONES DE RESPUESTA:
-1. RESPONDE EN ESPAÑOL con tono amigable, preciso y breve.
-2. Proceso:
-   a) Identifica las estaciones de inicio y fin (usa la lista de RELEVANTES CERCANAS con prioridad).
-   b) Traza la ruta usando las líneas del Metro y sus integraciones.
-   c) DEBES buscar 2 o 3 opciones de ruta alternativas (ej. una más rápida en Metro, otra combinando con EnCicla) si es factible.
-   d) Llama a 'render_route' con el JSON que contiene un ARRAY de TODAS las opciones de rutas válidas que encontraste. INCLUYE las coordenadas de CADA estación intermedia en cada paso (steps) para que se vean en el mapa.
-3. Texto:
-   - "¡Qué más! Te tengo estas opciones para tu ruta..."
-   - Enumera las opciones brevemente sin dar detalles.
+1. Identifica estaciones/paradas de inicio y fin usando las listas "CERCANAS" con prioridad total.
+2. Llama a 'render_route' con 2-3 opciones.
+3. Responde brevemente en español.
 
-DATOS DE RED SITVA:
-${grounding}`,
+DATOS DE RED SITVA:\n${grounding}`,
         tools: [{ functionDeclarations: [renderRouteDeclaration, getStationStatusDeclaration] }]
       }
     });
@@ -339,13 +313,12 @@ ${grounding}`,
               }
 
               // Caso Cable Arví (Línea L)
-              // Verificamos que sea exactamente "L" o "Línea L" para evitar falsos positivos con "Línea A", etc.
               const isArviLine = step.line === 'L' || step.line === 'Línea L';
               const isArviStation = step.station?.name?.toLowerCase().includes('arví');
 
               if (isArviLine || isArviStation) {
                 step.cost = 11900;
-                totalCost += 11900; // Tarifa Cable Arví
+                totalCost += 11900; 
                 currentSystem = 'arvi';
                 return;
               }
@@ -357,7 +330,6 @@ ${grounding}`,
                     stepCost = (totalCost === 0) ? 3820 : 0;
                     hasUsedMetroplus = true;
                   } else {
-                    // Reingreso a Metroplús agota integración
                     stepCost = 3820;
                   }
                 }
@@ -369,7 +341,7 @@ ${grounding}`,
                 if (totalCost === 0) {
                   stepCost = 3820;
                 } else if (currentSystem === 'arvi') {
-                  stepCost = 3820; // De Arví a Metro se paga de nuevo
+                  stepCost = 3820; 
                 }
                 step.cost = stepCost;
                 totalCost += stepCost;
@@ -382,8 +354,6 @@ ${grounding}`,
             if (totalCost > 0) {
               route.cost = totalCost;
             } else {
-              // Si hay pasos de transporte pero el costo quedó en 0,
-              // asegurar que no se quede un costo alucinado por la IA
               const transitSteps = route.steps.filter((s: any) => {
                 const m = (s.mode || '').toLowerCase();
                 return ['metro', 'metrocable', 'tranvia', 'metroplus'].includes(m);
@@ -406,7 +376,7 @@ ${grounding}`,
       }
     }
 
-    return textResponse || "No estoy seguro de cómo ayudarte con eso. Intenta pedirme una ruta, por ejemplo, hacia el Parque Arví, o pregúntame por el estado del Metrocable Línea K.";
+    return textResponse || "No estoy seguro de cómo ayudarte con eso.";
   } catch (error) {
     console.warn("Gemini API Error, falling back to local routing:", error);
     try {
@@ -416,12 +386,9 @@ ${grounding}`,
       let destLng = options?.dest?.lng;
 
       if (!originLat || !destLat) {
-        // Try parsing station names from query
         const stations = await loadStations();
         const foundStations: any[] = [];
         const queryLower = query.toLowerCase();
-
-        // Sort stations by name length descending to avoid partial match issues
         const sortedStations = [...stations].sort((a, b) => b.nombre.length - a.nombre.length);
 
         sortedStations.forEach(s => {
@@ -432,17 +399,10 @@ ${grounding}`,
         });
 
         if (foundStations.length >= 2) {
-          // Assume first is origin, second is destination
           originLat = foundStations[0].lat;
           originLng = foundStations[0].lng;
           destLat = foundStations[1].lat;
           destLng = foundStations[1].lng;
-        } else if (foundStations.length === 1) {
-          // Use search origin/dest coords or central station
-          destLat = foundStations[0].lat;
-          destLng = foundStations[0].lng;
-          originLat = stations[0].lat;
-          originLng = stations[0].lng;
         }
       }
 
@@ -450,12 +410,12 @@ ${grounding}`,
         const offlineRoutes = await getLocalOfflineRoute(originLat, originLng, destLat, destLng);
         if (offlineRoutes && offlineRoutes.length > 0) {
           onRouteFound(offlineRoutes);
-          return "⚠️ **Modo Sin Conexión / Local Activo**: He calculado las mejores opciones de ruta usando el algoritmo local del sistema offline (Dijkstra) ya que el servicio inteligente de Gemini no responde. ¡Aquí tienes las opciones!";
+          return "⚠️ Modo Sin Conexión Activo.";
         }
       }
     } catch (offlineError) {
       console.error("Local routing fallback failed:", offlineError);
     }
-    return "Lo siento, tuve un problema conectándome al sistema y no se pudo calcular la ruta de forma local. Intenta nuevamente en un momento.";
+    return "Error al calcular la ruta.";
   }
 }

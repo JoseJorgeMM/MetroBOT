@@ -74,10 +74,12 @@ export default function App() {
       (newRoutes) => {
         setRoutes(newRoutes);
         if (newRoutes.length > 0) {
-          if (newRoutes[0].userOrigin) {
+          // Only update origin/dest if they aren't already set manually on the map
+          // OR if this was a textual search without context coords
+          if (!contextCoords?.origin && newRoutes[0].userOrigin) {
             setOrigin({lat: newRoutes[0].userOrigin.lat, lng: newRoutes[0].userOrigin.lng, name: newRoutes[0].userOrigin.name});
           }
-          if (newRoutes[0].userDest) {
+          if (!contextCoords?.dest && newRoutes[0].userDest) {
             setDest({lat: newRoutes[0].userDest.lat, lng: newRoutes[0].userDest.lng, name: newRoutes[0].userDest.name});
           }
         }

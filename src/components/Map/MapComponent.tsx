@@ -299,8 +299,17 @@ export function MapComponent({
       const positions = routePaths['walk-origin'] || [[origin.lat, origin.lng], [routeOrigin.lat, routeOrigin.lng]];
       polys.push(
         <React.Fragment key="origin-connection">
-          <Polyline positions={positions} pathOptions={{ color: '#10b981', dashArray: '5, 5', weight: 4 }}>
-             <Popup>Distancia caminando al inicio: {dist} metros ({Math.ceil(dist / 80)} min)</Popup>
+          <Polyline 
+            positions={positions} 
+            pathOptions={{ color: '#10b981', dashArray: '5, 10', weight: 6, interactive: true }}
+          >
+             <Popup>
+               <div className="p-1">
+                 <p className="font-bold text-emerald-600">Tramo a pie</p>
+                 <p className="text-xs">Distancia: {dist} metros</p>
+                 <p className="text-xs font-semibold">Tiempo: ~{Math.ceil(dist / 80)} min</p>
+               </div>
+             </Popup>
           </Polyline>
         </React.Fragment>
       );
@@ -309,7 +318,23 @@ export function MapComponent({
     // Route trace between stations
     if (currentRoute) {
       const route = currentRoute;
-      const intermediateMarkers: React.ReactNode[] = [];
+      const markers: React.ReactNode[] = [];
+
+      // Boarding Marker (Punto de abordaje)
+      if (routeOrigin) {
+        const boardingIcon = createPointMarker(getMarkerColor(route.steps[0]?.mode || 'bus'), 
+          `<div style="background-color: white; color: ${getMarkerColor(route.steps[0]?.mode || 'bus')}; border: 3px solid ${getMarkerColor(route.steps[0]?.mode || 'bus')}; border-radius: 50%; padding: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/></svg></div>`
+        );
+        markers.push(
+          <Marker key="boarding-point" position={[routeOrigin.lat, routeOrigin.lng]} icon={boardingIcon}>
+            <Popup>
+              <div className="font-bold">Punto de Abordaje</div>
+              <div className="text-sm">{routeOrigin.name}</div>
+              <div className="text-xs text-blue-500 mt-1">Súbete aquí al {route.steps[0]?.mode === 'bus' ? 'Bus' : 'transporte'}</div>
+            </Popup>
+          </Marker>
+        );
+      }
 
       route.steps.forEach((step, idx) => {
         if (step.station) {
@@ -317,7 +342,7 @@ export function MapComponent({
 
           // Only show intermediate markers if it's not the last/dest station AND it's not the route origin
           if (step.station.name !== routeDest?.name && step.station.name !== routeOrigin?.name) {
-             intermediateMarkers.push(
+             markers.push(
                <Marker key={`inter-${idx}`} position={latlng} icon={createPointMarker(getMarkerColor(step.mode))}>
                  <Popup>
                    <div className="font-semibold">{step.station.name}</div>
@@ -336,6 +361,7 @@ export function MapComponent({
          if (!positions || positions.length < 2) return;
 
          const isWalk = k.includes('-walk-');
+         const isBus = k.includes('-bus-');
          const isStraight = k.includes('straight');
          const isEncicla = k.includes('-encicla-');
 
@@ -348,6 +374,8 @@ export function MapComponent({
            color = '#10b981'; // emerald for walk
          } else if (isEncicla) {
            color = '#00A4E4'; // encicla color
+         } else if (isBus) {
+           color = '#f59e0b'; // amber for bus
          } else if (isStraight) {
            if (step) {
              color = getMarkerColor(step.mode);
@@ -362,15 +390,22 @@ export function MapComponent({
               positions={positions}
               pathOptions={{
                  color: color,
-                 weight: 5,
-                 opacity: 0.8,
-                 dashArray: (isWalk && !isStraight) ? '8, 8' : undefined
+                 weight: 6,
+                 opacity: 0.9,
+                 dashArray: (isWalk && !isStraight) ? '5, 10' : undefined,
+                 interactive: true
               }}
-            />
+            >
+              <Popup>
+                <div className="text-xs font-bold">
+                  {isWalk ? 'Tramo a pie' : (isBus ? 'Trayecto en Bus' : 'Trayecto en SITVA')}
+                </div>
+              </Popup>
+            </Polyline>
          );
       });
 
-      polys.push(...intermediateMarkers);
+      polys.push(...markers);
     }
 
     if (dest && routeDest) {
@@ -378,8 +413,17 @@ export function MapComponent({
       const positions = routePaths['walk-dest'] || [[routeDest.lat, routeDest.lng], [dest.lat, dest.lng]];
       polys.push(
         <React.Fragment key="dest-connection">
-          <Polyline positions={positions} pathOptions={{ color: '#f43f5e', dashArray: '5, 5', weight: 4 }}>
-            <Popup>Distancia caminando al final: {dist} metros ({Math.ceil(dist / 80)} min)</Popup>
+          <Polyline 
+            positions={positions} 
+            pathOptions={{ color: '#f43f5e', dashArray: '5, 10', weight: 6, interactive: true }}
+          >
+            <Popup>
+               <div className="p-1">
+                 <p className="font-bold text-rose-500">Llegada a destino</p>
+                 <p className="text-xs">Distancia final: {dist} metros</p>
+                 <p className="text-xs font-semibold">Tiempo: ~{Math.ceil(dist / 80)} min</p>
+               </div>
+            </Popup>
           </Polyline>
         </React.Fragment>
       );
