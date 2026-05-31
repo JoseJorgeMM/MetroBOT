@@ -2,11 +2,32 @@ import React, { useState } from 'react';
 import { WhatsAppIcon } from './WhatsAppIcon';
 import { HelpCircle, ChevronUp, ChevronDown } from 'lucide-react';
 
-export function SupportCard() {
+interface SupportCardProps {
+  compact?: boolean;
+}
+
+export function SupportCard({ compact = false }: SupportCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const whatsappNumber = "3017085321";
   const message = "Hola, necesito ayuda con una estación/bicicleta de EnCicla.";
   const whatsappUrl = `https://wa.me/57${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+  if (compact) {
+    return (
+      <a 
+        href={whatsappUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-center w-12 h-12 rounded-full bg-[#25D366] hover:bg-[#20ba5a] text-white shadow-xl transition-all duration-300 pointer-events-auto border-2 border-white dark:border-slate-800 scale-100 hover:scale-110 active:scale-95 group relative"
+        title="Soporte EnCicla"
+      >
+        <WhatsAppIcon className="w-5 h-5 brightness-0 invert" />
+        <span className="absolute right-14 bg-slate-900/90 text-white text-xs font-semibold px-2 py-1 rounded shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none z-50">
+          Soporte EnCicla
+        </span>
+      </a>
+    );
+  }
 
   return (
     <div className={`bg-card/95 backdrop-blur-md rounded-2xl shadow-xl border border-border transition-all duration-300 pointer-events-auto overflow-hidden ${isExpanded ? 'w-64 p-4' : 'w-48 p-3 cursor-pointer select-none hover:bg-card'}`}
@@ -50,3 +71,4 @@ export function SupportCard() {
     </div>
   );
 }
+

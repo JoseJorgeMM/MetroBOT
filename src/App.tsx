@@ -17,10 +17,10 @@ export default function App() {
   ]);
   const [routes, setRoutes] = useState<RouteOption[]>([]);
   const [activeRouteIndex, setActiveRouteIndex] = useState(0);
-  const [isChatOpen, setIsChatOpen] = useState(true);
+  const [sheetHeight, setSheetHeight] = useState<'min' | 'mid' | 'max'>('mid');
   
-  const [origin, setOrigin] = useState<{lat: number, lng: number} | null>(null);
-  const [dest, setDest] = useState<{lat: number, lng: number} | null>(null);
+  const [origin, setOrigin] = useState<{lat: number, lng: number, name?: string} | null>(null);
+  const [dest, setDest] = useState<{lat: number, lng: number, name?: string} | null>(null);
 
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -62,6 +62,7 @@ export default function App() {
     setIsLoading(true);
     setRoutes([]); // Clear previous routes
     setActiveRouteIndex(0); // Reset selected route
+    setSheetHeight('mid'); // Snap back to middle split when query is submitted to see loading & map
 
     const response = await processUserQuery(
       textToProcess,
@@ -69,17 +70,17 @@ export default function App() {
         setRoutes(newRoutes);
         if (newRoutes.length > 0) {
           if (newRoutes[0].userOrigin) {
-            setOrigin({lat: newRoutes[0].userOrigin.lat, lng: newRoutes[0].userOrigin.lng});
+            setOrigin({lat: newRoutes[0].userOrigin.lat, lng: newRoutes[0].userOrigin.lng, name: newRoutes[0].userOrigin.name});
           }
           if (newRoutes[0].userDest) {
-            setDest({lat: newRoutes[0].userDest.lat, lng: newRoutes[0].userDest.lng});
+            setDest({lat: newRoutes[0].userDest.lat, lng: newRoutes[0].userDest.lng, name: newRoutes[0].userDest.name});
           }
         }
       },
       (status) => console.log("Status:", status), // Handled in text response for now
       {
-        origin: contextCoords?.origin || origin || undefined,
-        dest: contextCoords?.dest || dest || undefined
+        origin: contextCoords?.origin || (origin ? {lat: origin.lat, lng: origin.lng} : undefined),
+        dest: contextCoords?.dest || (dest ? {lat: dest.lat, lng: dest.lng} : undefined)
       }
     );
 
@@ -91,10 +92,10 @@ export default function App() {
     searchOrigin: {lat: number, lng: number, name: string}, 
     searchDest: {lat: number, lng: number, name: string}
   ) => {
-    setOrigin({lat: searchOrigin.lat, lng: searchOrigin.lng});
-    setDest({lat: searchDest.lat, lng: searchDest.lng});
+    setOrigin({lat: searchOrigin.lat, lng: searchOrigin.lng, name: searchOrigin.name});
+    setDest({lat: searchDest.lat, lng: searchDest.lng, name: searchDest.name});
     
-    setIsChatOpen(true);
+    setSheetHeight('mid');
     const originText = searchOrigin.name.split(',')[0];
     const destText = searchDest.name.split(',')[0];
     const finalMessage = `Busca la mejor ruta en SITVA para ir de "${originText}" a "${destText}". (LAT ${searchOrigin.lat}, LNG ${searchOrigin.lng} a LAT ${searchDest.lat}, LNG ${searchDest.lng}). Busca estaciones de SITVA y ENCICLA cercanas y dame la ruta. 
@@ -107,6 +108,20 @@ El mensaje para el usuario no debe contener coordenadas.`;
     });
   };
 
+  const handleDragHandleClick = () => {
+    setSheetHeight(prev => {
+      if (prev === 'min') return 'mid';
+      if (prev === 'mid') return 'max';
+      return 'min';
+    });
+  };
+
+  const heightClasses = {
+    min: 'h-20',
+    mid: 'h-[45dvh]',
+    max: 'h-[85dvh]'
+  };
+
   return (
     <div className="relative w-full h-[100dvh] overflow-hidden bg-background text-foreground flex flex-col md:flex-row font-sans transition-colors duration-300">
       {/* Real Map Component Area */}
@@ -117,82 +132,74 @@ El mensaje para el usuario no debe contener coordenadas.`;
           dest={dest}
           routes={routes}
           activeRouteIndex={activeRouteIndex}
-          onOriginSelect={(coords) => setOrigin(coords ? {lat: coords.lat, lng: coords.lng} : null)}
-          onDestSelect={(coords) => setDest(coords ? {lat: coords.lat, lng: coords.lng} : null)}
+          onOriginSelect={(coords) => setOrigin(coords ? {lat: coords.lat, lng: coords.lng, name: coords.name} : null)}
+          onDestSelect={(coords) => setDest(coords ? {lat: coords.lat, lng: coords.lng, name: coords.name} : null)}
           darkMode={darkMode}
+          onClearRoute={() => {
+            setRoutes([]);
+            setOrigin(null);
+            setDest(null);
+          }}
+          onThemeToggle={() => setDarkMode(!darkMode)}
         />
         
-        {/* Support Card Positioned on the Map */}
+        {/* Support Card Positioned on the Map (Desktop Only) */}
         <div className="hidden md:block absolute bottom-6 left-6 z-[1000] pointer-events-none">
           <SupportCard />
         </div>
       </div>
 
-      {/* Floating Header (Mobile) */}
-      <div className="absolute top-0 left-0 right-0 p-4 z-20 flex justify-between items-center bg-gradient-to-b from-background/80 via-background/40 to-transparent md:hidden pointer-events-none">
-        <div className="flex items-center space-x-2 pointer-events-auto">
-          <img src="/logo_chat.png" alt="MetroBot" className="w-10 h-10 rounded-full shadow-lg object-cover bg-card border border-border" />
-          <span className="font-bold text-foreground text-lg drop-shadow-sm">MetroBot</span>
-        </div>
-        <div className="flex items-center space-x-2 pointer-events-auto">
-          {/* Professional Theme Toggle Mobile */}
-          <Button 
-            variant="outline" 
-            size="icon" 
-            className="rounded-full shadow-md bg-card border-border text-foreground hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
-            onClick={() => setDarkMode(!darkMode)}
-            title="Cambiar tema"
-          >
-            {darkMode ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5 text-slate-700" />}
-          </Button>
-          <Button variant="outline" size="icon" className="rounded-full shadow-md bg-card border-border text-foreground hover:bg-slate-100 dark:hover:bg-slate-800">
-            <Menu className="w-5 h-5" />
-          </Button>
-        </div>
-      </div>
-
       {/* Sidebar / Bottom Sheet */}
-      <div className={`absolute bottom-0 left-0 right-0 z-20 flex flex-col bg-card border-t border-border/30 md:border-t-0 md:border-l md:border-sidebar-border transition-all duration-300 ease-in-out md:relative md:w-96 md:h-full md:rounded-none md:shadow-xl ${isChatOpen ? 'h-[60dvh]' : 'h-[5.5rem]'} md:h-full overflow-hidden`}>
+      <div className={`absolute bottom-0 left-0 right-0 z-20 flex flex-col bg-card border-t border-border/30 md:border-t-0 md:border-l md:border-sidebar-border transition-all duration-300 ease-in-out md:relative md:w-96 md:h-full md:rounded-none md:shadow-xl ${heightClasses[sheetHeight]} md:h-full overflow-hidden`}>
         
         {/* Drag Handle (Mobile) */}
         <div 
-          className="w-full h-8 flex flex-col items-center justify-start pt-3 cursor-pointer shrink-0 md:hidden z-10"
-          onClick={() => setIsChatOpen(!isChatOpen)}
+          className="w-full h-8 flex flex-col items-center justify-start pt-2.5 cursor-pointer shrink-0 md:hidden z-30 select-none hover:bg-slate-100/40 dark:hover:bg-slate-800/10 transition-colors"
+          onClick={handleDragHandleClick}
         >
           <div className="w-12 h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full mb-1" />
-          {!isChatOpen && <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium">Desliza o toca para abrir el chat</span>}
+          {sheetHeight === 'min' && (
+            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">
+              {routes.length > 0 ? 'Ver rutas y chat' : 'Toca para abrir MetroBot'}
+            </span>
+          )}
+          {sheetHeight === 'mid' && (
+            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">
+              Expandir Chat
+            </span>
+          )}
+          {sheetHeight === 'max' && (
+            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">
+              Minimizar
+            </span>
+          )}
         </div>
 
-        {/* Support floating button for mobile when chat is closed or small */}
-        {!isChatOpen && (
-          <div className="absolute -top-16 right-4 md:hidden z-30">
-             <SupportCard />
-          </div>
-        )}
-
-        {/* Desktop Header */}
-        <div className="hidden md:flex items-center justify-between p-6 border-b border-sidebar-border shrink-0">
+        {/* Unified Sheet Header (Mobile & Desktop) */}
+        <div className={`flex items-center justify-between px-5 py-4 border-b border-border/20 shrink-0 ${sheetHeight === 'min' ? 'hidden md:flex' : 'flex'}`}>
           <div className="flex items-center space-x-3">
-            <img src="/logo_chat.png" alt="MetroBot" className="w-10 h-10 rounded-full shadow-md object-cover bg-card border border-border" />
+            <img src="/logo_chat.png" alt="MetroBot" className="w-9 h-9 rounded-full shadow-md object-cover bg-card border border-border" />
             <div>
-              <h1 className="font-bold text-foreground">MetroBot</h1>
-              <p className="text-xs text-slate-500 dark:text-slate-400">Asistente SITVA</p>
+              <h2 className="font-bold text-foreground text-base leading-tight">MetroBot</h2>
+              <p className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">Asistente de Movilidad SITVA</p>
             </div>
           </div>
-          {/* Professional Theme Toggle Desktop */}
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="rounded-full text-foreground hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
-            onClick={() => setDarkMode(!darkMode)}
-            title="Cambiar tema"
-          >
-            {darkMode ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5 text-slate-700" />}
-          </Button>
+          {/* Theme Toggle (Desktop only) */}
+          <div className="hidden md:block">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="rounded-full text-foreground hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
+              onClick={() => setDarkMode(!darkMode)}
+              title="Cambiar tema"
+            >
+              {darkMode ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5 text-slate-700" />}
+            </Button>
+          </div>
         </div>
 
         {/* Content Area */}
-        <div className={`flex-1 overflow-y-auto p-4 space-y-4 bg-background ${!isChatOpen ? 'hidden md:block' : 'block'}`}>
+        <div className={`flex-1 overflow-y-auto p-4 space-y-4 bg-background custom-scrollbar ${sheetHeight === 'min' ? 'hidden md:block' : 'block'}`}>
           
           {/* Messages */}
           <div className="space-y-4 mb-4">
@@ -244,12 +251,6 @@ El mensaje para el usuario no debe contener coordenadas.`;
               </motion.div>
             )}
           </AnimatePresence>
-
-          {/* Mobile Support Card inside when chat is open and it's mobile */}
-          <div className="mt-8 md:hidden">
-            <SupportCard />
-          </div>
-
         </div>
 
         {/* Input Area */}
@@ -258,7 +259,7 @@ El mensaje para el usuario no debe contener coordenadas.`;
             <Input 
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              onFocus={() => setIsChatOpen(true)}
+              onFocus={() => setSheetHeight('max')}
               placeholder="Escribe un mensaje o lugar..." 
               className="pr-12 bg-input border-border text-foreground placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-sitva-green/50 focus-visible:bg-card text-[15px]"
             />

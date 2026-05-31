@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, ZoomControl, useMap, Polyline } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Info, ChevronUp, ChevronDown, Map as MapIcon, MapPin } from 'lucide-react';
+import { Info, ChevronUp, ChevronDown, Map as MapIcon, MapPin, Sun, Moon } from 'lucide-react';
 import { loadStations, Station } from '@/src/lib/stations';
 import { MapSearch } from './MapSearch';
 import { getRouteGeometry } from '@/src/lib/osrm';
 
 import { RouteOption } from '@/src/lib/routing';
+import { SupportCard } from '../SupportCard';
 
 const getDistanceMeters = (lat1: number, lon1: number, lat2: number, lon2: number) => {
   const R = 6371e3; // metres
@@ -52,6 +53,8 @@ interface MapComponentProps {
   onOriginSelect?: (coords: {lat: number, lng: number, name?: string} | null) => void;
   onDestSelect?: (coords: {lat: number, lng: number, name?: string} | null) => void;
   darkMode?: boolean;
+  onClearRoute?: () => void;
+  onThemeToggle?: () => void;
 }
 
 const createPointMarker = (color: string, iconHtml?: string) => {
@@ -63,7 +66,18 @@ const createPointMarker = (color: string, iconHtml?: string) => {
   });
 };
 
-export function MapComponent({ onSearchRoute, origin, dest, routes, activeRouteIndex = 0, onOriginSelect, onDestSelect, darkMode = false }: MapComponentProps) {
+export function MapComponent({ 
+  onSearchRoute, 
+  origin, 
+  dest, 
+  routes, 
+  activeRouteIndex = 0, 
+  onOriginSelect, 
+  onDestSelect, 
+  darkMode = false,
+  onClearRoute,
+  onThemeToggle
+}: MapComponentProps) {
   const [stations, setStations] = useState<Station[]>([]);
   const [loading, setLoading] = useState(true);
   const [isLegendExpanded, setIsLegendExpanded] = useState(false);
@@ -336,6 +350,12 @@ export function MapComponent({ onSearchRoute, origin, dest, routes, activeRouteI
     return polys;
   };
 
+  const handleClearRoute = () => {
+    if (onOriginSelect) onOriginSelect(null);
+    if (onDestSelect) onDestSelect(null);
+    if (onClearRoute) onClearRoute();
+  };
+
   return (
     <div className="w-full h-full relative">
       <MapContainer 
@@ -355,6 +375,10 @@ export function MapComponent({ onSearchRoute, origin, dest, routes, activeRouteI
           onRouteSubmit={onSearchRoute} 
           onOriginSelect={onOriginSelect} 
           onDestSelect={onDestSelect} 
+          origin={origin}
+          dest={dest}
+          hasActiveRoute={routes && routes.length > 0}
+          onClearRoute={handleClearRoute}
         />
         
         {renderConnections()}
@@ -385,7 +409,7 @@ export function MapComponent({ onSearchRoute, origin, dest, routes, activeRouteI
                   <div className="pt-2">
                     <button 
                       onClick={() => handleComoLlegar(station)}
-                      className="w-full bg-sitva-green text-white font-bold py-1.5 rounded-lg text-xs shadow-sm hover:bg-sitva-green/90 transition-colors"
+                      className="w-full bg-sitva-green text-white font-bold py-1.5 rounded-lg text-xs shadow-sm hover:bg-sitva-green/90 transition-colors cursor-pointer"
                     >
                       ¿Cómo llegar?
                     </button>
@@ -398,7 +422,7 @@ export function MapComponent({ onSearchRoute, origin, dest, routes, activeRouteI
       </MapContainer>
 
       {loading && (
-        <div className="absolute inset-0 bg-background/50 backdrop-blur-sm flex items-center justify-center z-10">
+        <div className="absolute inset-0 bg-background/50 backdrop-blur-sm flex items-center justify-center z-[1001]">
           <div className="bg-card border border-border p-4 rounded-2xl shadow-xl flex items-center space-x-3">
             <div className="w-6 h-6 border-4 border-sitva-green border-t-transparent rounded-full animate-spin" />
             <span className="font-bold text-foreground">Cargando Mapa SITVA...</span>
@@ -406,9 +430,61 @@ export function MapComponent({ onSearchRoute, origin, dest, routes, activeRouteI
         </div>
       )}
       
-      {/* Legend Area */}
+      {/* Mobile Vertical controls stack */}
+      <div className="absolute top-20 right-4 z-[999] flex flex-col gap-3 pointer-events-none md:hidden">
+        {/* Theme Toggle Button */}
+        {onThemeToggle && (
+          <button 
+            onClick={onThemeToggle}
+            className="w-11 h-11 flex items-center justify-center bg-card/90 backdrop-blur-sm rounded-full shadow-lg border border-border/40 text-foreground pointer-events-auto hover:bg-card transition-all active:scale-95 cursor-pointer"
+            title="Cambiar tema"
+          >
+            {darkMode ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5 text-slate-700" />}
+          </button>
+        )}
+
+        {/* Legend Button */}
+        <div className="relative flex justify-end pointer-events-auto">
+          <button 
+            onClick={() => setIsLegendExpanded(!isLegendExpanded)}
+            className={`w-11 h-11 flex items-center justify-center bg-card/90 backdrop-blur-sm rounded-full shadow-lg border border-border/40 pointer-events-auto transition-all active:scale-95 cursor-pointer ${isLegendExpanded ? 'text-sitva-blue border-sitva-blue/30 bg-blue-50/20' : 'text-foreground'}`}
+            title="Leyendas"
+          >
+            <MapIcon className="w-5 h-5" />
+          </button>
+          
+          {isLegendExpanded && (
+            <div className="absolute right-13 top-0 bg-card/95 backdrop-blur-md border border-border/60 shadow-xl rounded-2xl p-3 w-36 flex flex-col gap-2 z-[1000] animate-in fade-in slide-in-from-right-3 duration-250">
+              <h4 className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider border-b border-border/10 pb-1">Leyenda</h4>
+              <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: getMarkerColor('Metro') }}></div>
+                  <span className="text-[11px] font-semibold text-foreground/95">Metro</span>
+              </div>
+              <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: getMarkerColor('Cable') }}></div>
+                  <span className="text-[11px] font-semibold text-foreground/95">Metrocable</span>
+              </div>
+              <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: getMarkerColor('Metroplus') }}></div>
+                  <span className="text-[11px] font-semibold text-foreground/95">Metroplús</span>
+              </div>
+              <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: getMarkerColor('EnCicla') }}></div>
+                  <span className="text-[11px] font-semibold text-foreground/95">EnCicla</span>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* WhatsApp Support compact FAB */}
+        <div className="pointer-events-auto">
+          <SupportCard compact={true} />
+        </div>
+      </div>
+      
+      {/* Legend Area (Desktop only) */}
       <div 
-        className={`absolute top-[4.5rem] md:top-4 right-3 md:right-4 bg-card/95 border border-border backdrop-blur shadow-xl rounded-2xl z-[1000] flex flex-col transition-all duration-300 pointer-events-auto overflow-hidden ${isLegendExpanded ? 'p-3 w-[150px] md:w-48' : 'p-2 w-auto cursor-pointer hover:bg-card'}`}
+        className={`hidden md:flex absolute top-4 right-4 bg-card/95 border border-border backdrop-blur shadow-xl rounded-2xl z-[1000] flex-col transition-all duration-300 pointer-events-auto overflow-hidden ${isLegendExpanded ? 'p-3 w-48' : 'p-2 w-auto cursor-pointer hover:bg-card'}`}
         onClick={() => !isLegendExpanded && setIsLegendExpanded(true)}
       >
          <div className="flex items-center justify-between gap-3">
@@ -423,7 +499,7 @@ export function MapComponent({ onSearchRoute, origin, dest, routes, activeRouteI
                e.stopPropagation();
                setIsLegendExpanded(!isLegendExpanded);
              }}
-             className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors ml-1"
+             className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors ml-1 cursor-pointer"
            >
              {isLegendExpanded ? <ChevronDown className="w-3.5 h-3.5 text-slate-400" /> : <ChevronUp className="w-3.5 h-3.5 text-slate-400" />}
            </button>
