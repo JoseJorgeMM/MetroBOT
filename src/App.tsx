@@ -2,16 +2,21 @@ import React, { useState, useRef, useEffect } from 'react';
 import { MapComponent } from './components/Map/MapComponent';
 import { Input } from './components/ui/input';
 import { Button } from './components/ui/button';
-import { Send, Menu, MessageSquare, AlertCircle, Sun, Moon } from 'lucide-react';
+import { Send, Menu, MessageSquare, AlertCircle, Sun, Moon, HelpCircle } from 'lucide-react';
 import { processUserQuery } from './lib/gemini';
 import { RouteOption } from './lib/routing';
 import { RouteCard } from './components/RouteCards/RouteCard';
 import { SupportCard } from './components/SupportCard';
+import { SupportChannels } from './components/SupportChannels';
+import { TariffInfo } from './components/TariffInfo';
+import { SystemStatus } from './components/SystemStatus';
+import { CloudRain, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 export default function App() {
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showSupport, setShowSupport] = useState(false);
   const [messages, setMessages] = useState<{role: 'user' | 'assistant', content: string}[]>([
     { role: 'assistant', content: '¡Qué más! Soy MetroBot. ¿A dónde quieres ir hoy en Medellín? También puedes tocar el mapa para marcar tu Punto de Inicio y Destino.' }
   ]);
@@ -184,22 +189,68 @@ El mensaje para el usuario no debe contener coordenadas.`;
               <p className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">Asistente de Movilidad SITVA</p>
             </div>
           </div>
-          {/* Theme Toggle (Desktop only) */}
-          <div className="hidden md:block">
+          <div className="flex items-center space-x-1">
             <Button 
               variant="ghost" 
               size="icon" 
-              className="rounded-full text-foreground hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
-              onClick={() => setDarkMode(!darkMode)}
-              title="Cambiar tema"
+              className={`rounded-full transition-colors ${showSupport ? 'text-sitva-green bg-sitva-green/10' : 'text-foreground hover:bg-slate-100 dark:hover:bg-slate-800'} cursor-pointer`}
+              onClick={() => {
+                setShowSupport(!showSupport);
+                if (!showSupport) setSheetHeight('mid');
+              }}
+              title="Canales de atención"
             >
-              {darkMode ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5 text-slate-700" />}
+              <HelpCircle className="w-5 h-5" />
             </Button>
+            {/* Theme Toggle (Desktop only) */}
+            <div className="hidden md:block">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="rounded-full text-foreground hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
+                onClick={() => setDarkMode(!darkMode)}
+                title="Cambiar tema"
+              >
+                {darkMode ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5 text-slate-700" />}
+              </Button>
+            </div>
           </div>
         </div>
 
         {/* Content Area */}
         <div className={`flex-1 overflow-y-auto p-4 space-y-4 bg-background custom-scrollbar ${sheetHeight === 'min' ? 'hidden md:block' : 'block'}`}>
+          
+          <AnimatePresence>
+            {/* Mock Weather Alert (Point 8) */}
+            {Math.random() > 0.7 && (
+              <motion.div 
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/50 rounded-xl flex items-center gap-3 mb-4"
+              >
+                <div className="p-2 bg-amber-100 dark:bg-amber-900/50 rounded-full text-amber-600 dark:text-amber-400">
+                  <CloudRain className="w-4 h-4" />
+                </div>
+                <div>
+                  <h4 className="text-[11px] font-bold text-amber-800 dark:text-amber-400 uppercase tracking-wider">Alerta Climática</h4>
+                  <p className="text-[10px] text-amber-700 dark:text-amber-500 leading-tight">Lluvias moderadas en el Valle de Aburrá. Metrocables podrían operar con intermitencia.</p>
+                </div>
+              </motion.div>
+            )}
+
+            {showSupport && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="overflow-hidden mb-4"
+              >
+                <SupportChannels />
+                <TariffInfo />
+                <SystemStatus />
+              </motion.div>
+            )}
+          </AnimatePresence>
           
           {/* Messages */}
           <div className="space-y-4 mb-4">

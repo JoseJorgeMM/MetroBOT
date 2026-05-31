@@ -278,5 +278,57 @@
   "Br. Manrique Central (Cl 71a - Cr 41, Medellín)": {
     "lat": 6.2668038,
     "lng": -75.5491963
+  },
+  "Estación Los Alpes (Kr 83 - Cl 30, Medellín)": {
+    "lat": 6.2314525,
+    "lng": -75.6077893
+  },
+  "Br. La Mansión (Cl 65 - Cr 43, Medellín)": {
+    "lat": 6.2731532,
+    "lng": -75.5923888
+  },
+  "Centro Salud San Blas (Cl 89 - Cr 39, Medellín)": {
+    "lat": 6.2853302,
+    "lng": -75.5796781
+  },
+  "Colegio San Lorenzo De Aburrá (Cl 80 - Cr 41, Medellín)": {
+    "lat": 6.2741492,
+    "lng": -75.5616585
+  },
+  "Estación Manrique (Cl 80 - Cr 44, Medellín)": {
+    "lat": 6.2741492,
+    "lng": -75.5616585
+  },
+  "Br. Campo Valdés (Cl 80 - Cr 47, Medellín)": {
+    "lat": 6.2741492,
+    "lng": -75.5616585
+  },
+  "Parque Brasilia (Cl 80 - Cr 50, Medellín)": {
+    "lat": 6.2741492,
+    "lng": -75.5616585
+  },
+  "Br. San Isidro (Cl 93 - Cr 51, Medellín)": {
+    "lat": 6.2842157,
+    "lng": -75.5440929
+  },
+  "Br. Aranjuez (Cl 92 - Cr 48, Medellín)": {
+    "lat": 6.2839521,
+    "lng": -75.5661652
+  },
+  "Br. Aranjuez (Cr 48 - Cl 94, Medellín)": {
+    "lat": 6.2919279,
+    "lng": -75.5830381
+  },
+  "Colegio La Asunción (Cl 100 - Cr 47, Medellín)": {
+    "lat": 6.2914331,
+    "lng": -75.5546714
+  },
+  "Colegio Arzobispo Tulio Botero Salazar (Cl 49a - Cr 3a, Medellín)": {
+    "lat": 6.2299081,
+    "lng": -75.5328297
+  },
+  "Br. Jesús (Cl 49a - Cr 5, Medellín)": {
+    "lat": 6.2614157,
+    "lng": -75.6091937
   }
 }

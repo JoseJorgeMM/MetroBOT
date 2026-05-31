@@ -31,6 +31,7 @@ const getMarkerColor = (sistema: string) => {
     case 'metroplus': return '#8a8d91';
     case 'tranvia': return '#00994C';
     case 'encicla': return '#00A4E4';
+    case 'bus': return '#f59e0b'; // Amber for integrated buses
     default: return '#94a3b8';
   }
 };
@@ -55,6 +56,19 @@ interface MapComponentProps {
   darkMode?: boolean;
   onClearRoute?: () => void;
   onThemeToggle?: () => void;
+}
+
+// Helper to handle map centering and zooming
+function MapController({ bounds }: { bounds?: L.LatLngBounds | null }) {
+  const map = useMap();
+  
+  useEffect(() => {
+    if (bounds && bounds.isValid()) {
+      map.fitBounds(bounds, { padding: [50, 50], maxZoom: 16, animate: true });
+    }
+  }, [bounds, map]);
+  
+  return null;
 }
 
 const createPointMarker = (color: string, iconHtml?: string) => {
@@ -82,6 +96,7 @@ export function MapComponent({
   const [loading, setLoading] = useState(true);
   const [isLegendExpanded, setIsLegendExpanded] = useState(false);
   const [routePaths, setRoutePaths] = useState<{[key: string]: [number, number][]}>( {});
+  const [mapBounds, setMapBounds] = useState<L.LatLngBounds | null>(null);
 
   useEffect(() => {
     loadStations().then(data => {
@@ -97,10 +112,16 @@ export function MapComponent({
   useEffect(() => {
     async function updatePaths() {
       const paths: {[key: string]: [number, number][]} = {};
+      const allPoints: [number, number][] = [];
+
+      if (origin) allPoints.push([origin.lat, origin.lng]);
+      if (dest) allPoints.push([dest.lat, dest.lng]);
 
       // 1. Walking: Origin -> Route Origin
       if (origin && routeOrigin) {
-        paths['walk-origin'] = await getRouteGeometry([[origin.lat, origin.lng], [routeOrigin.lat, routeOrigin.lng]], 'foot');
+        const geometry = await getRouteGeometry([[origin.lat, origin.lng], [routeOrigin.lat, routeOrigin.lng]], 'foot');
+        paths['walk-origin'] = geometry;
+        geometry.forEach(p => allPoints.push(p));
       }
 
       // 2. Route between stations
@@ -115,17 +136,20 @@ export function MapComponent({
            } else {
              stepPoints.push({ point: [routeOrigin.lat, routeOrigin.lng], mode: 'metro' });
            }
+           allPoints.push([routeOrigin.lat, routeOrigin.lng]);
         }
         
         currentRoute.steps.forEach(step => {
           if (step.station) {
             stepPoints.push({ point: [step.station.lat, step.station.lng], mode: step.mode });
+            allPoints.push([step.station.lat, step.station.lng]);
           }
         });
 
         if (routeDest) {
             const lastMode = currentRoute.steps.length > 0 ? currentRoute.steps[currentRoute.steps.length - 1].mode : 'walk';
             stepPoints.push({ point: [routeDest.lat, routeDest.lng], mode: lastMode });
+            allPoints.push([routeDest.lat, routeDest.lng]);
         }
 
         // Draw segments between points depending on the mode
@@ -136,23 +160,36 @@ export function MapComponent({
            // Mode applying to this segment is p2's mode since p2 is the destination of the step
            const mode = p2.mode;
            
-           if (mode === 'walk' || mode === 'encicla') {
-              const geometry = await getRouteGeometry([p1.point, p2.point], mode === 'encicla' ? 'bike' : 'foot');
+           if (mode === 'walk' || mode === 'encicla' || mode === 'bus') {
+              const profile = mode === 'bus' ? 'car' : (mode === 'encicla' ? 'bike' : 'foot');
+              const geometry = await getRouteGeometry([p1.point, p2.point], profile);
               paths[`segment-${mode}-${i}`] = geometry;
+              geometry.forEach(p => allPoints.push(p));
            } else {
-              // For SITVA, we just draw a straight line instead of street routes, or no line.
-              // To make it clear, we can draw a straight line so it connects the dots without following streets.
+              // For SITVA, we just draw a straight line
               paths[`segment-straight-${i}`] = [p1.point, p2.point];
+              allPoints.push(p1.point);
+              allPoints.push(p2.point);
            }
         }
       }
 
       // 3. Walking: Route Dest -> Destination
       if (dest && routeDest) {
-        paths['walk-dest'] = await getRouteGeometry([[routeDest.lat, routeDest.lng], [dest.lat, dest.lng]], 'foot');
+        const geometry = await getRouteGeometry([[routeDest.lat, routeDest.lng], [dest.lat, dest.lng]], 'foot');
+        paths['walk-dest'] = geometry;
+        geometry.forEach(p => allPoints.push(p));
       }
 
       setRoutePaths(paths);
+
+      // Update bounds if we have points
+      if (allPoints.length >= 2) {
+        const bounds = L.latLngBounds(allPoints);
+        setMapBounds(bounds);
+      } else {
+        setMapBounds(null);
+      }
     }
     updatePaths();
   }, [origin, dest, currentRoute, routeOrigin, routeDest]);
@@ -371,6 +408,7 @@ export function MapComponent({
           url={darkMode ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"}
         />
         <ZoomControl position="topleft" />
+        <MapController bounds={mapBounds} />
         <MapSearch 
           onRouteSubmit={onSearchRoute} 
           onOriginSelect={onOriginSelect} 
