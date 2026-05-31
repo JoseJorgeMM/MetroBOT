@@ -1,29 +1,53 @@
 const fs = require('fs');
 const path = require('path');
 
-const srcDir = 'C:\\Users\\ASUS\\Documents\\Rutas Integradas MetroBOT';
-const destDir = 'c:\\Users\\ASUS\\Documents\\MetroBOT\\public\\rutas_integradas';
-const jsonPath = 'c:\\Users\\ASUS\\Documents\\MetroBOT\\public\\rutas_integradas.json';
+// Configuration
+const srcDir = path.join(__dirname, 'public', 'bus_routes');
+const destDir = path.join(__dirname, 'public', 'rutas_integradas');
+const jsonPath = path.join(__dirname, 'public', 'rutas_integradas.json');
+const cachePath = path.join(__dirname, 'public', 'geocoding_cache.json');
 
 // Create destination directory if it doesn't exist
 if (!fs.existsSync(destDir)) {
   fs.mkdirSync(destDir, { recursive: true });
 }
 
-// 1. Copy all CSV files
-const files = fs.readdirSync(srcDir).filter(f => f.endsWith('.csv'));
-files.forEach(file => {
-  fs.copyFileSync(path.join(srcDir, file), path.join(destDir, file));
-});
-console.log(`Copied ${files.length} CSV files to public/rutas_integradas`);
+// 1. Load Geocoding Cache
+let geocodingCache = {};
+if (fs.existsSync(cachePath)) {
+  try {
+    geocodingCache = JSON.parse(fs.readFileSync(cachePath, 'utf-8'));
+  } catch (e) {
+    console.warn("Could not load geocoding cache, starting fresh.");
+  }
+}
 
-// 2. Load official stations for matching
-const metroStationsFile = 'c:\\Users\\ASUS\\Documents\\MetroBOT\\public\\Estaciones_Sistema_Metro.csv';
-const enciclaStationsFile = 'c:\\Users\\ASUS\\Documents\\MetroBOT\\public\\Estaciones_En_Cicla.csv';
+// 2. Manual Overrides (High Precision for reported issues)
+const manualOverrides = {
+  // Belén / Rodeo Area (C3 routes)
+  "Estación Parque Belén (Kr 76 - Cl 30, Medellín)": { lat: 6.2312, lng: -75.5908 },
+  "Parque Biblioteca Belén (Kr 76 - Cl 19, Medellín)": { lat: 6.2252, lng: -75.5915 },
+  "Br. San Bernardo (Kr 76 - Cl 20a, Medellín)": { lat: 6.2235, lng: -75.5918 },
+  "Quebrada Chocho (Kr 76 - Cl 27, Medellín)": { lat: 6.2281, lng: -75.5912 },
+  "Colegio De La Inmaculada (Kr 76 - Cl 13, Medellín)": { lat: 6.2168, lng: -75.5925 },
+  "Br. Rodeo (Kr 79 - Cl 1 Sur, Medellín)": { lat: 6.2105, lng: -75.6001 },
+  "Urbanización Quintas De Marbella (Kr 79 - Cl 2b Sur, Medellín)": { lat: 6.2085, lng: -75.6005 },
+  "Parroquia Santa María Mazzarello (Kr 79 - Cl 3a Sur, Medellín)": { lat: 6.20745, lng: -75.60101 },
+  "Ciudadela El Rodeo (Kr 79 - Cl 3a Sur, Medellín)": { lat: 6.2065, lng: -75.6015 },
+  "Urbanización Reserva De San Nicolás (Kr 79 - Cl 6 Sur, Medellín)": { lat: 6.2045, lng: -75.6022 },
+  "Urbanización Rodeo Verde (Cl 9b Sur - Kr 79a, Medellín)": { lat: 6.2052, lng: -75.6018 },
+  "Br. Belén El Rincón (Kr 78b - Cl 3, Medellín)": { lat: 6.2162, lng: -75.6018 },
+  
+  // North Area (C6 routes)
+  "Estación Acevedo (Cr 52 - Cl 108, Medellín)": { lat: 6.3001, lng: -75.5684 },
+  "Hospital Zamora (Cl 21 - Cr 42, Bello)": { lat: 6.3075, lng: -75.5562 },
+  "Br. El Playón (Cl 20d - Cr 43c, Bello)": { lat: 6.3115, lng: -75.5642 },
+  "Br. Zamora (Cl 20d - Cr 42d, Bello)": { lat: 6.3070, lng: -75.5558 }
+};
 
+// 3. Official Stations matching
+const metroStationsFile = path.join(__dirname, 'public', 'Estaciones_Sistema_Metro.csv');
 const officialStations = [];
-
-// Parse Metro stations
 if (fs.existsSync(metroStationsFile)) {
   const content = fs.readFileSync(metroStationsFile, 'utf-8');
   const rows = content.trim().split('\n').slice(1);
@@ -31,231 +55,119 @@ if (fs.existsSync(metroStationsFile)) {
   rows.forEach(row => {
     const cols = row.split(',');
     if (cols.length < 9) return;
-    const x = parseFloat(cols[0]);
-    const y = parseFloat(cols[1]);
-    
-    // mercatorToWgs84
+    const x = parseFloat(cols[0]), y = parseFloat(cols[1]);
     const lng = (x / RADIUS) * (180 / Math.PI);
     const lat = (2 * Math.atan(Math.exp(y / RADIUS)) - Math.PI / 2) * (180 / Math.PI);
-    
     const nombre = cols[6] ? cols[6].replace(/^Estación /, '').replace(/ \(Línea .*\)$/, '').trim() : '';
     officialStations.push({ nombre, lat, lng });
   });
 }
 
-// Predefined neighborhood/key coordinates dictionary
-const neighborhoodCoords = {
-  'zamora': { lat: 6.307, lng: -75.556 },
-  'playon': { lat: 6.311, lng: -75.564 },
-  'el playon': { lat: 6.311, lng: -75.564 },
-  'castilla': { lat: 6.295, lng: -75.578 },
-  'pedregal': { lat: 6.292, lng: -75.586 },
-  'doce de octubre': { lat: 6.304, lng: -75.582 },
-  'san cristobal': { lat: 6.258, lng: -75.632 },
-  'belen rincon': { lat: 6.216, lng: -75.602 },
-  'belen el rincon': { lat: 6.216, lng: -75.602 },
-  'el rincon': { lat: 6.216, lng: -75.602 },
-  'belen': { lat: 6.228, lng: -75.597 },
-  'guayabal': { lat: 6.208, lng: -75.584 },
-  'la palma': { lat: 6.231, lng: -75.592 },
-  'la mota': { lat: 6.212, lng: -75.594 },
-  'rodeo': { lat: 6.207, lng: -75.591 },
-  'campos de paz': { lat: 6.207, lng: -75.591 },
-  'bulerias': { lat: 6.239, lng: -75.589 },
-  'unicentro': { lat: 6.239, lng: -75.590 },
-  'robledo': { lat: 6.273, lng: -75.591 },
-  'oriente': { lat: 6.234, lng: -75.541 },
-  'villatina': { lat: 6.235, lng: -75.544 },
-  'alejandro echavarria': { lat: 6.232, lng: -75.548 },
-  'liliam': { lat: 6.239, lng: -75.542 },
-  'villa liliam': { lat: 6.239, lng: -75.542 }
-};
-
-function parseCoords(line) {
-  const decMatch = line.match(/"?\s*(-?\d+\.\d+)\s*,\s*(-?\d+\.\d+)\s*"?/);
-  if (decMatch) return { lat: parseFloat(decMatch[1]), lng: parseFloat(decMatch[2]) };
-
-  const dmsRegex = /"?\s*(\d+)°(\d+)'([\d.]+)"?\s*([NS])\s*(\d+)°(\d+)'([\d.]+)"?\s*([EW])\s*"?/i;
-  const dmsMatch = line.match(dmsRegex);
-  if (dmsMatch) {
-    let lat = parseInt(dmsMatch[1]) + parseInt(dmsMatch[2])/60 + parseFloat(dmsMatch[3])/3600;
-    if (dmsMatch[4].toUpperCase() === 'S') lat = -lat;
-    let lng = parseInt(dmsMatch[5]) + parseInt(dmsMatch[6])/60 + parseFloat(dmsMatch[7])/3600;
-    if (dmsMatch[8].toUpperCase() === 'W') lng = -lng;
-    return { lat, lng };
-  }
-  return null;
-}
-
 function normalizeName(name) {
-  return name
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
+  return name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
-function matchStationCoords(name) {
+async function geocode(name) {
+  if (manualOverrides[name]) return manualOverrides[name];
+  if (geocodingCache[name]) return geocodingCache[name];
+
   const norm = normalizeName(name);
-  // Try exact match or contains match
-  for (const station of officialStations) {
-    const sNorm = normalizeName(station.nombre);
-    if (norm === sNorm || norm.includes(sNorm) || sNorm.includes(norm)) {
-      return { lat: station.lat, lng: station.lng };
+  for (const s of officialStations) {
+    const sNorm = normalizeName(s.nombre);
+    if (norm === sNorm || (norm.length > 5 && sNorm.includes(norm)) || (sNorm.length > 5 && norm.includes(sNorm))) {
+      return { lat: s.lat, lng: s.lng };
     }
   }
-  return null;
-}
 
-function matchNeighborhoodCoords(name) {
-  const norm = normalizeName(name);
-  for (const [key, coords] of Object.entries(neighborhoodCoords)) {
-    if (norm.includes(key)) {
-      return { ...coords };
-    }
+  let query = name;
+  const addrMatch = name.match(/\(([^)]+)\)/);
+  if (addrMatch) {
+    query = addrMatch[1];
+    if (!query.toLowerCase().includes("medellin") && !query.toLowerCase().includes("bello")) query += ", Medellín";
   }
-  return null;
-}
 
-const compiledRoutes = [];
-
-files.forEach(file => {
-  const filePath = path.join(srcDir, file);
-  const routeId = file.replace('.csv', '');
-  const content = fs.readFileSync(filePath, 'utf-8');
-  const lines = content.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
-  
-  const rawStops = [];
-  
-  for (let i = 1; i < lines.length; i++) {
-    const line = lines[i];
-    const coords = parseCoords(line);
-    if (coords) {
-      // This is a coordinate line, associate it with the last added stop
-      if (rawStops.length > 0) {
-        rawStops[rawStops.length - 1].lat = coords.lat;
-        rawStops[rawStops.length - 1].lng = coords.lng;
-        rawStops[rawStops.length - 1].hasCoords = true;
-      }
-    } else {
-      const cleanName = line.replace(/^"|"$/g, '').trim();
-      rawStops.push({
-        name: cleanName,
-        lat: null,
-        lng: null,
-        hasCoords: false
-      });
-    }
-  }
-  
-  // Geocode using station matching and neighborhood matching
-  rawStops.forEach(stop => {
-    if (stop.hasCoords) return;
-    
-    // Try matching station
-    const stationCoords = matchStationCoords(stop.name);
-    if (stationCoords) {
-      stop.lat = stationCoords.lat;
-      stop.lng = stationCoords.lng;
-      stop.hasCoords = true;
-      return;
-    }
-    
-    // Try matching neighborhood
-    const nhCoords = matchNeighborhoodCoords(stop.name);
-    if (nhCoords) {
-      // Add slight random offset to prevent exact duplicate coordinates for overlapping stops
-      stop.lat = nhCoords.lat + (Math.random() - 0.5) * 0.001;
-      stop.lng = nhCoords.lng + (Math.random() - 0.5) * 0.001;
-      stop.hasCoords = true;
-    }
-  });
-
-  // Interpolate missing coordinates
-  // We need at least some coordinates to interpolate. If none have coordinates (very rare, as they should connect to a station),
-  // we'll assign a default central coordinate of Medellin.
-  const knownIndices = [];
-  rawStops.forEach((stop, idx) => {
-    if (stop.hasCoords) knownIndices.push(idx);
-  });
-
-  if (knownIndices.length === 0) {
-    // Fallback: use Acevedo for C6, Aguacatala for C3
-    const fallbackCoords = routeId.startsWith('C6') 
-      ? { lat: 6.2995, lng: -75.5684 } 
-      : { lat: 6.1957, lng: -75.5826 };
-    rawStops.forEach(stop => {
-      stop.lat = fallbackCoords.lat;
-      stop.lng = fallbackCoords.lng;
-      stop.hasCoords = true;
+  console.log(`Geocoding: ${query}...`);
+  try {
+    const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1`, {
+      headers: { 'User-Agent': 'MetroBOT-Project-Geocoding/2.0' }
     });
-  } else {
-    // Linear interpolation between known coordinate indices
-    for (let i = 0; i < rawStops.length; i++) {
-      if (rawStops[i].hasCoords) continue;
-
-      // Find nearest known stop before i (handling wrapping because it's a loop)
-      let prevIdx = -1;
-      let nextIdx = -1;
-
-      // Find next index after i
-      for (let j = i + 1; j < rawStops.length; j++) {
-        if (rawStops[j].hasCoords) {
-          nextIdx = j;
-          break;
-        }
-      }
-      if (nextIdx === -1) {
-        nextIdx = knownIndices[0]; // wraps around to first known
-      }
-
-      // Find prev index before i
-      for (let j = i - 1; j >= 0; j--) {
-        if (rawStops[j].hasCoords) {
-          prevIdx = j;
-          break;
-        }
-      }
-      if (prevIdx === -1) {
-        prevIdx = knownIndices[knownIndices.length - 1]; // wraps around to last known
-      }
-
-      // Calculate fraction of distance
-      let distTotal, distFromPrev;
-      if (nextIdx > prevIdx) {
-        distTotal = nextIdx - prevIdx;
-        distFromPrev = i - prevIdx;
-      } else {
-        // wrapping
-        distTotal = (rawStops.length - prevIdx) + nextIdx;
-        distFromPrev = i > prevIdx ? (i - prevIdx) : ((rawStops.length - prevIdx) + i);
-      }
-
-      const fraction = distFromPrev / distTotal;
-
-      const pLat = rawStops[prevIdx].lat;
-      const pLng = rawStops[prevIdx].lng;
-      const nLat = rawStops[nextIdx].lat;
-      const nLng = rawStops[nextIdx].lng;
-
-      rawStops[i].lat = pLat + (nLat - pLat) * fraction;
-      rawStops[i].lng = pLng + (nLng - pLng) * fraction;
-      rawStops[i].hasCoords = true;
+    if (response.status === 429) {
+        console.warn("Rate limited. Waiting 5s...");
+        await new Promise(r => setTimeout(r, 5000));
+        return null;
     }
+    const data = await response.json();
+    if (data && data.length > 0) {
+      const result = { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
+      if (result.lat > 6.0 && result.lat < 6.4 && result.lng > -75.7 && result.lng < -75.4) {
+        geocodingCache[name] = result;
+        return result;
+      }
+    }
+  } catch (e) {
+    console.error(`Error geocoding ${name}:`, e.message);
+  }
+  return null;
+}
+
+async function main() {
+  const files = fs.readdirSync(srcDir).filter(f => f.endsWith('.csv'));
+  const compiledRoutes = [];
+
+  for (const file of files) {
+    const routeId = file.replace('.csv', '');
+    const lines = fs.readFileSync(path.join(srcDir, file), 'utf-8').split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
+    const rawStops = [];
+
+    for (let i = 1; i < lines.length; i++) {
+      const line = lines[i];
+      const coordMatch = line.match(/"?\s*(-?\d+\.\d+)\s*,\s*(-?\d+\.\d+)\s*"?/);
+      if (coordMatch) {
+        if (rawStops.length > 0) {
+          rawStops[rawStops.length - 1].lat = parseFloat(coordMatch[1]);
+          rawStops[rawStops.length - 1].lng = parseFloat(coordMatch[2]);
+          rawStops[rawStops.length - 1].hasCoords = true;
+        }
+      } else {
+        const cleanName = line.replace(/^"|"$/g, '').trim();
+        if (cleanName.startsWith("Más horarios") || cleanName.length < 3) continue;
+        rawStops.push({ name: cleanName, lat: null, lng: null, hasCoords: false });
+      }
+    }
+
+    console.log(`Route ${routeId}: Geocoding ${rawStops.length} stops...`);
+    for (let stop of rawStops) {
+      if (!stop.hasCoords) {
+        const res = await geocode(stop.name);
+        if (res) { stop.lat = res.lat; stop.lng = res.lng; stop.hasCoords = true; }
+        if (res && !geocodingCache[stop.name] && !manualOverrides[stop.name]) await new Promise(r => setTimeout(r, 1500));
+      }
+    }
+
+    // Interpolation
+    const known = rawStops.map((s, i) => s.hasCoords ? i : -1).filter(i => i !== -1);
+    if (known.length > 0) {
+      for (let i = 0; i < rawStops.length; i++) {
+        if (rawStops[i].hasCoords) continue;
+        let p = -1, n = -1;
+        for (let j = i + 1; j < rawStops.length; j++) { if (rawStops[j].hasCoords) { n = j; break; } }
+        if (n === -1) n = known[0];
+        for (let j = i - 1; j >= 0; j--) { if (rawStops[j].hasCoords) { p = j; break; } }
+        if (p === -1) p = known[known.length - 1];
+        const dist = (n > p) ? (n - p) : ((rawStops.length - p) + n);
+        const fromP = (i > p) ? (i - p) : ((rawStops.length - p) + i);
+        const f = fromP / dist;
+        rawStops[i].lat = rawStops[p].lat + (rawStops[n].lat - rawStops[p].lat) * f;
+        rawStops[i].lng = rawStops[p].lng + (rawStops[n].lng - rawStops[p].lng) * f;
+      }
+    }
+
+    compiledRoutes.push({ id: routeId, name: `Ruta Integrada ${routeId}`, stops: rawStops.map(s => ({ name: s.name, lat: s.lat, lng: s.lng })) });
+    fs.writeFileSync(cachePath, JSON.stringify(geocodingCache, null, 2));
   }
 
-  compiledRoutes.push({
-    id: routeId,
-    name: `Ruta Integrada ${routeId}`,
-    stops: rawStops.map(s => ({
-      name: s.name,
-      lat: s.lat,
-      lng: s.lng
-    }))
-  });
-});
+  fs.writeFileSync(jsonPath, JSON.stringify(compiledRoutes, null, 2));
+  console.log(`Success! Compiled ${compiledRoutes.length} routes.`);
+}
 
-fs.writeFileSync(jsonPath, JSON.stringify(compiledRoutes, null, 2));
-console.log(`Compiled all routes into ${jsonPath}. Success!`);
+main().catch(console.error);
