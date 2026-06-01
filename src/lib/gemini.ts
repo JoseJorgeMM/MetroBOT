@@ -238,14 +238,14 @@ export async function processUserQuery(
       const nearbyBusStops: any[] = [];
       allIntegratedRoutes.forEach((route: any) => {
         route.stops.forEach((stop: any) => {
-            if (options.origin) {
-              const dOrig = calculateDistance(options.origin.lat, options.origin.lng, stop.lat, stop.lng);
-              if (dOrig < 1000) nearbyBusStops.push({ ...stop, routeId: route.id, routeName: route.name, dist: dOrig, tag: 'Origen' });
-            }
-            if (options.dest) {
-              const dDest = calculateDistance(options.dest.lat, options.dest.lng, stop.lat, stop.lng);
-              if (dDest < 1000) nearbyBusStops.push({ ...stop, routeId: route.id, routeName: route.name, dist: dDest, tag: 'Destino' });
-            }
+          if (options.origin) {
+            const dOrig = calculateDistance(options.origin.lat, options.origin.lng, stop.lat, stop.lng);
+            if (dOrig < 1000) nearbyBusStops.push({ ...stop, routeId: route.id, routeName: route.name, dist: dOrig, tag: 'Origen' });
+          }
+          if (options.dest) {
+            const dDest = calculateDistance(options.dest.lat, options.dest.lng, stop.lat, stop.lng);
+            if (dDest < 1000) nearbyBusStops.push({ ...stop, routeId: route.id, routeName: route.name, dist: dDest, tag: 'Destino' });
+          }
         });
       });
 
@@ -254,7 +254,7 @@ export async function processUserQuery(
         .slice(0, 15);
 
       integratedContext = bestBusStops
-        .map(s => `- [Para ${s.tag}] Parada "${s.name}" (Bus Articulado ${s.routeId}): A ${Math.round(s.dist)} metros (Caminando: ~${Math.ceil(s.dist/80)} min) - Coord: LAT ${s.lat}, LNG ${s.lng}`)
+        .map(s => `- [Para ${s.tag}] Parada "${s.name}" (Bus Articulado ${s.routeId}): A ${Math.round(s.dist)} metros (Caminando: ~${Math.ceil(s.dist / 80)} min) - Coord: LAT ${s.lat}, LNG ${s.lng}`)
         .join('\n');
 
       grounding = `ESTACIONES RELEVANTES CERCANAS A LA BÚSQUEDA:\n${nearbyContext}\n\nPARADAS DE BUSES INTEGRADOS CERCANAS:\n${integratedContext}\n\nOTRAS ESTACIONES DEL SISTEMA:\n${await getGroundingData()}`;
@@ -263,7 +263,7 @@ export async function processUserQuery(
     }
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.0-flash',
+      model: 'gemini-2.5-flash',
       contents: query,
       config: {
         systemInstruction: `Eres MetroBot, el asistente inteligente de movilidad de SITVA (Metro, Metrocable, Tranvía, Metroplús, EnCicla y Buses Articulados) en Medellín Colombia.
@@ -318,7 +318,7 @@ DATOS DE RED SITVA:\n${grounding}`,
 
               if (isArviLine || isArviStation) {
                 step.cost = 11900;
-                totalCost += 11900; 
+                totalCost += 11900;
                 currentSystem = 'arvi';
                 return;
               }
@@ -341,7 +341,7 @@ DATOS DE RED SITVA:\n${grounding}`,
                 if (totalCost === 0) {
                   stepCost = 3820;
                 } else if (currentSystem === 'arvi') {
-                  stepCost = 3820; 
+                  stepCost = 3820;
                 }
                 step.cost = stepCost;
                 totalCost += stepCost;
