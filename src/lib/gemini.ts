@@ -263,7 +263,7 @@ export async function processUserQuery(
     }
 
     const response = await ai.models.generateContent({
-      model: 'gemma-4-31b-it',
+      model: 'gemini-2.5-flash',
       contents: query,
       config: {
         systemInstruction: `Eres MetroBot, el asistente inteligente de movilidad de SITVA (Metro, Metrocable, Tranvía, Metroplús, EnCicla y Buses Articulados) en Medellín Colombia.
