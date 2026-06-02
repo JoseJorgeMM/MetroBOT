@@ -3,16 +3,17 @@ import { getStationStatus } from './routing';
 import { loadStations, calculateDistance } from './stations';
 import { getLocalOfflineRoute } from './localRouter';
 
-let ai: GoogleGenAI;
-try {
-  const apiKey = process.env.GEMINI_API_KEY || "DUMMY_KEY_TO_PREVENT_CRASH";
-  ai = new GoogleGenAI({ apiKey });
-} catch (e) {
-  console.warn("Could not initialize GoogleGenAI", e);
+const apiKeys = (process.env.GEMINI_API_KEYS || process.env.GEMINI_API_KEY || "DUMMY_KEY").split(',').map(k => k.trim()).filter(Boolean);
+let currentKeyIndex = 0;
+
+function getAiInstance() {
+  const apiKey = apiKeys[currentKeyIndex];
+  return new GoogleGenAI({ apiKey });
 }
 
 let cachedStations: string = '';
 let cachedTarifas: string = '';
+// ... (rest of the file content until processUserQuery)
 
 async function getGroundingData() {
   if (cachedStations) return cachedStations;
@@ -262,11 +263,16 @@ export async function processUserQuery(
       grounding = await getGroundingData();
     }
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: query,
-      config: {
-        systemInstruction: `Eres MetroBot, el asistente inteligente de movilidad de SITVA (Metro, Metrocable, Tranvía, Metroplús, EnCicla y Buses Articulados) en Medellín Colombia.
+    const generateWithRotation = async () => {
+      let attempts = 0;
+      while (attempts < apiKeys.length) {
+        try {
+          const ai = getAiInstance();
+          return await ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: query,
+            config: {
+              systemInstruction: `Eres MetroBot, el asistente inteligente de movilidad de SITVA (Metro, Metrocable, Tranvía, Metroplús, EnCicla y Buses Articulados) en Medellín Colombia.
 Tu objetivo es dar rutas REALISTAS y ÚTILES. Prioriza SIEMPRE minimizar la caminata usando el sistema integrado (Buses).
 
 REGLAS DE ORO:
@@ -288,9 +294,23 @@ INSTRUCCIONES DE RESPUESTA:
 3. Responde brevemente en español.
 
 DATOS DE RED SITVA:\n${grounding}`,
-        tools: [{ functionDeclarations: [renderRouteDeclaration, getStationStatusDeclaration] }]
+              tools: [{ functionDeclarations: [renderRouteDeclaration, getStationStatusDeclaration] }]
+            }
+          });
+        } catch (error: any) {
+          attempts++;
+          const isRateLimit = error.status === 429 || error.message?.includes('429') || error.message?.includes('quota');
+          if (isRateLimit && attempts < apiKeys.length) {
+            console.warn(`API Key ${currentKeyIndex} agotada, probando la siguiente...`);
+            currentKeyIndex = (currentKeyIndex + 1) % apiKeys.length;
+            continue;
+          }
+          throw error;
+        }
       }
-    });
+    };
+
+    const response = await generateWithRotation();
 
     const functionCalls = response.functionCalls;
     let textResponse = response.text || "";
