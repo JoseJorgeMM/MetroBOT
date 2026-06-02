@@ -299,9 +299,14 @@ DATOS DE RED SITVA:\n${grounding}`,
           });
         } catch (error: any) {
           attempts++;
-          const isRateLimit = error.status === 429 || error.message?.includes('429') || error.message?.includes('quota');
-          if (isRateLimit && attempts < apiKeys.length) {
-            console.warn(`API Key ${currentKeyIndex} agotada, probando la siguiente...`);
+          // Detectar errores de límite (429) o indisponibilidad temporal (503)
+          const isTransientError = 
+            error.status === 429 || error.status === 503 || 
+            error.message?.includes('429') || error.message?.includes('503') ||
+            error.message?.includes('quota') || error.message?.includes('demand');
+
+          if (isTransientError && attempts < apiKeys.length) {
+            console.warn(`Error temporal (${error.status || 'AI'}) en clave ${currentKeyIndex}, probando la siguiente...`);
             currentKeyIndex = (currentKeyIndex + 1) % apiKeys.length;
             continue;
           }
