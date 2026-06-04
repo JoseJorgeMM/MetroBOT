@@ -21,7 +21,6 @@ export default function App() {
   const [showSupport, setShowSupport] = useState(false);
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [messages, setMessages] = useState<{role: 'user' | 'assistant', content: string}[]>([
-// ... rest of state
     { role: 'assistant', content: '¡Qué más! Soy MetroBot. ¿A dónde quieres ir hoy en Medellín? También puedes tocar el mapa para marcar tu Punto de Inicio y Destino.' }
   ]);
   const [routes, setRoutes] = useState<RouteOption[]>([]);
@@ -51,6 +50,16 @@ export default function App() {
     }
   }, [darkMode]);
 
+  useEffect(() => {
+    async function updateWeather() {
+      const data = await fetchMedellinWeather();
+      setWeather(data);
+    }
+    updateWeather();
+    const timer = setInterval(updateWeather, 600000); // Cada 10 min
+    return () => clearInterval(timer);
+  }, []);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -78,8 +87,6 @@ export default function App() {
       (newRoutes) => {
         setRoutes(newRoutes);
         if (newRoutes.length > 0) {
-          // Only update origin/dest if they aren't already set manually on the map
-          // OR if this was a textual search without context coords
           if (!contextCoords?.origin && newRoutes[0].userOrigin) {
             setOrigin({lat: newRoutes[0].userOrigin.lat, lng: newRoutes[0].userOrigin.lng, name: newRoutes[0].userOrigin.name});
           }
@@ -88,7 +95,7 @@ export default function App() {
           }
         }
       },
-      (status) => console.log("Status:", status), // Handled in text response for now
+      (status) => console.log("Status:", status),
       {
         origin: contextCoords?.origin || (origin ? {lat: origin.lat, lng: origin.lng} : undefined),
         dest: contextCoords?.dest || (dest ? {lat: dest.lat, lng: dest.lng} : undefined)
@@ -135,7 +142,6 @@ El mensaje para el usuario no debe contener coordenadas.`;
 
   return (
     <div className="relative w-full h-[100dvh] overflow-hidden bg-background text-foreground flex flex-col md:flex-row font-sans transition-colors duration-300">
-      {/* Real Map Component Area */}
       <div className="absolute inset-0 z-0 md:relative md:flex-1 h-full">
         <MapComponent 
           onSearchRoute={handleSearchRoute}
@@ -153,40 +159,22 @@ El mensaje para el usuario no debe contener coordenadas.`;
           }}
           onThemeToggle={() => setDarkMode(!darkMode)}
         />
-        
-        {/* Support Card Positioned on the Map (Desktop Only) */}
         <div className="hidden md:block absolute bottom-6 left-6 z-[1000] pointer-events-none">
           <SupportCard />
         </div>
       </div>
 
-      {/* Sidebar / Bottom Sheet */}
       <div className={`absolute bottom-0 left-0 right-0 z-20 flex flex-col bg-card border-t border-border/30 md:border-t-0 md:border-l md:border-sidebar-border transition-all duration-300 ease-in-out md:relative md:w-96 md:h-full md:rounded-none md:shadow-xl ${heightClasses[sheetHeight]} md:h-full overflow-hidden`}>
-        
-        {/* Drag Handle (Mobile) */}
         <div 
           className="w-full h-8 flex flex-col items-center justify-start pt-2.5 cursor-pointer shrink-0 md:hidden z-30 select-none hover:bg-slate-100/40 dark:hover:bg-slate-800/10 transition-colors"
           onClick={handleDragHandleClick}
         >
           <div className="w-12 h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full mb-1" />
-          {sheetHeight === 'min' && (
-            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">
-              {routes.length > 0 ? 'Ver rutas y chat' : 'Toca para abrir MetroBot'}
-            </span>
-          )}
-          {sheetHeight === 'mid' && (
-            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">
-              Expandir Chat
-            </span>
-          )}
-          {sheetHeight === 'max' && (
-            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">
-              Minimizar
-            </span>
-          )}
+          {sheetHeight === 'min' && <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">{routes.length > 0 ? 'Ver rutas y chat' : 'Toca para abrir MetroBot'}</span>}
+          {sheetHeight === 'mid' && <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">Expandir Chat</span>}
+          {sheetHeight === 'max' && <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">Minimizar</span>}
         </div>
 
-        {/* Unified Sheet Header (Mobile & Desktop) */}
         <div className={`flex items-center justify-between px-5 py-4 border-b border-border/20 shrink-0 ${sheetHeight === 'min' ? 'hidden md:flex' : 'flex'}`}>
           <div className="flex items-center space-x-3">
             <img src="/logo_chat.png" alt="MetroBot" className="w-9 h-9 rounded-full shadow-md object-cover bg-card border border-border" />
@@ -204,18 +192,15 @@ El mensaje para el usuario no debe contener coordenadas.`;
                 setShowSupport(!showSupport);
                 if (!showSupport) setSheetHeight('mid');
               }}
-              title="Canales de atención"
             >
               <HelpCircle className="w-5 h-5" />
             </Button>
-            {/* Theme Toggle (Desktop only) */}
             <div className="hidden md:block">
               <Button 
                 variant="ghost" 
                 size="icon" 
                 className="rounded-full text-foreground hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
                 onClick={() => setDarkMode(!darkMode)}
-                title="Cambiar tema"
               >
                 {darkMode ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5 text-slate-700" />}
               </Button>
@@ -223,11 +208,8 @@ El mensaje para el usuario no debe contener coordenadas.`;
           </div>
         </div>
 
-        {/* Content Area */}
         <div className={`flex-1 overflow-y-auto p-4 space-y-4 bg-background custom-scrollbar ${sheetHeight === 'min' ? 'hidden md:block' : 'block'}`}>
-          
           <AnimatePresence>
-            {/* Real Weather Alert */}
             {weather?.isRaining && (
               <motion.div 
                 initial={{ opacity: 0, y: -10 }}
@@ -258,7 +240,6 @@ El mensaje para el usuario no debe contener coordenadas.`;
             )}
           </AnimatePresence>
           
-          {/* Messages */}
           <div className="space-y-4 mb-4">
             {messages.map((msg, idx) => (
               <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start items-end space-x-2'}`}>
@@ -287,7 +268,6 @@ El mensaje para el usuario no debe contener coordenadas.`;
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Route Cards */}
           <AnimatePresence>
             {routes.length > 0 && (
               <motion.div 
@@ -310,7 +290,6 @@ El mensaje para el usuario no debe contener coordenadas.`;
           </AnimatePresence>
         </div>
 
-        {/* Input Area */}
         <div className="p-4 bg-sidebar-bg border-t border-sidebar-border shrink-0 relative z-20">
           <form onSubmit={handleSubmit} className="relative flex items-center mb-2">
             <Input 
@@ -331,16 +310,6 @@ El mensaje para el usuario no debe contener coordenadas.`;
             </Button>
           </form>
           <div className="text-center">
-            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium tracking-wide">
-              Developed by <span className="font-bold text-slate-500 dark:text-slate-400">AI-LAB Jesús Rey</span>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-  <div className="text-center">
             <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium tracking-wide">
               Developed by <span className="font-bold text-slate-500 dark:text-slate-400">AI-LAB Jesús Rey</span>
             </span>
