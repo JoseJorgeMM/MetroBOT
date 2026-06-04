@@ -1,4 +1,5 @@
 import { loadStations, Station } from './stations';
+import { fetchMetroNews } from './news';
 
 export interface RouteOption {
   id: string;
@@ -112,14 +113,31 @@ export async function getRoute(start: string, end: string): Promise<RouteOption[
 }
 
 export async function getStationStatus(stationId: string): Promise<string> {
-  await new Promise(resolve => setTimeout(resolve, 300));
-  const normalizedId = stationId.toLowerCase();
-  
-  if (normalizedId.includes('cable') || normalizedId.includes('arvi') || normalizedId.includes('h') || normalizedId.includes('k') || normalizedId.includes('j')) {
-    // Randomly mock some issues for certain systems to show functionality
-    if (Math.random() > 0.7) {
-      return 'Service suspended due to adverse weather conditions (Lightning/Wind).';
+  try {
+    const news = await fetchMetroNews();
+    const stationLower = stationId.toLowerCase();
+    
+    // Buscar en las noticias de las últimas 12 horas
+    const now = new Date();
+    const recentNews = news.filter(n => {
+      const pubDate = new Date(n.pubDate);
+      return (now.getTime() - pubDate.getTime()) < 12 * 60 * 60 * 1000;
+    });
+
+    for (const item of recentNews) {
+      const title = item.title.toLowerCase();
+      if (title.includes(stationLower) || (stationLower.includes('línea') && title.includes(stationLower))) {
+        if (title.includes('cierre') || title.includes('cerrada') || title.includes('fuera de servicio')) {
+          return `Alerta: ${item.title}. Se reporta cierre o suspensión.`;
+        }
+        if (title.includes('falla') || title.includes('retraso')) {
+          return `Aviso: ${item.title}. Se reportan retrasos técnicos.`;
+        }
+      }
     }
+
+    return 'Operación normal según los últimos reportes de noticias.';
+  } catch (e) {
+    return 'Operación normal (No se pudo verificar noticias en tiempo real).';
   }
-  return 'Operating normally.';
 }

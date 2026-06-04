@@ -13,11 +13,15 @@ import { SystemStatus } from './components/SystemStatus';
 import { CloudRain, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
+import { fetchMedellinWeather, WeatherData } from './lib/weather';
+
 export default function App() {
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
+  const [weather, setWeather] = useState<WeatherData | null>(null);
   const [messages, setMessages] = useState<{role: 'user' | 'assistant', content: string}[]>([
+// ... rest of state
     { role: 'assistant', content: '¡Qué más! Soy MetroBot. ¿A dónde quieres ir hoy en Medellín? También puedes tocar el mapa para marcar tu Punto de Inicio y Destino.' }
   ]);
   const [routes, setRoutes] = useState<RouteOption[]>([]);
@@ -223,19 +227,19 @@ El mensaje para el usuario no debe contener coordenadas.`;
         <div className={`flex-1 overflow-y-auto p-4 space-y-4 bg-background custom-scrollbar ${sheetHeight === 'min' ? 'hidden md:block' : 'block'}`}>
           
           <AnimatePresence>
-            {/* Mock Weather Alert (Point 8) */}
-            {Math.random() > 0.7 && (
+            {/* Real Weather Alert */}
+            {weather?.isRaining && (
               <motion.div 
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/50 rounded-xl flex items-center gap-3 mb-4"
+                className="p-3 bg-sitva-blue/10 dark:bg-sitva-blue/20 border border-sitva-blue/30 rounded-xl flex items-center gap-3 mb-4"
               >
-                <div className="p-2 bg-amber-100 dark:bg-amber-900/50 rounded-full text-amber-600 dark:text-amber-400">
+                <div className="p-2 bg-sitva-blue/20 dark:bg-sitva-blue/40 rounded-full text-sitva-blue">
                   <CloudRain className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="text-[11px] font-bold text-amber-800 dark:text-amber-400 uppercase tracking-wider">Alerta Climática</h4>
-                  <p className="text-[10px] text-amber-700 dark:text-amber-500 leading-tight">Lluvias moderadas en el Valle de Aburrá. Metrocables podrían operar con intermitencia.</p>
+                  <h4 className="text-[11px] font-bold text-sitva-blue uppercase tracking-wider">Alerta de Lluvia</h4>
+                  <p className="text-[10px] text-foreground/80 leading-tight">Actualmente llueve en Medellín ({weather.temperature}°C). Metrocables podrían operar con intermitencia.</p>
                 </div>
               </motion.div>
             )}
@@ -327,6 +331,16 @@ El mensaje para el usuario no debe contener coordenadas.`;
             </Button>
           </form>
           <div className="text-center">
+            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium tracking-wide">
+              Developed by <span className="font-bold text-slate-500 dark:text-slate-400">AI-LAB Jesús Rey</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+  <div className="text-center">
             <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium tracking-wide">
               Developed by <span className="font-bold text-slate-500 dark:text-slate-400">AI-LAB Jesús Rey</span>
             </span>

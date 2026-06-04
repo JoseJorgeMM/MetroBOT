@@ -2,6 +2,7 @@ import { GoogleGenAI, Type, FunctionDeclaration } from '@google/genai';
 import { getStationStatus } from './routing';
 import { loadStations, calculateDistance } from './stations';
 import { getLocalOfflineRoute } from './localRouter';
+import { fetchMetroNews } from './news';
 
 const apiKeys = (process.env.GEMINI_API_KEYS || process.env.GEMINI_API_KEY || "DUMMY_KEY").split(',').map(k => k.trim()).filter(Boolean);
 let currentKeyIndex = 0;
@@ -33,6 +34,16 @@ async function getTarifasData() {
     console.error("Error cargando CSV de tarifas:", e);
   }
   return cachedTarifas;
+}
+
+async function getRecentNewsContext() {
+  try {
+    const news = await fetchMetroNews();
+    if (news.length === 0) return "No hay noticias recientes reportadas.";
+    return news.slice(0, 5).map(n => `- [${n.pubDate}] ${n.title}`).join('\n');
+  } catch (e) {
+    return "Error al cargar noticias en tiempo real.";
+  }
 }
 
 const renderRouteDeclaration: FunctionDeclaration = {
@@ -436,6 +447,15 @@ DATOS DE RED SITVA:\n${grounding}`,
         if (offlineRoutes && offlineRoutes.length > 0) {
           onRouteFound(offlineRoutes);
           return "⚠️ Modo Sin Conexión Activo.";
+        }
+      }
+    } catch (offlineError) {
+      console.error("Local routing fallback failed:", offlineError);
+    }
+    return "Error al calcular la ruta.";
+  }
+}
+ return "⚠️ Modo Sin Conexión Activo.";
         }
       }
     } catch (offlineError) {
