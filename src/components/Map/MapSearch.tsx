@@ -335,7 +335,7 @@ export function MapSearch({
     return (
       <div 
         ref={containerRef} 
-        className="absolute top-4 left-4 right-4 md:right-auto z-[999] w-[calc(100vw-32px)] md:w-80 lg:w-[400px] pointer-events-none fade-in"
+        className="absolute top-5 left-4 right-4 md:right-auto z-[999] w-[calc(100vw-32px)] md:w-80 lg:w-[400px] pointer-events-none fade-in"
       >
         <div className="bg-card/90 backdrop-blur-md rounded-2xl shadow-xl border border-border/40 p-3 pointer-events-auto flex items-center justify-between gap-3 animate-in slide-in-from-top duration-300">
           <div className="flex-1 min-w-0">
@@ -362,7 +362,7 @@ export function MapSearch({
     return (
       <div 
         ref={containerRef} 
-        className="absolute top-4 left-4 right-4 md:right-auto z-[999] w-[calc(100vw-32px)] md:w-80 lg:w-[400px] pointer-events-none fade-in"
+        className="absolute top-5 left-4 right-4 md:right-auto z-[999] w-[calc(100vw-32px)] md:w-80 lg:w-[400px] pointer-events-none fade-in"
       >
         <div 
           onClick={() => setIsCollapsed(false)}
@@ -389,7 +389,7 @@ export function MapSearch({
   return (
     <div 
       ref={containerRef} 
-      className="absolute top-4 left-4 right-4 md:right-auto z-[999] w-[calc(100vw-32px)] md:w-80 lg:w-[400px] pointer-events-none fade-in"
+      className="absolute top-5 left-4 right-4 md:right-auto z-[999] w-[calc(100vw-32px)] md:w-80 lg:w-[400px] pointer-events-none fade-in"
     >
       <div className="bg-card/95 backdrop-blur-md rounded-2xl shadow-2xl border border-border/40 p-4 pointer-events-auto flex flex-col gap-3 animate-in zoom-in-95 duration-200">
         

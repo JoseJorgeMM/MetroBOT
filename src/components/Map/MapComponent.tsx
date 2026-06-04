@@ -63,6 +63,9 @@ function MapController({ bounds }: { bounds?: L.LatLngBounds | null }) {
   const map = useMap();
   
   useEffect(() => {
+    // Save map instance to window for custom controls
+    (window as any).leafletMap = map;
+    
     if (bounds && bounds.isValid()) {
       map.fitBounds(bounds, { padding: [50, 50], maxZoom: 16, animate: true });
     }
@@ -512,13 +515,35 @@ export function MapComponent({
         </div>
       )}
       
-      {/* Mobile Vertical controls stack */}
-      <div className="absolute top-20 right-4 z-[999] flex flex-col gap-3 pointer-events-none md:hidden">
+      {/* Mobile Vertical controls stack - Positioned higher to avoid bottom sheet overlaps */}
+      <div className="absolute bottom-[48dvh] right-3 z-[999] flex flex-col gap-2.5 pointer-events-none md:hidden transition-all duration-300">
+        {/* Zoom Controls (Customized for mobile) */}
+        <div className="flex flex-col bg-card/90 backdrop-blur-md rounded-2xl shadow-lg border border-border/40 overflow-hidden pointer-events-auto">
+          <button 
+            onClick={() => {
+              const map = (window as any).leafletMap;
+              if (map) map.setZoom(map.getZoom() + 1);
+            }}
+            className="w-11 h-11 flex items-center justify-center text-foreground hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors border-b border-border/20 cursor-pointer"
+          >
+            <span className="text-xl font-bold">+</span>
+          </button>
+          <button 
+            onClick={() => {
+              const map = (window as any).leafletMap;
+              if (map) map.setZoom(map.getZoom() - 1);
+            }}
+            className="w-11 h-11 flex items-center justify-center text-foreground hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+          >
+            <span className="text-xl font-bold">−</span>
+          </button>
+        </div>
+
         {/* Theme Toggle Button */}
         {onThemeToggle && (
           <button 
             onClick={onThemeToggle}
-            className="w-11 h-11 flex items-center justify-center bg-card/90 backdrop-blur-sm rounded-full shadow-lg border border-border/40 text-foreground pointer-events-auto hover:bg-card transition-all active:scale-95 cursor-pointer"
+            className="w-11 h-11 flex items-center justify-center bg-card/90 backdrop-blur-md rounded-2xl shadow-lg border border-border/40 text-foreground pointer-events-auto hover:bg-card transition-all active:scale-95 cursor-pointer"
             title="Cambiar tema"
           >
             {darkMode ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5 text-slate-700" />}
@@ -529,14 +554,14 @@ export function MapComponent({
         <div className="relative flex justify-end pointer-events-auto">
           <button 
             onClick={() => setIsLegendExpanded(!isLegendExpanded)}
-            className={`w-11 h-11 flex items-center justify-center bg-card/90 backdrop-blur-sm rounded-full shadow-lg border border-border/40 pointer-events-auto transition-all active:scale-95 cursor-pointer ${isLegendExpanded ? 'text-sitva-blue border-sitva-blue/30 bg-blue-50/20' : 'text-foreground'}`}
+            className={`w-11 h-11 flex items-center justify-center bg-card/90 backdrop-blur-md rounded-2xl shadow-lg border border-border/40 pointer-events-auto transition-all active:scale-95 cursor-pointer ${isLegendExpanded ? 'text-sitva-blue border-sitva-blue/30 bg-blue-50/20' : 'text-foreground'}`}
             title="Leyendas"
           >
             <MapIcon className="w-5 h-5" />
           </button>
           
           {isLegendExpanded && (
-            <div className="absolute right-13 top-0 bg-card/95 backdrop-blur-md border border-border/60 shadow-xl rounded-2xl p-3 w-36 flex flex-col gap-2 z-[1000] animate-in fade-in slide-in-from-right-3 duration-250">
+            <div className="absolute right-13 bottom-0 bg-card/95 backdrop-blur-md border border-border/60 shadow-xl rounded-2xl p-3 w-36 flex flex-col gap-2 z-[1000] animate-in fade-in slide-in-from-right-3 duration-250">
               <h4 className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider border-b border-border/10 pb-1">Leyenda</h4>
               <div className="flex items-center gap-2">
                   <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: getMarkerColor('Metro') }}></div>
