@@ -14,7 +14,6 @@ function getAiInstance() {
 
 let cachedStations: string = '';
 let cachedTarifas: string = '';
-// ... (rest of the file content until processUserQuery)
 
 async function getGroundingData() {
   if (cachedStations) return cachedStations;
@@ -246,7 +245,6 @@ export async function processUserQuery(
         .map(s => `- [Para ${s.tag}] ${s.nombre} (${s.sistema} - Linea ${s.linea}): A ${Math.round(s.distance)} metros de distancia (Caminando: ~${s.walkingMinutes} min) - Coord: LAT ${s.lat.toFixed(5)}, LNG ${s.lng.toFixed(5)}`)
         .join('\n');
 
-      // 2. Contexto de paradas de Buses Integrados (Filtrado por cercanía)
       const nearbyBusStops: any[] = [];
       allIntegratedRoutes.forEach((route: any) => {
         route.stops.forEach((stop: any) => {
@@ -274,6 +272,8 @@ export async function processUserQuery(
       grounding = await getGroundingData();
     }
 
+    const newsContext = await getRecentNewsContext();
+
     const generateWithRotation = async () => {
       let attempts = 0;
       while (attempts < apiKeys.length) {
@@ -286,10 +286,14 @@ export async function processUserQuery(
               systemInstruction: `Eres MetroBot, el asistente inteligente de movilidad de SITVA (Metro, Metrocable, Tranvía, Metroplús, EnCicla y Buses Articulados) en Medellín Colombia.
 Tu objetivo es dar rutas REALISTAS y ÚTILES. Prioriza SIEMPRE minimizar la caminata usando el sistema integrado (Buses).
 
+=== NOTICIAS Y ESTADO EN TIEMPO REAL ===
+${newsContext}
+
 REGLAS DE ORO:
 1. MINIMIZAR CAMINATA: Si hay una parada de BUS ARTICULADO cerca del usuario (ver lista PARADAS CERCANAS), ÚSALA obligatoriamente para evitar que camine a una estación lejana.
 2. COORDINADAS PRECISAS: Al llamar a 'render_route', usa las coordenadas EXACTAS provistas en las listas de "CERCANAS" tanto para 'originStation' como para los 'steps'.
 3. NO INVENTAR: No inventes estaciones.
+4. ESTADO ACTUAL: Si el usuario pregunta por el estado del sistema o cierres, básate en la sección "NOTICIAS Y ESTADO EN TIEMPO REAL" de arriba.
 
 DATOS OFICIALES SITVA 2026:
 === TARIFAS ===
@@ -310,7 +314,6 @@ DATOS DE RED SITVA:\n${grounding}`,
           });
         } catch (error: any) {
           attempts++;
-          // Detectar errores de límite (429) o indisponibilidad temporal (503)
           const isTransientError = 
             error.status === 429 || error.status === 503 || 
             error.message?.includes('429') || error.message?.includes('503') ||
@@ -335,7 +338,6 @@ DATOS DE RED SITVA:\n${grounding}`,
       for (const call of functionCalls) {
         if (call.name === 'render_route') {
           const args = call.args as any;
-          // Calculador de costos programático para evitar errores de la IA
           args.routes.forEach((route: any) => {
             let totalCost = 0;
             let hasUsedMetroplus = false;
@@ -348,7 +350,6 @@ DATOS DE RED SITVA:\n${grounding}`,
                 return;
               }
 
-              // Caso Cable Arví (Línea L)
               const isArviLine = step.line === 'L' || step.line === 'Línea L';
               const isArviStation = step.station?.name?.toLowerCase().includes('arví');
 
@@ -447,15 +448,6 @@ DATOS DE RED SITVA:\n${grounding}`,
         if (offlineRoutes && offlineRoutes.length > 0) {
           onRouteFound(offlineRoutes);
           return "⚠️ Modo Sin Conexión Activo.";
-        }
-      }
-    } catch (offlineError) {
-      console.error("Local routing fallback failed:", offlineError);
-    }
-    return "Error al calcular la ruta.";
-  }
-}
- return "⚠️ Modo Sin Conexión Activo.";
         }
       }
     } catch (offlineError) {
