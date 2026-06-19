@@ -15,10 +15,6 @@
     "lat": 6.246541,
     "lng": -75.6239137
   },
-  "Br. Manzanares (Cl 18 - Kr 110, Medellín)": {
-    "lat": 6.2698297,
-    "lng": -75.6355031
-  },
   "Br. El Jardín (Cl 18 - Kr 95, Medellín)": {
     "lat": 6.2225583,
     "lng": -75.6076067
@@ -31,21 +27,9 @@
     "lat": 6.2649924,
     "lng": -75.5743301
   },
-  "Br. La Piñuela (Cl 90 - Cr 50, Medellín)": {
-    "lat": 6.2698297,
-    "lng": -75.6355031
-  },
-  "Centro Comercial San Diego (Cl 37 - Cr 43, Medellín)": {
-    "lat": 6.2698297,
-    "lng": -75.6355031
-  },
   "Quebrada La Castro (Cl 52 - Cr 10, Medellín)": {
     "lat": 6.2498954,
     "lng": -75.5662137
-  },
-  "Br. Villatina (Cl 52 - Cr 13, Medellín)": {
-    "lat": 6.2698297,
-    "lng": -75.6355031
   },
   "Paradero Ruta 094 (Av. Oriental - Cl 47, Medellín)": {
     "lat": 6.2413952,
@@ -62,10 +46,6 @@
   "Fundación Ximena Rico Llano (Cl 47a - Cr 37, Medellín)": {
     "lat": 6.257338,
     "lng": -75.603735
-  },
-  "Br. La Milagrosa (Cl 45 - Cr 30, Medellín)": {
-    "lat": 6.2698297,
-    "lng": -75.6355031
   },
   "Br. La Milagrosa (Cl 45 - Cr 28, Medellín)": {
     "lat": 6.2417133,
@@ -118,14 +98,6 @@
   "Br. Villatina (Cr 13 - Cl 52b, Medellín)": {
     "lat": 6.2664716,
     "lng": -75.5979409
-  },
-  "Br. Sucre (Cl 52 - Cr 27, Medellín)": {
-    "lat": 6.2698297,
-    "lng": -75.6355031
-  },
-  "Br. Sucre (Cl 52 - Cr 32, Medellín)": {
-    "lat": 6.2698297,
-    "lng": -75.6355031
   },
   "Parque De Boston": {
     "lat": 6.2480741,
@@ -202,30 +174,6 @@
   "Br. La Esperanza (Cl 18 - Kr 100, Medellín)": {
     "lat": 6.22162,
     "lng": -75.5836187
-  },
-  "Quebrada Chocho (Cl 18 - Kr 102, Medellín)": {
-    "lat": 6.2698297,
-    "lng": -75.6355031
-  },
-  "Biblioteca Pública Altavista (Cl 18 - Kr 103, Medellín)": {
-    "lat": 6.2698297,
-    "lng": -75.6355031
-  },
-  "Colegio Débora Arango (Cl 18 - Kr 104, Medellín)": {
-    "lat": 6.2698297,
-    "lng": -75.6355031
-  },
-  "Casa De Gobierno Altavista (Cl 18 - Kr 106, Medellín)": {
-    "lat": 6.2698297,
-    "lng": -75.6355031
-  },
-  "Br. Manzanares (Cl 18 - Kr 108, Medellín)": {
-    "lat": 6.2698297,
-    "lng": -75.6355031
-  },
-  "Br. Altavista (Cl 18 - Kr 113, Medellín)": {
-    "lat": 6.2698297,
-    "lng": -75.6355031
   },
   "Br. Las Mercedes (Cl 32a - Kr 15, Medellín)": {
     "lat": 6.2355878,
@@ -330,5 +278,225 @@
   "Br. Jesús (Cl 49a - Cr 5, Medellín)": {
     "lat": 6.2614157,
     "lng": -75.6091937
+  },
+  "Calle. 78 Sur #35- 182, Sabaneta, Cañaveralejo, Sabaneta, Antioquia": {
+    "lat": 6.1484824,
+    "lng": -75.6224733
+  },
+  "Calle. 78 Sur #40-314 a 40-378, Cañaveralejo, Sabaneta, Antioquia": {
+    "lat": 6.1434257,
+    "lng": -75.6211769
+  },
+  "Calle. 78 Sur #40-414 a 40-478, Sabaneta, Antioquia": {
+    "lat": 6.1434257,
+    "lng": -75.6211769
+  },
+  "Calle. 78 Sur #40, Sabaneta, Antioquia": {
+    "lat": 6.1504539,
+    "lng": -75.6265068
+  },
+  "Carrera. 45 #77c Sur-1 a 77c Sur-127, Sabaneta, Antioquia": {
+    "lat": 6.1474326,
+    "lng": -75.6188755
+  },
+  "Calle 77A Sur, Sabaneta, Antioquia": {
+    "lat": 6.1487161,
+    "lng": -75.6222621
+  },
+  "Carrera. 45 #75 Sur-1 a 75 Sur-93, Sabaneta, Antioquia": {
+    "lat": 6.1474326,
+    "lng": -75.6188755
+  },
+  "Carrera. 43B #70 Sur-1 a 70 Sur-75, Sabaneta, Antioquia": {
+    "lat": 6.1478578,
+    "lng": -75.6165313
+  },
+  "Calle. 51 Sur #105 a 103, Sabaneta, Antioquia": {
+    "lat": 6.244203,
+    "lng": -75.5812119
+  },
+  "Calle. 52 Sur #44-65, Sabaneta, Antioquia": {
+    "lat": 6.1588532,
+    "lng": -75.6038714
+  },
+  "Carrera. 43A #54 Sur-66, Sabaneta, Antioquia": {
+    "lat": 6.1569655,
+    "lng": -75.6060702
+  },
+  "Carrera. 43A #54, Sabaneta, Antioquia": {
+    "lat": 6.1570729,
+    "lng": -75.6057333
+  },
+  "Calle. 77 Sur, Sabaneta, Antioquia": {
+    "lat": 6.1474371,
+    "lng": -75.6206158
+  },
+  "Calle. 77 Sur #47c-3 a 47c-1, Sabaneta, Antioquia": {
+    "lat": 6.149736,
+    "lng": -75.6222531
+  },
+  "Carrera. 45 #77 SUR 24, Sabaneta, Antioquia": {
+    "lat": 6.1474326,
+    "lng": -75.6188755
+  },
+  "Carrera. 43C #67S-15": {
+    "lat": 6.2379427,
+    "lng": -75.5686638
+  },
+  "Carrera. 48": {
+    "lat": 6.2539887,
+    "lng": -75.5638951
+  },
+  "Carrera. 40": {
+    "lat": 6.2400226,
+    "lng": -75.564403
+  },
+  "Calle 63b Sur": {
+    "lat": 6.2585464,
+    "lng": -75.5583953
+  },
+  "carrera 45 #71 sur, sabaneta, antioquia": {
+    "lat": 6.1474326,
+    "lng": -75.6188755
+  },
+  "Calle. 64 Sur #39-348 a 39-376": {
+    "lat": 6.2553053,
+    "lng": -75.5809805
+  },
+  "Vía Vda. Los Lomitos, Las Lomitas, Sabaneta, Antioquia": {
+    "lat": 6.1425483,
+    "lng": -75.6021806
+  },
+  "Calle. 62 Sur": {
+    "lat": 6.2392171,
+    "lng": -75.5776973
+  },
+  "Carrera. 45 #65 sur 51, Sabaneta, Antioquia": {
+    "lat": 6.1556092,
+    "lng": -75.6076768
+  },
+  "Carrrea. 46 #70S-74, Sabaneta, Antioquia": {
+    "lat": 6.1503498,
+    "lng": -75.6213421
+  },
+  "Carrera. 46 #33": {
+    "lat": 6.2395633,
+    "lng": -75.5702933
+  },
+  "Carrera. 46 #74 sur - 47, Sabaneta, Antioquia": {
+    "lat": 6.1537621,
+    "lng": -75.6101383
+  },
+  "Carrera. 46 #70S-74, Sabaneta, Antioquia": {
+    "lat": 6.1549005,
+    "lng": -75.6124798
+  },
+  "Calle. 72 Sur #33 a 43": {
+    "lat": 6.1831485,
+    "lng": -75.6537756
+  },
+  "Carrera. 32": {
+    "lat": 6.2280159,
+    "lng": -75.5617606
+  },
+  "Calle. 75 Sur #32-45 a 32-3": {
+    "lat": 6.1902717,
+    "lng": -75.5696434
+  },
+  "Carrera 43AA # 75SUT-5, Sabaneta, Antioquia": {
+    "lat": 6.1570729,
+    "lng": -75.6057333
+  },
+  "Calle. 68 Sur #45-81": {
+    "lat": 6.2573477,
+    "lng": -75.5849502
+  },
+  "055450, Sabaneta, Antioquia": {
+    "lat": 6.1515344,
+    "lng": -75.6153715
+  },
+  "Calle. 75 Sur #34-13, La Doctora, Sabaneta, Antioquia": {
+    "lat": 6.1373974,
+    "lng": -75.6143474
+  },
+  "Carrera. 43A #75, Sabaneta, Antioquia": {
+    "lat": 6.1570729,
+    "lng": -75.6057333
+  },
+  "Carrera. 48, Zona 8, Envigado, Antioquia": {
+    "lat": 6.1626541,
+    "lng": -75.6027191
+  },
+  "Av. El Poblado, Zona 7, Envigado, Antioquia": {
+    "lat": 6.179331,
+    "lng": -75.5835589
+  },
+  "Calle. 75 Sur #38a-11, Sabaneta, Antioquia": {
+    "lat": 6.1526261,
+    "lng": -75.6212214
+  },
+  "La Bahia, La Doctora, Sabaneta, Antioquia": {
+    "lat": 6.1387613,
+    "lng": -75.6112413
+  },
+  "Carrera. 43A, Zona 7, Sabaneta, Antioquia": {
+    "lat": 6.1510716,
+    "lng": -75.6144068
+  },
+  "Calle. 77 Sur #4756, Poblado del Sur, Sabaneta, Antioquia": {
+    "lat": 6.1474371,
+    "lng": -75.6206158
+  },
+  "Carrera. 45 #75 sur 229, Sabaneta, Antioquia": {
+    "lat": 6.1474326,
+    "lng": -75.6188755
+  },
+  "Carrera. 43A #56sur - 07, Sabaneta, Antioquia": {
+    "lat": 6.1569655,
+    "lng": -75.6060702
+  },
+  "Calle. 75 Sur, Sabaneta, Antioquia": {
+    "lat": 6.1526261,
+    "lng": -75.6212214
+  },
+  "Carrera. 48A #67 Sur 27, Sabaneta, Antioquia": {
+    "lat": 6.1548798,
+    "lng": -75.6163844
+  },
+  "Calle. 69 Sur #46-55, Sabaneta, Antioquia": {
+    "lat": 6.1533955,
+    "lng": -75.6167746
+  },
+  "Calle. 75b Sur, Sabaneta, Antioquia": {
+    "lat": 6.1373974,
+    "lng": -75.6143474
+  },
+  "Carrera. 40, Sabaneta, Antioquia": {
+    "lat": 6.1526627,
+    "lng": -75.606086
+  },
+  "Calle. 75 Sur #34-120, La Doctora, Sabaneta, Antioquia": {
+    "lat": 6.1373974,
+    "lng": -75.6143474
+  },
+  "Calle. 77 Sur, San José, Sabaneta, Antioquia": {
+    "lat": 6.1474371,
+    "lng": -75.6206158
+  },
+  "Calle. 77 Sur #40-158 a 40-218, Sabaneta, Antioquia": {
+    "lat": 6.1434257,
+    "lng": -75.6211769
+  },
+  "Calle. 75B Sur 124, Sabaneta, Antioquia": {
+    "lat": 6.1473604,
+    "lng": -75.6174258
+  },
+  "Carrera. 45 #65, Sabaneta, Antioquia": {
+    "lat": 6.1459351,
+    "lng": -75.6221462
+  },
+  "Carrera. 43A #55 Sur-68 a 55 Sur-2, Sabaneta, Antioquia": {
+    "lat": 6.1571466,
+    "lng": -75.6056976
   }
 }

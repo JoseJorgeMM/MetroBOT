@@ -42,7 +42,28 @@ const manualOverrides = {
   "Estación Acevedo (Cr 52 - Cl 108, Medellín)": { lat: 6.3001, lng: -75.5684 },
   "Hospital Zamora (Cl 21 - Cr 42, Bello)": { lat: 6.3075, lng: -75.5562 },
   "Br. El Playón (Cl 20d - Cr 43c, Bello)": { lat: 6.3115, lng: -75.5642 },
-  "Br. Zamora (Cl 20d - Cr 42d, Bello)": { lat: 6.3070, lng: -75.5558 }
+  "Br. Zamora (Cl 20d - Cr 42d, Bello)": { lat: 6.3070, lng: -75.5558 },
+
+  // Sabaneta / Itagüí Area (C5 routes)
+  "Estación Metro Estrella, Sabaneta, Antioquia": { lat: 6.1583, lng: -75.6106 },
+  "Calle 51 Sur, 4883, Est Itag Buses": { lat: 6.1719, lng: -75.6167 },
+  "Calle 51 Sur #105 a 103, Sabaneta, Antioquia": { lat: 6.1719, lng: -75.6167 },
+  "Carnes Sabanita, Cra. 45 #128, Sabaneta, Antioquia": { lat: 6.1671, lng: -75.6152 },
+  "Calle. 68 Sur #45-81, Sabaneta, Antioquia": { lat: 6.1646, lng: -75.6142 },
+  "Calle. 68 Sur #45 - 83, Sabaneta, Antioquia": { lat: 6.1646, lng: -75.6142 },
+  "Carrera. 45 #72s40, Sabaneta, Antioquia": { lat: 6.1702, lng: -75.6136 },
+  "Carrera. 45 #72s40": { lat: 6.1702, lng: -75.6136 },
+  "Carrera. 45 #72s-35, Sabaneta, Antioquia": { lat: 6.1705, lng: -75.6136 },
+  "Carrera. 45 #71 sur, Sabaneta, Antioquia": { lat: 6.1714, lng: -75.6135 },
+  "Carrera. 43A, Alto Las Flores, Sabaneta, Antioquia": { lat: 6.1642, lng: -75.6148 },
+  "Carrera. 43C #67S-15, Sabaneta, Antioquia": { lat: 6.1670, lng: -75.6145 },
+  "Carrera. 43C, Sabaneta, Antioquia": { lat: 6.1670, lng: -75.6145 },
+  "Carrera. 48, Sabaneta, Antioquia": { lat: 6.1651, lng: -75.6115 },
+  "Carrera. 49 #61 Sur-303 a 61 Sur-331, Sabaneta, Antioquia": { lat: 6.1684, lng: -75.6107 },
+  "Carrera. 29, La Doctora, Sabaneta, Antioquia": { lat: 6.1626, lng: -75.6245 },
+  "Calle. 75 Sur #32-45 a 32-3, Sabaneta, Antioquia": { lat: 6.1623, lng: -75.6233 },
+  "Calle. 75 Sur #34-366 a 34-446, Sabaneta, Antioquia": { lat: 6.1632, lng: -75.6212 },
+  "Calle. 77 Sur #45-2 a 45-76, Sabaneta, Antioquia": { lat: 6.1660, lng: -75.6140 }
 };
 
 // 3. Official Stations matching
@@ -87,6 +108,29 @@ async function geocode(name) {
   }
 
   console.log(`Geocoding: ${query}...`);
+  // Try Photon first (no rate limits, OSM-based, good for Colombia)
+  try {
+    const response = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&limit=1`, {
+      headers: { 'User-Agent': 'MetroBOT-Project-Geocoding/2.0' }
+    });
+    if (response.ok) {
+      const data = await response.json();
+      if (data && data.features && data.features.length > 0) {
+        const f = data.features[0];
+        const lng = f.geometry.coordinates[0];
+        const lat = f.geometry.coordinates[1];
+        if (lat > 6.0 && lat < 6.4 && lng > -75.7 && lng < -75.4) {
+          const result = { lat, lng };
+          geocodingCache[name] = result;
+          return result;
+        }
+      }
+    }
+  } catch (e) {
+    console.error(`Photon error for ${name}:`, e.message);
+  }
+
+  // Fallback: Nominatim
   try {
     const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1`, {
       headers: { 'User-Agent': 'MetroBOT-Project-Geocoding/2.0' }

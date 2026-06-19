@@ -5699,5 +5699,1094 @@
         "lng": -75.54911134605071
       }
     ]
+  },
+  {
+    "id": "C5-001",
+    "name": "Ruta Integrada C5-001",
+    "stops": [
+      {
+        "name": "Calle. 78 Sur #35-294 a 35-320, Cañaveralejo, Sabaneta, Antioquia",
+        "lat": 6.1484824,
+        "lng": -75.6224733
+      },
+      {
+        "name": "Calle. 78 Sur #35- 182, Sabaneta, Cañaveralejo, Sabaneta, Antioquia",
+        "lat": 6.1484824,
+        "lng": -75.6224733
+      },
+      {
+        "name": "Calle. 78 Sur #40-314 a 40-378, Cañaveralejo, Sabaneta, Antioquia",
+        "lat": 6.1434257,
+        "lng": -75.6211769
+      },
+      {
+        "name": "Calle. 78 Sur #40-414 a 40-478, Sabaneta, Antioquia",
+        "lat": 6.1434257,
+        "lng": -75.6211769
+      },
+      {
+        "name": "Calle. 78 Sur #40, Sabaneta, Antioquia",
+        "lat": 6.1504539,
+        "lng": -75.6265068
+      },
+      {
+        "name": "Carrera. 45 #77c Sur-1 a 77c Sur-127, Sabaneta, Antioquia",
+        "lat": 6.1474326,
+        "lng": -75.6188755
+      },
+      {
+        "name": "Ciudadela Monteazul, Cra. 45A #79 sur 176, Sabaneta, Antioquia",
+        "lat": 6.147860433333333,
+        "lng": -75.62000436666666
+      },
+      {
+        "name": "Carrera. 46B #78 Sur-167 a 78 Sur-181, Sabaneta, Antioquia",
+        "lat": 6.1482882666666665,
+        "lng": -75.62113323333332
+      },
+      {
+        "name": "Calle 77A Sur, Sabaneta, Antioquia",
+        "lat": 6.1487161,
+        "lng": -75.6222621
+      },
+      {
+        "name": "Calle. 77 Sur #45-2 a 45-76, Sabaneta, Antioquia",
+        "lat": 6.166,
+        "lng": -75.614
+      },
+      {
+        "name": "Carnes Sabanita, Cra. 45 #128, Sabaneta, Antioquia",
+        "lat": 6.1671,
+        "lng": -75.6152
+      },
+      {
+        "name": "Carrera. 45 #75 Sur-1 a 75 Sur-93, Sabaneta, Antioquia",
+        "lat": 6.1474326,
+        "lng": -75.6188755
+      },
+      {
+        "name": "Carrera. 45 #72s40, Sabaneta, Antioquia",
+        "lat": 6.1702,
+        "lng": -75.6136
+      },
+      {
+        "name": "Carrera. 43B #70 Sur-1 a 70 Sur-75, Sabaneta, Antioquia",
+        "lat": 6.1478578,
+        "lng": -75.6165313
+      },
+      {
+        "name": "Carrera. 43C #67S-15, Sabaneta, Antioquia",
+        "lat": 6.167,
+        "lng": -75.6145
+      },
+      {
+        "name": "Carrera. 43A, Alto Las Flores, Sabaneta, Antioquia",
+        "lat": 6.1642,
+        "lng": -75.6148
+      },
+      {
+        "name": "Carrera. 43A #61 Sur-1 a 61 Sur-77, Alto Las Flores, Sabaneta, Antioquia",
+        "lat": 6.1802006,
+        "lng": -75.60808238
+      },
+      {
+        "name": "Carrera. 43A #56 Sur-94 a 56 Sur-32, Alto Las Flores, Sabaneta, Antioquia",
+        "lat": 6.1962012,
+        "lng": -75.60136476
+      },
+      {
+        "name": "Carrera. 43A #53, Sabaneta, Envigado, Antioquia",
+        "lat": 6.2122018,
+        "lng": -75.59464713999999
+      },
+      {
+        "name": "Calle. 50 Sur #44-2 a 44-40, Zona 8, Sabaneta, Antioquia",
+        "lat": 6.2282024,
+        "lng": -75.58792951999999
+      },
+      {
+        "name": "Calle. 51 Sur #105 a 103, Sabaneta, Antioquia",
+        "lat": 6.244203,
+        "lng": -75.5812119
+      },
+      {
+        "name": "Calle. 52 Sur #44-65, Sabaneta, Antioquia",
+        "lat": 6.1588532,
+        "lng": -75.6038714
+      },
+      {
+        "name": "Carrera. 43A #54 Sur-66, Sabaneta, Antioquia",
+        "lat": 6.1569655,
+        "lng": -75.6060702
+      },
+      {
+        "name": "Carrera. 43A #54, Sabaneta, Antioquia",
+        "lat": 6.1570729,
+        "lng": -75.6057333
+      },
+      {
+        "name": "El Poblado #56-05, Alto Las Flores, Sabaneta, Antioquia",
+        "lat": 6.16063645,
+        "lng": -75.61026665
+      },
+      {
+        "name": "Carrera. 43A, Alto Las Flores, Sabaneta, Antioquia",
+        "lat": 6.1642,
+        "lng": -75.6148
+      },
+      {
+        "name": "Carrera. 43A #63 Sur-25 a 63 Sur-55, Alto Las Flores, Sabaneta, Antioquia",
+        "lat": 6.1655999999999995,
+        "lng": -75.61465000000001
+      },
+      {
+        "name": "Carrera. 43C, Sabaneta, Antioquia",
+        "lat": 6.167,
+        "lng": -75.6145
+      },
+      {
+        "name": "Calle. 68 Sur #45-81, Sabaneta, Antioquia",
+        "lat": 6.1646,
+        "lng": -75.6142
+      },
+      {
+        "name": "Calle. 77 Sur, Sabaneta, Antioquia",
+        "lat": 6.1474371,
+        "lng": -75.6206158
+      },
+      {
+        "name": "Estación Metro Estrella, Sabaneta, Antioquia",
+        "lat": 6.1583,
+        "lng": -75.6106
+      },
+      {
+        "name": "Calle. 77 Sur, Sabaneta, Antioquia",
+        "lat": 6.1474371,
+        "lng": -75.6206158
+      },
+      {
+        "name": "Calle. 77 Sur #47c-3 a 47c-1, Sabaneta, Antioquia",
+        "lat": 6.149736,
+        "lng": -75.6222531
+      },
+      {
+        "name": "Carrera. 45 #77 SUR 24, Sabaneta, Antioquia",
+        "lat": 6.1474326,
+        "lng": -75.6188755
+      },
+      {
+        "name": "Calle. 78 Sur #40, Sabaneta, Antioquia",
+        "lat": 6.1504539,
+        "lng": -75.6265068
+      },
+      {
+        "name": "Calle. 78 Sur #40-414 a 40-478, Sabaneta, Antioquia",
+        "lat": 6.1434257,
+        "lng": -75.6211769
+      },
+      {
+        "name": "Calle. 78 Sur #40-314 a 40-378, Cañaveralejo, Sabaneta, Antioquia",
+        "lat": 6.1434257,
+        "lng": -75.6211769
+      },
+      {
+        "name": "Calle. 78 Sur #35- 182, Sabaneta, Cañaveralejo, Sabaneta, Antioquia",
+        "lat": 6.1484824,
+        "lng": -75.6224733
+      },
+      {
+        "name": "Calle. 78 Sur #35-294 a 35-320, Cañaveralejo, Sabaneta, Antioquia",
+        "lat": 6.1484824,
+        "lng": -75.6224733
+      }
+    ]
+  },
+  {
+    "id": "C5-003",
+    "name": "Ruta Integrada C5-003",
+    "stops": [
+      {
+        "name": "Carrera. 45 #72s40",
+        "lat": 6.1702,
+        "lng": -75.6136
+      },
+      {
+        "name": "Carrera. 43B #68a sur 53,",
+        "lat": 6.2040713499999995,
+        "lng": -75.5911319
+      },
+      {
+        "name": "Carrera. 43C #67S-15",
+        "lat": 6.2379427,
+        "lng": -75.5686638
+      },
+      {
+        "name": "Carrera. 48",
+        "lat": 6.2539887,
+        "lng": -75.5638951
+      },
+      {
+        "name": "Carrera. 46A #68 sur 76",
+        "lat": 6.25119548,
+        "lng": -75.56399668
+      },
+      {
+        "name": "Calle 72 sur Cr46A-42",
+        "lat": 6.24840226,
+        "lng": -75.56409826000001
+      },
+      {
+        "name": "Calle. 75b Sur #40 - 327",
+        "lat": 6.24560904,
+        "lng": -75.56419984
+      },
+      {
+        "name": "Calle. 75b Sur #40-269 a 40-83",
+        "lat": 6.24281582,
+        "lng": -75.56430141999999
+      },
+      {
+        "name": "Carrera. 40",
+        "lat": 6.2400226,
+        "lng": -75.564403
+      },
+      {
+        "name": "Carrera. 30 #65 Sur-478 a 65 Sur-174",
+        "lat": 6.2492845,
+        "lng": -75.56139915
+      },
+      {
+        "name": "Calle 63b Sur",
+        "lat": 6.2585464,
+        "lng": -75.5583953
+      },
+      {
+        "name": "Carrera. 30 #68 Sur-171 a 68 Sur-257",
+        "lat": 6.214373200000001,
+        "lng": -75.58599765
+      },
+      {
+        "name": "Carrera. 45 #72s40",
+        "lat": 6.1702,
+        "lng": -75.6136
+      }
+    ]
+  },
+  {
+    "id": "C5-004",
+    "name": "Ruta Integrada C5-004",
+    "stops": [
+      {
+        "name": "Carrera. 45 #72s40",
+        "lat": 6.1702,
+        "lng": -75.6136
+      },
+      {
+        "name": "carrera 45 #71 sur, sabaneta, antioquia",
+        "lat": 6.1474326,
+        "lng": -75.6188755
+      },
+      {
+        "name": "Cl 71Sur #43b-22 a 43b-86",
+        "lat": 6.15232445,
+        "lng": -75.617781625
+      },
+      {
+        "name": "carrera 43a, Calle 68AS #SN",
+        "lat": 6.1572163,
+        "lng": -75.61668775000001
+      },
+      {
+        "name": "Carrera. 43C #67 Sur-17 a 67 Sur-77",
+        "lat": 6.16210815,
+        "lng": -75.615593875
+      },
+      {
+        "name": "Carrera. 43C, Sabaneta, Antioquia",
+        "lat": 6.167,
+        "lng": -75.6145
+      },
+      {
+        "name": "Carrera. 43A #64 Sur-171 a 64 Sur-211",
+        "lat": 6.21115265,
+        "lng": -75.59774025
+      },
+      {
+        "name": "Calle. 64 Sur #39-348 a 39-376",
+        "lat": 6.2553053,
+        "lng": -75.5809805
+      },
+      {
+        "name": "Calle. 63a Sur #39a-183 a 39a-59",
+        "lat": 6.1989268,
+        "lng": -75.59158055
+      },
+      {
+        "name": "Vía Vda. Los Lomitos, Las Lomitas, Sabaneta, Antioquia",
+        "lat": 6.1425483,
+        "lng": -75.6021806
+      },
+      {
+        "name": "Calle. 62 Sur",
+        "lat": 6.2392171,
+        "lng": -75.5776973
+      },
+      {
+        "name": "Calle. 63a Sur #39a-397 a 39a-185",
+        "lat": 6.2272731142857145,
+        "lng": -75.58198008571428
+      },
+      {
+        "name": "Calle. 68 Sur #45-90 a 45-120",
+        "lat": 6.215329128571429,
+        "lng": -75.58626287142856
+      },
+      {
+        "name": "Carrera. 48 #68 Sur-88 a 68 Sur-22, Sabaneta, Antioquia",
+        "lat": 6.203385142857143,
+        "lng": -75.59054565714284
+      },
+      {
+        "name": "Carrera. 49 #61 Sur-303 a 61 Sur-331",
+        "lat": 6.191441157142857,
+        "lng": -75.59482844285714
+      },
+      {
+        "name": "Carrera. 46 #74 Sur-72",
+        "lat": 6.179497171428571,
+        "lng": -75.59911122857142
+      },
+      {
+        "name": "Carrera. 45 #75b Sur-350 a 75b Sur-346",
+        "lat": 6.167553185714286,
+        "lng": -75.6033940142857
+      },
+      {
+        "name": "Carrera. 45 #65 sur 51, Sabaneta, Antioquia",
+        "lat": 6.1556092,
+        "lng": -75.6076768
+      },
+      {
+        "name": "Carrera. 45 #72s40",
+        "lat": 6.1702,
+        "lng": -75.6136
+      }
+    ]
+  },
+  {
+    "id": "C5-005",
+    "name": "Ruta Integrada C5-005",
+    "stops": [
+      {
+        "name": "Carrera. 49 #61 Sur-303 a 61 Sur-331",
+        "lat": 6.1550353285714285,
+        "lng": -75.62597545714286
+      },
+      {
+        "name": "Carrrea. 46 #70S-74, Sabaneta, Antioquia",
+        "lat": 6.1503498,
+        "lng": -75.6213421
+      },
+      {
+        "name": "Carrera. 46 #33",
+        "lat": 6.2395633,
+        "lng": -75.5702933
+      },
+      {
+        "name": "Carrera. 46 #74 sur - 47, Sabaneta, Antioquia",
+        "lat": 6.1537621,
+        "lng": -75.6101383
+      },
+      {
+        "name": "Carrera. 46 #70S-74, Sabaneta, Antioquia",
+        "lat": 6.1549005,
+        "lng": -75.6124798
+      },
+      {
+        "name": "Calle. 72 Sur #33 a 43",
+        "lat": 6.1831485,
+        "lng": -75.6537756
+      },
+      {
+        "name": "Calle. 70ASur #35",
+        "lat": 6.178462971428571,
+        "lng": -75.64914224285715
+      },
+      {
+        "name": "Carrera. 43A #69 Sur-58 a 69 Sur-2",
+        "lat": 6.173777442857142,
+        "lng": -75.64450888571429
+      },
+      {
+        "name": "Calle. 68 Sur #45 - 83",
+        "lat": 6.169091914285714,
+        "lng": -75.63987552857144
+      },
+      {
+        "name": "Carrera. 48 #66b Sur-31 a 66b Sur-179",
+        "lat": 6.164406385714285,
+        "lng": -75.63524217142859
+      },
+      {
+        "name": "Carrera. 49 #61 Sur-303 a 61 Sur-331",
+        "lat": 6.159720857142856,
+        "lng": -75.63060881428572
+      }
+    ]
+  },
+  {
+    "id": "C5-006",
+    "name": "Ruta Integrada C5-006",
+    "stops": [
+      {
+        "name": "Carrera. 29, La Doctora, Sabaneta, Antioquia",
+        "lat": 6.1626,
+        "lng": -75.6245
+      },
+      {
+        "name": "Carrera. 32",
+        "lat": 6.2280159,
+        "lng": -75.5617606
+      },
+      {
+        "name": "Calle. 75 Sur #32-45 a 32-3",
+        "lat": 6.1902717,
+        "lng": -75.5696434
+      },
+      {
+        "name": "Carrera 43AA # 75SUT-5, Sabaneta, Antioquia",
+        "lat": 6.1570729,
+        "lng": -75.6057333
+      },
+      {
+        "name": "Carnes Sabanita, Cra. 45 #128, Sabaneta, Antioquia",
+        "lat": 6.1671,
+        "lng": -75.6152
+      },
+      {
+        "name": "Carrera. 43B #70 Sur-1 a 70 Sur-75, Sabaneta, Antioquia",
+        "lat": 6.1478578,
+        "lng": -75.6165313
+      },
+      {
+        "name": "Carrera. 43A #61 Sur-1 a 61 Sur-77",
+        "lat": 6.15194335,
+        "lng": -75.616098475
+      },
+      {
+        "name": "Carrera. 43A #60 Sur-51 a 60 Sur-83, Alto Las Flores, Sabaneta, Antioquia",
+        "lat": 6.1560289,
+        "lng": -75.61566565
+      },
+      {
+        "name": "Carrera. 43A #58 Sur-62 a 58 Sur-28",
+        "lat": 6.16011445,
+        "lng": -75.61523282499999
+      },
+      {
+        "name": "Carrera. 43A, Alto Las Flores, Sabaneta, Antioquia",
+        "lat": 6.1642,
+        "lng": -75.6148
+      },
+      {
+        "name": "Calle. 68 Sur #45-81",
+        "lat": 6.2573477,
+        "lng": -75.5849502
+      },
+      {
+        "name": "055450, Sabaneta, Antioquia",
+        "lat": 6.1515344,
+        "lng": -75.6153715
+      },
+      {
+        "name": "Carnes Sabanita, Cra. 45 #128, Sabaneta, Antioquia",
+        "lat": 6.1671,
+        "lng": -75.6152
+      },
+      {
+        "name": "Calle. 75 Sur #34-366 a 34-446, Sabaneta, Antioquia",
+        "lat": 6.1632,
+        "lng": -75.6212
+      },
+      {
+        "name": "Carrera. 29, La Doctora, Sabaneta, Antioquia",
+        "lat": 6.1626,
+        "lng": -75.6245
+      }
+    ]
+  },
+  {
+    "id": "C5-007",
+    "name": "Ruta Integrada C5-007",
+    "stops": [
+      {
+        "name": "Carrera. 29, La Doctora, Sabaneta, Antioquia",
+        "lat": 6.1626,
+        "lng": -75.6245
+      },
+      {
+        "name": "Carrera. 32",
+        "lat": 6.2280159,
+        "lng": -75.5617606
+      },
+      {
+        "name": "Calle. 75 Sur #32-45 a 32-3",
+        "lat": 6.1902717,
+        "lng": -75.5696434
+      },
+      {
+        "name": "Calle. 75 Sur #34-13, La Doctora, Sabaneta, Antioquia",
+        "lat": 6.1373974,
+        "lng": -75.6143474
+      },
+      {
+        "name": "Calle. 75 Sur #34-366 a 34-446, Sabaneta, Antioquia",
+        "lat": 6.1632,
+        "lng": -75.6212
+      },
+      {
+        "name": "Carrera. 43A #75, Sabaneta, Antioquia",
+        "lat": 6.1570729,
+        "lng": -75.6057333
+      },
+      {
+        "name": "Carrera. 45 #74 Sur-72 a 74 Sur-2, Sabaneta, Antioquia",
+        "lat": 6.1589333,
+        "lng": -75.60472856666667
+      },
+      {
+        "name": "Carrera. 43A #58 Sur-65 a 58 Sur-131, Alto Las Flores, Sabaneta, Antioquia",
+        "lat": 6.1607937,
+        "lng": -75.60372383333333
+      },
+      {
+        "name": "Carrera. 48, Zona 8, Envigado, Antioquia",
+        "lat": 6.1626541,
+        "lng": -75.6027191
+      },
+      {
+        "name": "Av. El Poblado #41b Sur-45 a 41b Sur-153, Zona 7, Envigado, Antioquia",
+        "lat": 6.162876454545454,
+        "lng": -75.60351736363637
+      },
+      {
+        "name": "Calle. 38 Sur #39-28 a 39-94, Zona 9, Envigado, Antioquia",
+        "lat": 6.163098809090909,
+        "lng": -75.60431562727274
+      },
+      {
+        "name": "Calle. 38 Sur #57, Zona 9, Envigado, Antioquia",
+        "lat": 6.163321163636363,
+        "lng": -75.60511389090911
+      },
+      {
+        "name": "Calle. 38 Sur #38-2 a 38-78, Zona 9, Envigado, Antioquia",
+        "lat": 6.163543518181817,
+        "lng": -75.60591215454548
+      },
+      {
+        "name": "Calle. 38 Sur #36 - 24, Zona 9, Envigado, Antioquia",
+        "lat": 6.1637658727272715,
+        "lng": -75.60671041818183
+      },
+      {
+        "name": "Calle. 38 Sur #33-37, Zona 9, Envigado, Antioquia",
+        "lat": 6.163988227272727,
+        "lng": -75.60750868181819
+      },
+      {
+        "name": "Dg. 33 #35a Sur-1 a 35a Sur-69, Zona 9, Envigado, Antioquia",
+        "lat": 6.164210581818181,
+        "lng": -75.60830694545456
+      },
+      {
+        "name": "Dg. 33 #34c Sur-56 a 34c Sur-2, Zona 9, Envigado, Antioquia",
+        "lat": 6.164432936363635,
+        "lng": -75.60910520909093
+      },
+      {
+        "name": "Av. Lucas De Ochoa #39 Sur-136 a 39 Sur-68, Zona 9, Envigado, Antioquia",
+        "lat": 6.16465529090909,
+        "lng": -75.60990347272728
+      },
+      {
+        "name": "Calle. 46 Sur #46c-100, Zona 8, Envigado, Antioquia",
+        "lat": 6.1648776454545455,
+        "lng": -75.61070173636364
+      },
+      {
+        "name": "Carrera. 48, Sabaneta, Antioquia",
+        "lat": 6.1651,
+        "lng": -75.6115
+      },
+      {
+        "name": "Carrera. 48, Zona 8, Envigado, Antioquia",
+        "lat": 6.1626541,
+        "lng": -75.6027191
+      },
+      {
+        "name": "Av. El Poblado #41b Sur-45 a 41b Sur-153, Zona 7, Envigado, Antioquia",
+        "lat": 6.164170181818182,
+        "lng": -75.60097726363637
+      },
+      {
+        "name": "Calle. 38 Sur #39-28 a 39-94, Zona 9, Envigado, Antioquia",
+        "lat": 6.165686263636364,
+        "lng": -75.59923542727273
+      },
+      {
+        "name": "Calle. 38 Sur #57, Zona 9, Envigado, Antioquia",
+        "lat": 6.167202345454546,
+        "lng": -75.5974935909091
+      },
+      {
+        "name": "Calle. 38 Sur #38-2 a 38-78, Zona 9, Envigado, Antioquia",
+        "lat": 6.1687184272727285,
+        "lng": -75.59575175454546
+      },
+      {
+        "name": "Calle. 38 Sur #36 - 24, Zona 9, Envigado, Antioquia",
+        "lat": 6.1702345090909105,
+        "lng": -75.59400991818183
+      },
+      {
+        "name": "Calle. 38 Sur #33-37, Zona 9, Envigado, Antioquia",
+        "lat": 6.171750590909092,
+        "lng": -75.59226808181819
+      },
+      {
+        "name": "Dg. 33 #35a Sur-1 a 35a Sur-69, Zona 9, Envigado, Antioquia",
+        "lat": 6.173266672727274,
+        "lng": -75.59052624545456
+      },
+      {
+        "name": "Dg. 33 #34c Sur-56 a 34c Sur-2, Zona 9, Envigado, Antioquia",
+        "lat": 6.174782754545456,
+        "lng": -75.58878440909092
+      },
+      {
+        "name": "Av. Lucas De Ochoa #39 Sur-136 a 39 Sur-68, Zona 9, Envigado, Antioquia",
+        "lat": 6.176298836363637,
+        "lng": -75.58704257272728
+      },
+      {
+        "name": "Cl. 46 Sur #46c-100, Zona 8, Envigado, Antioquia",
+        "lat": 6.177814918181818,
+        "lng": -75.58530073636365
+      },
+      {
+        "name": "Av. El Poblado, Zona 7, Envigado, Antioquia",
+        "lat": 6.179331,
+        "lng": -75.5835589
+      },
+      {
+        "name": "Cra. 43A #58 Sur-65 a 58 Sur-131, Alto Las Flores, Sabaneta, Antioquia",
+        "lat": 6.1717655,
+        "lng": -75.59917945000001
+      },
+      {
+        "name": "Carrera. 43A, Alto Las Flores, Sabaneta, Antioquia",
+        "lat": 6.1642,
+        "lng": -75.6148
+      },
+      {
+        "name": "Calle. 68 Sur #45-81, Sabaneta, Antioquia",
+        "lat": 6.1646,
+        "lng": -75.6142
+      },
+      {
+        "name": "Carrera. 46 #74 Sur-43 a 74 Sur-109, Sabaneta, Antioquia",
+        "lat": 6.16585,
+        "lng": -75.6147
+      },
+      {
+        "name": "Carnes Sabanita, Cra. 45 #128, Sabaneta, Antioquia",
+        "lat": 6.1671,
+        "lng": -75.6152
+      },
+      {
+        "name": "Carrera. 45 #75b Sur-298 a 75b Sur-260, Sabaneta, Antioquia",
+        "lat": 6.1642052199999995,
+        "lng": -75.61640428
+      },
+      {
+        "name": "Calle. 75b Sur #40-491 a 40-441, Sabaneta, Antioquia",
+        "lat": 6.161310439999999,
+        "lng": -75.61760856
+      },
+      {
+        "name": "Calle. 75b Sur #40-269 a 40-83, Sabaneta, Antioquia",
+        "lat": 6.158415659999999,
+        "lng": -75.61881283999999
+      },
+      {
+        "name": "Carrera. 40 #75 Sur-83 a 75 Sur-109, Sabaneta, Antioquia",
+        "lat": 6.155520879999999,
+        "lng": -75.62001712
+      },
+      {
+        "name": "Calle. 75 Sur #38a-11, Sabaneta, Antioquia",
+        "lat": 6.1526261,
+        "lng": -75.6212214
+      },
+      {
+        "name": "Calle. 75 Sur #34-366 a 34-446, Sabaneta, Antioquia",
+        "lat": 6.1632,
+        "lng": -75.6212
+      },
+      {
+        "name": "Carrera 34 a calle 75 sur 65, Sabaneta, Antioquia",
+        "lat": 6.155053766666667,
+        "lng": -75.61788043333334
+      },
+      {
+        "name": "Calle. 75 Sur #32-45 a 32-3, La Bahia, La Doctora, Sabaneta, Antioquia",
+        "lat": 6.146907533333334,
+        "lng": -75.61456086666666
+      },
+      {
+        "name": "La Bahia, La Doctora, Sabaneta, Antioquia",
+        "lat": 6.1387613,
+        "lng": -75.6112413
+      },
+      {
+        "name": "Carrera. 29, La Doctora, Sabaneta, Antioquia",
+        "lat": 6.1626,
+        "lng": -75.6245
+      }
+    ]
+  },
+  {
+    "id": "C5-008",
+    "name": "Ruta Integrada C5-008",
+    "stops": [
+      {
+        "name": "Calle 51 Sur, 4883, Est Itagüí Buses",
+        "lat": 6.1623885,
+        "lng": -75.60969006666667
+      },
+      {
+        "name": "Carrera. 48, Sabaneta, Antioquia",
+        "lat": 6.1651,
+        "lng": -75.6115
+      },
+      {
+        "name": "Carrera. 48, Sabaneta, Antioquia",
+        "lat": 6.1651,
+        "lng": -75.6115
+      },
+      {
+        "name": "Carrera. 48, Sabaneta, Antioquia",
+        "lat": 6.1651,
+        "lng": -75.6115
+      },
+      {
+        "name": "Carrera. 43A, Zona 7, Sabaneta, Antioquia",
+        "lat": 6.1510716,
+        "lng": -75.6144068
+      },
+      {
+        "name": "Carrera. 43A #62 Sur-44 a 62 Sur-2, Alto Las Flores, Sabaneta, Antioquia",
+        "lat": 6.1498601,
+        "lng": -75.61647646666667
+      },
+      {
+        "name": "Calle. 68 Sur #45-90 a 45-120, Sabaneta, Antioquia",
+        "lat": 6.1486486,
+        "lng": -75.61854613333333
+      },
+      {
+        "name": "Calle. 77 Sur #4756, Poblado del Sur, Sabaneta, Antioquia",
+        "lat": 6.1474371,
+        "lng": -75.6206158
+      },
+      {
+        "name": "Calle 82 Sur #80 Sur-232 a 80 Sur-100, Sabaneta, Antioquia",
+        "lat": 6.147436600000001,
+        "lng": -75.62042243333333
+      },
+      {
+        "name": "Calle 82 Sur #80 Sur-624 a 80 Sur-482, Pan de Azucar, Sabaneta, Antioquia",
+        "lat": 6.1474361,
+        "lng": -75.62022906666667
+      },
+      {
+        "name": "Calle 82 Sur #35-368 a 35-384, Pan de Azucar, La Estrella, Antioquia",
+        "lat": 6.1474356000000006,
+        "lng": -75.6200357
+      },
+      {
+        "name": "Calle 82 Sur #32-2 a 32-36, Pan de Azucar, La Estrella, Antioquia",
+        "lat": 6.147435100000001,
+        "lng": -75.61984233333334
+      },
+      {
+        "name": "Calle. 84 Sur #121, Pan de Azucar, La Estrella, Antioquia",
+        "lat": 6.1474346,
+        "lng": -75.61964896666667
+      },
+      {
+        "name": "Pacífico 1, Pan de Azucar, La Estrella, Antioquia",
+        "lat": 6.1474341,
+        "lng": -75.61945560000001
+      },
+      {
+        "name": "Pacífico 1, La Estrella, Antioquia",
+        "lat": 6.1474336,
+        "lng": -75.61926223333334
+      },
+      {
+        "name": "Calle. 77 Sur #47c-36 a 47c-42, Sabaneta, Antioquia",
+        "lat": 6.147433100000001,
+        "lng": -75.61906886666668
+      },
+      {
+        "name": "Carrera. 45 #75 sur 229, Sabaneta, Antioquia",
+        "lat": 6.1474326,
+        "lng": -75.6188755
+      },
+      {
+        "name": "Calle. 75 Sur #45-70, barrio, medellin, Sabaneta, Antioquia",
+        "lat": 6.1589662999999994,
+        "lng": -75.61623775000001
+      },
+      {
+        "name": "Carrera. 45 #72s-35, Sabaneta, Antioquia",
+        "lat": 6.1705,
+        "lng": -75.6136
+      },
+      {
+        "name": "Carrera. 45 #71 sur, Sabaneta, Antioquia",
+        "lat": 6.1714,
+        "lng": -75.6135
+      },
+      {
+        "name": "Calle 71Sur #43b-22 a 43b-86, Sabaneta, Antioquia",
+        "lat": 6.169933333333334,
+        "lng": -75.61383333333333
+      },
+      {
+        "name": "Carrera. 43B #68a Sur-52 a 68a Sur-2, Sabaneta, Antioquia",
+        "lat": 6.168466666666667,
+        "lng": -75.61416666666668
+      },
+      {
+        "name": "Carrera. 43C #67S-15, Sabaneta, Antioquia",
+        "lat": 6.167,
+        "lng": -75.6145
+      },
+      {
+        "name": "Carrera. 43A #56sur - 07, Sabaneta, Antioquia",
+        "lat": 6.1569655,
+        "lng": -75.6060702
+      },
+      {
+        "name": "Calle 51 Sur, 4883, Est Itagüí Buses",
+        "lat": 6.159677,
+        "lng": -75.60788013333334
+      }
+    ]
+  },
+  {
+    "id": "C5-009",
+    "name": "Ruta Integrada C5-009",
+    "stops": [
+      {
+        "name": "Carrera. 33 #72 Sur-35, La Bahia, La Doctora, Sabaneta, Antioquia",
+        "lat": 6.14958036,
+        "lng": -75.6198466
+      },
+      {
+        "name": "Calle. 75 Sur, Sabaneta, Antioquia",
+        "lat": 6.1526261,
+        "lng": -75.6212214
+      },
+      {
+        "name": "Carrera. 45 #72s-35, Sabaneta, Antioquia",
+        "lat": 6.1705,
+        "lng": -75.6136
+      },
+      {
+        "name": "Carrera. 44 #68 Sur-102 a 68 Sur-70, Sabaneta, Antioquia",
+        "lat": 6.16755,
+        "lng": -75.6139
+      },
+      {
+        "name": "Calle. 68 Sur #45 - 83, Sabaneta, Antioquia",
+        "lat": 6.1646,
+        "lng": -75.6142
+      },
+      {
+        "name": "Carrera. 48A #67 Sur 27, Sabaneta, Antioquia",
+        "lat": 6.1548798,
+        "lng": -75.6163844
+      },
+      {
+        "name": "Carrera. 49 #61 Sur-303 a 61 Sur-331, Sabaneta, Antioquia",
+        "lat": 6.1684,
+        "lng": -75.6107
+      },
+      {
+        "name": "Calle. 69 Sur #46-55, Sabaneta, Antioquia",
+        "lat": 6.1533955,
+        "lng": -75.6167746
+      },
+      {
+        "name": "Sede Torre Monarca , Cra. 46, Sabaneta, Antioquia",
+        "lat": 6.149395975,
+        "lng": -75.6161678
+      },
+      {
+        "name": "Carrera. 46 #76 Sur -2 a 76 Sur -76, Sabaneta, Antioquia",
+        "lat": 6.14539645,
+        "lng": -75.615561
+      },
+      {
+        "name": "Calle. 75b Sur #40-491 a 40-441, Sabaneta, Antioquia",
+        "lat": 6.1413969250000005,
+        "lng": -75.6149542
+      },
+      {
+        "name": "Calle. 75b Sur, Sabaneta, Antioquia",
+        "lat": 6.1373974,
+        "lng": -75.6143474
+      },
+      {
+        "name": "Carrera. 40, Sabaneta, Antioquia",
+        "lat": 6.1526627,
+        "lng": -75.606086
+      },
+      {
+        "name": "Calle. 75 Sur #38a-2 a 38a-60, Sabaneta, Antioquia",
+        "lat": 6.147574266666666,
+        "lng": -75.6088398
+      },
+      {
+        "name": "Calle. 75 Sur #34-455 a 34-447, Sabaneta, Antioquia",
+        "lat": 6.142485833333334,
+        "lng": -75.61159359999999
+      },
+      {
+        "name": "Calle. 75 Sur #34-120, La Doctora, Sabaneta, Antioquia",
+        "lat": 6.1373974,
+        "lng": -75.6143474
+      },
+      {
+        "name": "Calle. 75 Sur # 33 - 03, La Bahia, Sabaneta, La Doctora, Sabaneta, Antioquia",
+        "lat": 6.14044314,
+        "lng": -75.6157222
+      },
+      {
+        "name": "Carrera. 33 #72 Sur-446 a 72 Sur-288, La Bahia, La Doctora, Sabaneta, Antioquia",
+        "lat": 6.1434888800000005,
+        "lng": -75.617097
+      },
+      {
+        "name": "Carrera. 33 #72 Sur-35, La Bahia, La Doctora, Sabaneta, Antioquia",
+        "lat": 6.146534620000001,
+        "lng": -75.6184718
+      }
+    ]
+  },
+  {
+    "id": "C5-010",
+    "name": "Ruta Integrada C5-010",
+    "stops": [
+      {
+        "name": "Calle. 51 Sur #105 a 103, Sabaneta, Antioquia",
+        "lat": 6.244203,
+        "lng": -75.5812119
+      },
+      {
+        "name": "Calle. 60 Sur #42 - 95, Alto Las Flores, Sabaneta, Antioquia",
+        "lat": 6.2044014999999995,
+        "lng": -75.59770595
+      },
+      {
+        "name": "Calle. 68 Sur #45-81, Sabaneta, Antioquia",
+        "lat": 6.1646,
+        "lng": -75.6142
+      },
+      {
+        "name": "Calle. 77 Sur #45-2 a 45-76, Sabaneta, Antioquia",
+        "lat": 6.166,
+        "lng": -75.614
+      },
+      {
+        "name": "Calle. 77 Sur #34-124 a 34-224, San José, Sabaneta, Antioquia",
+        "lat": 6.156718550000001,
+        "lng": -75.6173079
+      },
+      {
+        "name": "Calle. 77 Sur, San José, Sabaneta, Antioquia",
+        "lat": 6.1474371,
+        "lng": -75.6206158
+      },
+      {
+        "name": "Calle. 77 Sur #90 a 12, Medellín, San José, Sabaneta, Antioquia",
+        "lat": 6.146099966666667,
+        "lng": -75.62080283333333
+      },
+      {
+        "name": "Calle. 77 Sur #38-32 a 38-42, Sabaneta, Antioquia",
+        "lat": 6.144762833333333,
+        "lng": -75.62098986666666
+      },
+      {
+        "name": "Calle. 77 Sur #40-158 a 40-218, Sabaneta, Antioquia",
+        "lat": 6.1434257,
+        "lng": -75.6211769
+      },
+      {
+        "name": "Calle. 77 Sur #4756, Poblado del Sur, Sabaneta, Antioquia",
+        "lat": 6.1474371,
+        "lng": -75.6206158
+      },
+      {
+        "name": "Calle. 75B Sur 124, Sabaneta, Antioquia",
+        "lat": 6.1473604,
+        "lng": -75.6174258
+      },
+      {
+        "name": "Carrera. 45 #65, Sabaneta, Antioquia",
+        "lat": 6.1459351,
+        "lng": -75.6221462
+      },
+      {
+        "name": "Carrera. 45 #72s-35, Sabaneta, Antioquia",
+        "lat": 6.1705,
+        "lng": -75.6136
+      },
+      {
+        "name": "Carrera. 45 #71 sur, Sabaneta, Antioquia",
+        "lat": 6.1714,
+        "lng": -75.6135
+      },
+      {
+        "name": "Calle 71Sur #43b-22 a 43b-86, Sabaneta, Antioquia",
+        "lat": 6.16783665,
+        "lng": -75.6115494
+      },
+      {
+        "name": "Carrera. 43A #68 Sur-44 a 68 Sur-2, Sabaneta, Antioquia",
+        "lat": 6.1642733,
+        "lng": -75.6095988
+      },
+      {
+        "name": "Carrera. 43A #63 sur, Alto Las Flores, Sabaneta, Antioquia",
+        "lat": 6.160709949999999,
+        "lng": -75.6076482
+      },
+      {
+        "name": "Carrera. 43A #55 Sur-68 a 55 Sur-2, Sabaneta, Antioquia",
+        "lat": 6.1571466,
+        "lng": -75.6056976
+      },
+      {
+        "name": "Calle. 51 Sur #105 a 103, Sabaneta, Antioquia",
+        "lat": 6.244203,
+        "lng": -75.5812119
+      }
+    ]
   }
 ]
