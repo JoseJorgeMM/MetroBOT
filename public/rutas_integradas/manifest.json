@@ -1,0 +1,631 @@
+{
+  "generatedAt": "2026-06-21T17:30:46.546Z",
+  "count": 125,
+  "routes": [
+    {
+      "id": "C3-001",
+      "folder": ".",
+      "file": "C3-001.csv"
+    },
+    {
+      "id": "C3-001A",
+      "folder": ".",
+      "file": "C3-001A.csv"
+    },
+    {
+      "id": "C3-002",
+      "folder": ".",
+      "file": "C3-002.csv"
+    },
+    {
+      "id": "C3-003M",
+      "folder": ".",
+      "file": "C3-003M.csv"
+    },
+    {
+      "id": "C3-003P",
+      "folder": ".",
+      "file": "C3-003P.csv"
+    },
+    {
+      "id": "C3-003RA",
+      "folder": ".",
+      "file": "C3-003RA.csv"
+    },
+    {
+      "id": "C3-003RLC",
+      "folder": ".",
+      "file": "C3-003RLC.csv"
+    },
+    {
+      "id": "C3-003RV",
+      "folder": ".",
+      "file": "C3-003RV.csv"
+    },
+    {
+      "id": "C3-004B",
+      "folder": ".",
+      "file": "C3-004B.csv"
+    },
+    {
+      "id": "C3-004P",
+      "folder": ".",
+      "file": "C3-004P.csv"
+    },
+    {
+      "id": "C3-005",
+      "folder": ".",
+      "file": "C3-005.csv"
+    },
+    {
+      "id": "C3-006",
+      "folder": ".",
+      "file": "C3-006.csv"
+    },
+    {
+      "id": "C3-007",
+      "folder": ".",
+      "file": "C3-007.csv"
+    },
+    {
+      "id": "C3-007A",
+      "folder": ".",
+      "file": "C3-007A.csv"
+    },
+    {
+      "id": "C3-008",
+      "folder": ".",
+      "file": "C3-008.csv"
+    },
+    {
+      "id": "C6-001",
+      "folder": ".",
+      "file": "C6-001.csv"
+    },
+    {
+      "id": "C6-002",
+      "folder": ".",
+      "file": "C6-002.csv"
+    },
+    {
+      "id": "C6-002A",
+      "folder": ".",
+      "file": "C6-002A.csv"
+    },
+    {
+      "id": "C6-003",
+      "folder": ".",
+      "file": "C6-003.csv"
+    },
+    {
+      "id": "C6-004",
+      "folder": ".",
+      "file": "C6-004.csv"
+    },
+    {
+      "id": "C6-004A",
+      "folder": ".",
+      "file": "C6-004A.csv"
+    },
+    {
+      "id": "C6-005",
+      "folder": ".",
+      "file": "C6-005.csv"
+    },
+    {
+      "id": "C6-006",
+      "folder": ".",
+      "file": "C6-006.csv"
+    },
+    {
+      "id": "C6-007",
+      "folder": ".",
+      "file": "C6-007.csv"
+    },
+    {
+      "id": "C6-008",
+      "folder": ".",
+      "file": "C6-008.csv"
+    },
+    {
+      "id": "C6-009",
+      "folder": ".",
+      "file": "C6-009.csv"
+    },
+    {
+      "id": "C6-010",
+      "folder": ".",
+      "file": "C6-010.csv"
+    },
+    {
+      "id": "C6-011",
+      "folder": ".",
+      "file": "C6-011.csv"
+    },
+    {
+      "id": "C6-012",
+      "folder": ".",
+      "file": "C6-012.csv"
+    },
+    {
+      "id": "C6-013",
+      "folder": ".",
+      "file": "C6-013.csv"
+    },
+    {
+      "id": "C6-015",
+      "folder": ".",
+      "file": "C6-015.csv"
+    },
+    {
+      "id": "C6-016",
+      "folder": ".",
+      "file": "C6-016.csv"
+    },
+    {
+      "id": "C6-018",
+      "folder": ".",
+      "file": "C6-018.csv"
+    },
+    {
+      "id": "C6-019",
+      "folder": ".",
+      "file": "C6-019.csv"
+    },
+    {
+      "id": "C6-019A",
+      "folder": ".",
+      "file": "C6-019A.csv"
+    },
+    {
+      "id": "C6-020",
+      "folder": ".",
+      "file": "C6-020.csv"
+    },
+    {
+      "id": "C6-021",
+      "folder": ".",
+      "file": "C6-021.csv"
+    },
+    {
+      "id": "C6-022",
+      "folder": ".",
+      "file": "C6-022.csv"
+    },
+    {
+      "id": "C6-023",
+      "folder": ".",
+      "file": "C6-023.csv"
+    },
+    {
+      "id": "C6-024",
+      "folder": ".",
+      "file": "C6-024.csv"
+    },
+    {
+      "id": "C6-025",
+      "folder": ".",
+      "file": "C6-025.csv"
+    },
+    {
+      "id": "142I",
+      "folder": "Rutas_Circulares",
+      "file": "Rutas_Circulares/142I.csv"
+    },
+    {
+      "id": "143I",
+      "folder": "Rutas_Circulares",
+      "file": "Rutas_Circulares/143I.csv"
+    },
+    {
+      "id": "310I",
+      "folder": "Rutas_Circulares",
+      "file": "Rutas_Circulares/310I.csv"
+    },
+    {
+      "id": "311II",
+      "folder": "Rutas_Circulares",
+      "file": "Rutas_Circulares/311II.csv"
+    },
+    {
+      "id": "317I",
+      "folder": "Rutas_Circulares",
+      "file": "Rutas_Circulares/317I.csv"
+    },
+    {
+      "id": "318I",
+      "folder": "Rutas_Circulares",
+      "file": "Rutas_Circulares/318I.csv"
+    },
+    {
+      "id": "319I",
+      "folder": "Rutas_Circulares",
+      "file": "Rutas_Circulares/319I.csv"
+    },
+    {
+      "id": "C4-002",
+      "folder": "Solo_Bus",
+      "file": "Solo_Bus/C4-002.csv"
+    },
+    {
+      "id": "T4-025",
+      "folder": "Solo_Bus",
+      "file": "Solo_Bus/T4-025.csv"
+    },
+    {
+      "id": "T4-027",
+      "folder": "Solo_Bus",
+      "file": "Solo_Bus/T4-027.csv"
+    },
+    {
+      "id": "C7-001",
+      "folder": "TPC_Barbosa",
+      "file": "TPC_Barbosa/C7-001.csv"
+    },
+    {
+      "id": "C7-002",
+      "folder": "TPC_Barbosa",
+      "file": "TPC_Barbosa/C7-002.csv"
+    },
+    {
+      "id": "C7-003",
+      "folder": "TPC_Barbosa",
+      "file": "TPC_Barbosa/C7-003.csv"
+    },
+    {
+      "id": "C9-001",
+      "folder": "TPC_Caldas",
+      "file": "TPC_Caldas/C9-001.csv"
+    },
+    {
+      "id": "C9-002",
+      "folder": "TPC_Caldas",
+      "file": "TPC_Caldas/C9-002.csv"
+    },
+    {
+      "id": "C9-003",
+      "folder": "TPC_Caldas",
+      "file": "TPC_Caldas/C9-003.csv"
+    },
+    {
+      "id": "C9-004",
+      "folder": "TPC_Caldas",
+      "file": "TPC_Caldas/C9-004.csv"
+    },
+    {
+      "id": "C9-005",
+      "folder": "TPC_Caldas",
+      "file": "TPC_Caldas/C9-005.csv"
+    },
+    {
+      "id": "C9-006",
+      "folder": "TPC_Caldas",
+      "file": "TPC_Caldas/C9-006.csv"
+    },
+    {
+      "id": "C7-009",
+      "folder": "TPC_Copacabana",
+      "file": "TPC_Copacabana/C7-009.csv"
+    },
+    {
+      "id": "C7-010",
+      "folder": "TPC_Copacabana",
+      "file": "TPC_Copacabana/C7-010.csv"
+    },
+    {
+      "id": "C7-011",
+      "folder": "TPC_Copacabana",
+      "file": "TPC_Copacabana/C7-011.csv"
+    },
+    {
+      "id": "C7-012",
+      "folder": "TPC_Copacabana",
+      "file": "TPC_Copacabana/C7-012.csv"
+    },
+    {
+      "id": "1517",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/1517.csv"
+    },
+    {
+      "id": "317IA-TPC-ITAGUI",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/317IA-TPC-ITAGUI.csv"
+    },
+    {
+      "id": "500",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/500.csv"
+    },
+    {
+      "id": "501",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/501.csv"
+    },
+    {
+      "id": "502",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/502.csv"
+    },
+    {
+      "id": "504",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/504.csv"
+    },
+    {
+      "id": "506",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/506.csv"
+    },
+    {
+      "id": "508",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/508.csv"
+    },
+    {
+      "id": "510",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/510.csv"
+    },
+    {
+      "id": "C4-005",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/C4-005.csv"
+    },
+    {
+      "id": "C4-009",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/C4-009.csv"
+    },
+    {
+      "id": "C4-023",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/C4-023.csv"
+    },
+    {
+      "id": "R4-002",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/R4-002.csv"
+    },
+    {
+      "id": "R4-003",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/R4-003.csv"
+    },
+    {
+      "id": "R4-004",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/R4-004.csv"
+    },
+    {
+      "id": "R4-005",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/R4-005.csv"
+    },
+    {
+      "id": "R4-006",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/R4-006.csv"
+    },
+    {
+      "id": "R4-007",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/R4-007.csv"
+    },
+    {
+      "id": "R4-008",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/R4-008.csv"
+    },
+    {
+      "id": "T4-001",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/T4-001.csv"
+    },
+    {
+      "id": "T4-002",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/T4-002.csv"
+    },
+    {
+      "id": "T4-004",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/T4-004.csv"
+    },
+    {
+      "id": "T4-005",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/T4-005.csv"
+    },
+    {
+      "id": "T4-006",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/T4-006.csv"
+    },
+    {
+      "id": "T4-010",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/T4-010.csv"
+    },
+    {
+      "id": "T4-013",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/T4-013.csv"
+    },
+    {
+      "id": "T4-014",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/T4-014.csv"
+    },
+    {
+      "id": "T4-016",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/T4-016.csv"
+    },
+    {
+      "id": "T4-019",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/T4-019.csv"
+    },
+    {
+      "id": "T4-022",
+      "folder": "tpc_itagui",
+      "file": "tpc_itagui/T4-022.csv"
+    },
+    {
+      "id": "C1-001",
+      "folder": "TPC_Niquia",
+      "file": "TPC_Niquia/C1-001.csv"
+    },
+    {
+      "id": "C1-002",
+      "folder": "TPC_Niquia",
+      "file": "TPC_Niquia/C1-002.csv"
+    },
+    {
+      "id": "C1-003",
+      "folder": "TPC_Niquia",
+      "file": "TPC_Niquia/C1-003.csv"
+    },
+    {
+      "id": "C1-004",
+      "folder": "TPC_Niquia",
+      "file": "TPC_Niquia/C1-004.csv"
+    },
+    {
+      "id": "C1-006",
+      "folder": "TPC_Niquia",
+      "file": "TPC_Niquia/C1-006.csv"
+    },
+    {
+      "id": "C1-011",
+      "folder": "TPC_Niquia",
+      "file": "TPC_Niquia/C1-011.csv"
+    },
+    {
+      "id": "C1-019",
+      "folder": "TPC_Niquia",
+      "file": "TPC_Niquia/C1-019.csv"
+    },
+    {
+      "id": "C1R1",
+      "folder": "TPC_Niquia",
+      "file": "TPC_Niquia/C1R1.csv"
+    },
+    {
+      "id": "C1R2-17",
+      "folder": "TPC_Niquia",
+      "file": "TPC_Niquia/C1R2-17.csv"
+    },
+    {
+      "id": "C1R2-18",
+      "folder": "TPC_Niquia",
+      "file": "TPC_Niquia/C1R2-18.csv"
+    },
+    {
+      "id": "C1R2-19",
+      "folder": "TPC_Niquia",
+      "file": "TPC_Niquia/C1R2-19.csv"
+    },
+    {
+      "id": "C1R2-20",
+      "folder": "TPC_Niquia",
+      "file": "TPC_Niquia/C1R2-20.csv"
+    },
+    {
+      "id": "C1R2-21",
+      "folder": "TPC_Niquia",
+      "file": "TPC_Niquia/C1R2-21.csv"
+    },
+    {
+      "id": "C1R3",
+      "folder": "TPC_Niquia",
+      "file": "TPC_Niquia/C1R3.csv"
+    },
+    {
+      "id": "C1R4",
+      "folder": "TPC_Niquia",
+      "file": "TPC_Niquia/C1R4.csv"
+    },
+    {
+      "id": "M11M",
+      "folder": "TPC_Niquia",
+      "file": "TPC_Niquia/M11M.csv"
+    },
+    {
+      "id": "M13",
+      "folder": "TPC_Niquia",
+      "file": "TPC_Niquia/M13.csv"
+    },
+    {
+      "id": "M13A",
+      "folder": "TPC_Niquia",
+      "file": "TPC_Niquia/M13A.csv"
+    },
+    {
+      "id": "M15",
+      "folder": "TPC_Niquia",
+      "file": "TPC_Niquia/M15.csv"
+    },
+    {
+      "id": "U1-002",
+      "folder": "TPC_Niquia",
+      "file": "TPC_Niquia/U1-002.csv"
+    },
+    {
+      "id": "U1-004",
+      "folder": "TPC_Niquia",
+      "file": "TPC_Niquia/U1-004.csv"
+    },
+    {
+      "id": "U2-002",
+      "folder": "TPC_Niquia",
+      "file": "TPC_Niquia/U2-002.csv"
+    },
+    {
+      "id": "C5-001",
+      "folder": "tpc_sabaneta",
+      "file": "tpc_sabaneta/C5-001.csv"
+    },
+    {
+      "id": "C5-003",
+      "folder": "tpc_sabaneta",
+      "file": "tpc_sabaneta/C5-003.csv"
+    },
+    {
+      "id": "C5-004",
+      "folder": "tpc_sabaneta",
+      "file": "tpc_sabaneta/C5-004.csv"
+    },
+    {
+      "id": "C5-005",
+      "folder": "tpc_sabaneta",
+      "file": "tpc_sabaneta/C5-005.csv"
+    },
+    {
+      "id": "C5-006",
+      "folder": "tpc_sabaneta",
+      "file": "tpc_sabaneta/C5-006.csv"
+    },
+    {
+      "id": "C5-007",
+      "folder": "tpc_sabaneta",
+      "file": "tpc_sabaneta/C5-007.csv"
+    },
+    {
+      "id": "C5-008",
+      "folder": "tpc_sabaneta",
+      "file": "tpc_sabaneta/C5-008.csv"
+    },
+    {
+      "id": "C5-009",
+      "folder": "tpc_sabaneta",
+      "file": "tpc_sabaneta/C5-009.csv"
+    },
+    {
+      "id": "C5-010",
+      "folder": "tpc_sabaneta",
+      "file": "tpc_sabaneta/C5-010.csv"
+    }
+  ]
+}

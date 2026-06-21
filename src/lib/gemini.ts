@@ -3,6 +3,7 @@ import { getStationStatus } from './routing';
 import { loadStations, calculateDistance } from './stations';
 import { getLocalOfflineRoute } from './localRouter';
 import { fetchMetroNews } from './news';
+import { loadIntegratedRoutes, findIntegratedRoutesNear, IntegratedRoute, IntegratedStop } from './integratedRoutes';
 
 const apiKeys = (process.env.GEMINI_API_KEYS || process.env.GEMINI_API_KEY || "DUMMY_KEY").split(',').map(k => k.trim()).filter(Boolean);
 let currentKeyIndex = 0;
@@ -47,13 +48,13 @@ async function getRecentNewsContext() {
 
 const renderRouteDeclaration: FunctionDeclaration = {
   name: 'render_route',
-  description: 'Calculates and displays the optimal public transit routes between a start and end location in Medellín.',
+  description: 'Calculates and displays the optimal public transit routes between a start and end location in Medell\u00edn.',
   parameters: {
     type: Type.OBJECT,
     properties: {
       routes: {
         type: Type.ARRAY,
-        description: 'An array of proposed realistic routes based on the real map of the Metro de Medellín network.',
+        description: 'An array of proposed realistic routes based on the real map of the Metro de Medell\u00edn network.',
         items: {
           type: Type.OBJECT,
           properties: {
@@ -106,11 +107,11 @@ const renderRouteDeclaration: FunctionDeclaration = {
               items: {
                 type: Type.OBJECT,
                 properties: {
-                  instruction: { type: Type.STRING, description: 'Clear instruction e.g. "Camina a la estación Acevedo", "Toma la Línea A hacia La Estrella"' },
+                  instruction: { type: Type.STRING, description: 'Clear instruction e.g. "Camina a la estaci\u00f3n Acevedo", "Toma la L\u00ednea A hacia La Estrella"' },
                   mode: { type: Type.STRING, description: "'metro' | 'metrocable' | 'tranvia' | 'metroplus' | 'bus_articulado' | 'encicla' | 'walk'" },
                   duration: { type: Type.INTEGER },
                   cost: { type: Type.INTEGER, description: 'The individual cost of this step in COP (e.g., 0 or 3820). Set to 0 if it is a free transfer, walk or EnCicla.' },
-                  line: { type: Type.STRING, description: 'Optional. e.g., "Línea A"' },
+                  line: { type: Type.STRING, description: 'Optional. e.g., "L\u00ednea A"' },
                   station: {
                     type: Type.OBJECT,
                     properties: {
@@ -163,18 +164,13 @@ async function getEnCiclaData() {
   return cachedEnCicla;
 }
 
-async function getIntegratedRoutesData() {
-  try {
-    const res = await fetch('/rutas_integradas.json');
-    if (res.ok) {
-      return await res.json();
-    }
-  } catch (e) {
-    console.error("Error loading integrated routes:", e);
-  }
-  return [];
-}
+let cachedIntegratedRoutes: IntegratedRoute[] | null = null;
 
+async function getIntegratedRoutes(): Promise<IntegratedRoute[]> {
+  if (cachedIntegratedRoutes) return cachedIntegratedRoutes;
+  cachedIntegratedRoutes = await loadIntegratedRoutes();
+  return cachedIntegratedRoutes;
+}
 
 let cachedTiempos: string = '';
 
@@ -196,6 +192,16 @@ export interface QueryOptions {
   dest?: { lat: number; lng: number };
 }
 
+function formatIntegratedRouteForPrompt(route: IntegratedRoute, nearestOrigin?: IntegratedStop, nearestDest?: IntegratedStop): string {
+  const lines: string[] = [];
+  const originName = nearestOrigin ? nearestOrigin.name : (route.stops[0]?.name || 'inicio');
+  const destName = nearestDest ? nearestDest.name : (route.stops[route.stops.length - 1]?.name || 'fin');
+  const startCoord = nearestOrigin || route.stops[0];
+  const endCoord = nearestDest || route.stops[route.stops.length - 1];
+  lines.push(`- Bus Integrado ${route.id} (${route.name})${route.folder ? ' [Subred ' + route.folder + ']' : ''}: Abordaje sugerido "${originName}" (LAT ${startCoord?.lat?.toFixed?.(5) ?? startCoord?.lat}, LNG ${startCoord?.lng?.toFixed?.(5) ?? startCoord?.lng}), Bajada sugerida "${destName}" (LAT ${endCoord?.lat?.toFixed?.(5) ?? endCoord?.lat}, LNG ${endCoord?.lng?.toFixed?.(5) ?? endCoord?.lng}). Recorrido completo: ${route.stops.length} paradas.`);
+  return lines.join('\n');
+}
+
 export async function processUserQuery(
   query: string,
   onRouteFound: (routes: any) => void,
@@ -206,7 +212,7 @@ export async function processUserQuery(
     const tarifas = await getTarifasData();
     const encicla = await getEnCiclaData();
     const tiempos = await getTiemposData();
-    const allIntegratedRoutes = await getIntegratedRoutesData();
+    const allIntegratedRoutes = await getIntegratedRoutes();
 
     let grounding = '';
     let nearbyContext = '';
@@ -245,29 +251,46 @@ export async function processUserQuery(
         .map(s => `- [Para ${s.tag}] ${s.nombre} (${s.sistema} - Linea ${s.linea}): A ${Math.round(s.distance)} metros de distancia (Caminando: ~${s.walkingMinutes} min) - Coord: LAT ${s.lat.toFixed(5)}, LNG ${s.lng.toFixed(5)}`)
         .join('\n');
 
-      const nearbyBusStops: any[] = [];
-      allIntegratedRoutes.forEach((route: any) => {
-        route.stops.forEach((stop: any) => {
-          if (options.origin) {
-            const dOrig = calculateDistance(options.origin.lat, options.origin.lng, stop.lat, stop.lng);
-            if (dOrig < 1000) nearbyBusStops.push({ ...stop, routeId: route.id, routeName: route.name, dist: dOrig, tag: 'Origen' });
-          }
-          if (options.dest) {
-            const dDest = calculateDistance(options.dest.lat, options.dest.lng, stop.lat, stop.lng);
-            if (dDest < 1000) nearbyBusStops.push({ ...stop, routeId: route.id, routeName: route.name, dist: dDest, tag: 'Destino' });
-          }
-        });
-      });
+      const originHits = options.origin
+        ? await findIntegratedRoutesNear(options.origin.lat, options.origin.lng, 1500)
+        : [];
+      const destHits = options.dest
+        ? await findIntegratedRoutesNear(options.dest.lat, options.dest.lng, 1500)
+        : [];
 
-      const bestBusStops = nearbyBusStops
-        .sort((a, b) => a.dist - b.dist)
-        .slice(0, 15);
+      const bestBusStops: Array<{ stop: IntegratedStop; route: IntegratedRoute; dist: number; tag: string }> = [];
+      for (const h of originHits.slice(0, 10)) {
+        bestBusStops.push({ stop: h.closestStop, route: h.route, dist: h.distance, tag: 'Origen' });
+      }
+      for (const h of destHits.slice(0, 10)) {
+        bestBusStops.push({ stop: h.closestStop, route: h.route, dist: h.distance, tag: 'Destino' });
+      }
+      bestBusStops.sort((a, b) => a.dist - b.dist);
 
       integratedContext = bestBusStops
-        .map(s => `- [Para ${s.tag}] Parada "${s.name}" (Bus Articulado ${s.routeId}): A ${Math.round(s.dist)} metros (Caminando: ~${Math.ceil(s.dist / 80)} min) - Coord: LAT ${s.lat}, LNG ${s.lng}`)
+        .map(s => `- [Para ${s.tag}] Parada "${s.stop.name}" (Bus Articulado ${s.route.id}): A ${Math.round(s.dist)} metros (Caminando: ~${Math.ceil(s.dist / 80)} min) - Coord: LAT ${s.stop.lat.toFixed(5)}, LNG ${s.stop.lng.toFixed(5)}`)
         .join('\n');
 
-      grounding = `ESTACIONES RELEVANTES CERCANAS A LA BÚSQUEDA:\n${nearbyContext}\n\nPARADAS DE BUSES INTEGRADOS CERCANAS:\n${integratedContext}\n\nOTRAS ESTACIONES DEL SISTEMA:\n${await getGroundingData()}`;
+      const passingThrough = options.origin && options.dest
+        ? (() => {
+            const out: string[] = [];
+            for (const r of allIntegratedRoutes) {
+              let oIdx = -1, dIdx = -1;
+              for (let i = 0; i < r.stops.length; i++) {
+                const dO = calculateDistance(options.origin!.lat, options.origin!.lng, r.stops[i].lat, r.stops[i].lng);
+                const dD = calculateDistance(options.dest!.lat, options.dest!.lng, r.stops[i].lat, r.stops[i].lng);
+                if (dO < 1500 && (oIdx === -1 || dO < calculateDistance(options.origin!.lat, options.origin!.lng, r.stops[oIdx].lat, r.stops[oIdx].lng))) oIdx = i;
+                if (dD < 1500 && (dIdx === -1 || dD < calculateDistance(options.dest!.lat, options.dest!.lng, r.stops[dIdx].lat, r.stops[dIdx].lng))) dIdx = i;
+              }
+              if (oIdx !== -1 && dIdx !== -1 && oIdx < dIdx) {
+                out.push(formatIntegratedRouteForPrompt(r, r.stops[oIdx], r.stops[dIdx]));
+              }
+            }
+            return out.slice(0, 6).join('\n');
+          })()
+        : '';
+
+      grounding = `ESTACIONES RELEVANTES CERCANAS A LA B\u00daSQUEDA:\n${nearbyContext}\n\nPARADAS DE BUSES INTEGRADOS CERCANAS:\n${integratedContext}\n${passingThrough ? '\nBUSES INTEGRADOS QUE PASAN CERCA DE ORIGEN Y DESTINO:\n' + passingThrough + '\n' : ''}\nOTRAS ESTACIONES DEL SISTEMA:\n${await getGroundingData()}`;
     } else {
       grounding = await getGroundingData();
     }
@@ -283,17 +306,17 @@ export async function processUserQuery(
             model: 'gemini-2.5-flash',
             contents: query,
             config: {
-              systemInstruction: `Eres MetroBot, el asistente inteligente de movilidad de SITVA (Metro, Metrocable, Tranvía, Metroplús, EnCicla y Buses Articulados) en Medellín Colombia.
-Tu objetivo es dar rutas REALISTAS y ÚTILES. Prioriza SIEMPRE minimizar la caminata usando el sistema integrado (Buses).
+              systemInstruction: `Eres MetroBot, el asistente inteligente de movilidad de SITVA (Metro, Metrocable, Tranv\u00eda, Metropl\u00fas, EnCicla y Buses Articulados) en Medell\u00edn Colombia.
+Tu objetivo es dar rutas REALISTAS y \u00daTILES. Prioriza SIEMPRE minimizar la caminata usando el sistema integrado (Buses).
 
 === NOTICIAS Y ESTADO EN TIEMPO REAL ===
 ${newsContext}
 
 REGLAS DE ORO:
-1. MINIMIZAR CAMINATA: Si hay una parada de BUS ARTICULADO cerca del usuario (ver lista PARADAS CERCANAS), ÚSALA obligatoriamente para evitar que camine a una estación lejana.
-2. COORDINADAS PRECISAS: Al llamar a 'render_route', usa las coordenadas EXACTAS provistas en las listas de "CERCANAS" tanto para 'originStation' como para los 'steps'.
+1. MINIMIZAR CAMINATA: Si hay una parada de BUS ARTICULADO cerca del usuario (ver lista PARADAS CERCANAS o BUSES QUE PASAN CERCA DE ORIGEN Y DESTINO), \u00dasala obligatoriamente para evitar que camine a una estaci\u00f3n lejana.
+2. COORDINADAS PRECISAS: Al llamar a 'render_route', usa las coordenadas EXACTAS provistas en las listas de "CERCANAS" tanto para 'originStation' como para los 'steps'. Si recomiendas un Bus Integrado, usa 'mode: "bus_articulado"' en el step correspondiente.
 3. NO INVENTAR: No inventes estaciones.
-4. ESTADO ACTUAL: Si el usuario pregunta por el estado del sistema o cierres, básate en la sección "NOTICIAS Y ESTADO EN TIEMPO REAL" de arriba.
+4. ESTADO ACTUAL: Si el usuario pregunta por el estado del sistema o cierres, b\u00e1sate en la secci\u00f3n "NOTICIAS Y ESTADO EN TIEMPO REAL" de arriba.
 
 DATOS OFICIALES SITVA 2026:
 === TARIFAS ===
@@ -305,8 +328,9 @@ ${encicla}
 
 INSTRUCCIONES DE RESPUESTA:
 1. Identifica estaciones/paradas de inicio y fin usando las listas "CERCANAS" con prioridad total.
-2. Llama a 'render_route' con 2-3 opciones.
-3. Responde brevemente en español.
+2. Si hay un Bus Integrado que conecte paradas razonablemente cerca del origen y del destino, sugi\u00e9relo como una de las opciones en 'render_route' con 'mode: "bus_articulado"'.
+3. Llama a 'render_route' con 2-3 opciones.
+4. Responde brevemente en espa\u00f1ol.
 
 DATOS DE RED SITVA:\n${grounding}`,
               tools: [{ functionDeclarations: [renderRouteDeclaration, getStationStatusDeclaration] }]
@@ -350,8 +374,8 @@ DATOS DE RED SITVA:\n${grounding}`,
                 return;
               }
 
-              const isArviLine = step.line === 'L' || step.line === 'Línea L';
-              const isArviStation = step.station?.name?.toLowerCase().includes('arví');
+              const isArviLine = step.line === 'L' || step.line === 'L\u00ednea L';
+              const isArviStation = step.station?.name?.toLowerCase().includes('arv\u00ed');
 
               if (isArviLine || isArviStation) {
                 step.cost = 11900;
@@ -360,7 +384,7 @@ DATOS DE RED SITVA:\n${grounding}`,
                 return;
               }
 
-              if (mode === 'metroplus' || step.line === 'O' || step.line === 'Línea O' || step.line === '1' || step.line === 'Línea 1' || step.line === '2' || step.line === 'Línea 2') {
+              if (mode === 'metroplus' || step.line === 'O' || step.line === 'L\u00ednea O' || step.line === '1' || step.line === 'L\u00ednea 1' || step.line === '2' || step.line === 'L\u00ednea 2') {
                 let stepCost = 0;
                 if (currentSystem !== 'metroplus') {
                   if (!hasUsedMetroplus) {
@@ -413,7 +437,7 @@ DATOS DE RED SITVA:\n${grounding}`,
       }
     }
 
-    return textResponse || "No estoy seguro de cómo ayudarte con eso.";
+    return textResponse || "No estoy seguro de c\u00f3mo ayudarte con eso.";
   } catch (error) {
     console.warn("Gemini API Error, falling back to local routing:", error);
     try {
@@ -447,7 +471,7 @@ DATOS DE RED SITVA:\n${grounding}`,
         const offlineRoutes = await getLocalOfflineRoute(originLat, originLng, destLat, destLng);
         if (offlineRoutes && offlineRoutes.length > 0) {
           onRouteFound(offlineRoutes);
-          return "⚠️ Modo Sin Conexión Activo.";
+          return "\u26a0\ufe0f Modo Sin Conexi\u00f3n Activo.";
         }
       }
     } catch (offlineError) {

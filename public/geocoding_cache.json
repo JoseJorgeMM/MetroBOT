@@ -3134,5 +3134,1373 @@
   "Carrera 32C #32-18": {
     "lat": 6.2078053,
     "lng": -75.5640731
+  },
+  "Br. Guayabal Calle 12 Sur - Carrera 50e": {
+    "lat": 6.2055085,
+    "lng": -75.5827712
+  },
+  "Clinica Vida Avenida 80 - Calle 19": {
+    "lat": 6.2245395,
+    "lng": -75.5988933
+  },
+  "Br. La Palma Avenida 80 - Calle 30a": {
+    "lat": 6.2320894,
+    "lng": -75.6014168
+  },
+  "Br. La Mota Calle 1 Sur - Carrera 77a": {
+    "lat": 6.2074883,
+    "lng": -75.5871147
+  },
+  "Campos De Paz Avenida 80 - Carrera 67": {
+    "lat": 6.2284301,
+    "lng": -75.6020318
+  },
+  "Av. 80 #65-231 a 65-223, Guayabal": {
+    "lat": 6.2075487,
+    "lng": -75.5892288
+  },
+  "Br. Guayabal Avenida 80 - Calle 8 Sur": {
+    "lat": 6.2050417,
+    "lng": -75.5885401
+  },
+  "Br. Guayabal Avenida 80 Calle 10b Sur": {
+    "lat": 6.2050417,
+    "lng": -75.5885401
+  },
+  "Calle 9 sur, 54e, Urb Quintas Del Rodeo": {
+    "lat": 6.2018768,
+    "lng": -75.5933327
+  },
+  "calle 13c sur, Urb Alfarera": {
+    "lat": 6.1957903,
+    "lng": -75.5946544
+  },
+  "calle 12c sur #53-237": {
+    "lat": 6.1928848,
+    "lng": -75.5752262
+  },
+  "fabrica de licores y alcoholes de antioquia (CL 12 sur - kr 50c, medellin)": {
+    "lat": 6.1961895,
+    "lng": -75.5840815
+  },
+  "estacion aguacatala (kr 48- CL 12 sur, medellin)": {
+    "lat": 6.193919630894213,
+    "lng": -75.58180954383404
+  },
+  "Calle 9 Sur, 54e, Urb Quintas Del Rodeo": {
+    "lat": 6.2018768,
+    "lng": -75.5933327
+  },
+  "calle 9b sur": {
+    "lat": 6.1896065,
+    "lng": -75.5619892
+  },
+  "Carrera 53b, 13a Sur 65": {
+    "lat": 6.0883467,
+    "lng": -75.634404
+  },
+  "Estación Aguacatala (Kr 48 - Cl 12 Sur, Medellín)": {
+    "lat": 6.193919630894213,
+    "lng": -75.58180954383404
+  },
+  "Calle 12c Sur, 53-6": {
+    "lat": 6.1968326,
+    "lng": -75.5930196
+  },
+  "Terminal Coonatra Calasanz (Cl 55 - Cr 99)": {
+    "lat": 6.2055852,
+    "lng": -75.5886827
+  },
+  "Calle 57 97b110": {
+    "lat": 6.2431761,
+    "lng": -75.5775106
+  },
+  "Centro De Salud Santa Rosa De Lima": {
+    "lat": 6.2628455,
+    "lng": -75.6042611
+  },
+  "Estación Santa Lucía Cl 47dd": {
+    "lat": 6.258088210496859,
+    "lng": -75.60374624892007
+  },
+  "Calle 50 96c-90": {
+    "lat": 6.2699281,
+    "lng": -75.607642
+  },
+  "C. 50 #90 a 96": {
+    "lat": 6.2699281,
+    "lng": -75.607642
+  },
+  "Cra. 92cc #40": {
+    "lat": 6.2909259,
+    "lng": -75.5862714
+  },
+  "Autopista Sur, Secretaría De Tránsito Itagüí": {
+    "lat": 6.162893986941232,
+    "lng": -75.60686324893406
+  },
+  "Calle 57 Sur, Jardín Infantil El Buen Comienzo": {
+    "lat": 6.1726612,
+    "lng": -75.6471562
+  },
+  "Carrera 75, Uva El Paraiso": {
+    "lat": 6.1775898,
+    "lng": -75.6534583
+  },
+  "Calle 57 Sur, Ie Fe Y Alegria": {
+    "lat": 6.1730887,
+    "lng": -75.6446747
+  },
+  "Carrera 50a, Cervecería Unión": {
+    "lat": 6.1701554,
+    "lng": -75.6210609
+  },
+  "Avenida San Antonio, 10 Este2": {
+    "lat": 6.2471945433626335,
+    "lng": -75.5697034075725
+  },
+  "Cr 52 - C! 16, Medellín": {
+    "lat": 6.2921129,
+    "lng": -75.5620534
+  },
+  "Estación Poblado Buses Occidental": {
+    "lat": 6.21217834028053,
+    "lng": -75.5780956618959
+  },
+  "Aeropuerto Olaya Herrera": {
+    "lat": 6.2200225,
+    "lng": -75.5890373
+  },
+  "Carrera 65 29 D-08": {
+    "lat": 6.2565197,
+    "lng": -75.5809767
+  },
+  "Br. Suramericana (Cr 65 - Cl 48, Medellín)": {
+    "lat": 6.252984046115064,
+    "lng": -75.58294171166084
+  },
+  "Br. Suramericana (Cr 65 - Cl 49b, Medellín)": {
+    "lat": 6.252984046115064,
+    "lng": -75.58294171166084
+  },
+  "Br. Suramericana (Cl 50 - Cr 64b, Medellín)": {
+    "lat": 6.252984046115064,
+    "lng": -75.58294171166084
+  },
+  "Estación Cisneros (Av. Ferrocarril - Cl 49, Medellín)": {
+    "lat": 6.249053571741218,
+    "lng": -75.57515197762719
+  },
+  "carrera 57 #44a-14 a 44a-72": {
+    "lat": 6.2508113,
+    "lng": -75.5911916
+  },
+  "Alpujarra": {
+    "lat": 6.242917110401074,
+    "lng": -75.57142528799186
+  },
+  "Paradero Solobus Parque San Antonio (Cl 47 - Cr 46,Medellin)": {
+    "lat": 6.2471945433626335,
+    "lng": -75.5697034075725
+  },
+  "carrera 65 #29 29": {
+    "lat": 6.2565197,
+    "lng": -75.5809767
+  },
+  "Carrera 65 8b - 91": {
+    "lat": 6.2151536,
+    "lng": -75.5869303
+  },
+  "Cra. 57 # 44A-7": {
+    "lat": 6.2500261,
+    "lng": -75.5913829
+  },
+  "Av. Guayabal #6 Sur-1 a 6 Sur-65": {
+    "lat": 6.2082184,
+    "lng": -75.5903921
+  },
+  "Niquía - Hatillo": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Estación Niquita-Té Del Hatillo #2533, Girardota, Antioquia": {
+    "lat": 6.3965947,
+    "lng": -75.4379769
+  },
+  "Vía Hatillo, Parque De Las Aguas": {
+    "lat": 6.4065749,
+    "lng": -75.4215258
+  },
+  "Carrera 17, Hospital San Vicente De Paul Barbosa": {
+    "lat": 6.26391952498488,
+    "lng": -75.56333480265283
+  },
+  "Vivero Estelar - Barbosa, Antioquia.": {
+    "lat": 6.4357418,
+    "lng": -75.4483317
+  },
+  "Hacienda el progreso Universidad de Antioquia": {
+    "lat": 6.2694327551445035,
+    "lng": -75.56582799576387
+  },
+  "Doble calzada Niquía Hatillo, km. 21, Barbosa, Antioquia": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Vía Niquía, Zona Industrial El Hatillo": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Vía Niquía, Parque De Las Aguas": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Vía Niquía, Vía Tasajera": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Vía Niquía, Invesa": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Vía Niquía, Hotel La Molienda": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "alpujarra 87 sede, Girardota, Medellín, Antioquia": {
+    "lat": 6.242917110401074,
+    "lng": -75.57142528799186
+  },
+  "Vía Niquía, Vía San Andrés, El Socorro": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Vía Niquía, Parque Industrial El Trapiche": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Ecocircular sas, Girardota, Antioquia": {
+    "lat": 6.3838985,
+    "lng": -75.4337385
+  },
+  "Vía Niquía, Entrada Girardota": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Vía Niquía, Vía El Paraíso": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Vía Niquía, Abracol": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Vía Niquía, Parque Industrial Intercity Ph": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Vía Niquía, Vereda El Zarzal": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Vía Niquía, Acceso Sector Pitaya": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Vía Niquía, Rymel": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "El Rancherito - Copacabana": {
+    "lat": 6.361439,
+    "lng": -75.4953316
+  },
+  "Vía Niquía, Ie Normal Superior": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Mi Arepa Copacabana, Copacabana, Antioquia": {
+    "lat": 6.3469663,
+    "lng": -75.5055718
+  },
+  "Vía Niquía, Urb Villa Roca 2": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Autopista Norte, 15a, Peaje Niquía": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Vía Niquía, Vda El Noral": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Carrera 50 #149 Sur-50, Caldas": {
+    "lat": 6.0917673,
+    "lng": -75.6363807
+  },
+  "Carrera 50 #147 Sur-50, Caldas": {
+    "lat": 6.0917673,
+    "lng": -75.6363807
+  },
+  "Sena La Salada": {
+    "lat": 6.0490064,
+    "lng": -75.6268977
+  },
+  "Calle 130 Sur #45-10, Caldas": {
+    "lat": 6.0913689,
+    "lng": -75.63566
+  },
+  "Calle 130 Sur, 44a, Caldas": {
+    "lat": 6.0913689,
+    "lng": -75.63566
+  },
+  "Calle 128 Sur #47-20, Caldas": {
+    "lat": 6.0916728,
+    "lng": -75.6441376
+  },
+  "Caldas - Estación Metro Estrella": {
+    "lat": 6.1526665,
+    "lng": -75.6256974
+  },
+  "Calle 125 Sur #49-10, Caldas": {
+    "lat": 6.0960835,
+    "lng": -75.63612
+  },
+  "Calle 123 Sur, Caldas-Tablaza": {
+    "lat": 6.0964167,
+    "lng": -75.6375494
+  },
+  "Carrera 50 #103 Sur-50, Caldas": {
+    "lat": 6.0917673,
+    "lng": -75.6363807
+  },
+  "Calle 100 Sur #49D-30, Tablaza": {
+    "lat": 6.11934,
+    "lng": -75.6242184
+  },
+  "Calle 96 Sur, 50-43": {
+    "lat": 6.0896205,
+    "lng": -75.6364303
+  },
+  "Autopista Sur #79 Sur-80, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Estación Metro Estrella Buses": {
+    "lat": 6.1526665,
+    "lng": -75.6256974
+  },
+  "Carrera 50 #79 Sur-60, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 122 Sur #49-50, Caldas": {
+    "lat": 6.1002543,
+    "lng": -75.6412559
+  },
+  "Angelópolis - Caldas, 128 Sur2-128 Sur96": {
+    "lat": 6.0931802,
+    "lng": -75.6360707
+  },
+  "Calle 130 Sur #46-50, Caldas": {
+    "lat": 6.0913689,
+    "lng": -75.63566
+  },
+  "Calle 132 Sur, Caldas, El Consumo": {
+    "lat": 6.0900743,
+    "lng": -75.6360711
+  },
+  "Carrera 49, Parque Industrial Del Sur": {
+    "lat": 6.157932,
+    "lng": -75.6172805
+  },
+  "Calle 91 Sur #48-20, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #1043, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #16603, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #20423, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Carrera 50 #82 Sur-10, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #20435, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #Ancón Sur-10, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #Texaco-10, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #Terpel-10, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #Cafetal-10, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Carrera 50 #100 Sur-50, Caldas": {
+    "lat": 6.0917673,
+    "lng": -75.6363807
+  },
+  "Carrera 50 #148 Sur-20, Caldas": {
+    "lat": 6.0798923,
+    "lng": -75.6350076
+  },
+  "Calle 130 Sur #46-20, Caldas": {
+    "lat": 6.0913689,
+    "lng": -75.63566
+  },
+  "Calle 130 Sur, 44A, Caldas": {
+    "lat": 6.0913689,
+    "lng": -75.63566
+  },
+  "Carrera 45 #109 Sur-60, Variante Caldas": {
+    "lat": 6.0820556,
+    "lng": -75.6312569
+  },
+  "Calle 101 Sur, Variante Caldas": {
+    "lat": 6.0930654,
+    "lng": -75.6336013
+  },
+  "Calle 91 Sur #42-30, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #1500, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #3100, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #3700, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Autopista Sur #82 Sur-50, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Autopista Sur #80 Sur-20, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #40530, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #40480, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #40420, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #40350, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #40280, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 130 Sur #47-50, Caldas": {
+    "lat": 6.0913689,
+    "lng": -75.63566
+  },
+  "Calle 130 Sur #49-20, Caldas": {
+    "lat": 6.0913689,
+    "lng": -75.63566
+  },
+  "Carrera 50 #147 Sur-20, Caldas": {
+    "lat": 6.0798923,
+    "lng": -75.6350076
+  },
+  "Carrera 50 #149 Sur-10, Caldas": {
+    "lat": 6.1105584,
+    "lng": -75.6369837
+  },
+  "Calle 130 Sur #45-20, Caldas": {
+    "lat": 6.0913689,
+    "lng": -75.63566
+  },
+  "Calle 127 Sur #46-50, Caldas": {
+    "lat": 6.0943272,
+    "lng": -75.6287253
+  },
+  "Calle 125 Sur #48-30, Caldas": {
+    "lat": 6.0960835,
+    "lng": -75.63612
+  },
+  "Calle 100 Sur #49D-10, Tablaza": {
+    "lat": 6.11934,
+    "lng": -75.6242184
+  },
+  "Calle 89 Sur #50-80, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Carrera 50 #80 Sur-70, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Carrera 50 #87 Sur-10, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 100 Sur #49CC-20, Tablaza": {
+    "lat": 6.11934,
+    "lng": -75.6242184
+  },
+  "Carrera 50 #120 Sur-10, Caldas": {
+    "lat": 6.1105584,
+    "lng": -75.6369837
+  },
+  "Calle 126 Sur #48-20, Caldas": {
+    "lat": 6.0950089,
+    "lng": -75.6325514
+  },
+  "Calle 129 Sur #48-40, Caldas": {
+    "lat": 6.0923308,
+    "lng": -75.6341453
+  },
+  "Calle 130 Sur #49-10, Caldas": {
+    "lat": 6.0913689,
+    "lng": -75.63566
+  },
+  "Carrera 50 #150 Sur-10, Caldas": {
+    "lat": 6.1105584,
+    "lng": -75.6369837
+  },
+  "Calle 130 Sur #46-10, Caldas": {
+    "lat": 6.0913689,
+    "lng": -75.63566
+  },
+  "Calle 90 Sur #40-20, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #30-180, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #32-100, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #36-200, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #44-100, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #43-200, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #39-100, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #35-200, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #34-100, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 84 Sur #33-500, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Calle 126 Sur #47-80, Caldas": {
+    "lat": 6.0950089,
+    "lng": -75.6325514
+  },
+  "Av Regional, Est Itagüí, C.C Mayorca": {
+    "lat": 6.162893986941232,
+    "lng": -75.60686324893406
+  },
+  "Retorno Calle 50 Sur (Itagüí)": {
+    "lat": 6.162893986941232,
+    "lng": -75.60686324893406
+  },
+  "Puente de Ditaires": {
+    "lat": 6.1686106,
+    "lng": -75.6284155
+  },
+  "Angelópolis - Caldas, 128 Sur 2 - 128 Sur 96": {
+    "lat": 6.0931214,
+    "lng": -75.6349229
+  },
+  "Carrera 51, Copacabana": {
+    "lat": 6.3426375,
+    "lng": -75.5081395
+  },
+  "Calle 52, Copacabana Plaza De Mercado": {
+    "lat": 6.3471927,
+    "lng": -75.509724
+  },
+  "Fin Ruta. Integrado Copacabana (San Juan)": {
+    "lat": 6.2308602,
+    "lng": -75.6015749
+  },
+  "Calle 50, Copacabana Tienda D1": {
+    "lat": 6.2833532,
+    "lng": -75.5604981
+  },
+  "Calle 50, Copacabana": {
+    "lat": 6.3563789,
+    "lng": -75.4963783
+  },
+  "Bello-Copacabana #5530, Copacabana, Antioquia": {
+    "lat": 6.3242224,
+    "lng": -75.5264615
+  },
+  "calle 56, Copacabana": {
+    "lat": 6.3488959,
+    "lng": -75.511536
+  },
+  "Calle 50, Copacabana Bomba Zeuss": {
+    "lat": 6.3447729,
+    "lng": -75.5142289
+  },
+  "Calle 50, Copacabana Polideportivo": {
+    "lat": 6.3440295,
+    "lng": -75.5168963
+  },
+  "Diagonal 44, Fontidueño": {
+    "lat": 6.3340551,
+    "lng": -75.5374273
+  },
+  "Carrera 45, Gabriela": {
+    "lat": 6.3253042,
+    "lng": -75.5472718
+  },
+  "Av. Regional Oriental, La Gabriela, Bello, Antioquia": {
+    "lat": 6.3206627,
+    "lng": -75.5537884
+  },
+  "Carrera 45, Estación Madera Buses": {
+    "lat": 6.315876875242573,
+    "lng": -75.5553244903974
+  },
+  "Carrera 82, Copacabana-Machado, Machado": {
+    "lat": 6.3328571,
+    "lng": -75.5308827
+  },
+  "Avenida 40c, 65, Niquía, Droguería Jaimar": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Avenida 40, Niquía": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Diagonal 55, Niquía, Mall Comercial": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Urbanizacion Rosales De Terranova": {
+    "lat": 6.3452724,
+    "lng": -75.5404267
+  },
+  "Diagonal 57, Niquía": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Br. Las Brisas (Autopista Norte - Cl 115, Medellín)": {
+    "lat": 6.3086696,
+    "lng": -75.5596809
+  },
+  "Br. Las Brisas (Autopista Norte - Cl 113a, Medellín)": {
+    "lat": 6.3086696,
+    "lng": -75.5596809
+  },
+  "Carrera 64 # 113a - 05": {
+    "lat": 6.3086696,
+    "lng": -75.5596809
+  },
+  "Br. Caribe (Autopista Norte - Cl 74, Medellín)": {
+    "lat": 6.278326517494364,
+    "lng": -75.56940485555394
+  },
+  "Universidad Nacional De Colombia (Autopista Norte - Cl 65, Medellín)": {
+    "lat": 6.2694327551445035,
+    "lng": -75.56582799576387
+  },
+  "Br. Toscana (Autopista Norte - Cl 115, Medellín)": {
+    "lat": 6.3086696,
+    "lng": -75.5596809
+  },
+  "Cai Solla (Autopista Norte - Cl 119a, Medellín)": {
+    "lat": 6.3086696,
+    "lng": -75.5596809
+  },
+  "Hospital Marco Fidel Suárez (Cl 44 - Kr 49b, Bello)": {
+    "lat": 6.26391952498488,
+    "lng": -75.56333480265283
+  },
+  "Carrera 48, Clínica Antioquia Sede Bello": {
+    "lat": 6.2223394,
+    "lng": -75.574882
+  },
+  "Calle 50 # 47 - 05": {
+    "lat": 6.1523004,
+    "lng": -75.6229961
+  },
+  "Avenida 42, Niquía": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Avenida 42, Niquía, Hospital Marco Fidel Suarez": {
+    "lat": 6.26391952498488,
+    "lng": -75.56333480265283
+  },
+  "Diagonal 65, Niquía, Parque Caño Del Burro": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Avenida 47b, 65, Niquía": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Avenida 47b, 61, Niquía": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Avenida 46a, 61, Niquía": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Avenida 43, Niquía": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Centro Comercial Puerta Del Norte": {
+    "lat": 6.3395956,
+    "lng": -75.5432161
+  },
+  "Niquía- Barrio Norteamérica": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Br. Andalucía (Dg 55 - Kr 50, Bello)": {
+    "lat": 6.296272054478761,
+    "lng": -75.5518969353113
+  },
+  "Calle 63, Niquía, Heladería Bajo Cero Cream": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Carrera 65a, 69, Niquía": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Calle 80, Niquía": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Calle 80 # 65 - 05": {
+    "lat": 6.1906199,
+    "lng": -75.5970256
+  },
+  "Calle 72a, 63b, Niquía, Ie Villa Del Sol": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Carrera 63b, Niquía, Parque Goretti": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Br. Andalucía (Kr 50 - Cl 56, Bello)": {
+    "lat": 6.296272054478761,
+    "lng": -75.5518969353113
+  },
+  "Avenida 44, Bello, Cancha": {
+    "lat": 6.3447804,
+    "lng": -75.5309697
+  },
+  "Calle 59c, 67a, Bello": {
+    "lat": 6.3447373,
+    "lng": -75.5712774
+  },
+  "Calle 59b, 68a, Bello": {
+    "lat": 6.3448754,
+    "lng": -75.5724671
+  },
+  "Avenida 21a, 57aa, Niquía, Navarra": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Universidad De Antioquia (Av. Barranquilla - Kr 55a, Medellín)": {
+    "lat": 6.2694327551445035,
+    "lng": -75.56582799576387
+  },
+  "Universidad De Antioquia (Av. Barranquilla - 55a": {
+    "lat": 6.2694327551445035,
+    "lng": -75.56582799576387
+  },
+  "Aventura Centro Comercial (Av. Barranquilla - 52": {
+    "lat": 6.2636965,
+    "lng": -75.5669116
+  },
+  "Estación Hospital (Av. Bolívar - Cl 66, Medellín)": {
+    "lat": 6.26391952498488,
+    "lng": -75.56333480265283
+  },
+  "Paradero Ruta 055 (Cr 51d - Cl 55, Medellín)": {
+    "lat": 6.2055852,
+    "lng": -75.5886827
+  },
+  "Ruta N Carabobo": {
+    "lat": 6.2650183,
+    "lng": -75.5665813
+  },
+  "Ruta N Carabobo (Tramo Intermedio)": {
+    "lat": 6.2576433,
+    "lng": -75.5805254
+  },
+  "Universidad De Antioquia Av. Barranquilla -  55a": {
+    "lat": 6.2694327551445035,
+    "lng": -75.56582799576387
+  },
+  "Hospital Marco Fidel Suárez (Cl 44 - Kr 49b": {
+    "lat": 6.26391952498488,
+    "lng": -75.56333480265283
+  },
+  "Calle 62a, 5818Calle 63, Niquía, Heladería Bajo Cero Cream": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Carrera 63a, 94a, Est Tricentenario Buses": {
+    "lat": 6.290315341690465,
+    "lng": -75.56471672756503
+  },
+  "Colanta Carrera 64a, 78209, Terminal Del Norte": {
+    "lat": 6.2751265,
+    "lng": -75.5713095
+  },
+  "Carrera 64 # 67b - 05": {
+    "lat": 6.2669253,
+    "lng": -75.573034
+  },
+  "Br. Suramericana (Autopista Sur - Cl 49a, Medellín)": {
+    "lat": 6.252984046115064,
+    "lng": -75.58294171166084
+  },
+  "Terminal Del Norte Autopista Norte - Calle 83, Medellín": {
+    "lat": 6.2765748,
+    "lng": -75.5723593
+  },
+  "Fabricato (Autopista Norte - Calle 38, Bello)": {
+    "lat": 6.3325081,
+    "lng": -75.5554829
+  },
+  "Hospital Marco Fidel Suárez Calle 44 -  49b, Bello": {
+    "lat": 6.26391952498488,
+    "lng": -75.56333480265283
+  },
+  "Carrera 64 # 72 - 05": {
+    "lat": 6.2703859,
+    "lng": -75.5732145
+  },
+  "Carrera 64 # 72 - 20": {
+    "lat": 6.2703859,
+    "lng": -75.5732145
+  },
+  "Autopista Norte # 119 - 05": {
+    "lat": 6.3086696,
+    "lng": -75.5596809
+  },
+  "Avenida 37a, 66, Niquía": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Avenida 36a, 64, Niquía, Niquía Quitasol": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Carrera 64 # 111a - 12": {
+    "lat": 6.2607084,
+    "lng": -75.5764142
+  },
+  "Carrera 64 # 67 - 05": {
+    "lat": 6.2669253,
+    "lng": -75.573034
+  },
+  "Avenida 19c, 57c, Niquía, Navarra": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Hotel Las Olas (Cr 52 - Cl 125, Medellín)": {
+    "lat": 6.3079963,
+    "lng": -75.5549016
+  },
+  "Carrera 51, 12b Sur 41": {
+    "lat": 6.1952741,
+    "lng": -75.5886741
+  },
+  "Cra. 84 #20": {
+    "lat": 6.3083047,
+    "lng": -75.5824199
+  },
+  "Cra. 84 #50A-28": {
+    "lat": 6.3083047,
+    "lng": -75.5824199
+  },
+  "Carrera 62, 3a, Iglesia Del Limonar": {
+    "lat": 6.1743981,
+    "lng": -75.6439876
+  },
+  "Itagüí-San Antonio de Prado #11a-110 a 11a-192": {
+    "lat": 6.2471945433626335,
+    "lng": -75.5697034075725
+  },
+  "Aeropuerto Olaya Herrera Carrera 65, 141-14215": {
+    "lat": 6.2200225,
+    "lng": -75.5890373
+  },
+  "Carrera 50, 146 Sur, Sta Barbara-Caldas": {
+    "lat": 6.0798923,
+    "lng": -75.6350076
+  },
+  "Carrera 50 #144 Sur-50, Caldas": {
+    "lat": 6.0917673,
+    "lng": -75.6363807
+  },
+  "Carrera 50, 142 Sur, Caldas": {
+    "lat": 6.0917673,
+    "lng": -75.6363807
+  },
+  "Carrera 50 #141 Sur-30, Caldas": {
+    "lat": 6.0838223,
+    "lng": -75.634931
+  },
+  "Carrera 50, 140 Sur, Caldas": {
+    "lat": 6.0917673,
+    "lng": -75.6363807
+  },
+  "Carrera 50 #138 Sur-50, Caldas": {
+    "lat": 6.0917673,
+    "lng": -75.6363807
+  },
+  "Carrera 50, 137 Sur, Caldas": {
+    "lat": 6.0846718,
+    "lng": -75.636168
+  },
+  "Carrera 50 #136 Sur-70, Caldas": {
+    "lat": 6.0885207,
+    "lng": -75.6342976
+  },
+  "Carrera 50, 136 Sur, Caldas, Cementerio": {
+    "lat": 6.0862613,
+    "lng": -75.6358699
+  },
+  "Carrera 48, 133 Sur, Caldas": {
+    "lat": 6.0884391,
+    "lng": -75.6342874
+  },
+  "Carrera 48 #132 Sur-10, Caldas": {
+    "lat": 6.0872508,
+    "lng": -75.6341459
+  },
+  "Carrera 48, 131 Sur, Caldas": {
+    "lat": 6.0897144,
+    "lng": -75.6343642
+  },
+  "Carrera 50 #122 Sur-30, Caldas": {
+    "lat": 6.0838223,
+    "lng": -75.634931
+  },
+  "Carrera 50, 117 Sur, Caldas-Tablaza": {
+    "lat": 6.1105584,
+    "lng": -75.6369837
+  },
+  "Carrera 50, 113 Sur, Caldas-Tablaza": {
+    "lat": 6.1105584,
+    "lng": -75.6369837
+  },
+  "Carrera 50, 110 Sur, Caldas-Tablaza": {
+    "lat": 6.1105584,
+    "lng": -75.6369837
+  },
+  "Carrera 50 #108 Sur-20, Caldas": {
+    "lat": 6.0798923,
+    "lng": -75.6350076
+  },
+  "Carrera 50, 106 Sur, Caldas-Tablaza": {
+    "lat": 6.1105584,
+    "lng": -75.6369837
+  },
+  "Carrera 50, 97b Sur557": {
+    "lat": 6.0917673,
+    "lng": -75.6363807
+  },
+  "Carrera 50 #84 Sur-50, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Carrera 50, 80 Sur148": {
+    "lat": 6.1966886,
+    "lng": -75.5850128
+  },
+  "Carrera 50 #80 Sur-20, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Carrera 50, 80 Sur1": {
+    "lat": 6.1966886,
+    "lng": -75.5850128
+  },
+  "Carrera 50 #80 Sur-170, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Carrera 50, 80 Sur343": {
+    "lat": 6.1966886,
+    "lng": -75.5850128
+  },
+  "Carrera 50 #87 Sur-20, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Carrera 50 #107 Sur-50, Caldas": {
+    "lat": 6.0917673,
+    "lng": -75.6363807
+  },
+  "Carrera 50, 109 Sur, Caldas-Tablaza": {
+    "lat": 6.1105584,
+    "lng": -75.6369837
+  },
+  "Carrera 50 #111 Sur-20, Caldas": {
+    "lat": 6.0798923,
+    "lng": -75.6350076
+  },
+  "Carrera 50 #146 Sur-70, Caldas": {
+    "lat": 6.0885207,
+    "lng": -75.6342976
+  },
+  "Carrera 50 #144 Sur-20, Caldas": {
+    "lat": 6.0798923,
+    "lng": -75.6350076
+  },
+  "Carrera 48 #98A Sur-50, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Carrera 48 #99 Sur-50, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Carrera 50 #136 Sur-50, Caldas": {
+    "lat": 6.0917673,
+    "lng": -75.6363807
+  },
+  "Carrera 45, 117 Sur, Variante Caldas": {
+    "lat": 6.1021059,
+    "lng": -75.6351306
+  },
+  "Carrera 48 #100 Sur-20, Variante Caldas": {
+    "lat": 6.0887874,
+    "lng": -75.6343143
+  },
+  "Carrera 48 #98A Sur-10, Variante Caldas": {
+    "lat": 6.0872508,
+    "lng": -75.6341459
+  },
+  "Carrera 48 #99 Sur-20, Variante Caldas": {
+    "lat": 6.0887874,
+    "lng": -75.6343143
+  },
+  "Carrera 50 #143 Sur-10, Caldas": {
+    "lat": 6.1105584,
+    "lng": -75.6369837
+  },
+  "Carrera 50 #146 Sur-30, Caldas": {
+    "lat": 6.0838223,
+    "lng": -75.634931
+  },
+  "Carrera 48 #132 Sur-70, Caldas": {
+    "lat": 6.0909009,
+    "lng": -75.634384
+  },
+  "Carrera 48 #132 Sur-20, Caldas": {
+    "lat": 6.0887874,
+    "lng": -75.6343143
+  },
+  "Carrera 50 #122 Sur-20, Caldas": {
+    "lat": 6.0798923,
+    "lng": -75.6350076
+  },
+  "Carrera 50 #117 Sur-20, Caldas": {
+    "lat": 6.0798923,
+    "lng": -75.6350076
+  },
+  "Carrera 50 #115 Sur-30, Caldas": {
+    "lat": 6.0838223,
+    "lng": -75.634931
+  },
+  "Carrera 50 #108 Sur-30, Caldas": {
+    "lat": 6.0838223,
+    "lng": -75.634931
+  },
+  "Carrera 50 #86 Sur-40, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Carrera 50 #80 Sur-180, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Carrera 50 #82 Sur-20, La Estrella": {
+    "lat": 6.152784264230396,
+    "lng": -75.62636321936316
+  },
+  "Carrera 50, 97B Sur557": {
+    "lat": 6.0917673,
+    "lng": -75.6363807
+  },
+  "Carrera 50 #98 Sur-10, Tablaza": {
+    "lat": 6.1105584,
+    "lng": -75.6369837
+  },
+  "Carrera 50 #108 Sur-10, Caldas": {
+    "lat": 6.1105584,
+    "lng": -75.6369837
+  },
+  "Carrera 50 #111 Sur-10, Caldas": {
+    "lat": 6.1105584,
+    "lng": -75.6369837
+  },
+  "Carrera 50 #115 Sur-10, Caldas": {
+    "lat": 6.1105584,
+    "lng": -75.6369837
+  },
+  "Carrera 50 #145 Sur-10, Caldas": {
+    "lat": 6.1105584,
+    "lng": -75.6369837
+  },
+  "Carrera 50 #143 Sur-20, Caldas": {
+    "lat": 6.0798923,
+    "lng": -75.6350076
+  },
+  "Carrera 50 #141 Sur-10, Caldas": {
+    "lat": 6.1105584,
+    "lng": -75.6369837
+  },
+  "Carrera 49 #134 Sur-50, Caldas": {
+    "lat": 6.0919361,
+    "lng": -75.6349106
+  },
+  "Carrera 48 #98 Sur-20, Variante Caldas": {
+    "lat": 6.0887874,
+    "lng": -75.6343143
+  },
+  "Carrera 48 #98 Sur-60, Variante Caldas": {
+    "lat": 6.09101,
+    "lng": -75.6343869
+  },
+  "Carrera 50 #134 Sur-20, Caldas": {
+    "lat": 6.0798923,
+    "lng": -75.6350076
+  },
+  "Carrera 50 #144 Sur-10, Caldas": {
+    "lat": 6.1105584,
+    "lng": -75.6369837
+  },
+  "Sector Entrada El Progreso": {
+    "lat": 6.305999020335661,
+    "lng": -75.5823335872493
+  },
+  "Carrera 49, 61 Sur, Estación Sabaneta Buses": {
+    "lat": 6.157689019859863,
+    "lng": -75.61624238236155
+  },
+  "Carrera 50, 80 Sur 1": {
+    "lat": 6.0917673,
+    "lng": -75.6363807
+  },
+  "Calle 47, 50, Copacabana": {
+    "lat": 6.3475845,
+    "lng": -75.505952
+  },
+  "Calle 52, 52, Copacabana": {
+    "lat": 6.3464858,
+    "lng": -75.5117606
+  },
+  "Urbanización Hacienda Niquia": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Calle 50, 25b, Copacabana": {
+    "lat": 6.3447729,
+    "lng": -75.5142289
+  },
+  "Carrera 30, 50, Copacabana": {
+    "lat": 6.3551089,
+    "lng": -75.4977628
+  },
+  "Calle 50, 38, Copacabana": {
+    "lat": 6.3447729,
+    "lng": -75.5142289
+  },
+  "Carrera 69, 49, Copacabana": {
+    "lat": 6.3419754,
+    "lng": -75.5193498
+  },
+  "Carrera 57, 42a, Copacabana": {
+    "lat": 6.3492321,
+    "lng": -75.5132745
+  },
+  "Avenida 42, 65, Niquía, Casa De Justicia": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Carrera 47, 53, Bello, Café Tango": {
+    "lat": 6.3372257,
+    "lng": -75.5563855
+  },
+  "Calle 50, 47, Bello, Ie Jesús De La Buena Esperanza": {
+    "lat": 6.3346622,
+    "lng": -75.5564015
+  },
+  "Diagonal 67, 44b, Niquía": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Avenida 42, 62, Niquía": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Diagonal 68, 47a, Niquía": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Diagonal 67, 45b, Niquía": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Diagonal 60, 43, Niquía, Placa Deportiva": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Avenida 43, 55, Niquía": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Diagonal 55 # 50 - 05": {
+    "lat": 6.3385197,
+    "lng": -75.5588707
+  },
+  "Calle 77, 63a, Niquía": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Calle 80, 65, Niquía": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Calle 54, 47, Niquía": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Diagonal 55, 43, Niquía": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Diagonal 50, 42, Bello, Secretaría De Movilidad Bello": {
+    "lat": 6.3367288,
+    "lng": -75.5595887
+  },
+  "Diagonal 56, 44, Bello": {
+    "lat": 6.3399902,
+    "lng": -75.5520441
+  },
+  "Avenida 46, 55, Bello": {
+    "lat": 6.3404235,
+    "lng": -75.5428251
+  },
+  "Carrera 54, 63b, Bello": {
+    "lat": 6.352592,
+    "lng": -75.5677604
+  },
+  "Calle 58, 66bb, Bello": {
+    "lat": 6.3425267,
+    "lng": -75.5683826
+  },
+  "Calle 57, 66bb2": {
+    "lat": 6.2431761,
+    "lng": -75.5775106
+  },
+  "Calle 58 # 59 - 05": {
+    "lat": 6.1721602,
+    "lng": -75.6260953
+  },
+  "Br. Andalucía (Dg 55 - Kr 50 # Intermedia": {
+    "lat": 6.296272054478761,
+    "lng": -75.5518969353113
+  },
+  "Calle 80, NiquíaCalle 80, 65, Niquía": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Carrera 48, 54, Bello": {
+    "lat": 6.3210279,
+    "lng": -75.5599328
+  },
+  "Carrera 48 # 54 - 05": {
+    "lat": 6.24655,
+    "lng": -75.5730812
+  },
+  "Carrera 63, 104a2, Estación Acevedo Buses": {
+    "lat": 6.29994259053742,
+    "lng": -75.55855570731788
+  },
+  "Tcc Carrera 64, 67b": {
+    "lat": 6.2669253,
+    "lng": -75.573034
+  },
+  "La Alpujarra Calle 44, 57a1-57a87": {
+    "lat": 6.242917110401074,
+    "lng": -75.57142528799186
+  },
+  "Calle 44 # 52 - 05": {
+    "lat": 6.2461423,
+    "lng": -75.5717017
+  },
+  "Avenida 47, 59, Niquía": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Avenida 39b, 67b, Niquía": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
+  },
+  "Diagonal 57, 43, Niquía": {
+    "lat": 6.337827496650861,
+    "lng": -75.54428739895442
   }
 }
