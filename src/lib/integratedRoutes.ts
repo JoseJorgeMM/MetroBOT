@@ -8,6 +8,9 @@
 //     inside `radius` meters of the given point, sorted by closest stop.
 //   - matchIntegratedRoutes(originName, destName): routes that contain
 //     stops matching the origin/destination names (used by routing.ts).
+//   - findIntegratedRoutesPassingThrough(originLat, originLng, destLat, destLng, radius):
+//     routes whose stop list visits a point near origin BEFORE a point near
+//     destination; used by gemini.ts to surface good integrated bus options.
 //
 // Stop coords in the JSON are guaranteed to be numbers (legacy null-coord
 // stops are pruned by compile_new_routes.cjs). If you ever add new routes
@@ -28,6 +31,12 @@ export interface IntegratedRoute {
   stops: IntegratedStop[];
   geocodedOk?: number;
   geocodedFail?: number;
+}
+
+export interface RouteManifest {
+  generatedAt: string;
+  count: number;
+  routes: Array<{ id: string; folder: string; file: string }>;
 }
 
 let cached: Promise<IntegratedRoute[]> | null = null;
@@ -60,6 +69,23 @@ export function loadIntegratedRoutes(): Promise<IntegratedRoute[]> {
     }
   })();
   return cached;
+}
+
+let cachedManifest: Promise<RouteManifest | null> | null = null;
+
+export function loadRouteManifest(): Promise<RouteManifest | null> {
+  if (cachedManifest) return cachedManifest;
+  cachedManifest = (async () => {
+    try {
+      const res = await fetch('/rutas_integradas/manifest.json');
+      if (!res.ok) return null;
+      return (await res.json()) as RouteManifest;
+    } catch (e) {
+      console.warn('manifest.json not available:', e);
+      return null;
+    }
+  })();
+  return cachedManifest;
 }
 
 function normalize(name: string): string {
@@ -148,7 +174,6 @@ export async function findIntegratedRoutesPassingThrough(
       }
     }
     if (originHit && destHit && originDist <= radiusMeters && destDist <= radiusMeters) {
-      // Make sure the origin stop comes BEFORE the destination stop along the route.
       const oIdx = r.stops.indexOf(originHit);
       const dIdx = r.stops.indexOf(destHit);
       if (oIdx !== -1 && dIdx !== -1 && oIdx < dIdx) {
