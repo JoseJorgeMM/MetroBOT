@@ -56,10 +56,61 @@
 }
 
 @layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
   body {
     @apply bg-background text-foreground antialiased overflow-hidden;
     transition: background-color 0.3s ease, color 0.3s ease;
+    /* Respect device safe areas (notch, home indicator, status bar). */
+    overscroll-behavior: none;
+    text-rendering: optimizeLegibility;
   }
+  /* iOS Safari: avoid input auto-zoom by keeping inputs >= 16px effective. */
+  input, textarea, select {
+    font-size: 16px;
+  }
+  /* Android: prevent layout shift while interacting with the sheet/map. */
+  * {
+    -webkit-focus-ring-color: transparent;
+  }
+}
+
+/* Safe-area helpers — apply where UI meets device edges (home indicator, notch). */
+@layer utilities {
+  .safe-top { padding-top: env(safe-area-inset-top); }
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+  .safe-x { padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }
+}
+
+/* User location marker (Google-Maps-style blue dot + heading arrow). */
+.user-location-marker { background: transparent !important; border: none !important; }
+.ulm-wrap { position: relative; width: 24px; height: 24px; }
+.ulm-halo {
+  position: absolute; inset: -10px;
+  border-radius: 50%;
+  background: rgba(66, 133, 244, 0.18);
+}
+.ulm-dot {
+  position: absolute; left: 50%; top: 50%;
+  width: 16px; height: 16px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: #4285F4;
+  border: 3px solid #fff;
+  box-shadow: 0 0 4px rgba(0,0,0,0.4);
+}
+.ulm-arrow {
+  position: absolute; left: 50%; top: 50%;
+  transform-origin: center 14px;
+  color: #4285F4;
+  font-size: 12px;
+  line-height: 1;
+  text-shadow: 0 0 2px #fff, 0 0 2px #fff;
+  pointer-events: none;
+  margin-left: -6px;
+  margin-top: -18px;
 }
 
 /* Leaflet Popup Styling */

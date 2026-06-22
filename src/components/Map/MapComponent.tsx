@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, ZoomControl, useMap, Polyline } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { UserLocationMarker } from './UserLocationMarker';
 import { Info, ChevronUp, ChevronDown, Map as MapIcon, MapPin, Sun, Moon } from 'lucide-react';
 import { loadStations, Station } from '@/src/lib/stations';
 import { MapSearch } from './MapSearch';
@@ -56,6 +57,12 @@ interface MapComponentProps {
   darkMode?: boolean;
   onClearRoute?: () => void;
   onThemeToggle?: () => void;
+  /** Live user position for the blue "you are here" marker. */
+  userPosition?: { lat: number; lng: number } | null;
+  /** Heading in degrees for rotating the user marker arrow. */
+  userHeading?: number | null;
+  /** When true, the map pans to follow the user. */
+  followUser?: boolean;
 }
 
 // Helper to handle map centering and zooming
@@ -83,17 +90,20 @@ const createPointMarker = (color: string, iconHtml?: string) => {
   });
 };
 
-export function MapComponent({ 
-  onSearchRoute, 
-  origin, 
-  dest, 
-  routes, 
-  activeRouteIndex = 0, 
-  onOriginSelect, 
-  onDestSelect, 
+export function MapComponent({
+  onSearchRoute,
+  origin,
+  dest,
+  routes,
+  activeRouteIndex = 0,
+  onOriginSelect,
+  onDestSelect,
   darkMode = false,
   onClearRoute,
-  onThemeToggle
+  onThemeToggle,
+  userPosition = null,
+  userHeading = null,
+  followUser = false,
 }: MapComponentProps) {
   const [stations, setStations] = useState<Station[]>([]);
   const [loading, setLoading] = useState(true);
@@ -163,8 +173,8 @@ export function MapComponent({
            // Mode applying to this segment is p2's mode since p2 is the destination of the step
            const mode = p2.mode;
            
-           if (mode === 'walk' || mode === 'encicla' || mode === 'bus') {
-              const profile = mode === 'bus' ? 'car' : (mode === 'encicla' ? 'bike' : 'foot');
+           if (mode === 'walk' || mode === 'encicla' || mode === 'bus' || mode === 'bus_articulado') {
+              const profile = (mode === 'bus' || mode === 'bus_articulado') ? 'car' : (mode === 'encicla' ? 'bike' : 'foot');
               const geometry = await getRouteGeometry([p1.point, p2.point], profile);
               paths[`segment-${mode}-${i}`] = geometry;
               geometry.forEach(p => allPoints.push(p));
@@ -364,7 +374,7 @@ export function MapComponent({
          if (!positions || positions.length < 2) return;
 
          const isWalk = k.includes('-walk-');
-         const isBus = k.includes('-bus-');
+         const isBus = k.includes('-bus-') || k.includes('-bus_articulado-');
          const isStraight = k.includes('straight');
          const isEncicla = k.includes('-encicla-');
 
@@ -504,6 +514,13 @@ export function MapComponent({
             </Popup>
           </Marker>
         ))}
+
+        {/* Live user location marker (blue dot + heading arrow). */}
+        <UserLocationMarker
+          position={userPosition}
+          heading={userHeading}
+          follow={followUser}
+        />
       </MapContainer>
 
       {loading && (
@@ -562,7 +579,7 @@ export function MapComponent({
           
           {isLegendExpanded && (
             <div className="absolute right-13 bottom-0 bg-card/95 backdrop-blur-md border border-border/60 shadow-xl rounded-2xl p-3 w-36 flex flex-col gap-2 z-[1000] animate-in fade-in slide-in-from-right-3 duration-250">
-              <h4 className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider border-b border-border/10 pb-1">Leyenda</h4>
+              <h4 className="text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider border-b border-border/10 pb-1">Leyenda</h4>
               <div className="flex items-center gap-2">
                   <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: getMarkerColor('Metro') }}></div>
                   <span className="text-[11px] font-semibold text-foreground/95">Metro</span>
@@ -633,7 +650,7 @@ export function MapComponent({
              
              <div className="mt-2 pt-2 border-t border-border flex items-center gap-2">
                <Info className="w-3 h-3 text-sitva-blue" />
-               <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">Estaciones: {stations.length}</span>
+               <span className="text-[11px] font-bold text-slate-600 dark:text-slate-300">Estaciones: {stations.length}</span>
              </div>
            </div>
          )}

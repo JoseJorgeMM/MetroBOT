@@ -21,7 +21,7 @@ export function SupportChannels() {
           <p className="text-[13px] text-foreground leading-relaxed">
             Tramita tu Cívica en: <span className="font-semibold">Niquía, Acevedo, San Javier, San Antonio e Itagüí.</span>
           </p>
-          <div className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 font-medium">
+          <div className="flex items-center gap-1.5 text-[11px] text-slate-600 dark:text-slate-300 font-medium">
             <Clock className="w-3 h-3" />
             Lun - Vie: 9:30 AM - 6:30 PM
           </div>
@@ -68,7 +68,7 @@ export function SupportChannels() {
 
         {/* Cívica App */}
         <div className="mt-2 p-3 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-border/20">
-          <p className="text-[11px] text-slate-500 dark:text-slate-400 text-center italic">
+          <p className="text-[12px] text-slate-600 dark:text-slate-300 text-center italic">
             "Recuerda que puedes usar el código QR de la App Cívica para viajar sin tarjeta física."
           </p>
         </div>

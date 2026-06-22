@@ -33,7 +33,7 @@ export function TariffInfo() {
             </div>
           ))}
         </div>
-        <p className="mt-4 text-[11px] text-slate-400 dark:text-slate-500 leading-tight italic border-t border-border/10 pt-3">
+        <p className="mt-4 text-[12px] text-slate-600 dark:text-slate-300 leading-snug italic border-t border-border/10 pt-3">
           * Los transbordos entre Metro, Tranvía, Metroplús y Cables (excepto Arví) son gratuitos si se realizan en un tiempo menor a 90 minutos.
         </p>
       </CardContent>

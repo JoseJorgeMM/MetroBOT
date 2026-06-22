@@ -1,0 +1,29 @@
+{
+  "name": "MetroBot Medellín - Asistente SITVA",
+  "short_name": "MetroBot",
+  "description": "Asistente del SITVA para moverte por Medellín en Metro, Metrocable, Tranvía, Metroplús, EnCicla y buses integrados.",
+  "lang": "es-CO",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#F8FAFC",
+  "theme_color": "#00994C",
+  "categories": ["travel", "navigation", "utilities"],
+  "icons": [
+    {
+      "src": "/logo_chat.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent } from '../ui/card';
 import { RouteOption } from '@/src/lib/routing';
-import { Train, CableCar, TramFront, Bus, Bike, Footprints, Clock, DollarSign, ShieldCheck, ShieldAlert } from 'lucide-react';
+import { Train, CableCar, TramFront, Bus, Bike, Footprints, Clock, DollarSign, ShieldCheck, ShieldAlert, Navigation } from 'lucide-react';
 
 const ModeIcon = ({ mode, className }: { mode: string, className?: string }) => {
   switch (mode) {
@@ -97,6 +97,8 @@ export interface RouteValidation {
 export interface RouteCardProps {
   route: RouteOption & { validation?: RouteValidation };
   isSelected?: boolean;
+  /** Called when the user taps "Iniciar navegación". */
+  onStartNavigation?: (route: RouteOption) => void;
 }
 
 const RealStopsPanel = ({ leg }: { leg: BusLegValidation }) => {
@@ -124,7 +126,7 @@ const RealStopsPanel = ({ leg }: { leg: BusLegValidation }) => {
   );
 };
 
-export function RouteCard({ route, isSelected }: RouteCardProps) {
+export function RouteCard({ route, isSelected, onStartNavigation }: RouteCardProps) {
   const primaryMode = route.modes.find(m => m !== 'walk') || 'walk';
   const validation = route.validation;
   const hasBusLegs = (validation?.busLegs?.length ?? 0) > 0;
@@ -205,6 +207,18 @@ export function RouteCard({ route, isSelected }: RouteCardProps) {
             );
           })}
         </div>
+
+        {/* Start turn-by-turn navigation button. */}
+        {onStartNavigation && (
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); onStartNavigation(route); }}
+            className="w-full mt-3 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-blue-500 hover:bg-blue-600 active:scale-[0.98] text-white font-bold text-sm shadow-md transition-all cursor-pointer"
+          >
+            <Navigation className="w-4 h-4" />
+            Iniciar navegación
+          </button>
+        )}
       </CardContent>
     </Card>
   );

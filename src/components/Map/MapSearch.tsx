@@ -339,7 +339,7 @@ export function MapSearch({
       >
         <div className="bg-card/90 backdrop-blur-md rounded-2xl shadow-xl border border-border/40 p-3 pointer-events-auto flex items-center justify-between gap-3 animate-in slide-in-from-top duration-300">
           <div className="flex-1 min-w-0">
-            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider block">Ruta Activa</span>
+            <span className="text-[11px] text-slate-600 dark:text-slate-300 font-bold uppercase tracking-wider block">Ruta Activa</span>
             <div className="text-[13px] font-semibold text-foreground flex items-center gap-1.5 leading-tight mt-0.5">
               <span className="truncate max-w-[120px]">{originQuery.split(',')[0] || 'Origen'}</span>
               <span className="text-slate-400 dark:text-slate-600">➔</span>
@@ -395,7 +395,7 @@ export function MapSearch({
         
         {/* Header inside search panel */}
         <div className="flex items-center justify-between pb-1.5 border-b border-border/20 md:hidden">
-          <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Planificar Ruta</span>
+          <span className="text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider">Planificar Ruta</span>
           <button 
             onClick={() => setIsCollapsed(true)} 
             className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full text-slate-500 dark:text-slate-400 cursor-pointer"

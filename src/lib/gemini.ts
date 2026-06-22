@@ -5,6 +5,7 @@ import { getLocalOfflineRoute } from './localRouter';
 import { fetchMetroNews } from './news';
 import { loadIntegratedRoutes, findIntegratedRoutesNear, IntegratedRoute, IntegratedStop } from './integratedRoutes';
 import { reconstructBusStep } from './routeValidator';
+import { enrichStation } from './stationResolver';
 
 const apiKeys = (process.env.GEMINI_API_KEYS || process.env.GEMINI_API_KEY || "DUMMY_KEY").split(',').map(k => k.trim()).filter(Boolean);
 let currentKeyIndex = 0;
@@ -341,7 +342,20 @@ export async function processUserQuery(query, onRouteFound, onStatusFound, optio
             }
             route.validation = validation;
           }
-          onRouteFound(args.routes);
+          // Resolve nameRef-only stations to real coords from the catalog
+                      // (originStation, destinationStation and every step.station).
+                      for (const route of args.routes) {
+                        if (route.originStation) route.originStation = await enrichStation(route.originStation);
+                        if (route.destinationStation) route.destinationStation = await enrichStation(route.destinationStation);
+                        if (Array.isArray(route.steps)) {
+                          for (let i = 0; i < route.steps.length; i++) {
+                            if (route.steps[i].station) {
+                              route.steps[i].station = await enrichStation(route.steps[i].station, route.steps[i].mode);
+                            }
+                          }
+                        }
+                      }
+                      onRouteFound(args.routes);
         } else if (call.name === 'get_station_status') {
           const status = await getStationStatus((call.args as any).stationId);
           onStatusFound(status);
