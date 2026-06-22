@@ -2,10 +2,12 @@ import { loadStations, Station } from './stations';
 import { fetchMetroNews } from './news';
 import { loadIntegratedRoutes, matchIntegratedRoutes, IntegratedRoute } from './integratedRoutes';
 
+export type TransportMode = 'metro' | 'metrocable' | 'tranvia' | 'metroplus' | 'encicla' | 'walk' | 'bus' | 'bus_articulado';
+
 export interface RouteOption {
   id: string;
-  modes: ('metro' | 'metrocable' | 'tranvia' | 'metroplus' | 'encicla' | 'walk' | 'bus')[];
-  duration: number; // in minutes
+  modes: TransportMode[];
+  duration: number;
   cost: number;
   transfers: number;
   originStation?: { name: string; lat: number; lng: number; };
@@ -13,18 +15,31 @@ export interface RouteOption {
   userOrigin?: { name: string; lat: number; lng: number; };
   userDest?: { name: string; lat: number; lng: number; };
   steps: RouteStep[];
+  validation?: {
+    ok: boolean;
+    validatedSteps: number;
+    degradedSteps: number;
+    busLegs: Array<{
+      routeId: string;
+      routeName: string;
+      boardingStop: string;
+      boardingLat: number;
+      boardingLng: number;
+      realStops: Array<{ name: string; lat: number; lng: number }>;
+    }>;
+    degradedReasons: string[];
+  };
 }
 
 export interface RouteStep {
   instruction: string;
-  mode: 'metro' | 'metrocable' | 'tranvia' | 'metroplus' | 'encicla' | 'walk' | 'bus';
+  mode: TransportMode;
   duration: number;
   line?: string;
-  station?: { name: string; lat: number; lng: number; };
+  station?: { nameRef?: string; name?: string; lat?: number; lng?: number };
   cost?: number;
 }
 
-// Global cache for stations to avoid re-fetching
 let stationsCache: Station[] = [];
 
 async function getStations() {
@@ -36,10 +51,9 @@ async function getStations() {
 function routeToBusOption(route: IntegratedRoute, originStationName: string, destStationName: string, prefix: string): RouteOption {
   const firstStop = route.stops[0];
   const lastStop = route.stops[route.stops.length - 1];
-  // Estimate 2 minutes per stop + a 5 min buffer for board/alight, clamped at 120 min.
   const driveMinutes = Math.min(120, route.stops.length * 2 + 5);
   return {
-    id: `${prefix}-${route.id}`,
+    id: prefix + '-' + route.id,
     modes: ['walk', 'bus', 'walk'],
     duration: driveMinutes,
     cost: 0,
@@ -53,37 +67,17 @@ function routeToBusOption(route: IntegratedRoute, originStationName: string, des
     userOrigin: { name: originStationName, lat: NaN, lng: NaN },
     userDest: { name: destStationName, lat: NaN, lng: NaN },
     steps: [
-      {
-        instruction: `Camina hasta la parada "${firstStop ? firstStop.name : originStationName}"`,
-        mode: 'walk',
-        duration: 5,
-        cost: 0
-      },
-      {
-        instruction: `Toma el Bus Integrado ${route.id} (${route.name})`,
-        mode: 'bus',
-        duration: driveMinutes - 10,
-        line: route.name,
-        cost: 0
-      },
-      {
-        instruction: `Baja en "${lastStop ? lastStop.name : destStationName}" y camina a tu destino`,
-        mode: 'walk',
-        duration: 5,
-        cost: 0
-      }
+      { instruction: 'Camina hasta la parada "' + (firstStop ? firstStop.name : originStationName) + '"', mode: 'walk', duration: 5, cost: 0 },
+      { instruction: 'Toma el Bus Integrado ' + route.id + ' (' + route.name + ')', mode: 'bus', duration: driveMinutes - 10, line: route.name, cost: 0 },
+      { instruction: 'Baja en "' + (lastStop ? lastStop.name : destStationName) + '" y camina a tu destino', mode: 'walk', duration: 5, cost: 0 }
     ]
   };
 }
 
 export async function getRoute(start: string, end: string): Promise<RouteOption[]> {
   const stations = await getStations();
-
-  // Find matching stations or use defaults
-  const startStation = stations.find(s => s.nombre.toLowerCase().includes(start.toLowerCase()))?.nombre || start;
-  const endStation = stations.find(s => s.nombre.toLowerCase().includes(end.toLowerCase()))?.nombre || end;
-
-  // Simulate network delay
+  const startStation = stations.find(s => s.nombre.toLowerCase().indexOf(start.toLowerCase()) !== -1)?.nombre || start;
+  const endStation = stations.find(s => s.nombre.toLowerCase().indexOf(end.toLowerCase()) !== -1)?.nombre || end;
   await new Promise(resolve => setTimeout(resolve, 800));
 
   const results: RouteOption[] = [
@@ -94,8 +88,8 @@ export async function getRoute(start: string, end: string): Promise<RouteOption[
       cost: 3430,
       transfers: 0,
       steps: [
-        { instruction: `Walk to ${startStation} Station`, mode: 'walk', duration: 4, cost: 0 },
-        { instruction: `Take Metro towards ${endStation}`, mode: 'metro', duration: 15, line: 'L\u00ednea A', cost: 3430 },
+        { instruction: 'Walk to ' + startStation + ' Station', mode: 'walk', duration: 4, cost: 0 },
+        { instruction: 'Take Metro towards ' + endStation, mode: 'metro', duration: 15, line: 'Linea A', cost: 3430 },
         { instruction: 'Walk to destination', mode: 'walk', duration: 3, cost: 0 }
       ]
     },
@@ -106,8 +100,8 @@ export async function getRoute(start: string, end: string): Promise<RouteOption[
       cost: 3430,
       transfers: 1,
       steps: [
-        { instruction: `Take EnCicla near ${startStation}`, mode: 'encicla', duration: 6, cost: 0 },
-        { instruction: `Take Metro to ${endStation}`, mode: 'metro', duration: 10, line: 'L\u00ednea A', cost: 3430 },
+        { instruction: 'Take EnCicla near ' + startStation, mode: 'encicla', duration: 6, cost: 0 },
+        { instruction: 'Take Metro to ' + endStation, mode: 'metro', duration: 10, line: 'Linea A', cost: 3430 },
         { instruction: 'Walk to destination', mode: 'walk', duration: 2, cost: 0 }
       ]
     }
@@ -129,8 +123,6 @@ export async function getStationStatus(stationId: string): Promise<string> {
   try {
     const news = await fetchMetroNews();
     const stationLower = stationId.toLowerCase();
-    
-    // Buscar en las noticias de las \u00faltimas 12 horas
     const now = new Date();
     const recentNews = news.filter(n => {
       const pubDate = new Date(n.pubDate);
@@ -139,18 +131,18 @@ export async function getStationStatus(stationId: string): Promise<string> {
 
     for (const item of recentNews) {
       const title = item.title.toLowerCase();
-      if (title.includes(stationLower) || (stationLower.includes('l\u00ednea') && title.includes(stationLower))) {
-        if (title.includes('cierre') || title.includes('cerrada') || title.includes('fuera de servicio')) {
-          return `Alerta: ${item.title}. Se reporta cierre o suspensi\u00f3n.`;
+      if (title.indexOf(stationLower) !== -1 || (stationLower.indexOf('linea') !== -1 && title.indexOf(stationLower) !== -1)) {
+        if (title.indexOf('cierre') !== -1 || title.indexOf('cerrada') !== -1 || title.indexOf('fuera de servicio') !== -1) {
+          return 'Alerta: ' + item.title + '. Se reporta cierre o suspension.';
         }
-        if (title.includes('falla') || title.includes('retraso')) {
-          return `Aviso: ${item.title}. Se reportan retrasos t\u00e9cnicos.`;
+        if (title.indexOf('falla') !== -1 || title.indexOf('retraso') !== -1) {
+          return 'Aviso: ' + item.title + '. Se reportan retrasos tecnicos.';
         }
       }
     }
 
-    return 'Operaci\u00f3n normal seg\u00fan los \u00faltimos reportes de noticias.';
+    return 'Operacion normal segun los ultimos reportes de noticias.';
   } catch (e) {
-    return 'Operaci\u00f3n normal (No se pudo verificar noticias en tiempo real).';
+    return 'Operacion normal (No se pudo verificar noticias en tiempo real).';
   }
 }

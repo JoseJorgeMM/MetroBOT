@@ -21,12 +21,12 @@ export default function App() {
   const [showSupport, setShowSupport] = useState(false);
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [messages, setMessages] = useState<{role: 'user' | 'assistant', content: string}[]>([
-    { role: 'assistant', content: '¡Qué más! Soy MetroBot. ¿A dónde quieres ir hoy en Medellín? También puedes tocar el mapa para marcar tu Punto de Inicio y Destino.' }
+    { role: 'assistant', content: 'Que mas! Soy MetroBot. A donde quieres ir hoy en Medellin? Tambien puedes tocar el mapa para marcar tu Punto de Inicio y Destino.' }
   ]);
   const [routes, setRoutes] = useState<RouteOption[]>([]);
   const [activeRouteIndex, setActiveRouteIndex] = useState(0);
   const [sheetHeight, setSheetHeight] = useState<'min' | 'mid' | 'max'>('mid');
-  
+
   const [origin, setOrigin] = useState<{lat: number, lng: number, name?: string} | null>(null);
   const [dest, setDest] = useState<{lat: number, lng: number, name?: string} | null>(null);
 
@@ -56,7 +56,7 @@ export default function App() {
       setWeather(data);
     }
     updateWeather();
-    const timer = setInterval(updateWeather, 600000); // Cada 10 min
+    const timer = setInterval(updateWeather, 600000);
     return () => clearInterval(timer);
   }, []);
 
@@ -78,9 +78,9 @@ export default function App() {
     if (!customQuery) setQuery('');
     setMessages(prev => [...prev, { role: 'user', content: visualMessage || textToProcess }]);
     setIsLoading(true);
-    setRoutes([]); // Clear previous routes
-    setActiveRouteIndex(0); // Reset selected route
-    setSheetHeight('mid'); // Snap back to middle split when query is submitted to see loading & map
+    setRoutes([]);
+    setActiveRouteIndex(0);
+    setSheetHeight('mid');
 
     const response = await processUserQuery(
       textToProcess,
@@ -107,20 +107,18 @@ export default function App() {
   };
 
   const handleSearchRoute = (
-    searchOrigin: {lat: number, lng: number, name: string}, 
+    searchOrigin: {lat: number, lng: number, name: string},
     searchDest: {lat: number, lng: number, name: string}
   ) => {
     setOrigin({lat: searchOrigin.lat, lng: searchOrigin.lng, name: searchOrigin.name});
     setDest({lat: searchDest.lat, lng: searchDest.lng, name: searchDest.name});
-    
+
     setSheetHeight('mid');
     const originText = searchOrigin.name.split(',')[0];
     const destText = searchDest.name.split(',')[0];
-    const finalMessage = `Busca la mejor ruta en SITVA para ir de "${originText}" a "${destText}". (LAT ${searchOrigin.lat}, LNG ${searchOrigin.lng} a LAT ${searchDest.lat}, LNG ${searchDest.lng}). Busca estaciones de SITVA y ENCICLA cercanas y dame la ruta. 
-REGLA MUY IMPORTANTE: Usa EXACTAMENTE los nombres y líneas de las estaciones como aparecen en los DATOS DE ESTACIONES provistos. NUNCA inventes nombres, sistemas, o líneas. Por ejemplo, "Doce de Octubre" es Metrocable Línea P, NO Metroplus. Si la estación es de EnCicla, llámala "EnCicla - [Nombre]". 
-El mensaje para el usuario no debe contener coordenadas.`;
-    
-    handleSubmit(null, finalMessage, `Ruta desde ${originText} hasta ${destText}`, {
+    const finalMessage = 'Busca la mejor ruta en SITVA para ir de "' + originText + '" a "' + destText + '". (LAT ' + searchOrigin.lat + ', LNG ' + searchOrigin.lng + ' a LAT ' + searchDest.lat + ', LNG ' + searchDest.lng + '). Busca estaciones de SITVA y ENCICLA cercanas y dame la ruta. REGLA MUY IMPORTANTE: Usa EXACTAMENTE los nombres y lineas de las estaciones como aparecen en los DATOS DE ESTACIONES provistos. NUNCA inventes nombres, sistemas, o lineas. Por ejemplo, "Doce de Octubre" es Metrocable Linea P, NO Metroplus. Si la estacion es de EnCicla, llamala "EnCicla - [Nombre]". El mensaje para el usuario no debe contener coordenadas.';
+
+    handleSubmit(null, finalMessage, 'Ruta desde ' + originText + ' hasta ' + destText, {
       origin: { lat: searchOrigin.lat, lng: searchOrigin.lng },
       dest: { lat: searchDest.lat, lng: searchDest.lng }
     });
@@ -143,7 +141,7 @@ El mensaje para el usuario no debe contener coordenadas.`;
   return (
     <div className="relative w-full h-[100dvh] overflow-hidden bg-background text-foreground flex flex-col md:flex-row font-sans transition-colors duration-300">
       <div className="absolute inset-0 z-0 md:relative md:flex-1 h-full">
-        <MapComponent 
+        <MapComponent
           onSearchRoute={handleSearchRoute}
           origin={origin}
           dest={dest}
@@ -165,28 +163,30 @@ El mensaje para el usuario no debe contener coordenadas.`;
       </div>
 
       <div className={`absolute bottom-0 left-0 right-0 z-20 flex flex-col bg-card border-t border-border/30 md:border-t-0 md:border-l md:border-sidebar-border transition-all duration-300 ease-in-out md:relative md:w-96 md:h-full md:rounded-none md:shadow-xl ${heightClasses[sheetHeight]} md:h-full overflow-hidden`}>
-        <div 
+        <div
           className="w-full h-8 flex flex-col items-center justify-start pt-2.5 cursor-pointer shrink-0 md:hidden z-30 select-none hover:bg-slate-100/40 dark:hover:bg-slate-800/10 transition-colors"
           onClick={handleDragHandleClick}
         >
           <div className="w-12 h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full mb-1" />
           {sheetHeight === 'min' && <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">{routes.length > 0 ? 'Ver rutas y chat' : 'Toca para abrir MetroBot'}</span>}
           {sheetHeight === 'mid' && <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">Expandir Chat</span>}
-          {sheetHeight === 'max' && <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">Minimizar</span>}
+          {sheetHeight === 'max' && <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">Minimizar Chat</span>}
         </div>
 
-        <div className={`flex items-center justify-between px-5 py-4 border-b border-border/20 shrink-0 ${sheetHeight === 'min' ? 'hidden md:flex' : 'flex'}`}>
-          <div className="flex items-center space-x-3">
-            <img src="/logo_chat.png" alt="MetroBot" className="w-9 h-9 rounded-full shadow-md object-cover bg-card border border-border" />
+        <div className="px-4 pt-3 pb-2 flex items-center justify-between border-b border-border/30 shrink-0">
+          <div className="flex items-center space-x-2">
+            <div className="w-7 h-7 rounded-full bg-sitva-green/10 flex items-center justify-center">
+              <img src="/logo_chat.png" alt="MetroBot" className="w-6 h-6 rounded-full object-cover" />
+            </div>
             <div>
-              <h2 className="font-bold text-foreground text-base leading-tight">MetroBot</h2>
-              <p className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">Asistente de Movilidad SITVA</p>
+              <h2 className="text-sm font-bold text-foreground leading-tight">MetroBot</h2>
+              <p className="text-[10px] text-slate-400 dark:text-slate-500 leading-tight">Asistente SITVA</p>
             </div>
           </div>
           <div className="flex items-center space-x-1">
-            <Button 
-              variant="ghost" 
-              size="icon" 
+            <Button
+              variant="ghost"
+              size="icon"
               className={`rounded-full transition-colors ${showSupport ? 'text-sitva-green bg-sitva-green/10' : 'text-foreground hover:bg-slate-100 dark:hover:bg-slate-800'} cursor-pointer`}
               onClick={() => {
                 setShowSupport(!showSupport);
@@ -196,9 +196,9 @@ El mensaje para el usuario no debe contener coordenadas.`;
               <HelpCircle className="w-5 h-5" />
             </Button>
             <div className="hidden md:block">
-              <Button 
-                variant="ghost" 
-                size="icon" 
+              <Button
+                variant="ghost"
+                size="icon"
                 className="rounded-full text-foreground hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
                 onClick={() => setDarkMode(!darkMode)}
               >
@@ -211,7 +211,7 @@ El mensaje para el usuario no debe contener coordenadas.`;
         <div className={`flex-1 overflow-y-auto p-4 space-y-4 bg-background custom-scrollbar ${sheetHeight === 'min' ? 'hidden md:block' : 'block'}`}>
           <AnimatePresence>
             {weather?.isRaining && (
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="p-3 bg-sitva-blue/10 dark:bg-sitva-blue/20 border border-sitva-blue/30 rounded-xl flex items-center gap-3 mb-4"
@@ -221,7 +221,7 @@ El mensaje para el usuario no debe contener coordenadas.`;
                 </div>
                 <div>
                   <h4 className="text-[11px] font-bold text-sitva-blue uppercase tracking-wider">Alerta de Lluvia</h4>
-                  <p className="text-[10px] text-foreground/80 leading-tight">Actualmente llueve en Medellín ({weather.temperature}°C). Metrocables podrían operar con intermitencia.</p>
+                  <p className="text-[10px] text-foreground/80 leading-tight">Actualmente llueve en Medellin ({weather.temperature}C). Metrocables podrian operar con intermitencia.</p>
                 </div>
               </motion.div>
             )}
@@ -239,7 +239,16 @@ El mensaje para el usuario no debe contener coordenadas.`;
               </motion.div>
             )}
           </AnimatePresence>
-          
+
+          {routes.length > 0 && (
+            <div className="p-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200/60 dark:border-amber-900/60 rounded-xl flex items-start gap-3" role="status">
+              <div className="text-amber-600 dark:text-amber-400 font-bold text-[10px] uppercase tracking-wider shrink-0 mt-0.5">Aviso</div>
+              <p className="text-[11px] text-slate-700 dark:text-slate-300 leading-snug">
+                Las rutas mostradas son candidatas calculadas con tus coordenadas y los datos oficiales del SITVA. Cuando veas la insignia <span className="font-bold text-emerald-700 dark:text-emerald-400">validado</span>, cada bus integrado fue verificado contra nuestro catalogo. <span className="font-bold text-amber-700 dark:text-amber-400">sin validar</span> significa que la IA no pudo verificar un tramo; revisa el mapa antes de abordar.
+              </p>
+            </div>
+          )}
+
           <div className="space-y-4 mb-4">
             {messages.map((msg, idx) => (
               <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start items-end space-x-2'}`}>
@@ -247,8 +256,8 @@ El mensaje para el usuario no debe contener coordenadas.`;
                   <img src="/logo_chat.png" alt="MetroBot" className="w-8 h-8 rounded-full shadow-sm object-cover shrink-0 bg-white dark:bg-slate-850" />
                 )}
                 <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-sm ${
-                  msg.role === 'user' 
-                    ? 'bg-chat-bubble-user text-chat-bubble-user-text rounded-br-sm' 
+                  msg.role === 'user'
+                    ? 'bg-chat-bubble-user text-chat-bubble-user-text rounded-br-sm'
                     : 'bg-chat-bubble-assistant text-chat-bubble-assistant-text rounded-bl-sm'
                 }`}>
                   {msg.content}
@@ -270,7 +279,7 @@ El mensaje para el usuario no debe contener coordenadas.`;
 
           <AnimatePresence>
             {routes.length > 0 && (
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
@@ -279,9 +288,9 @@ El mensaje para el usuario no debe contener coordenadas.`;
                 <h3 className="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider px-1">Rutas Sugeridas</h3>
                 {routes.map((route, idx) => (
                   <div key={route.id} onClick={() => setActiveRouteIndex(idx)} className="cursor-pointer">
-                    <RouteCard 
-                      route={route} 
-                      isSelected={activeRouteIndex === idx} 
+                    <RouteCard
+                      route={route}
+                      isSelected={activeRouteIndex === idx}
                     />
                   </div>
                 ))}
@@ -290,31 +299,25 @@ El mensaje para el usuario no debe contener coordenadas.`;
           </AnimatePresence>
         </div>
 
-        <div className="p-4 bg-sidebar-bg border-t border-sidebar-border shrink-0 relative z-20">
-          <form onSubmit={handleSubmit} className="relative flex items-center mb-2">
-            <Input 
+        <form onSubmit={handleSubmit} className="p-3 bg-card border-t border-border/30 shrink-0">
+          <div className="flex items-center space-x-2">
+            <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              onFocus={() => setSheetHeight('max')}
-              placeholder="Escribe un mensaje o lugar..." 
-              className="pr-12 bg-input border-border text-foreground placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-sitva-green/50 focus-visible:bg-card text-[15px]"
+              placeholder="Preguntale a MetroBot..."
+              className="flex-1 rounded-full bg-muted/30 border-border/30 focus-visible:ring-sitva-green/30"
+              disabled={isLoading}
             />
-            <Button 
-              type="submit" 
-              size="icon" 
-              variant="ghost" 
-              className="absolute right-1 w-10 h-10 text-sitva-green hover:text-sitva-green hover:bg-sitva-green/10 dark:hover:bg-sitva-green/20 rounded-full cursor-pointer"
+            <Button
+              type="submit"
+              size="icon"
               disabled={isLoading || !query.trim()}
+              className="rounded-full bg-sitva-green hover:bg-sitva-green/90 text-white shadow-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <Send className="w-5 h-5" />
+              <Send className="w-4 h-4" />
             </Button>
-          </form>
-          <div className="text-center">
-            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium tracking-wide">
-              Developed by <span className="font-bold text-slate-500 dark:text-slate-400">AI-LAB Jesús Rey</span>
-            </span>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

@@ -1,0 +1,110 @@
+// tests/_routeValidator_impl.mjs
+// Mirror of src/lib/routeValidator.ts. Kept in sync by hand; if you change one,
+// change both. The test runner asserts behavior against this file. The
+// production TS module is the one shipped to the browser.
+
+export const BBOX_VALLE_ABURRA = { latMin: 5.95, latMax: 6.45, lngMin: -75.85, lngMax: -75.30 };
+
+export function clampBbox(p) {
+  if (!p) return false;
+  if (typeof p.lat !== 'number' || typeof p.lng !== 'number') return false;
+  if (Number.isNaN(p.lat) || Number.isNaN(p.lng)) return false;
+  return p.lat >= BBOX_VALLE_ABURRA.latMin && p.lat <= BBOX_VALLE_ABURRA.latMax
+      && p.lng >= BBOX_VALLE_ABURRA.lngMin && p.lng <= BBOX_VALLE_ABURRA.lngMax;
+}
+
+const MAX_BOARDING_DISTANCE_METERS = 400;
+
+function normalize(name) {
+  return name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function distanceMeters(a, b) {
+  const R = 6371e3;
+  const toRad = (d) => (d * Math.PI) / 180;
+  const phi1 = toRad(a.lat);
+  const phi2 = toRad(b.lat);
+  const dPhi = toRad(b.lat - a.lat);
+  const dLambda = toRad(b.lng - a.lng);
+  const x = Math.sin(dPhi / 2) ** 2 + Math.cos(phi1) * Math.cos(phi2) * Math.sin(dLambda / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
+}
+
+function findRoute(routes, line) {
+  if (!line) return undefined;
+  const norm = normalize(line);
+  const direct = routes.find((r) => normalize(r.id) === norm);
+  if (direct) return direct;
+  const byName = routes.find((r) => normalize(r.name) === norm);
+  if (byName) return byName;
+  return routes.find((r) => normalize(r.id).includes(norm) || norm.includes(normalize(r.id)));
+}
+
+function matchStopByName(stops, query) {
+  if (!query) return undefined;
+  const q = normalize(query);
+  let best;
+  for (const s of stops) {
+    const n = normalize(s.name);
+    if (n === q) return s;
+    if (n.includes(q) || q.includes(n)) {
+      if (!best || n.length < normalize(best.name).length) best = s;
+    }
+  }
+  return best;
+}
+
+export function validateBusStep(step, routes) {
+  if (!step || step.mode !== 'bus_articulado') {
+    return { ok: true, reason: 'not-bus-step' };
+  }
+  const route = findRoute(routes, step.line);
+  if (!route) return { ok: false, reason: 'route-not-found' };
+
+  const station = step.station;
+  const queryName = station && (station.nameRef || station.name);
+  if (!queryName) return { ok: false, reason: 'invalid-step', validatedRoute: route };
+
+  const byName = matchStopByName(route.stops, queryName);
+  if (!byName) return { ok: false, reason: 'stop-too-far', validatedRoute: route };
+
+  let bestStop = byName;
+  let bestDist = 0;
+  if (station && typeof station.lat === 'number' && typeof station.lng === 'number') {
+    bestDist = distanceMeters({ lat: station.lat, lng: station.lng }, byName);
+    if (bestDist > MAX_BOARDING_DISTANCE_METERS) {
+      return { ok: false, reason: 'stop-too-far', validatedRoute: route, distanceMeters: bestDist };
+    }
+  }
+  return { ok: true, validatedRoute: route, boardingStop: bestStop, distanceMeters: bestDist };
+}
+
+export function reconstructBusStep(step, routes) {
+  if (!step || step.mode !== 'bus_articulado') {
+    return { step, validation: { ok: true, reason: 'not-bus-step' } };
+  }
+  const v = validateBusStep(step, routes);
+  if (v.ok && v.validatedRoute && v.boardingStop) {
+    const newStep = {
+      ...step,
+      instruction: `Toma el Bus Integrado ${v.validatedRoute.id} (${v.validatedRoute.stops.length} paradas) en "${v.boardingStop.name}".`,
+      mode: 'bus_articulado',
+      cost: typeof step.cost === 'number' ? step.cost : 0,
+      line: v.validatedRoute.name,
+      station: {
+        nameRef: v.boardingStop.name,
+        lat: v.boardingStop.lat,
+        lng: v.boardingStop.lng,
+      },
+    };
+    return { step: newStep, validation: v };
+  }
+  const degraded = {
+    ...step,
+    instruction: 'Camina hacia tu destino (no pudimos verificar un bus integrado para este tramo).',
+    mode: 'walk',
+    cost: 0,
+    station: undefined,
+  };
+  return { step: degraded, validation: v };
+}
