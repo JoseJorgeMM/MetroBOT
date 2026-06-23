@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { MapComponent } from './components/Map/MapComponent';
 import { Input } from './components/ui/input';
 import { Button } from './components/ui/button';
@@ -12,6 +12,10 @@ import { TariffInfo } from './components/TariffInfo';
 import { SystemStatus } from './components/SystemStatus';
 import { CloudRain, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { NavigationOverlay } from './components/Map/NavigationOverlay';
+import { useNavigation } from './hooks/useNavigation';
+import { useRecentSearches } from './hooks/useRecentSearches';
+import { QuickPicksBar } from './components/QuickPicksBar';
 
 import { fetchMedellinWeather, WeatherData } from './lib/weather';
 
@@ -33,7 +37,6 @@ export default function App() {
     if (typeof window === 'undefined') return false;
     try { return localStorage.getItem(DISCLAIMER_STORAGE_KEY) === '1'; } catch (e) { return false; }
   });
-
   const dismissDisclaimer = () => {
     setDisclaimerDismissed(true);
     try { localStorage.setItem(DISCLAIMER_STORAGE_KEY, '1'); } catch (e) {}
@@ -41,6 +44,30 @@ export default function App() {
 
   const [origin, setOrigin] = useState<{lat: number, lng: number, name?: string} | null>(null);
   const [dest, setDest] = useState<{lat: number, lng: number, name?: string} | null>(null);
+
+  // ----- Hooks ---------------------------------------------------------------
+  const nav = useNavigation();
+  const { push: pushRecent } = useRecentSearches();
+
+  // Haptic on cue change
+  const lastCueRef = useRef<typeof nav.cue>(null);
+  useEffect(() => {
+    if (nav.cue && nav.cue !== lastCueRef.current) {
+      if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') {
+        try { navigator.vibrate([120, 60, 120]); } catch (e) {}
+      }
+      lastCueRef.current = nav.cue;
+    }
+  }, [nav.cue]);
+
+  // Auto-stop navigation after arriving
+  useEffect(() => {
+    if (nav.state === 'arrived') {
+      const id = window.setTimeout(() => nav.stop(), 6000);
+      return () => window.clearTimeout(id);
+    }
+    return undefined;
+  }, [nav.state, nav]);
 
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -74,13 +101,24 @@ export default function App() {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  const scrollToBottom = useCallback(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, routes]);
+  }, [messages, routes, scrollToBottom]);
+
+  const handleStartNav = useCallback((route: RouteOption) => {
+    if (!route) return;
+    if (!origin || !dest) {
+      alert('Marca origen y destino en el mapa antes de iniciar la navegacion.');
+      return;
+    }
+    // Expand the sheet so the NavigationOverlay is visible.
+    setSheetHeight('min');
+    void nav.start(route);
+  }, [nav, origin, dest]);
 
   const handleSubmit = async (e: React.FormEvent | null, customQuery?: string, visualMessage?: string, contextCoords?: { origin?: {lat: number, lng: number}, dest?: {lat: number, lng: number} }) => {
     if (e) e.preventDefault();
@@ -93,6 +131,9 @@ export default function App() {
     setRoutes([]);
     setActiveRouteIndex(0);
     setSheetHeight('mid');
+
+    // Remember this query in the recent-searches MRU.
+    pushRecent(textToProcess, contextCoords ? { coords: contextCoords.origin || contextCoords.dest } : undefined);
 
     const response = await processUserQuery(
       textToProcess,
@@ -124,12 +165,10 @@ export default function App() {
   ) => {
     setOrigin({lat: searchOrigin.lat, lng: searchOrigin.lng, name: searchOrigin.name});
     setDest({lat: searchDest.lat, lng: searchDest.lng, name: searchDest.name});
-
     setSheetHeight('mid');
     const originText = searchOrigin.name.split(',')[0];
     const destText = searchDest.name.split(',')[0];
     const finalMessage = 'Busca la mejor ruta en SITVA para ir de "' + originText + '" a "' + destText + '". (LAT ' + searchOrigin.lat + ', LNG ' + searchOrigin.lng + ' a LAT ' + searchDest.lat + ', LNG ' + searchDest.lng + '). Busca estaciones de SITVA y ENCICLA cercanas y dame la ruta. REGLA MUY IMPORTANTE: Usa EXACTAMENTE los nombres y lineas de las estaciones como aparecen en los DATOS DE ESTACIONES provistos. NUNCA inventes nombres, sistemas, o lineas. Por ejemplo, "Doce de Octubre" es Metrocable Linea P, NO Metroplus. Si la estacion es de EnCicla, llamala "EnCicla - [Nombre]". El mensaje para el usuario no debe contener coordenadas.';
-
     handleSubmit(null, finalMessage, 'Ruta desde ' + originText + ' hasta ' + destText, {
       origin: { lat: searchOrigin.lat, lng: searchOrigin.lng },
       dest: { lat: searchDest.lat, lng: searchDest.lng }
@@ -200,6 +239,8 @@ export default function App() {
     setSheetHeight(nearestSnap(frac));
   };
 
+  const navFollow = nav.state === 'navigating' || nav.state === 'at_station' || nav.state === 'locating';
+
   return (
     <div className="relative w-full h-[100dvh] overflow-hidden bg-background text-foreground flex flex-col lg:flex-row font-sans transition-colors duration-300">
       <div className="absolute inset-0 z-0 lg:relative lg:flex-1 h-full">
@@ -216,8 +257,27 @@ export default function App() {
             setRoutes([]);
             setOrigin(null);
             setDest(null);
+            nav.stop();
           }}
           onThemeToggle={() => setDarkMode(!darkMode)}
+          userPosition={nav.pos}
+          userHeading={nav.heading}
+          followUser={navFollow}
+        />
+        <NavigationOverlay nav={nav} />
+        <QuickPicksBar
+          onPickFavorite={(fav) => {
+            // Drop the favorite into the origin input and let the user pick a destination.
+            setOrigin({ lat: fav.lat, lng: fav.lng, name: fav.name });
+          }}
+          onPickRecent={(entry) => {
+            if (entry.coords) {
+              setOrigin({ lat: entry.coords.lat, lng: entry.coords.lng, name: entry.query });
+            } else {
+              setQuery(entry.query);
+              void handleSubmit(null, entry.query, 'Repitiendo busqueda reciente');
+            }
+          }}
         />
         <div className="hidden lg:block absolute bottom-6 left-6 z-[1000] pointer-events-none">
           <SupportCard />
@@ -365,6 +425,10 @@ export default function App() {
                     <RouteCard
                       route={route}
                       isSelected={activeRouteIndex === idx}
+                      originName={origin?.name ?? null}
+                      destName={dest?.name ?? null}
+                      onStartNav={handleStartNav}
+                      navState={nav.state}
                     />
                   </div>
                 ))}

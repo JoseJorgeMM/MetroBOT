@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Card, CardContent } from '../ui/card';
 import { RouteOption } from '@/src/lib/routing';
-import { Train, CableCar, TramFront, Bus, Bike, Footprints, Clock, DollarSign, ShieldCheck, ShieldAlert } from 'lucide-react';
+import { Train, CableCar, TramFront, Bus, Bike, Footprints, Clock, DollarSign, ShieldCheck, ShieldAlert, Navigation2 } from 'lucide-react';
+import { ShareButton } from '../ShareButton';
 
 const ModeIcon = ({ mode, className }: { mode: string, className?: string }) => {
   switch (mode) {
@@ -97,6 +98,10 @@ export interface RouteValidation {
 export interface RouteCardProps {
   route: RouteOption & { validation?: RouteValidation };
   isSelected?: boolean;
+  originName?: string | null;
+  destName?: string | null;
+  onStartNav?: (route: RouteOption) => void;
+  navState?: 'idle' | 'locating' | 'navigating' | 'at_station' | 'arrived' | null;
 }
 
 const RealStopsPanel = ({ leg }: { leg: BusLegValidation }) => {
@@ -124,12 +129,15 @@ const RealStopsPanel = ({ leg }: { leg: BusLegValidation }) => {
   );
 };
 
-export function RouteCard({ route, isSelected }: RouteCardProps) {
+export function RouteCard({ route, isSelected, originName, destName, onStartNav, navState }: RouteCardProps) {
   const primaryMode = route.modes.find(m => m !== 'walk') || 'walk';
   const validation = route.validation;
   const hasBusLegs = (validation?.busLegs?.length ?? 0) > 0;
   const showValidatedBadge = hasBusLegs && validation?.ok;
   const showUnvalidatedBadge = hasBusLegs && !validation?.ok;
+  const hasWalkSegment = (route.steps || []).some((s) => s && (s.mode === 'walk' || s.mode === 'encicla'));
+  const navIsActive = navState === 'navigating' || navState === 'at_station' || navState === 'locating';
+  const showStartNavButton = !!onStartNav && !navIsActive && hasWalkSegment;
 
   return (
     <Card className={'mb-3 sm:mb-4 overflow-hidden border-0 shadow-md ring-1 transition-all duration-200 ' + (isSelected ? 'ring-sitva-green ring-2 shadow-lg bg-emerald-50/30 dark:bg-emerald-950/10 transform scale-[1.02]' : 'ring-slate-200/50 dark:ring-slate-800/80 hover:bg-slate-50 dark:hover:bg-slate-800/40 bg-card')}>
@@ -204,6 +212,28 @@ export function RouteCard({ route, isSelected }: RouteCardProps) {
               </div>
             );
           })}
+        </div>
+
+        <div className="mt-4 pt-3 border-t border-border flex items-center justify-between gap-2 flex-wrap">
+          {showStartNavButton ? (
+            <button
+              type="button"
+              onClick={() => onStartNav && onStartNav(route)}
+              className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-full bg-sitva-green hover:bg-sitva-green/90 text-white text-sm font-bold shadow-md cursor-pointer active:scale-95 transition-transform"
+            >
+              <Navigation2 className="w-5 h-5" />
+              Iniciar navegacion
+            </button>
+          ) : navIsActive ? (
+            <span className="inline-flex items-center gap-2 px-3 py-2 min-h-[44px] rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-sm font-bold">
+              <Navigation2 className="w-4 h-4" /> Navegacion activa
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-2 px-3 py-2 min-h-[44px] rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-semibold">
+              <Navigation2 className="w-4 h-4" /> Ruta sin tramos a pie
+            </span>
+          )}
+          <ShareButton route={route} originName={originName} destName={destName} className="ml-auto" />
         </div>
       </CardContent>
     </Card>

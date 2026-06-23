@@ -3,6 +3,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Search, MapPin, Loader2, X, ArrowDownUp, Navigation, Locate, MousePointerClick } from 'lucide-react';
 import { useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
+import { Star } from 'lucide-react';
+import { useFavorites } from '../../hooks/useFavorites';
 
 interface SearchResult {
   place_id: string | number;
@@ -42,6 +44,8 @@ export function MapSearch({
   const [loading, setLoading] = useState(false);
   const [mapSelectionMode, setMapSelectionMode] = useState<'origin' | 'dest' | null>(null);
   const [isCollapsed, setIsCollapsed] = useState(true);
+  const favHook = useFavorites();
+
   
   const map = useMap();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
