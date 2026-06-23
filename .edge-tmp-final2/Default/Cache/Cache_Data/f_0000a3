@@ -1,0 +1,505 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/components/RouteCards/RouteCard.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=5321f900"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+var _s = $RefreshSig$();
+import __vite__cjsImport1_react from "/node_modules/.vite/deps/react.js?v=5321f900"; const React = __vite__cjsImport1_react.__esModule ? __vite__cjsImport1_react.default : __vite__cjsImport1_react; const useState = __vite__cjsImport1_react["useState"];
+import { Card, CardContent } from "/src/components/ui/card.tsx";
+import { Train, CableCar, TramFront, Bus, Bike, Footprints, Clock, DollarSign, ShieldCheck, ShieldAlert, Navigation } from "/node_modules/.vite/deps/lucide-react.js?v=5321f900";
+const ModeIcon = ({ mode, className }) => {
+  switch (mode) {
+    case "metro":
+      return /* @__PURE__ */ jsxDEV(Train, { className }, void 0, false, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+        lineNumber: 8,
+        columnNumber: 25
+      }, this);
+    case "metrocable":
+      return /* @__PURE__ */ jsxDEV(CableCar, { className }, void 0, false, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+        lineNumber: 9,
+        columnNumber: 30
+      }, this);
+    case "tranvia":
+      return /* @__PURE__ */ jsxDEV(TramFront, { className }, void 0, false, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+        lineNumber: 10,
+        columnNumber: 27
+      }, this);
+    case "metroplus":
+      return /* @__PURE__ */ jsxDEV(Bus, { className }, void 0, false, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+        lineNumber: 11,
+        columnNumber: 29
+      }, this);
+    case "bus":
+    case "bus_articulado":
+      return /* @__PURE__ */ jsxDEV(Bus, { className }, void 0, false, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+        lineNumber: 13,
+        columnNumber: 34
+      }, this);
+    case "encicla":
+      return /* @__PURE__ */ jsxDEV(Bike, { className }, void 0, false, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+        lineNumber: 14,
+        columnNumber: 27
+      }, this);
+    case "walk":
+      return /* @__PURE__ */ jsxDEV(Footprints, { className }, void 0, false, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+        lineNumber: 15,
+        columnNumber: 24
+      }, this);
+    default:
+      return /* @__PURE__ */ jsxDEV(Footprints, { className }, void 0, false, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+        lineNumber: 16,
+        columnNumber: 20
+      }, this);
+  }
+};
+_c = ModeIcon;
+const ModeColor = (mode) => {
+  switch (mode) {
+    case "metro":
+      return "text-sitva-green";
+    case "metrocable":
+      return "text-sitva-red";
+    case "tranvia":
+      return "text-sitva-green";
+    case "metroplus":
+      return "text-sitva-blue";
+    case "bus":
+    case "bus_articulado":
+      return "text-amber-600 dark:text-amber-500";
+    case "encicla":
+      return "text-encicla";
+    case "walk":
+      return "text-slate-400";
+    default:
+      return "text-slate-400";
+  }
+};
+_c2 = ModeColor;
+const VehicleVisual = ({ mode }) => {
+  const baseClasses = "w-full h-24 rounded-xl mb-4 flex items-center justify-center relative overflow-hidden";
+  if (mode === "metro") {
+    return /* @__PURE__ */ jsxDEV("div", { className: `${baseClasses} bg-emerald-600`, children: [
+      /* @__PURE__ */ jsxDEV("div", { className: "absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent" }, void 0, false, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+        lineNumber: 40,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "flex flex-col items-center z-10", children: [
+        /* @__PURE__ */ jsxDEV(Train, { className: "w-12 h-12 text-white mb-1" }, void 0, false, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+          lineNumber: 42,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("span", { className: "text-[10px] font-bold text-emerald-100 uppercase tracking-widest", children: "Sistema Metro" }, void 0, false, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+          lineNumber: 43,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+        lineNumber: 41,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "absolute bottom-0 left-0 right-0 h-1 bg-white/20" }, void 0, false, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+        lineNumber: 45,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+      lineNumber: 39,
+      columnNumber: 7
+    }, this);
+  }
+  if (mode === "bus" || mode === "bus_articulado" || mode === "metroplus") {
+    const isMetroplus = mode === "metroplus";
+    return /* @__PURE__ */ jsxDEV("div", { className: `${baseClasses} ${isMetroplus ? "bg-blue-600" : "bg-amber-500"}`, children: [
+      /* @__PURE__ */ jsxDEV("div", { className: "absolute inset-0 opacity-20 bg-[linear-gradient(45deg,_white_25%,_transparent_25%,_transparent_50%,_white_50%,_white_75%,_transparent_75%,_transparent)] bg-[length:20px_20px]" }, void 0, false, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+        lineNumber: 54,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "flex flex-col items-center z-10", children: [
+        /* @__PURE__ */ jsxDEV(Bus, { className: "w-12 h-12 text-white mb-1" }, void 0, false, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+          lineNumber: 56,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("span", { className: "text-[10px] font-bold text-white/90 uppercase tracking-widest", children: isMetroplus ? "Metroplús" : "Bus Integrado" }, void 0, false, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+          lineNumber: 57,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+        lineNumber: 55,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+      lineNumber: 53,
+      columnNumber: 7
+    }, this);
+  }
+  if (mode === "metrocable") {
+    return /* @__PURE__ */ jsxDEV("div", { className: `${baseClasses} bg-rose-600`, children: [
+      /* @__PURE__ */ jsxDEV("div", { className: "absolute top-4 left-0 right-0 h-0.5 bg-white/30 rotate-[-5deg]" }, void 0, false, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+        lineNumber: 68,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "flex flex-col items-center z-10", children: [
+        /* @__PURE__ */ jsxDEV(CableCar, { className: "w-12 h-12 text-white mb-1" }, void 0, false, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+          lineNumber: 70,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("span", { className: "text-[10px] font-bold text-rose-100 uppercase tracking-widest", children: "Metrocable" }, void 0, false, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+          lineNumber: 71,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+        lineNumber: 69,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+      lineNumber: 67,
+      columnNumber: 7
+    }, this);
+  }
+  return null;
+};
+_c3 = VehicleVisual;
+const RealStopsPanel = ({ leg }) => {
+  _s();
+  const [open, setOpen] = useState(false);
+  const preview = leg.realStops.slice(0, 6);
+  const more = Math.max(0, leg.realStops.length - preview.length);
+  return /* @__PURE__ */ jsxDEV("div", { className: "mt-2 ml-7 border-l-2 border-amber-300/60 pl-3 text-[11px] text-slate-500 dark:text-slate-400", children: [
+    /* @__PURE__ */ jsxDEV(
+      "button",
+      {
+        type: "button",
+        onClick: () => setOpen((o) => !o),
+        className: "font-semibold text-amber-700 dark:text-amber-400 hover:underline cursor-pointer",
+        children: open ? "Ocultar paradas reales" : `Ver paradas reales (${leg.realStops.length})`
+      },
+      void 0,
+      false,
+      {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+        lineNumber: 110,
+        columnNumber: 7
+      },
+      this
+    ),
+    open && /* @__PURE__ */ jsxDEV("ol", { className: "mt-1 space-y-0.5 list-decimal list-inside", children: [
+      preview.map(
+        (s, i) => /* @__PURE__ */ jsxDEV("li", { className: "truncate", children: s.name }, i, false, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+          lineNumber: 120,
+          columnNumber: 9
+        }, this)
+      ),
+      more > 0 && /* @__PURE__ */ jsxDEV("li", { className: "italic", children: [
+        "... y ",
+        more,
+        " m\\u00e1s"
+      ] }, void 0, true, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+        lineNumber: 122,
+        columnNumber: 24
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+      lineNumber: 118,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+    lineNumber: 109,
+    columnNumber: 5
+  }, this);
+};
+_s(RealStopsPanel, "xG1TONbKtDWtdOTrXaTAsNhPg/Q=");
+_c4 = RealStopsPanel;
+export function RouteCard({ route, isSelected, onStartNavigation }) {
+  const primaryMode = route.modes.find((m) => m !== "walk") || "walk";
+  const validation = route.validation;
+  const hasBusLegs = (validation?.busLegs?.length ?? 0) > 0;
+  const showValidatedBadge = hasBusLegs && validation?.ok;
+  const showUnvalidatedBadge = hasBusLegs && !validation?.ok;
+  return /* @__PURE__ */ jsxDEV(Card, { className: `mb-4 overflow-hidden border-0 shadow-md ring-1 transition-all duration-200 ${isSelected ? "ring-sitva-green ring-2 shadow-lg bg-emerald-50/30 dark:bg-emerald-950/10 transform scale-[1.02]" : "ring-slate-200/50 dark:ring-slate-800/80 hover:bg-slate-50 dark:hover:bg-slate-800/40 bg-card"}`, children: /* @__PURE__ */ jsxDEV(CardContent, { className: "p-4", children: [
+    /* @__PURE__ */ jsxDEV(VehicleVisual, { mode: primaryMode }, void 0, false, {
+      fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+      lineNumber: 139,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "flex justify-between items-start mb-4", children: [
+      /* @__PURE__ */ jsxDEV("div", { className: "flex items-center space-x-2", children: [
+        /* @__PURE__ */ jsxDEV(Clock, { className: "w-5 h-5 text-slate-500 dark:text-slate-400" }, void 0, false, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+          lineNumber: 143,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV("span", { className: "text-2xl font-bold text-foreground", children: [
+          route.duration,
+          " ",
+          /* @__PURE__ */ jsxDEV("span", { className: "text-sm font-normal text-slate-500 dark:text-slate-400", children: "min" }, void 0, false, {
+            fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+            lineNumber: 144,
+            columnNumber: 83
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+          lineNumber: 144,
+          columnNumber: 13
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+        lineNumber: 142,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "flex items-center space-x-2", children: [
+        showValidatedBadge && /* @__PURE__ */ jsxDEV(
+          "span",
+          {
+            className: "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300",
+            title: "Cada bus integrado de esta ruta fue validado contra el cat\\u00e1logo oficial del Metro de Medell\\u00edn.",
+            children: [
+              /* @__PURE__ */ jsxDEV(ShieldCheck, { className: "w-3 h-3" }, void 0, false, {
+                fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+                lineNumber: 152,
+                columnNumber: 17
+              }, this),
+              "validado"
+            ]
+          },
+          void 0,
+          true,
+          {
+            fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+            lineNumber: 148,
+            columnNumber: 13
+          },
+          this
+        ),
+        showUnvalidatedBadge && /* @__PURE__ */ jsxDEV(
+          "span",
+          {
+            className: "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300",
+            title: `No pudimos verificar ${validation?.degradedSteps ?? 0} tramo(s) de bus. Te recomendamos revisar el mapa antes de abordar.`,
+            children: [
+              /* @__PURE__ */ jsxDEV(ShieldAlert, { className: "w-3 h-3" }, void 0, false, {
+                fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+                lineNumber: 161,
+                columnNumber: 17
+              }, this),
+              "sin validar"
+            ]
+          },
+          void 0,
+          true,
+          {
+            fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+            lineNumber: 157,
+            columnNumber: 13
+          },
+          this
+        ),
+        /* @__PURE__ */ jsxDEV("div", { className: "flex items-center space-x-1 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-full", children: [
+          /* @__PURE__ */ jsxDEV(DollarSign, { className: "w-4 h-4 text-slate-600 dark:text-slate-400" }, void 0, false, {
+            fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+            lineNumber: 166,
+            columnNumber: 15
+          }, this),
+          /* @__PURE__ */ jsxDEV("span", { className: "text-sm font-semibold text-slate-700 dark:text-slate-300", children: route.cost.toLocaleString("es-CO") }, void 0, false, {
+            fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+            lineNumber: 167,
+            columnNumber: 15
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+          lineNumber: 165,
+          columnNumber: 13
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+        lineNumber: 146,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+      lineNumber: 141,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "flex items-center space-x-2 mb-4", children: route.modes.map(
+      (mode, index) => /* @__PURE__ */ jsxDEV(React.Fragment, { children: [
+        /* @__PURE__ */ jsxDEV("div", { className: `p-2 rounded-full bg-slate-50 dark:bg-slate-800/60 ${ModeColor(mode)}`, children: /* @__PURE__ */ jsxDEV(ModeIcon, { mode, className: "w-5 h-5" }, void 0, false, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+          lineNumber: 176,
+          columnNumber: 17
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+          lineNumber: 175,
+          columnNumber: 15
+        }, this),
+        index < route.modes.length - 1 && /* @__PURE__ */ jsxDEV("div", { className: "h-0.5 w-4 bg-slate-200 dark:bg-slate-800 rounded-full" }, void 0, false, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+          lineNumber: 179,
+          columnNumber: 13
+        }, this)
+      ] }, index, true, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+        lineNumber: 174,
+        columnNumber: 11
+      }, this)
+    ) }, void 0, false, {
+      fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+      lineNumber: 172,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "space-y-3 mt-4 pt-4 border-t border-border", children: route.steps.map((step, index) => {
+      const leg = validation?.busLegs?.find((l) => l.routeId && step.line === l.routeName);
+      return /* @__PURE__ */ jsxDEV("div", { children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "flex items-start space-x-3", children: [
+          /* @__PURE__ */ jsxDEV("div", { className: `mt-0.5 ${ModeColor(step.mode)}`, children: /* @__PURE__ */ jsxDEV(ModeIcon, { mode: step.mode, className: "w-4 h-4" }, void 0, false, {
+            fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+            lineNumber: 192,
+            columnNumber: 21
+          }, this) }, void 0, false, {
+            fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+            lineNumber: 191,
+            columnNumber: 19
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { className: "flex-1", children: [
+            /* @__PURE__ */ jsxDEV("p", { className: "text-sm text-slate-700 dark:text-slate-300", children: step.instruction }, void 0, false, {
+              fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+              lineNumber: 195,
+              columnNumber: 21
+            }, this),
+            step.line && /* @__PURE__ */ jsxDEV("p", { className: "text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5", children: step.line }, void 0, false, {
+              fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+              lineNumber: 196,
+              columnNumber: 35
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+            lineNumber: 194,
+            columnNumber: 19
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { className: "flex items-center space-x-2 shrink-0", children: [
+            /* @__PURE__ */ jsxDEV("span", { className: "text-xs font-semibold text-slate-600 dark:text-slate-400", children: step.cost !== void 0 ? `$${step.cost.toLocaleString("es-CO")}` : "$0" }, void 0, false, {
+              fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+              lineNumber: 199,
+              columnNumber: 21
+            }, this),
+            /* @__PURE__ */ jsxDEV("span", { className: "text-xs text-slate-400 dark:text-slate-500", children: [
+              step.duration,
+              " min"
+            ] }, void 0, true, {
+              fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+              lineNumber: 202,
+              columnNumber: 21
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+            lineNumber: 198,
+            columnNumber: 19
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+          lineNumber: 190,
+          columnNumber: 17
+        }, this),
+        leg && step.mode === "bus_articulado" && /* @__PURE__ */ jsxDEV(RealStopsPanel, { leg }, void 0, false, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+          lineNumber: 205,
+          columnNumber: 59
+        }, this)
+      ] }, index, true, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+        lineNumber: 189,
+        columnNumber: 15
+      }, this);
+    }) }, void 0, false, {
+      fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+      lineNumber: 185,
+      columnNumber: 9
+    }, this),
+    onStartNavigation && /* @__PURE__ */ jsxDEV(
+      "button",
+      {
+        type: "button",
+        onClick: (e) => {
+          e.stopPropagation();
+          onStartNavigation(route);
+        },
+        className: "w-full mt-3 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-blue-500 hover:bg-blue-600 active:scale-[0.98] text-white font-bold text-sm shadow-md transition-all cursor-pointer",
+        children: [
+          /* @__PURE__ */ jsxDEV(Navigation, { className: "w-4 h-4" }, void 0, false, {
+            fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+            lineNumber: 218,
+            columnNumber: 13
+          }, this),
+          "Iniciar navegación"
+        ]
+      },
+      void 0,
+      true,
+      {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+        lineNumber: 213,
+        columnNumber: 9
+      },
+      this
+    )
+  ] }, void 0, true, {
+    fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+    lineNumber: 138,
+    columnNumber: 7
+  }, this) }, void 0, false, {
+    fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx",
+    lineNumber: 137,
+    columnNumber: 5
+  }, this);
+}
+_c5 = RouteCard;
+var _c, _c2, _c3, _c4, _c5;
+$RefreshReg$(_c, "ModeIcon");
+$RefreshReg$(_c2, "ModeColor");
+$RefreshReg$(_c3, "VehicleVisual");
+$RefreshReg$(_c4, "RealStopsPanel");
+$RefreshReg$(_c5, "RouteCard");
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+function $RefreshReg$(type, id) {
+  return RefreshRuntime.register(type, "C:/Users/ASUS/Documents/MetroBOT/src/components/RouteCards/RouteCard.tsx " + id);
+}
+function $RefreshSig$() {
+  return RefreshRuntime.createSignatureFunctionForTransform();
+}
+
+//# sourceMappingURL=data:application/json;base64,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QTtBQUFBO0FBQUE7QUFBQSxpQkFBK0I7QUFBQTtBQUFBO0FBQUE7QUFBQSxNQUxqQztBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUEsSUFPQTtBQUFBLE9BbEZKO0FBQUE7QUFBQTtBQUFBO0FBQUEsU0FvRkEsS0FyRkY7QUFBQTtBQUFBO0FBQUE7QUFBQSxTQXNGQTtBQUVKO0FBQUM0QixNQWhHZTdCO0FBQVMsSUFBQXhCLElBQUFFLEtBQUFJLEtBQUFnRCxLQUFBRDtBQUFBLGFBQUFyRCxJQUFBO0FBQUEsYUFBQUUsS0FBQTtBQUFBLGFBQUFJLEtBQUE7QUFBQSxhQUFBZ0QsS0FBQTtBQUFBLGFBQUFELEtBQUEiLCJuYW1lcyI6WyJSZWFjdCIsInVzZVN0YXRlIiwiQ2FyZCIsIkNhcmRDb250ZW50IiwiVHJhaW4iLCJDYWJsZUNhciIsIlRyYW1Gcm9udCIsIkJ1cyIsIkJpa2UiLCJGb290cHJpbnRzIiwiQ2xvY2siLCJEb2xsYXJTaWduIiwiU2hpZWxkQ2hlY2siLCJTaGllbGRBbGVydCIsIk5hdmlnYXRpb24iLCJNb2RlSWNvbiIsIm1vZGUiLCJjbGFzc05hbWUiLCJfYyIsIk1vZGVDb2xvciIsIl9jMiIsIlZlaGljbGVWaXN1YWwiLCJiYXNlQ2xhc3NlcyIsImlzTWV0cm9wbHVzIiwiX2MzIiwiUmVhbFN0b3BzUGFuZWwiLCJsZWciLCJfcyIsIm9wZW4iLCJzZXRPcGVuIiwicHJldmlldyIsInJlYWxTdG9wcyIsInNsaWNlIiwibW9yZSIsIk1hdGgiLCJtYXgiLCJsZW5ndGgiLCJvIiwibWFwIiwicyIsImkiLCJuYW1lIiwiUm91dGVDYXJkIiwicm91dGUiLCJpc1NlbGVjdGVkIiwib25TdGFydE5hdmlnYXRpb24iLCJwcmltYXJ5TW9kZSIsIm1vZGVzIiwiZmluZCIsIm0iLCJ2YWxpZGF0aW9uIiwiaGFzQnVzTGVncyIsImJ1c0xlZ3MiLCJzaG93VmFsaWRhdGVkQmFkZ2UiLCJvayIsInNob3dVbnZhbGlkYXRlZEJhZGdlIiwiZHVyYXRpb24iLCJkZWdyYWRlZFN0ZXBzIiwiY29zdCIsInRvTG9jYWxlU3RyaW5nIiwiaW5kZXgiLCJzdGVwcyIsInN0ZXAiLCJsIiwicm91dGVJZCIsImxpbmUiLCJyb3V0ZU5hbWUiLCJpbnN0cnVjdGlvbiIsInVuZGVmaW5lZCIsImUiLCJzdG9wUHJvcGFnYXRpb24iLCJfYzUiLCJfYzQiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiUm91dGVDYXJkLnRzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgUmVhY3QsIHsgdXNlU3RhdGUgfSBmcm9tICdyZWFjdCc7XG5pbXBvcnQgeyBDYXJkLCBDYXJkQ29udGVudCB9IGZyb20gJy4uL3VpL2NhcmQnO1xuaW1wb3J0IHsgUm91dGVPcHRpb24gfSBmcm9tICdAL3NyYy9saWIvcm91dGluZyc7XG5pbXBvcnQgeyBUcmFpbiwgQ2FibGVDYXIsIFRyYW1Gcm9udCwgQnVzLCBCaWtlLCBGb290cHJpbnRzLCBDbG9jaywgRG9sbGFyU2lnbiwgU2hpZWxkQ2hlY2ssIFNoaWVsZEFsZXJ0LCBOYXZpZ2F0aW9uIH0gZnJvbSAnbHVjaWRlLXJlYWN0JztcblxuY29uc3QgTW9kZUljb24gPSAoeyBtb2RlLCBjbGFzc05hbWUgfTogeyBtb2RlOiBzdHJpbmcsIGNsYXNzTmFtZT86IHN0cmluZyB9KSA9PiB7XG4gIHN3aXRjaCAobW9kZSkge1xuICAgIGNhc2UgJ21ldHJvJzogcmV0dXJuIDxUcmFpbiBjbGFzc05hbWU9e2NsYXNzTmFtZX0gLz47XG4gICAgY2FzZSAnbWV0cm9jYWJsZSc6IHJldHVybiA8Q2FibGVDYXIgY2xhc3NOYW1lPXtjbGFzc05hbWV9IC8+O1xuICAgIGNhc2UgJ3RyYW52aWEnOiByZXR1cm4gPFRyYW1Gcm9udCBjbGFzc05hbWU9e2NsYXNzTmFtZX0gLz47XG4gICAgY2FzZSAnbWV0cm9wbHVzJzogcmV0dXJuIDxCdXMgY2xhc3NOYW1lPXtjbGFzc05hbWV9IC8+O1xuICAgIGNhc2UgJ2J1cyc6XG4gICAgY2FzZSAnYnVzX2FydGljdWxhZG8nOiByZXR1cm4gPEJ1cyBjbGFzc05hbWU9e2NsYXNzTmFtZX0gLz47XG4gICAgY2FzZSAnZW5jaWNsYSc6IHJldHVybiA8QmlrZSBjbGFzc05hbWU9e2NsYXNzTmFtZX0gLz47XG4gICAgY2FzZSAnd2Fsayc6IHJldHVybiA8Rm9vdHByaW50cyBjbGFzc05hbWU9e2NsYXNzTmFtZX0gLz47XG4gICAgZGVmYXVsdDogcmV0dXJuIDxGb290cHJpbnRzIGNsYXNzTmFtZT17Y2xhc3NOYW1lfSAvPjtcbiAgfVxufTtcblxuY29uc3QgTW9kZUNvbG9yID0gKG1vZGU6IHN0cmluZykgPT4ge1xuICBzd2l0Y2ggKG1vZGUpIHtcbiAgICBjYXNlICdtZXRybyc6IHJldHVybiAndGV4dC1zaXR2YS1ncmVlbic7XG4gICAgY2FzZSAnbWV0cm9jYWJsZSc6IHJldHVybiAndGV4dC1zaXR2YS1yZWQnO1xuICAgIGNhc2UgJ3RyYW52aWEnOiByZXR1cm4gJ3RleHQtc2l0dmEtZ3JlZW4nO1xuICAgIGNhc2UgJ21ldHJvcGx1cyc6IHJldHVybiAndGV4dC1zaXR2YS1ibHVlJztcbiAgICBjYXNlICdidXMnOlxuICAgIGNhc2UgJ2J1c19hcnRpY3VsYWRvJzogcmV0dXJuICd0ZXh0LWFtYmVyLTYwMCBkYXJrOnRleHQtYW1iZXItNTAwJztcbiAgICBjYXNlICdlbmNpY2xhJzogcmV0dXJuICd0ZXh0LWVuY2ljbGEnO1xuICAgIGNhc2UgJ3dhbGsnOiByZXR1cm4gJ3RleHQtc2xhdGUtNDAwJztcbiAgICBkZWZhdWx0OiByZXR1cm4gJ3RleHQtc2xhdGUtNDAwJztcbiAgfVxufTtcblxuY29uc3QgVmVoaWNsZVZpc3VhbCA9ICh7IG1vZGUgfTogeyBtb2RlOiBzdHJpbmcgfSkgPT4ge1xuICBjb25zdCBiYXNlQ2xhc3NlcyA9IFwidy1mdWxsIGgtMjQgcm91bmRlZC14bCBtYi00IGZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVyIHJlbGF0aXZlIG92ZXJmbG93LWhpZGRlblwiO1xuXG4gIGlmIChtb2RlID09PSAnbWV0cm8nKSB7XG4gICAgcmV0dXJuIChcbiAgICAgIDxkaXYgY2xhc3NOYW1lPXtgJHtiYXNlQ2xhc3Nlc30gYmctZW1lcmFsZC02MDBgfT5cbiAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJhYnNvbHV0ZSBpbnNldC0wIG9wYWNpdHktMjAgYmctW3JhZGlhbC1ncmFkaWVudChjaXJjbGVfYXRfY2VudGVyLF92YXIoLS10dy1ncmFkaWVudC1zdG9wcykpXSBmcm9tLXdoaXRlIHZpYS10cmFuc3BhcmVudCB0by10cmFuc3BhcmVudFwiPjwvZGl2PlxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXggZmxleC1jb2wgaXRlbXMtY2VudGVyIHotMTBcIj5cbiAgICAgICAgICA8VHJhaW4gY2xhc3NOYW1lPVwidy0xMiBoLTEyIHRleHQtd2hpdGUgbWItMVwiIC8+XG4gICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPVwidGV4dC1bMTBweF0gZm9udC1ib2xkIHRleHQtZW1lcmFsZC0xMDAgdXBwZXJjYXNlIHRyYWNraW5nLXdpZGVzdFwiPlNpc3RlbWEgTWV0cm88L3NwYW4+XG4gICAgICAgIDwvZGl2PlxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImFic29sdXRlIGJvdHRvbS0wIGxlZnQtMCByaWdodC0wIGgtMSBiZy13aGl0ZS8yMFwiPjwvZGl2PlxuICAgICAgPC9kaXY+XG4gICAgKTtcbiAgfVxuXG4gIGlmIChtb2RlID09PSAnYnVzJyB8fCBtb2RlID09PSAnYnVzX2FydGljdWxhZG8nIHx8IG1vZGUgPT09ICdtZXRyb3BsdXMnKSB7XG4gICAgY29uc3QgaXNNZXRyb3BsdXMgPSBtb2RlID09PSAnbWV0cm9wbHVzJztcbiAgICByZXR1cm4gKFxuICAgICAgPGRpdiBjbGFzc05hbWU9e2Ake2Jhc2VDbGFzc2VzfSAke2lzTWV0cm9wbHVzID8gJ2JnLWJsdWUtNjAwJyA6ICdiZy1hbWJlci01MDAnfWB9PlxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImFic29sdXRlIGluc2V0LTAgb3BhY2l0eS0yMCBiZy1bbGluZWFyLWdyYWRpZW50KDQ1ZGVnLF93aGl0ZV8yNSUsX3RyYW5zcGFyZW50XzI1JSxfdHJhbnNwYXJlbnRfNTAlLF93aGl0ZV81MCUsX3doaXRlXzc1JSxfdHJhbnNwYXJlbnRfNzUlLF90cmFuc3BhcmVudCldIGJnLVtsZW5ndGg6MjBweF8yMHB4XVwiPjwvZGl2PlxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXggZmxleC1jb2wgaXRlbXMtY2VudGVyIHotMTBcIj5cbiAgICAgICAgICA8QnVzIGNsYXNzTmFtZT1cInctMTIgaC0xMiB0ZXh0LXdoaXRlIG1iLTFcIiAvPlxuICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cInRleHQtWzEwcHhdIGZvbnQtYm9sZCB0ZXh0LXdoaXRlLzkwIHVwcGVyY2FzZSB0cmFja2luZy13aWRlc3RcIj5cbiAgICAgICAgICAgIHtpc01ldHJvcGx1cyA/ICdNZXRyb3BsXFx1MDBmYXMnIDogJ0J1cyBJbnRlZ3JhZG8nfVxuICAgICAgICAgIDwvc3Bhbj5cbiAgICAgICAgPC9kaXY+XG4gICAgICA8L2Rpdj5cbiAgICApO1xuICB9XG5cbiAgaWYgKG1vZGUgPT09ICdtZXRyb2NhYmxlJykge1xuICAgIHJldHVybiAoXG4gICAgICA8ZGl2IGNsYXNzTmFtZT17YCR7YmFzZUNsYXNzZXN9IGJnLXJvc2UtNjAwYH0+XG4gICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiYWJzb2x1dGUgdG9wLTQgbGVmdC0wIHJpZ2h0LTAgaC0wLjUgYmctd2hpdGUvMzAgcm90YXRlLVstNWRlZ11cIj48L2Rpdj5cbiAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmbGV4IGZsZXgtY29sIGl0ZW1zLWNlbnRlciB6LTEwXCI+XG4gICAgICAgICAgPENhYmxlQ2FyIGNsYXNzTmFtZT1cInctMTIgaC0xMiB0ZXh0LXdoaXRlIG1iLTFcIiAvPlxuICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cInRleHQtWzEwcHhdIGZvbnQtYm9sZCB0ZXh0LXJvc2UtMTAwIHVwcGVyY2FzZSB0cmFja2luZy13aWRlc3RcIj5NZXRyb2NhYmxlPC9zcGFuPlxuICAgICAgICA8L2Rpdj5cbiAgICAgIDwvZGl2PlxuICAgICk7XG4gIH1cblxuICByZXR1cm4gbnVsbDtcbn07XG5cbmV4cG9ydCBpbnRlcmZhY2UgQnVzTGVnVmFsaWRhdGlvbiB7XG4gIHJvdXRlSWQ6IHN0cmluZztcbiAgcm91dGVOYW1lOiBzdHJpbmc7XG4gIGJvYXJkaW5nU3RvcDogc3RyaW5nO1xuICBib2FyZGluZ0xhdDogbnVtYmVyO1xuICBib2FyZGluZ0xuZzogbnVtYmVyO1xuICByZWFsU3RvcHM6IEFycmF5PHsgbmFtZTogc3RyaW5nOyBsYXQ6IG51bWJlcjsgbG5nOiBudW1iZXIgfT47XG59XG5cbmV4cG9ydCBpbnRlcmZhY2UgUm91dGVWYWxpZGF0aW9uIHtcbiAgb2s6IGJvb2xlYW47XG4gIHZhbGlkYXRlZFN0ZXBzOiBudW1iZXI7XG4gIGRlZ3JhZGVkU3RlcHM6IG51bWJlcjtcbiAgYnVzTGVnczogQnVzTGVnVmFsaWRhdGlvbltdO1xuICBkZWdyYWRlZFJlYXNvbnM6IHN0cmluZ1tdO1xufVxuXG5leHBvcnQgaW50ZXJmYWNlIFJvdXRlQ2FyZFByb3BzIHtcbiAgcm91dGU6IFJvdXRlT3B0aW9uICYgeyB2YWxpZGF0aW9uPzogUm91dGVWYWxpZGF0aW9uIH07XG4gIGlzU2VsZWN0ZWQ/OiBib29sZWFuO1xuICAvKiogQ2FsbGVkIHdoZW4gdGhlIHVzZXIgdGFwcyBcIkluaWNpYXIgbmF2ZWdhY2nDs25cIi4gKi9cbiAgb25TdGFydE5hdmlnYXRpb24/OiAocm91dGU6IFJvdXRlT3B0aW9uKSA9PiB2b2lkO1xufVxuXG5jb25zdCBSZWFsU3RvcHNQYW5lbCA9ICh7IGxlZyB9OiB7IGxlZzogQnVzTGVnVmFsaWRhdGlvbiB9KSA9PiB7XG4gIGNvbnN0IFtvcGVuLCBzZXRPcGVuXSA9IHVzZVN0YXRlKGZhbHNlKTtcbiAgY29uc3QgcHJldmlldyA9IGxlZy5yZWFsU3RvcHMuc2xpY2UoMCwgNik7XG4gIGNvbnN0IG1vcmUgPSBNYXRoLm1heCgwLCBsZWcucmVhbFN0b3BzLmxlbmd0aCAtIHByZXZpZXcubGVuZ3RoKTtcbiAgcmV0dXJuIChcbiAgICA8ZGl2IGNsYXNzTmFtZT1cIm10LTIgbWwtNyBib3JkZXItbC0yIGJvcmRlci1hbWJlci0zMDAvNjAgcGwtMyB0ZXh0LVsxMXB4XSB0ZXh0LXNsYXRlLTUwMCBkYXJrOnRleHQtc2xhdGUtNDAwXCI+XG4gICAgICA8YnV0dG9uXG4gICAgICAgIHR5cGU9XCJidXR0b25cIlxuICAgICAgICBvbkNsaWNrPXsoKSA9PiBzZXRPcGVuKG8gPT4gIW8pfVxuICAgICAgICBjbGFzc05hbWU9XCJmb250LXNlbWlib2xkIHRleHQtYW1iZXItNzAwIGRhcms6dGV4dC1hbWJlci00MDAgaG92ZXI6dW5kZXJsaW5lIGN1cnNvci1wb2ludGVyXCJcbiAgICAgID5cbiAgICAgICAge29wZW4gPyAnT2N1bHRhciBwYXJhZGFzIHJlYWxlcycgOiBgVmVyIHBhcmFkYXMgcmVhbGVzICgke2xlZy5yZWFsU3RvcHMubGVuZ3RofSlgfVxuICAgICAgPC9idXR0b24+XG4gICAgICB7b3BlbiAmJiAoXG4gICAgICAgIDxvbCBjbGFzc05hbWU9XCJtdC0xIHNwYWNlLXktMC41IGxpc3QtZGVjaW1hbCBsaXN0LWluc2lkZVwiPlxuICAgICAgICAgIHtwcmV2aWV3Lm1hcCgocywgaSkgPT4gKFxuICAgICAgICAgICAgPGxpIGtleT17aX0gY2xhc3NOYW1lPVwidHJ1bmNhdGVcIj57cy5uYW1lfTwvbGk+XG4gICAgICAgICAgKSl9XG4gICAgICAgICAge21vcmUgPiAwICYmIDxsaSBjbGFzc05hbWU9XCJpdGFsaWNcIj4uLi4geSB7bW9yZX0gbVxcdTAwZTFzPC9saT59XG4gICAgICAgIDwvb2w+XG4gICAgICApfVxuICAgIDwvZGl2PlxuICApO1xufTtcblxuZXhwb3J0IGZ1bmN0aW9uIFJvdXRlQ2FyZCh7IHJvdXRlLCBpc1NlbGVjdGVkLCBvblN0YXJ0TmF2aWdhdGlvbiB9OiBSb3V0ZUNhcmRQcm9wcykge1xuICBjb25zdCBwcmltYXJ5TW9kZSA9IHJvdXRlLm1vZGVzLmZpbmQobSA9PiBtICE9PSAnd2FsaycpIHx8ICd3YWxrJztcbiAgY29uc3QgdmFsaWRhdGlvbiA9IHJvdXRlLnZhbGlkYXRpb247XG4gIGNvbnN0IGhhc0J1c0xlZ3MgPSAodmFsaWRhdGlvbj8uYnVzTGVncz8ubGVuZ3RoID8/IDApID4gMDtcbiAgY29uc3Qgc2hvd1ZhbGlkYXRlZEJhZGdlID0gaGFzQnVzTGVncyAmJiB2YWxpZGF0aW9uPy5vaztcbiAgY29uc3Qgc2hvd1VudmFsaWRhdGVkQmFkZ2UgPSBoYXNCdXNMZWdzICYmICF2YWxpZGF0aW9uPy5vaztcblxuICByZXR1cm4gKFxuICAgIDxDYXJkIGNsYXNzTmFtZT17YG1iLTQgb3ZlcmZsb3ctaGlkZGVuIGJvcmRlci0wIHNoYWRvdy1tZCByaW5nLTEgdHJhbnNpdGlvbi1hbGwgZHVyYXRpb24tMjAwICR7aXNTZWxlY3RlZCA/ICdyaW5nLXNpdHZhLWdyZWVuIHJpbmctMiBzaGFkb3ctbGcgYmctZW1lcmFsZC01MC8zMCBkYXJrOmJnLWVtZXJhbGQtOTUwLzEwIHRyYW5zZm9ybSBzY2FsZS1bMS4wMl0nIDogJ3Jpbmctc2xhdGUtMjAwLzUwIGRhcms6cmluZy1zbGF0ZS04MDAvODAgaG92ZXI6Ymctc2xhdGUtNTAgZGFyazpob3ZlcjpiZy1zbGF0ZS04MDAvNDAgYmctY2FyZCd9YH0+XG4gICAgICA8Q2FyZENvbnRlbnQgY2xhc3NOYW1lPVwicC00XCI+XG4gICAgICAgIDxWZWhpY2xlVmlzdWFsIG1vZGU9e3ByaW1hcnlNb2RlfSAvPlxuXG4gICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleCBqdXN0aWZ5LWJldHdlZW4gaXRlbXMtc3RhcnQgbWItNFwiPlxuICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleCBpdGVtcy1jZW50ZXIgc3BhY2UteC0yXCI+XG4gICAgICAgICAgICA8Q2xvY2sgY2xhc3NOYW1lPVwidy01IGgtNSB0ZXh0LXNsYXRlLTUwMCBkYXJrOnRleHQtc2xhdGUtNDAwXCIgLz5cbiAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cInRleHQtMnhsIGZvbnQtYm9sZCB0ZXh0LWZvcmVncm91bmRcIj57cm91dGUuZHVyYXRpb259IDxzcGFuIGNsYXNzTmFtZT1cInRleHQtc20gZm9udC1ub3JtYWwgdGV4dC1zbGF0ZS01MDAgZGFyazp0ZXh0LXNsYXRlLTQwMFwiPm1pbjwvc3Bhbj48L3NwYW4+XG4gICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmbGV4IGl0ZW1zLWNlbnRlciBzcGFjZS14LTJcIj5cbiAgICAgICAgICAgIHtzaG93VmFsaWRhdGVkQmFkZ2UgJiYgKFxuICAgICAgICAgICAgICA8c3BhblxuICAgICAgICAgICAgICAgIGNsYXNzTmFtZT1cImlubGluZS1mbGV4IGl0ZW1zLWNlbnRlciBnYXAtMSBweC0yIHB5LTAuNSByb3VuZGVkLWZ1bGwgdGV4dC1bMTBweF0gZm9udC1ib2xkIHVwcGVyY2FzZSB0cmFja2luZy13aWRlciBiZy1lbWVyYWxkLTEwMCB0ZXh0LWVtZXJhbGQtNzAwIGRhcms6YmctZW1lcmFsZC05MDAvNDAgZGFyazp0ZXh0LWVtZXJhbGQtMzAwXCJcbiAgICAgICAgICAgICAgICB0aXRsZT1cIkNhZGEgYnVzIGludGVncmFkbyBkZSBlc3RhIHJ1dGEgZnVlIHZhbGlkYWRvIGNvbnRyYSBlbCBjYXRcXHUwMGUxbG9nbyBvZmljaWFsIGRlbCBNZXRybyBkZSBNZWRlbGxcXHUwMGVkbi5cIlxuICAgICAgICAgICAgICA+XG4gICAgICAgICAgICAgICAgPFNoaWVsZENoZWNrIGNsYXNzTmFtZT1cInctMyBoLTNcIiAvPlxuICAgICAgICAgICAgICAgIHZhbGlkYWRvXG4gICAgICAgICAgICAgIDwvc3Bhbj5cbiAgICAgICAgICAgICl9XG4gICAgICAgICAgICB7c2hvd1VudmFsaWRhdGVkQmFkZ2UgJiYgKFxuICAgICAgICAgICAgICA8c3BhblxuICAgICAgICAgICAgICAgIGNsYXNzTmFtZT1cImlubGluZS1mbGV4IGl0ZW1zLWNlbnRlciBnYXAtMSBweC0yIHB5LTAuNSByb3VuZGVkLWZ1bGwgdGV4dC1bMTBweF0gZm9udC1ib2xkIHVwcGVyY2FzZSB0cmFja2luZy13aWRlciBiZy1hbWJlci0xMDAgdGV4dC1hbWJlci03MDAgZGFyazpiZy1hbWJlci05MDAvNDAgZGFyazp0ZXh0LWFtYmVyLTMwMFwiXG4gICAgICAgICAgICAgICAgdGl0bGU9e2BObyBwdWRpbW9zIHZlcmlmaWNhciAke3ZhbGlkYXRpb24/LmRlZ3JhZGVkU3RlcHMgPz8gMH0gdHJhbW8ocykgZGUgYnVzLiBUZSByZWNvbWVuZGFtb3MgcmV2aXNhciBlbCBtYXBhIGFudGVzIGRlIGFib3JkYXIuYH1cbiAgICAgICAgICAgICAgPlxuICAgICAgICAgICAgICAgIDxTaGllbGRBbGVydCBjbGFzc05hbWU9XCJ3LTMgaC0zXCIgLz5cbiAgICAgICAgICAgICAgICBzaW4gdmFsaWRhclxuICAgICAgICAgICAgICA8L3NwYW4+XG4gICAgICAgICAgICApfVxuICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmbGV4IGl0ZW1zLWNlbnRlciBzcGFjZS14LTEgYmctc2xhdGUtMTAwIGRhcms6Ymctc2xhdGUtODAwIHB4LTIgcHktMSByb3VuZGVkLWZ1bGxcIj5cbiAgICAgICAgICAgICAgPERvbGxhclNpZ24gY2xhc3NOYW1lPVwidy00IGgtNCB0ZXh0LXNsYXRlLTYwMCBkYXJrOnRleHQtc2xhdGUtNDAwXCIgLz5cbiAgICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPVwidGV4dC1zbSBmb250LXNlbWlib2xkIHRleHQtc2xhdGUtNzAwIGRhcms6dGV4dC1zbGF0ZS0zMDBcIj57cm91dGUuY29zdC50b0xvY2FsZVN0cmluZygnZXMtQ08nKX08L3NwYW4+XG4gICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgPC9kaXY+XG5cbiAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmbGV4IGl0ZW1zLWNlbnRlciBzcGFjZS14LTIgbWItNFwiPlxuICAgICAgICAgIHtyb3V0ZS5tb2Rlcy5tYXAoKG1vZGUsIGluZGV4KSA9PiAoXG4gICAgICAgICAgICA8UmVhY3QuRnJhZ21lbnQga2V5PXtpbmRleH0+XG4gICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPXtgcC0yIHJvdW5kZWQtZnVsbCBiZy1zbGF0ZS01MCBkYXJrOmJnLXNsYXRlLTgwMC82MCAke01vZGVDb2xvcihtb2RlKX1gfT5cbiAgICAgICAgICAgICAgICA8TW9kZUljb24gbW9kZT17bW9kZX0gY2xhc3NOYW1lPVwidy01IGgtNVwiIC8+XG4gICAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgICAgICB7aW5kZXggPCByb3V0ZS5tb2Rlcy5sZW5ndGggLSAxICYmIChcbiAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImgtMC41IHctNCBiZy1zbGF0ZS0yMDAgZGFyazpiZy1zbGF0ZS04MDAgcm91bmRlZC1mdWxsXCIgLz5cbiAgICAgICAgICAgICAgKX1cbiAgICAgICAgICAgIDwvUmVhY3QuRnJhZ21lbnQ+XG4gICAgICAgICAgKSl9XG4gICAgICAgIDwvZGl2PlxuXG4gICAgICAgIDxkaXYgY2xhc3NOYW1lPVwic3BhY2UteS0zIG10LTQgcHQtNCBib3JkZXItdCBib3JkZXItYm9yZGVyXCI+XG4gICAgICAgICAge3JvdXRlLnN0ZXBzLm1hcCgoc3RlcCwgaW5kZXgpID0+IHtcbiAgICAgICAgICAgIGNvbnN0IGxlZyA9IHZhbGlkYXRpb24/LmJ1c0xlZ3M/LmZpbmQobCA9PiBsLnJvdXRlSWQgJiYgc3RlcC5saW5lID09PSBsLnJvdXRlTmFtZSk7XG4gICAgICAgICAgICByZXR1cm4gKFxuICAgICAgICAgICAgICA8ZGl2IGtleT17aW5kZXh9PlxuICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleCBpdGVtcy1zdGFydCBzcGFjZS14LTNcIj5cbiAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPXtgbXQtMC41ICR7TW9kZUNvbG9yKHN0ZXAubW9kZSl9YH0+XG4gICAgICAgICAgICAgICAgICAgIDxNb2RlSWNvbiBtb2RlPXtzdGVwLm1vZGV9IGNsYXNzTmFtZT1cInctNCBoLTRcIiAvPlxuICAgICAgICAgICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXgtMVwiPlxuICAgICAgICAgICAgICAgICAgICA8cCBjbGFzc05hbWU9XCJ0ZXh0LXNtIHRleHQtc2xhdGUtNzAwIGRhcms6dGV4dC1zbGF0ZS0zMDBcIj57c3RlcC5pbnN0cnVjdGlvbn08L3A+XG4gICAgICAgICAgICAgICAgICAgIHtzdGVwLmxpbmUgJiYgPHAgY2xhc3NOYW1lPVwidGV4dC14cyBmb250LW1lZGl1bSB0ZXh0LXNsYXRlLTUwMCBkYXJrOnRleHQtc2xhdGUtNDAwIG10LTAuNVwiPntzdGVwLmxpbmV9PC9wPn1cbiAgICAgICAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmbGV4IGl0ZW1zLWNlbnRlciBzcGFjZS14LTIgc2hyaW5rLTBcIj5cbiAgICAgICAgICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPVwidGV4dC14cyBmb250LXNlbWlib2xkIHRleHQtc2xhdGUtNjAwIGRhcms6dGV4dC1zbGF0ZS00MDBcIj5cbiAgICAgICAgICAgICAgICAgICAgICB7c3RlcC5jb3N0ICE9PSB1bmRlZmluZWQgPyBgJCR7c3RlcC5jb3N0LnRvTG9jYWxlU3RyaW5nKCdlcy1DTycpfWAgOiAnJDAnfVxuICAgICAgICAgICAgICAgICAgICA8L3NwYW4+XG4gICAgICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cInRleHQteHMgdGV4dC1zbGF0ZS00MDAgZGFyazp0ZXh0LXNsYXRlLTUwMFwiPntzdGVwLmR1cmF0aW9ufSBtaW48L3NwYW4+XG4gICAgICAgICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgICAgICB7bGVnICYmIHN0ZXAubW9kZSA9PT0gJ2J1c19hcnRpY3VsYWRvJyAmJiA8UmVhbFN0b3BzUGFuZWwgbGVnPXtsZWd9IC8+fVxuICAgICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgICk7XG4gICAgICAgICAgfSl9XG4gICAgICAgIDwvZGl2PlxuXG4gICAgICAgIHsvKiBTdGFydCB0dXJuLWJ5LXR1cm4gbmF2aWdhdGlvbiBidXR0b24uICovfVxuICAgICAgICB7b25TdGFydE5hdmlnYXRpb24gJiYgKFxuICAgICAgICAgIDxidXR0b25cbiAgICAgICAgICAgIHR5cGU9XCJidXR0b25cIlxuICAgICAgICAgICAgb25DbGljaz17KGUpID0+IHsgZS5zdG9wUHJvcGFnYXRpb24oKTsgb25TdGFydE5hdmlnYXRpb24ocm91dGUpOyB9fVxuICAgICAgICAgICAgY2xhc3NOYW1lPVwidy1mdWxsIG10LTMgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXIgZ2FwLTIgcHktMi41IHJvdW5kZWQteGwgYmctYmx1ZS01MDAgaG92ZXI6YmctYmx1ZS02MDAgYWN0aXZlOnNjYWxlLVswLjk4XSB0ZXh0LXdoaXRlIGZvbnQtYm9sZCB0ZXh0LXNtIHNoYWRvdy1tZCB0cmFuc2l0aW9uLWFsbCBjdXJzb3ItcG9pbnRlclwiXG4gICAgICAgICAgPlxuICAgICAgICAgICAgPE5hdmlnYXRpb24gY2xhc3NOYW1lPVwidy00IGgtNFwiIC8+XG4gICAgICAgICAgICBJbmljaWFyIG5hdmVnYWNpw7NuXG4gICAgICAgICAgPC9idXR0b24+XG4gICAgICAgICl9XG4gICAgICA8L0NhcmRDb250ZW50PlxuICAgIDwvQ2FyZD5cbiAgKTtcbn1cbiJdLCJmaWxlIjoiQzovVXNlcnMvQVNVUy9Eb2N1bWVudHMvTWV0cm9CT1Qvc3JjL2NvbXBvbmVudHMvUm91dGVDYXJkcy9Sb3V0ZUNhcmQudHN4In0=

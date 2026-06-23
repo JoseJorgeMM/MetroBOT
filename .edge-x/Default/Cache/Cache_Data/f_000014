@@ -1,0 +1,219 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/components/SupportChannels.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=d067cd9a"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import { Phone, Mail, MessageCircle, MapPin, ExternalLink, Clock } from "/node_modules/.vite/deps/lucide-react.js?v=d067cd9a";
+import { Card, CardHeader, CardTitle, CardContent } from "/src/components/ui/card.tsx";
+export function SupportChannels() {
+  return /* @__PURE__ */ jsxDEV(Card, { className: "border-border/30 bg-card shadow-lg overflow-hidden", children: [
+    /* @__PURE__ */ jsxDEV(CardHeader, { className: "bg-sitva-green/10 pb-3 border-b border-sitva-green/10", children: /* @__PURE__ */ jsxDEV(CardTitle, { className: "text-sm font-bold flex items-center gap-2 text-sitva-green", children: [
+      /* @__PURE__ */ jsxDEV(MessageCircle, { className: "w-4 h-4" }, void 0, false, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+        lineNumber: 10,
+        columnNumber: 11
+      }, this),
+      "Canales de Atención SITVA"
+    ] }, void 0, true, {
+      fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+      lineNumber: 9,
+      columnNumber: 9
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+      lineNumber: 8,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(CardContent, { className: "p-4 space-y-4", children: [
+      /* @__PURE__ */ jsxDEV("div", { className: "space-y-2", children: [
+        /* @__PURE__ */ jsxDEV("h4", { className: "text-[12px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-1.5", children: [
+          /* @__PURE__ */ jsxDEV(MapPin, { className: "w-3.5 h-3.5" }, void 0, false, {
+            fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+            lineNumber: 18,
+            columnNumber: 13
+          }, this),
+          "Puntos de Atención (PAC)"
+        ] }, void 0, true, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+          lineNumber: 17,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("p", { className: "text-[13px] text-foreground leading-relaxed", children: [
+          "Tramita tu Cívica en: ",
+          /* @__PURE__ */ jsxDEV("span", { className: "font-semibold", children: "Niquía, Acevedo, San Javier, San Antonio e Itagüí." }, void 0, false, {
+            fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+            lineNumber: 22,
+            columnNumber: 35
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+          lineNumber: 21,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-1.5 text-[11px] text-slate-600 dark:text-slate-300 font-medium", children: [
+          /* @__PURE__ */ jsxDEV(Clock, { className: "w-3 h-3" }, void 0, false, {
+            fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+            lineNumber: 25,
+            columnNumber: 13
+          }, this),
+          "Lun - Vie: 9:30 AM - 6:30 PM"
+        ] }, void 0, true, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+          lineNumber: 24,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+        lineNumber: 16,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "space-y-2 pt-2 border-t border-border/10", children: [
+        /* @__PURE__ */ jsxDEV("h4", { className: "text-[12px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-1.5", children: [
+          /* @__PURE__ */ jsxDEV(ExternalLink, { className: "w-3.5 h-3.5" }, void 0, false, {
+            fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+            lineNumber: 33,
+            columnNumber: 13
+          }, this),
+          "Canales Digitales"
+        ] }, void 0, true, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+          lineNumber: 32,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "grid grid-cols-1 gap-2", children: [
+          /* @__PURE__ */ jsxDEV(
+            "a",
+            {
+              href: "tel:+576044449598",
+              className: "flex items-center gap-2 text-[13px] text-foreground hover:text-sitva-green transition-colors",
+              children: [
+                /* @__PURE__ */ jsxDEV("div", { className: "w-7 h-7 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center", children: /* @__PURE__ */ jsxDEV(Phone, { className: "w-3.5 h-3.5" }, void 0, false, {
+                  fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+                  lineNumber: 42,
+                  columnNumber: 17
+                }, this) }, void 0, false, {
+                  fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+                  lineNumber: 41,
+                  columnNumber: 15
+                }, this),
+                "Línea Hola Metro: (604) 444 95 98"
+              ]
+            },
+            void 0,
+            true,
+            {
+              fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+              lineNumber: 37,
+              columnNumber: 13
+            },
+            this
+          ),
+          /* @__PURE__ */ jsxDEV(
+            "a",
+            {
+              href: "mailto:contactenos@metrodemedellin.gov.co",
+              className: "flex items-center gap-2 text-[13px] text-foreground hover:text-sitva-green transition-colors",
+              children: [
+                /* @__PURE__ */ jsxDEV("div", { className: "w-7 h-7 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center", children: /* @__PURE__ */ jsxDEV(Mail, { className: "w-3.5 h-3.5" }, void 0, false, {
+                  fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+                  lineNumber: 51,
+                  columnNumber: 17
+                }, this) }, void 0, false, {
+                  fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+                  lineNumber: 50,
+                  columnNumber: 15
+                }, this),
+                "contactenos@metrodemedellin.gov.co"
+              ]
+            },
+            void 0,
+            true,
+            {
+              fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+              lineNumber: 46,
+              columnNumber: 13
+            },
+            this
+          ),
+          /* @__PURE__ */ jsxDEV(
+            "a",
+            {
+              href: "https://www.metrodemedellin.gov.co",
+              target: "_blank",
+              rel: "noopener noreferrer",
+              className: "flex items-center gap-2 text-[13px] text-foreground hover:text-sitva-green transition-colors",
+              children: [
+                /* @__PURE__ */ jsxDEV("div", { className: "w-7 h-7 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center", children: /* @__PURE__ */ jsxDEV(ExternalLink, { className: "w-3.5 h-3.5" }, void 0, false, {
+                  fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+                  lineNumber: 62,
+                  columnNumber: 17
+                }, this) }, void 0, false, {
+                  fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+                  lineNumber: 61,
+                  columnNumber: 15
+                }, this),
+                "Chat con Asesor (Sitio Web)"
+              ]
+            },
+            void 0,
+            true,
+            {
+              fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+              lineNumber: 55,
+              columnNumber: 13
+            },
+            this
+          )
+        ] }, void 0, true, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+          lineNumber: 36,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+        lineNumber: 31,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "mt-2 p-3 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-border/20", children: /* @__PURE__ */ jsxDEV("p", { className: "text-[12px] text-slate-600 dark:text-slate-300 text-center italic", children: '"Recuerda que puedes usar el código QR de la App Cívica para viajar sin tarjeta física."' }, void 0, false, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+        lineNumber: 71,
+        columnNumber: 11
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+        lineNumber: 70,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+      lineNumber: 14,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx",
+    lineNumber: 7,
+    columnNumber: 5
+  }, this);
+}
+_c = SupportChannels;
+var _c;
+$RefreshReg$(_c, "SupportChannels");
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+function $RefreshReg$(type, id) {
+  return RefreshRuntime.register(type, "C:/Users/ASUS/Documents/MetroBOT/src/components/SupportChannels.tsx " + id);
+}
+function $RefreshSig$() {
+  return RefreshRuntime.createSignatureFunctionForTransform();
+}
+
+//# sourceMappingURL=data:application/json;base64,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QTtBQUFBLFVBVUE7QUFBQSxhQTdCRjtBQUFBO0FBQUE7QUFBQTtBQUFBLGVBOEJBO0FBQUEsV0FuQ0Y7QUFBQTtBQUFBO0FBQUE7QUFBQSxhQW9DQTtBQUFBLE1BR0EsdUJBQUMsU0FBSSxXQUFVLGdGQUNiLGlDQUFDLE9BQUUsV0FBVSxxRUFBb0Usd0dBQWpGO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFFQSxLQUhGO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFJQTtBQUFBLFNBNURGO0FBQUE7QUFBQTtBQUFBO0FBQUEsV0E2REE7QUFBQSxPQXBFRjtBQUFBO0FBQUE7QUFBQTtBQUFBLFNBcUVBO0FBRUo7QUFBQ0MsS0F6RWVEO0FBQWUsSUFBQUM7QUFBQSxhQUFBQSxJQUFBIiwibmFtZXMiOlsiUGhvbmUiLCJNYWlsIiwiTWVzc2FnZUNpcmNsZSIsIk1hcFBpbiIsIkV4dGVybmFsTGluayIsIkNsb2NrIiwiQ2FyZCIsIkNhcmRIZWFkZXIiLCJDYXJkVGl0bGUiLCJDYXJkQ29udGVudCIsIlN1cHBvcnRDaGFubmVscyIsIl9jIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbIlN1cHBvcnRDaGFubmVscy50c3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IFJlYWN0IGZyb20gJ3JlYWN0JztcclxuaW1wb3J0IHsgUGhvbmUsIE1haWwsIE1lc3NhZ2VDaXJjbGUsIE1hcFBpbiwgRXh0ZXJuYWxMaW5rLCBDbG9jayB9IGZyb20gJ2x1Y2lkZS1yZWFjdCc7XHJcbmltcG9ydCB7IENhcmQsIENhcmRIZWFkZXIsIENhcmRUaXRsZSwgQ2FyZENvbnRlbnQgfSBmcm9tICcuL3VpL2NhcmQnO1xyXG5cclxuZXhwb3J0IGZ1bmN0aW9uIFN1cHBvcnRDaGFubmVscygpIHtcclxuICByZXR1cm4gKFxyXG4gICAgPENhcmQgY2xhc3NOYW1lPVwiYm9yZGVyLWJvcmRlci8zMCBiZy1jYXJkIHNoYWRvdy1sZyBvdmVyZmxvdy1oaWRkZW5cIj5cclxuICAgICAgPENhcmRIZWFkZXIgY2xhc3NOYW1lPVwiYmctc2l0dmEtZ3JlZW4vMTAgcGItMyBib3JkZXItYiBib3JkZXItc2l0dmEtZ3JlZW4vMTBcIj5cclxuICAgICAgICA8Q2FyZFRpdGxlIGNsYXNzTmFtZT1cInRleHQtc20gZm9udC1ib2xkIGZsZXggaXRlbXMtY2VudGVyIGdhcC0yIHRleHQtc2l0dmEtZ3JlZW5cIj5cclxuICAgICAgICAgIDxNZXNzYWdlQ2lyY2xlIGNsYXNzTmFtZT1cInctNCBoLTRcIiAvPlxyXG4gICAgICAgICAgQ2FuYWxlcyBkZSBBdGVuY2nDs24gU0lUVkFcclxuICAgICAgICA8L0NhcmRUaXRsZT5cclxuICAgICAgPC9DYXJkSGVhZGVyPlxyXG4gICAgICA8Q2FyZENvbnRlbnQgY2xhc3NOYW1lPVwicC00IHNwYWNlLXktNFwiPlxyXG4gICAgICAgIHsvKiBQaHlzaWNhbCBBdHRlbnRpb24gUEFDICovfVxyXG4gICAgICAgIDxkaXYgY2xhc3NOYW1lPVwic3BhY2UteS0yXCI+XHJcbiAgICAgICAgICA8aDQgY2xhc3NOYW1lPVwidGV4dC1bMTJweF0gZm9udC1ib2xkIHRleHQtc2xhdGUtNTAwIGRhcms6dGV4dC1zbGF0ZS00MDAgdXBwZXJjYXNlIHRyYWNraW5nLXdpZGVyIGZsZXggaXRlbXMtY2VudGVyIGdhcC0xLjVcIj5cclxuICAgICAgICAgICAgPE1hcFBpbiBjbGFzc05hbWU9XCJ3LTMuNSBoLTMuNVwiIC8+XHJcbiAgICAgICAgICAgIFB1bnRvcyBkZSBBdGVuY2nDs24gKFBBQylcclxuICAgICAgICAgIDwvaDQ+XHJcbiAgICAgICAgICA8cCBjbGFzc05hbWU9XCJ0ZXh0LVsxM3B4XSB0ZXh0LWZvcmVncm91bmQgbGVhZGluZy1yZWxheGVkXCI+XHJcbiAgICAgICAgICAgIFRyYW1pdGEgdHUgQ8OtdmljYSBlbjogPHNwYW4gY2xhc3NOYW1lPVwiZm9udC1zZW1pYm9sZFwiPk5pcXXDrWEsIEFjZXZlZG8sIFNhbiBKYXZpZXIsIFNhbiBBbnRvbmlvIGUgSXRhZ8O8w60uPC9zcGFuPlxyXG4gICAgICAgICAgPC9wPlxyXG4gICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmbGV4IGl0ZW1zLWNlbnRlciBnYXAtMS41IHRleHQtWzExcHhdIHRleHQtc2xhdGUtNjAwIGRhcms6dGV4dC1zbGF0ZS0zMDAgZm9udC1tZWRpdW1cIj5cclxuICAgICAgICAgICAgPENsb2NrIGNsYXNzTmFtZT1cInctMyBoLTNcIiAvPlxyXG4gICAgICAgICAgICBMdW4gLSBWaWU6IDk6MzAgQU0gLSA2OjMwIFBNXHJcbiAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICA8L2Rpdj5cclxuXHJcbiAgICAgICAgey8qIERpZ2l0YWwgQ2hhbm5lbHMgKi99XHJcbiAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJzcGFjZS15LTIgcHQtMiBib3JkZXItdCBib3JkZXItYm9yZGVyLzEwXCI+XHJcbiAgICAgICAgICA8aDQgY2xhc3NOYW1lPVwidGV4dC1bMTJweF0gZm9udC1ib2xkIHRleHQtc2xhdGUtNTAwIGRhcms6dGV4dC1zbGF0ZS00MDAgdXBwZXJjYXNlIHRyYWNraW5nLXdpZGVyIGZsZXggaXRlbXMtY2VudGVyIGdhcC0xLjVcIj5cclxuICAgICAgICAgICAgPEV4dGVybmFsTGluayBjbGFzc05hbWU9XCJ3LTMuNSBoLTMuNVwiIC8+XHJcbiAgICAgICAgICAgIENhbmFsZXMgRGlnaXRhbGVzXHJcbiAgICAgICAgICA8L2g0PlxyXG4gICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJncmlkIGdyaWQtY29scy0xIGdhcC0yXCI+XHJcbiAgICAgICAgICAgIDxhIFxyXG4gICAgICAgICAgICAgIGhyZWY9XCJ0ZWw6KzU3NjA0NDQ0OTU5OFwiIFxyXG4gICAgICAgICAgICAgIGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyIGdhcC0yIHRleHQtWzEzcHhdIHRleHQtZm9yZWdyb3VuZCBob3Zlcjp0ZXh0LXNpdHZhLWdyZWVuIHRyYW5zaXRpb24tY29sb3JzXCJcclxuICAgICAgICAgICAgPlxyXG4gICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwidy03IGgtNyByb3VuZGVkLWZ1bGwgYmctc2xhdGUtMTAwIGRhcms6Ymctc2xhdGUtODAwIGZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVyXCI+XHJcbiAgICAgICAgICAgICAgICA8UGhvbmUgY2xhc3NOYW1lPVwidy0zLjUgaC0zLjVcIiAvPlxyXG4gICAgICAgICAgICAgIDwvZGl2PlxyXG4gICAgICAgICAgICAgIEzDrW5lYSBIb2xhIE1ldHJvOiAoNjA0KSA0NDQgOTUgOThcclxuICAgICAgICAgICAgPC9hPlxyXG4gICAgICAgICAgICA8YSBcclxuICAgICAgICAgICAgICBocmVmPVwibWFpbHRvOmNvbnRhY3Rlbm9zQG1ldHJvZGVtZWRlbGxpbi5nb3YuY29cIiBcclxuICAgICAgICAgICAgICBjbGFzc05hbWU9XCJmbGV4IGl0ZW1zLWNlbnRlciBnYXAtMiB0ZXh0LVsxM3B4XSB0ZXh0LWZvcmVncm91bmQgaG92ZXI6dGV4dC1zaXR2YS1ncmVlbiB0cmFuc2l0aW9uLWNvbG9yc1wiXHJcbiAgICAgICAgICAgID5cclxuICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInctNyBoLTcgcm91bmRlZC1mdWxsIGJnLXNsYXRlLTEwMCBkYXJrOmJnLXNsYXRlLTgwMCBmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlclwiPlxyXG4gICAgICAgICAgICAgICAgPE1haWwgY2xhc3NOYW1lPVwidy0zLjUgaC0zLjVcIiAvPlxyXG4gICAgICAgICAgICAgIDwvZGl2PlxyXG4gICAgICAgICAgICAgIGNvbnRhY3Rlbm9zQG1ldHJvZGVtZWRlbGxpbi5nb3YuY29cclxuICAgICAgICAgICAgPC9hPlxyXG4gICAgICAgICAgICA8YSBcclxuICAgICAgICAgICAgICBocmVmPVwiaHR0cHM6Ly93d3cubWV0cm9kZW1lZGVsbGluLmdvdi5jb1wiIFxyXG4gICAgICAgICAgICAgIHRhcmdldD1cIl9ibGFua1wiIFxyXG4gICAgICAgICAgICAgIHJlbD1cIm5vb3BlbmVyIG5vcmVmZXJyZXJcIlxyXG4gICAgICAgICAgICAgIGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyIGdhcC0yIHRleHQtWzEzcHhdIHRleHQtZm9yZWdyb3VuZCBob3Zlcjp0ZXh0LXNpdHZhLWdyZWVuIHRyYW5zaXRpb24tY29sb3JzXCJcclxuICAgICAgICAgICAgPlxyXG4gICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwidy03IGgtNyByb3VuZGVkLWZ1bGwgYmctc2xhdGUtMTAwIGRhcms6Ymctc2xhdGUtODAwIGZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVyXCI+XHJcbiAgICAgICAgICAgICAgICA8RXh0ZXJuYWxMaW5rIGNsYXNzTmFtZT1cInctMy41IGgtMy41XCIgLz5cclxuICAgICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgICAgICBDaGF0IGNvbiBBc2Vzb3IgKFNpdGlvIFdlYilcclxuICAgICAgICAgICAgPC9hPlxyXG4gICAgICAgICAgPC9kaXY+XHJcbiAgICAgICAgPC9kaXY+XHJcblxyXG4gICAgICAgIHsvKiBDw612aWNhIEFwcCAqL31cclxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cIm10LTIgcC0zIGJnLXNsYXRlLTUwIGRhcms6Ymctc2xhdGUtOTAwLzUwIHJvdW5kZWQteGwgYm9yZGVyIGJvcmRlci1ib3JkZXIvMjBcIj5cclxuICAgICAgICAgIDxwIGNsYXNzTmFtZT1cInRleHQtWzEycHhdIHRleHQtc2xhdGUtNjAwIGRhcms6dGV4dC1zbGF0ZS0zMDAgdGV4dC1jZW50ZXIgaXRhbGljXCI+XHJcbiAgICAgICAgICAgIFwiUmVjdWVyZGEgcXVlIHB1ZWRlcyB1c2FyIGVsIGPDs2RpZ28gUVIgZGUgbGEgQXBwIEPDrXZpY2EgcGFyYSB2aWFqYXIgc2luIHRhcmpldGEgZsOtc2ljYS5cIlxyXG4gICAgICAgICAgPC9wPlxyXG4gICAgICAgIDwvZGl2PlxyXG4gICAgICA8L0NhcmRDb250ZW50PlxyXG4gICAgPC9DYXJkPlxyXG4gICk7XHJcbn1cclxuIl0sImZpbGUiOiJDOi9Vc2Vycy9BU1VTL0RvY3VtZW50cy9NZXRyb0JPVC9zcmMvY29tcG9uZW50cy9TdXBwb3J0Q2hhbm5lbHMudHN4In0=

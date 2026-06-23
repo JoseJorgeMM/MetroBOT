@@ -1,0 +1,5 @@
+2026/06/22-19:52:11.688 35ac Creating DB C:\Users\ASUS\Documents\MetroBOT\.edge-tmp-375\Default\EdgeCoupons/coupons_data.db since it was missing.
+2026/06/22-19:52:11.703 35ac Reusing MANIFEST C:\Users\ASUS\Documents\MetroBOT\.edge-tmp-375\Default\EdgeCoupons/coupons_data.db/MANIFEST-000001
+2026/06/22-19:52:11.866 3808 Level-0 table #5: started
+2026/06/22-19:52:11.870 3808 Level-0 table #5: 682681 bytes OK
+2026/06/22-19:52:11.872 3808 Delete type=0 #3

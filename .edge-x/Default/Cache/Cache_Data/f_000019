@@ -1,0 +1,283 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/components/Map/NavigationOverlay.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=d067cd9a"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import { ChevronUp, CornerDownLeft, CornerDownRight, CornerUpLeft, CornerUpRight, Flag, Merge, Navigation2, Radio, Volume2, VolumeX, X, CircleDot, TriangleAlert, Footprints } from "/node_modules/.vite/deps/lucide-react.js?v=d067cd9a";
+import { formatDistance, formatDuration } from "/src/lib/geo.ts";
+function maneuverIcon(cue) {
+  if (!cue) return Navigation2;
+  const txt = cue.instruction.toLowerCase();
+  if (txt.includes("destino") || txt.includes("llega")) return Flag;
+  if (txt.includes("glorieta")) return CircleDot;
+  if (txt.includes("incorp")) return Merge;
+  if (txt.includes("totalmente a la derecha") || txt.includes("sharp right")) return CornerUpRight;
+  if (txt.includes("totalmente a la izquierda") || txt.includes("sharp left")) return CornerUpLeft;
+  if (txt.includes("ligeramente a la derecha") || txt.includes("slight right")) return ChevronUp;
+  if (txt.includes("ligeramente a la izquierda") || txt.includes("slight left")) return ChevronUp;
+  if (txt.includes("derecha")) return CornerDownRight;
+  if (txt.includes("izquierda")) return CornerDownLeft;
+  if (txt.includes("recto") || txt.includes("contin")) return Navigation2;
+  return Navigation2;
+}
+export function NavigationOverlay({ nav }) {
+  if (nav.state === "idle" || nav.state === "arrived") {
+    if (nav.state === "arrived") {
+      return /* @__PURE__ */ jsxDEV(Banner, { children: /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-3 px-4 py-3", children: [
+        /* @__PURE__ */ jsxDEV(Flag, { className: "w-7 h-7 text-emerald-500 shrink-0" }, void 0, false, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+          lineNumber: 37,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "flex-1", children: [
+          /* @__PURE__ */ jsxDEV("div", { className: "font-bold text-foreground", children: "Has llegado a tu destino" }, void 0, false, {
+            fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+            lineNumber: 39,
+            columnNumber: 15
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { className: "text-[12px] text-slate-600 dark:text-slate-300", children: "Fin de la navegación" }, void 0, false, {
+            fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+            lineNumber: 40,
+            columnNumber: 15
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+          lineNumber: 38,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV("button", { onClick: nav.stop, className: "px-3 py-1.5 rounded-full bg-slate-200 dark:bg-slate-700 text-sm font-semibold text-foreground active:scale-95", children: "Cerrar" }, void 0, false, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+          lineNumber: 42,
+          columnNumber: 13
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+        lineNumber: 36,
+        columnNumber: 11
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+        lineNumber: 35,
+        columnNumber: 9
+      }, this);
+    }
+    return null;
+  }
+  if (nav.state === "at_station") {
+    return /* @__PURE__ */ jsxDEV(Banner, { children: /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-3 px-4 py-3", children: [
+      /* @__PURE__ */ jsxDEV(Radio, { className: "w-7 h-7 text-sitva-blue shrink-0 animate-pulse" }, void 0, false, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+        lineNumber: 55,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "flex-1 min-w-0", children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "text-[11px] font-bold text-sitva-blue dark:text-sitva-blue/90 uppercase tracking-wider", children: "Sube al transporte" }, void 0, false, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+          lineNumber: 57,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "font-bold text-foreground truncate", children: nav.boardingLabel || "Transporte" }, void 0, false, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+          lineNumber: 58,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "text-[12px] text-slate-600 dark:text-slate-300", children: 'Cuando estés a bordo, toca "Siguiente tramo".' }, void 0, false, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+          lineNumber: 59,
+          columnNumber: 13
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+        lineNumber: 56,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "flex flex-col gap-1.5 shrink-0", children: [
+        /* @__PURE__ */ jsxDEV("button", { onClick: nav.nextLeg, className: "px-3 py-1.5 rounded-full bg-sitva-green text-white text-sm font-bold active:scale-95 flex items-center gap-1", children: [
+          /* @__PURE__ */ jsxDEV(Footprints, { className: "w-4 h-4" }, void 0, false, {
+            fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+            lineNumber: 63,
+            columnNumber: 15
+          }, this),
+          " Siguiente tramo"
+        ] }, void 0, true, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+          lineNumber: 62,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV("button", { onClick: nav.stop, className: "px-3 py-1 rounded-full bg-slate-200 dark:bg-slate-700 text-xs font-semibold text-foreground active:scale-95", children: "Terminar" }, void 0, false, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+          lineNumber: 65,
+          columnNumber: 13
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+        lineNumber: 61,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+      lineNumber: 54,
+      columnNumber: 9
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+      lineNumber: 53,
+      columnNumber: 7
+    }, this);
+  }
+  const Icon = maneuverIcon(nav.cue);
+  const recalculating = nav.recalculating;
+  const cue = nav.cue;
+  return /* @__PURE__ */ jsxDEV(Banner, { children: /* @__PURE__ */ jsxDEV("div", { className: "px-4 py-3", children: [
+    /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-3", children: [
+      /* @__PURE__ */ jsxDEV("div", { className: "w-11 h-11 rounded-full bg-blue-500 text-white flex items-center justify-center shrink-0 shadow-md", children: recalculating ? /* @__PURE__ */ jsxDEV(TriangleAlert, { className: "w-6 h-6 animate-pulse" }, void 0, false, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+        lineNumber: 82,
+        columnNumber: 30
+      }, this) : /* @__PURE__ */ jsxDEV(Icon, { className: "w-6 h-6" }, void 0, false, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+        lineNumber: 82,
+        columnNumber: 84
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+        lineNumber: 81,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "flex-1 min-w-0", children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "flex items-baseline gap-2", children: [
+          /* @__PURE__ */ jsxDEV("span", { className: "text-xl font-extrabold text-foreground leading-none", children: cue ? formatDistance(cue.distanceToManeuver) : "—" }, void 0, false, {
+            fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+            lineNumber: 86,
+            columnNumber: 15
+          }, this),
+          /* @__PURE__ */ jsxDEV("span", { className: "text-[12px] text-slate-600 dark:text-slate-300", children: "hasta el próximo paso" }, void 0, false, {
+            fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+            lineNumber: 89,
+            columnNumber: 15
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+          lineNumber: 85,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "font-semibold text-foreground truncate", children: recalculating ? "Recalculando ruta…" : cue?.instruction || "Continúa" }, void 0, false, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+          lineNumber: 91,
+          columnNumber: 13
+        }, this),
+        cue?.nextInstruction && !recalculating && /* @__PURE__ */ jsxDEV("div", { className: "text-[12px] text-slate-500 dark:text-slate-400 truncate", children: [
+          "Luego: ",
+          cue.nextInstruction
+        ] }, void 0, true, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+          lineNumber: 95,
+          columnNumber: 13
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+        lineNumber: 84,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "flex flex-col items-end gap-1 shrink-0", children: [
+        /* @__PURE__ */ jsxDEV("button", { onClick: nav.toggleMute, className: "w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-foreground active:scale-90", "aria-label": nav.muted ? "Activar voz" : "Silenciar voz", children: nav.muted ? /* @__PURE__ */ jsxDEV(VolumeX, { className: "w-5 h-5" }, void 0, false, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+          lineNumber: 100,
+          columnNumber: 28
+        }, this) : /* @__PURE__ */ jsxDEV(Volume2, { className: "w-5 h-5" }, void 0, false, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+          lineNumber: 100,
+          columnNumber: 62
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+          lineNumber: 99,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV("button", { onClick: nav.stop, className: "w-9 h-9 rounded-full bg-red-100 dark:bg-red-900/40 flex items-center justify-center text-red-600 dark:text-red-300 active:scale-90", "aria-label": "Detener navegación", children: /* @__PURE__ */ jsxDEV(X, { className: "w-5 h-5" }, void 0, false, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+          lineNumber: 103,
+          columnNumber: 15
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+          lineNumber: 102,
+          columnNumber: 13
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+        lineNumber: 98,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+      lineNumber: 80,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "flex items-center justify-between mt-2 text-[11px] text-slate-500 dark:text-slate-400", children: [
+      /* @__PURE__ */ jsxDEV("span", { children: [
+        "Tramo ",
+        nav.legIndex,
+        " de ",
+        nav.legCount
+      ] }, void 0, true, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+        lineNumber: 108,
+        columnNumber: 11
+      }, this),
+      cue && /* @__PURE__ */ jsxDEV("span", { children: [
+        formatDistance(cue.remainingDistance),
+        " · ",
+        formatDuration(cue.eta)
+      ] }, void 0, true, {
+        fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+        lineNumber: 109,
+        columnNumber: 19
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+      lineNumber: 107,
+      columnNumber: 9
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+    lineNumber: 79,
+    columnNumber: 7
+  }, this) }, void 0, false, {
+    fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+    lineNumber: 78,
+    columnNumber: 5
+  }, this);
+}
+_c = NavigationOverlay;
+function Banner({ children }) {
+  return /* @__PURE__ */ jsxDEV("div", { className: "absolute top-0 left-0 right-0 z-[1000] safe-top pointer-events-auto", children: /* @__PURE__ */ jsxDEV("div", { className: "mx-auto max-w-md m-2 bg-card/95 backdrop-blur-md rounded-2xl shadow-xl border border-border/40 overflow-hidden", children }, void 0, false, {
+    fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+    lineNumber: 119,
+    columnNumber: 7
+  }, this) }, void 0, false, {
+    fileName: "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx",
+    lineNumber: 118,
+    columnNumber: 5
+  }, this);
+}
+_c2 = Banner;
+var _c, _c2;
+$RefreshReg$(_c, "NavigationOverlay");
+$RefreshReg$(_c2, "Banner");
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+function $RefreshReg$(type, id) {
+  return RefreshRuntime.register(type, "C:/Users/ASUS/Documents/MetroBOT/src/components/Map/NavigationOverlay.tsx " + id);
+}
+function $RefreshSig$() {
+  return RefreshRuntime.createSignatureFunctionForTransform();
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBb0NZO0FBcENaLFNBQVNBLFdBQVdDLGdCQUFnQkMsaUJBQWlCQyxjQUFjQyxlQUFlQyxNQUFNQyxPQUFPQyxhQUFhQyxPQUFPQyxTQUFTQyxTQUFTQyxHQUFHQyxXQUFXQyxlQUFlQyxrQkFBa0I7QUFFcEwsU0FBU0MsZ0JBQWdCQyxzQkFBc0I7QUFHL0MsU0FBU0MsYUFBYUMsS0FBbUQ7QUFDdkUsTUFBSSxDQUFDQSxJQUFLLFFBQU9YO0FBQ2pCLFFBQU1ZLE1BQU1ELElBQUlFLFlBQVlDLFlBQVk7QUFDeEMsTUFBSUYsSUFBSUcsU0FBUyxTQUFTLEtBQUtILElBQUlHLFNBQVMsT0FBTyxFQUFHLFFBQU9qQjtBQUM3RCxNQUFJYyxJQUFJRyxTQUFTLFVBQVUsRUFBRyxRQUFPVjtBQUNyQyxNQUFJTyxJQUFJRyxTQUFTLFFBQVEsRUFBRyxRQUFPaEI7QUFDbkMsTUFBSWEsSUFBSUcsU0FBUyx5QkFBeUIsS0FBS0gsSUFBSUcsU0FBUyxhQUFhLEVBQUcsUUFBT2xCO0FBQ25GLE1BQUllLElBQUlHLFNBQVMsMkJBQTJCLEtBQUtILElBQUlHLFNBQVMsWUFBWSxFQUFHLFFBQU9uQjtBQUNwRixNQUFJZ0IsSUFBSUcsU0FBUywwQkFBMEIsS0FBS0gsSUFBSUcsU0FBUyxjQUFjLEVBQUcsUUFBT3RCO0FBQ3JGLE1BQUltQixJQUFJRyxTQUFTLDRCQUE0QixLQUFLSCxJQUFJRyxTQUFTLGFBQWEsRUFBRyxRQUFPdEI7QUFDdEYsTUFBSW1CLElBQUlHLFNBQVMsU0FBUyxFQUFHLFFBQU9wQjtBQUNwQyxNQUFJaUIsSUFBSUcsU0FBUyxXQUFXLEVBQUcsUUFBT3JCO0FBQ3RDLE1BQUlrQixJQUFJRyxTQUFTLE9BQU8sS0FBS0gsSUFBSUcsU0FBUyxRQUFRLEVBQUcsUUFBT2Y7QUFDNUQsU0FBT0E7QUFDVDtBQVdPLGdCQUFTZ0Isa0JBQWtCLEVBQUVDLElBQTRCLEdBQUc7QUFDakUsTUFBSUEsSUFBSUMsVUFBVSxVQUFVRCxJQUFJQyxVQUFVLFdBQVc7QUFDbkQsUUFBSUQsSUFBSUMsVUFBVSxXQUFXO0FBQzNCLGFBQ0UsdUJBQUMsVUFDQyxpQ0FBQyxTQUFJLFdBQVUscUNBQ2I7QUFBQSwrQkFBQyxRQUFLLFdBQVUsdUNBQWhCO0FBQUE7QUFBQTtBQUFBO0FBQUEsZUFBbUQ7QUFBQSxRQUNuRCx1QkFBQyxTQUFJLFdBQVUsVUFDYjtBQUFBLGlDQUFDLFNBQUksV0FBVSw2QkFBNEIsd0NBQTNDO0FBQUE7QUFBQTtBQUFBO0FBQUEsaUJBQW1FO0FBQUEsVUFDbkUsdUJBQUMsU0FBSSxXQUFVLGtEQUFpRCxvQ0FBaEU7QUFBQTtBQUFBO0FBQUE7QUFBQSxpQkFBb0Y7QUFBQSxhQUZ0RjtBQUFBO0FBQUE7QUFBQTtBQUFBLGVBR0E7QUFBQSxRQUNBLHVCQUFDLFlBQU8sU0FBU0QsSUFBSUUsTUFBTSxXQUFVLGlIQUFnSCxzQkFBcko7QUFBQTtBQUFBO0FBQUE7QUFBQSxlQUEySjtBQUFBLFdBTjdKO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFPQSxLQVJGO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFTQTtBQUFBLElBRUo7QUFDQSxXQUFPO0FBQUEsRUFDVDtBQUdBLE1BQUlGLElBQUlDLFVBQVUsY0FBYztBQUM5QixXQUNFLHVCQUFDLFVBQ0MsaUNBQUMsU0FBSSxXQUFVLHFDQUNiO0FBQUEsNkJBQUMsU0FBTSxXQUFVLG9EQUFqQjtBQUFBO0FBQUE7QUFBQTtBQUFBLGFBQWlFO0FBQUEsTUFDakUsdUJBQUMsU0FBSSxXQUFVLGtCQUNiO0FBQUEsK0JBQUMsU0FBSSxXQUFVLDBGQUF5RixrQ0FBeEc7QUFBQTtBQUFBO0FBQUE7QUFBQSxlQUEwSDtBQUFBLFFBQzFILHVCQUFDLFNBQUksV0FBVSxzQ0FBc0NELGNBQUlHLGlCQUFpQixnQkFBMUU7QUFBQTtBQUFBO0FBQUE7QUFBQSxlQUF1RjtBQUFBLFFBQ3ZGLHVCQUFDLFNBQUksV0FBVSxrREFBaUQsNkRBQWhFO0FBQUE7QUFBQTtBQUFBO0FBQUEsZUFBNkc7QUFBQSxXQUgvRztBQUFBO0FBQUE7QUFBQTtBQUFBLGFBSUE7QUFBQSxNQUNBLHVCQUFDLFNBQUksV0FBVSxrQ0FDYjtBQUFBLCtCQUFDLFlBQU8sU0FBU0gsSUFBSUksU0FBUyxXQUFVLGdIQUN0QztBQUFBLGlDQUFDLGNBQVcsV0FBVSxhQUF0QjtBQUFBO0FBQUE7QUFBQTtBQUFBLGlCQUErQjtBQUFBLFVBQUc7QUFBQSxhQURwQztBQUFBO0FBQUE7QUFBQTtBQUFBLGVBRUE7QUFBQSxRQUNBLHVCQUFDLFlBQU8sU0FBU0osSUFBSUUsTUFBTSxXQUFVLCtHQUE4Ryx3QkFBbko7QUFBQTtBQUFBO0FBQUE7QUFBQSxlQUEySjtBQUFBLFdBSjdKO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFLQTtBQUFBLFNBWkY7QUFBQTtBQUFBO0FBQUE7QUFBQSxXQWFBLEtBZEY7QUFBQTtBQUFBO0FBQUE7QUFBQSxXQWVBO0FBQUEsRUFFSjtBQUdBLFFBQU1HLE9BQU9aLGFBQWFPLElBQUlOLEdBQUc7QUFDakMsUUFBTVksZ0JBQWdCTixJQUFJTTtBQUMxQixRQUFNWixNQUFNTSxJQUFJTjtBQUVoQixTQUNFLHVCQUFDLFVBQ0MsaUNBQUMsU0FBSSxXQUFVLGFBQ2I7QUFBQSwyQkFBQyxTQUFJLFdBQVUsMkJBQ2I7QUFBQSw2QkFBQyxTQUFJLFdBQVUscUdBQ1pZLDBCQUFnQix1QkFBQyxpQkFBYyxXQUFVLDJCQUF6QjtBQUFBO0FBQUE7QUFBQTtBQUFBLGFBQWdELElBQU0sdUJBQUMsUUFBSyxXQUFVLGFBQWhCO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFBeUIsS0FEbEc7QUFBQTtBQUFBO0FBQUE7QUFBQSxhQUVBO0FBQUEsTUFDQSx1QkFBQyxTQUFJLFdBQVUsa0JBQ2I7QUFBQSwrQkFBQyxTQUFJLFdBQVUsNkJBQ2I7QUFBQSxpQ0FBQyxVQUFLLFdBQVUsdURBQ2JaLGdCQUFNSCxlQUFlRyxJQUFJYSxrQkFBa0IsSUFBSSxPQURsRDtBQUFBO0FBQUE7QUFBQTtBQUFBLGlCQUVBO0FBQUEsVUFDQSx1QkFBQyxVQUFLLFdBQVUsa0RBQWlELHFDQUFqRTtBQUFBO0FBQUE7QUFBQTtBQUFBLGlCQUFzRjtBQUFBLGFBSnhGO0FBQUE7QUFBQTtBQUFBO0FBQUEsZUFLQTtBQUFBLFFBQ0EsdUJBQUMsU0FBSSxXQUFVLDBDQUNaRCwwQkFBZ0IsdUJBQXdCWixLQUFLRSxlQUFlLGNBRC9EO0FBQUE7QUFBQTtBQUFBO0FBQUEsZUFFQTtBQUFBLFFBQ0NGLEtBQUtjLG1CQUFtQixDQUFDRixpQkFDeEIsdUJBQUMsU0FBSSxXQUFVLDJEQUEwRDtBQUFBO0FBQUEsVUFBUVosSUFBSWM7QUFBQUEsYUFBckY7QUFBQTtBQUFBO0FBQUE7QUFBQSxlQUFxRztBQUFBLFdBWHpHO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFhQTtBQUFBLE1BQ0EsdUJBQUMsU0FBSSxXQUFVLDBDQUNiO0FBQUEsK0JBQUMsWUFBTyxTQUFTUixJQUFJUyxZQUFZLFdBQVUsd0hBQXVILGNBQVlULElBQUlVLFFBQVEsZ0JBQWdCLGlCQUN2TVYsY0FBSVUsUUFBUSx1QkFBQyxXQUFRLFdBQVUsYUFBbkI7QUFBQTtBQUFBO0FBQUE7QUFBQSxlQUE0QixJQUFNLHVCQUFDLFdBQVEsV0FBVSxhQUFuQjtBQUFBO0FBQUE7QUFBQTtBQUFBLGVBQTRCLEtBRDdFO0FBQUE7QUFBQTtBQUFBO0FBQUEsZUFFQTtBQUFBLFFBQ0EsdUJBQUMsWUFBTyxTQUFTVixJQUFJRSxNQUFNLFdBQVUsc0lBQXFJLGNBQVcsc0JBQ25MLGlDQUFDLEtBQUUsV0FBVSxhQUFiO0FBQUE7QUFBQTtBQUFBO0FBQUEsZUFBc0IsS0FEeEI7QUFBQTtBQUFBO0FBQUE7QUFBQSxlQUVBO0FBQUEsV0FORjtBQUFBO0FBQUE7QUFBQTtBQUFBLGFBT0E7QUFBQSxTQXpCRjtBQUFBO0FBQUE7QUFBQTtBQUFBLFdBMEJBO0FBQUEsSUFDQSx1QkFBQyxTQUFJLFdBQVUseUZBQ2I7QUFBQSw2QkFBQyxVQUFLO0FBQUE7QUFBQSxRQUFPRixJQUFJVztBQUFBQSxRQUFTO0FBQUEsUUFBS1gsSUFBSVk7QUFBQUEsV0FBbkM7QUFBQTtBQUFBO0FBQUE7QUFBQSxhQUE0QztBQUFBLE1BQzNDbEIsT0FBTyx1QkFBQyxVQUFNSDtBQUFBQSx1QkFBZUcsSUFBSW1CLGlCQUFpQjtBQUFBLFFBQUU7QUFBQSxRQUFJckIsZUFBZUUsSUFBSW9CLEdBQUc7QUFBQSxXQUF2RTtBQUFBO0FBQUE7QUFBQTtBQUFBLGFBQXlFO0FBQUEsU0FGbkY7QUFBQTtBQUFBO0FBQUE7QUFBQSxXQUdBO0FBQUEsT0EvQkY7QUFBQTtBQUFBO0FBQUE7QUFBQSxTQWdDQSxLQWpDRjtBQUFBO0FBQUE7QUFBQTtBQUFBLFNBa0NBO0FBRUo7QUFBQ0MsS0FuRmVoQjtBQXFGaEIsU0FBU2lCLE9BQU8sRUFBRUMsU0FBd0MsR0FBRztBQUMzRCxTQUNFLHVCQUFDLFNBQUksV0FBVSx1RUFDYixpQ0FBQyxTQUFJLFdBQVUsa0hBQ1pBLFlBREg7QUFBQTtBQUFBO0FBQUE7QUFBQSxTQUVBLEtBSEY7QUFBQTtBQUFBO0FBQUE7QUFBQSxTQUlBO0FBRUo7QUFBQ0MsTUFSUUY7QUFBTSxJQUFBRCxJQUFBRztBQUFBLGFBQUFILElBQUE7QUFBQSxhQUFBRyxLQUFBIiwibmFtZXMiOlsiQ2hldnJvblVwIiwiQ29ybmVyRG93bkxlZnQiLCJDb3JuZXJEb3duUmlnaHQiLCJDb3JuZXJVcExlZnQiLCJDb3JuZXJVcFJpZ2h0IiwiRmxhZyIsIk1lcmdlIiwiTmF2aWdhdGlvbjIiLCJSYWRpbyIsIlZvbHVtZTIiLCJWb2x1bWVYIiwiWCIsIkNpcmNsZURvdCIsIlRyaWFuZ2xlQWxlcnQiLCJGb290cHJpbnRzIiwiZm9ybWF0RGlzdGFuY2UiLCJmb3JtYXREdXJhdGlvbiIsIm1hbmV1dmVySWNvbiIsImN1ZSIsInR4dCIsImluc3RydWN0aW9uIiwidG9Mb3dlckNhc2UiLCJpbmNsdWRlcyIsIk5hdmlnYXRpb25PdmVybGF5IiwibmF2Iiwic3RhdGUiLCJzdG9wIiwiYm9hcmRpbmdMYWJlbCIsIm5leHRMZWciLCJJY29uIiwicmVjYWxjdWxhdGluZyIsImRpc3RhbmNlVG9NYW5ldXZlciIsIm5leHRJbnN0cnVjdGlvbiIsInRvZ2dsZU11dGUiLCJtdXRlZCIsImxlZ0luZGV4IiwibGVnQ291bnQiLCJyZW1haW5pbmdEaXN0YW5jZSIsImV0YSIsIl9jIiwiQmFubmVyIiwiY2hpbGRyZW4iLCJfYzIiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiTmF2aWdhdGlvbk92ZXJsYXkudHN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IENoZXZyb25VcCwgQ29ybmVyRG93bkxlZnQsIENvcm5lckRvd25SaWdodCwgQ29ybmVyVXBMZWZ0LCBDb3JuZXJVcFJpZ2h0LCBGbGFnLCBNZXJnZSwgTmF2aWdhdGlvbjIsIFJhZGlvLCBWb2x1bWUyLCBWb2x1bWVYLCBYLCBDaXJjbGVEb3QsIFRyaWFuZ2xlQWxlcnQsIEZvb3RwcmludHMgfSBmcm9tICdsdWNpZGUtcmVhY3QnO1xuaW1wb3J0IHR5cGUgeyBOYXZpZ2F0aW9uQ29udGV4dCB9IGZyb20gJy4uLy4uL2hvb2tzL3VzZU5hdmlnYXRpb24nO1xuaW1wb3J0IHsgZm9ybWF0RGlzdGFuY2UsIGZvcm1hdER1cmF0aW9uIH0gZnJvbSAnLi4vLi4vbGliL2dlbyc7XG5cbi8qKiBQaWNrIGEgbHVjaWRlIGljb24gZm9yIHRoZSB1cGNvbWluZyBtYW5ldXZlci4gKi9cbmZ1bmN0aW9uIG1hbmV1dmVySWNvbihjdWU6IE5hdmlnYXRpb25Db250ZXh0WydjdWUnXSk6IHR5cGVvZiBOYXZpZ2F0aW9uMiB7XG4gIGlmICghY3VlKSByZXR1cm4gTmF2aWdhdGlvbjI7XG4gIGNvbnN0IHR4dCA9IGN1ZS5pbnN0cnVjdGlvbi50b0xvd2VyQ2FzZSgpO1xuICBpZiAodHh0LmluY2x1ZGVzKCdkZXN0aW5vJykgfHwgdHh0LmluY2x1ZGVzKCdsbGVnYScpKSByZXR1cm4gRmxhZztcbiAgaWYgKHR4dC5pbmNsdWRlcygnZ2xvcmlldGEnKSkgcmV0dXJuIENpcmNsZURvdDtcbiAgaWYgKHR4dC5pbmNsdWRlcygnaW5jb3JwJykpIHJldHVybiBNZXJnZTtcbiAgaWYgKHR4dC5pbmNsdWRlcygndG90YWxtZW50ZSBhIGxhIGRlcmVjaGEnKSB8fCB0eHQuaW5jbHVkZXMoJ3NoYXJwIHJpZ2h0JykpIHJldHVybiBDb3JuZXJVcFJpZ2h0O1xuICBpZiAodHh0LmluY2x1ZGVzKCd0b3RhbG1lbnRlIGEgbGEgaXpxdWllcmRhJykgfHwgdHh0LmluY2x1ZGVzKCdzaGFycCBsZWZ0JykpIHJldHVybiBDb3JuZXJVcExlZnQ7XG4gIGlmICh0eHQuaW5jbHVkZXMoJ2xpZ2VyYW1lbnRlIGEgbGEgZGVyZWNoYScpIHx8IHR4dC5pbmNsdWRlcygnc2xpZ2h0IHJpZ2h0JykpIHJldHVybiBDaGV2cm9uVXA7XG4gIGlmICh0eHQuaW5jbHVkZXMoJ2xpZ2VyYW1lbnRlIGEgbGEgaXpxdWllcmRhJykgfHwgdHh0LmluY2x1ZGVzKCdzbGlnaHQgbGVmdCcpKSByZXR1cm4gQ2hldnJvblVwO1xuICBpZiAodHh0LmluY2x1ZGVzKCdkZXJlY2hhJykpIHJldHVybiBDb3JuZXJEb3duUmlnaHQ7XG4gIGlmICh0eHQuaW5jbHVkZXMoJ2l6cXVpZXJkYScpKSByZXR1cm4gQ29ybmVyRG93bkxlZnQ7XG4gIGlmICh0eHQuaW5jbHVkZXMoJ3JlY3RvJykgfHwgdHh0LmluY2x1ZGVzKCdjb250aW4nKSkgcmV0dXJuIE5hdmlnYXRpb24yO1xuICByZXR1cm4gTmF2aWdhdGlvbjI7XG59XG5cbmludGVyZmFjZSBOYXZpZ2F0aW9uT3ZlcmxheVByb3BzIHtcbiAgbmF2OiBOYXZpZ2F0aW9uQ29udGV4dDtcbn1cblxuLyoqXG4gKiBUb3AgbmF2aWdhdGlvbiBiYW5uZXIgKEdvb2dsZS1NYXBzIHN0eWxlKS4gU2hvd3MgdGhlIHVwY29taW5nIG1hbmV1dmVyIHdpdGhcbiAqIGRpc3RhbmNlLCBFVEEsIG11dGUgdG9nZ2xlIGFuZCBhIHN0b3AgYnV0dG9uLiBXaGlsZSBwYXVzZWQgYXQgYSBib2FyZGluZ1xuICogcG9pbnQgaXQgc2hvd3MgdGhlIFwiU3ViZSBhbCDigKZcIiBiYW5uZXIgaW5zdGVhZC5cbiAqL1xuZXhwb3J0IGZ1bmN0aW9uIE5hdmlnYXRpb25PdmVybGF5KHsgbmF2IH06IE5hdmlnYXRpb25PdmVybGF5UHJvcHMpIHtcbiAgaWYgKG5hdi5zdGF0ZSA9PT0gJ2lkbGUnIHx8IG5hdi5zdGF0ZSA9PT0gJ2Fycml2ZWQnKSB7XG4gICAgaWYgKG5hdi5zdGF0ZSA9PT0gJ2Fycml2ZWQnKSB7XG4gICAgICByZXR1cm4gKFxuICAgICAgICA8QmFubmVyPlxuICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTMgcHgtNCBweS0zXCI+XG4gICAgICAgICAgICA8RmxhZyBjbGFzc05hbWU9XCJ3LTcgaC03IHRleHQtZW1lcmFsZC01MDAgc2hyaW5rLTBcIiAvPlxuICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmbGV4LTFcIj5cbiAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmb250LWJvbGQgdGV4dC1mb3JlZ3JvdW5kXCI+SGFzIGxsZWdhZG8gYSB0dSBkZXN0aW5vPC9kaXY+XG4gICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwidGV4dC1bMTJweF0gdGV4dC1zbGF0ZS02MDAgZGFyazp0ZXh0LXNsYXRlLTMwMFwiPkZpbiBkZSBsYSBuYXZlZ2FjacOzbjwvZGl2PlxuICAgICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgICA8YnV0dG9uIG9uQ2xpY2s9e25hdi5zdG9wfSBjbGFzc05hbWU9XCJweC0zIHB5LTEuNSByb3VuZGVkLWZ1bGwgYmctc2xhdGUtMjAwIGRhcms6Ymctc2xhdGUtNzAwIHRleHQtc20gZm9udC1zZW1pYm9sZCB0ZXh0LWZvcmVncm91bmQgYWN0aXZlOnNjYWxlLTk1XCI+Q2VycmFyPC9idXR0b24+XG4gICAgICAgICAgPC9kaXY+XG4gICAgICAgIDwvQmFubmVyPlxuICAgICAgKTtcbiAgICB9XG4gICAgcmV0dXJuIG51bGw7XG4gIH1cblxuICAvLyBQYXVzZWQgYXQgYSBib2FyZGluZyBwb2ludDogdGVsbCB0aGUgdXNlciB3aGF0IHRvIGJvYXJkLlxuICBpZiAobmF2LnN0YXRlID09PSAnYXRfc3RhdGlvbicpIHtcbiAgICByZXR1cm4gKFxuICAgICAgPEJhbm5lcj5cbiAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmbGV4IGl0ZW1zLWNlbnRlciBnYXAtMyBweC00IHB5LTNcIj5cbiAgICAgICAgICA8UmFkaW8gY2xhc3NOYW1lPVwidy03IGgtNyB0ZXh0LXNpdHZhLWJsdWUgc2hyaW5rLTAgYW5pbWF0ZS1wdWxzZVwiIC8+XG4gICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmbGV4LTEgbWluLXctMFwiPlxuICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJ0ZXh0LVsxMXB4XSBmb250LWJvbGQgdGV4dC1zaXR2YS1ibHVlIGRhcms6dGV4dC1zaXR2YS1ibHVlLzkwIHVwcGVyY2FzZSB0cmFja2luZy13aWRlclwiPlN1YmUgYWwgdHJhbnNwb3J0ZTwvZGl2PlxuICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmb250LWJvbGQgdGV4dC1mb3JlZ3JvdW5kIHRydW5jYXRlXCI+e25hdi5ib2FyZGluZ0xhYmVsIHx8ICdUcmFuc3BvcnRlJ308L2Rpdj5cbiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwidGV4dC1bMTJweF0gdGV4dC1zbGF0ZS02MDAgZGFyazp0ZXh0LXNsYXRlLTMwMFwiPkN1YW5kbyBlc3TDqXMgYSBib3JkbywgdG9jYSBcIlNpZ3VpZW50ZSB0cmFtb1wiLjwvZGl2PlxuICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleCBmbGV4LWNvbCBnYXAtMS41IHNocmluay0wXCI+XG4gICAgICAgICAgICA8YnV0dG9uIG9uQ2xpY2s9e25hdi5uZXh0TGVnfSBjbGFzc05hbWU9XCJweC0zIHB5LTEuNSByb3VuZGVkLWZ1bGwgYmctc2l0dmEtZ3JlZW4gdGV4dC13aGl0ZSB0ZXh0LXNtIGZvbnQtYm9sZCBhY3RpdmU6c2NhbGUtOTUgZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTFcIj5cbiAgICAgICAgICAgICAgPEZvb3RwcmludHMgY2xhc3NOYW1lPVwidy00IGgtNFwiIC8+IFNpZ3VpZW50ZSB0cmFtb1xuICAgICAgICAgICAgPC9idXR0b24+XG4gICAgICAgICAgICA8YnV0dG9uIG9uQ2xpY2s9e25hdi5zdG9wfSBjbGFzc05hbWU9XCJweC0zIHB5LTEgcm91bmRlZC1mdWxsIGJnLXNsYXRlLTIwMCBkYXJrOmJnLXNsYXRlLTcwMCB0ZXh0LXhzIGZvbnQtc2VtaWJvbGQgdGV4dC1mb3JlZ3JvdW5kIGFjdGl2ZTpzY2FsZS05NVwiPlRlcm1pbmFyPC9idXR0b24+XG4gICAgICAgICAgPC9kaXY+XG4gICAgICAgIDwvZGl2PlxuICAgICAgPC9CYW5uZXI+XG4gICAgKTtcbiAgfVxuXG4gIC8vIEFjdGl2ZSB3YWxraW5nIGd1aWRhbmNlLlxuICBjb25zdCBJY29uID0gbWFuZXV2ZXJJY29uKG5hdi5jdWUpO1xuICBjb25zdCByZWNhbGN1bGF0aW5nID0gbmF2LnJlY2FsY3VsYXRpbmc7XG4gIGNvbnN0IGN1ZSA9IG5hdi5jdWU7XG5cbiAgcmV0dXJuIChcbiAgICA8QmFubmVyPlxuICAgICAgPGRpdiBjbGFzc05hbWU9XCJweC00IHB5LTNcIj5cbiAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmbGV4IGl0ZW1zLWNlbnRlciBnYXAtM1wiPlxuICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwidy0xMSBoLTExIHJvdW5kZWQtZnVsbCBiZy1ibHVlLTUwMCB0ZXh0LXdoaXRlIGZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVyIHNocmluay0wIHNoYWRvdy1tZFwiPlxuICAgICAgICAgICAge3JlY2FsY3VsYXRpbmcgPyA8VHJpYW5nbGVBbGVydCBjbGFzc05hbWU9XCJ3LTYgaC02IGFuaW1hdGUtcHVsc2VcIiAvPiA6IDxJY29uIGNsYXNzTmFtZT1cInctNiBoLTZcIiAvPn1cbiAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXgtMSBtaW4tdy0wXCI+XG4gICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXggaXRlbXMtYmFzZWxpbmUgZ2FwLTJcIj5cbiAgICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPVwidGV4dC14bCBmb250LWV4dHJhYm9sZCB0ZXh0LWZvcmVncm91bmQgbGVhZGluZy1ub25lXCI+XG4gICAgICAgICAgICAgICAge2N1ZSA/IGZvcm1hdERpc3RhbmNlKGN1ZS5kaXN0YW5jZVRvTWFuZXV2ZXIpIDogJ+KAlCd9XG4gICAgICAgICAgICAgIDwvc3Bhbj5cbiAgICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPVwidGV4dC1bMTJweF0gdGV4dC1zbGF0ZS02MDAgZGFyazp0ZXh0LXNsYXRlLTMwMFwiPmhhc3RhIGVsIHByw7N4aW1vIHBhc288L3NwYW4+XG4gICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZm9udC1zZW1pYm9sZCB0ZXh0LWZvcmVncm91bmQgdHJ1bmNhdGVcIj5cbiAgICAgICAgICAgICAge3JlY2FsY3VsYXRpbmcgPyAnUmVjYWxjdWxhbmRvIHJ1dGHigKYnIDogKGN1ZT8uaW5zdHJ1Y3Rpb24gfHwgJ0NvbnRpbsO6YScpfVxuICAgICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgICB7Y3VlPy5uZXh0SW5zdHJ1Y3Rpb24gJiYgIXJlY2FsY3VsYXRpbmcgJiYgKFxuICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInRleHQtWzEycHhdIHRleHQtc2xhdGUtNTAwIGRhcms6dGV4dC1zbGF0ZS00MDAgdHJ1bmNhdGVcIj5MdWVnbzoge2N1ZS5uZXh0SW5zdHJ1Y3Rpb259PC9kaXY+XG4gICAgICAgICAgICApfVxuICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleCBmbGV4LWNvbCBpdGVtcy1lbmQgZ2FwLTEgc2hyaW5rLTBcIj5cbiAgICAgICAgICAgIDxidXR0b24gb25DbGljaz17bmF2LnRvZ2dsZU11dGV9IGNsYXNzTmFtZT1cInctOSBoLTkgcm91bmRlZC1mdWxsIGJnLXNsYXRlLTEwMCBkYXJrOmJnLXNsYXRlLTcwMCBmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlciB0ZXh0LWZvcmVncm91bmQgYWN0aXZlOnNjYWxlLTkwXCIgYXJpYS1sYWJlbD17bmF2Lm11dGVkID8gJ0FjdGl2YXIgdm96JyA6ICdTaWxlbmNpYXIgdm96J30+XG4gICAgICAgICAgICAgIHtuYXYubXV0ZWQgPyA8Vm9sdW1lWCBjbGFzc05hbWU9XCJ3LTUgaC01XCIgLz4gOiA8Vm9sdW1lMiBjbGFzc05hbWU9XCJ3LTUgaC01XCIgLz59XG4gICAgICAgICAgICA8L2J1dHRvbj5cbiAgICAgICAgICAgIDxidXR0b24gb25DbGljaz17bmF2LnN0b3B9IGNsYXNzTmFtZT1cInctOSBoLTkgcm91bmRlZC1mdWxsIGJnLXJlZC0xMDAgZGFyazpiZy1yZWQtOTAwLzQwIGZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVyIHRleHQtcmVkLTYwMCBkYXJrOnRleHQtcmVkLTMwMCBhY3RpdmU6c2NhbGUtOTBcIiBhcmlhLWxhYmVsPVwiRGV0ZW5lciBuYXZlZ2FjacOzblwiPlxuICAgICAgICAgICAgICA8WCBjbGFzc05hbWU9XCJ3LTUgaC01XCIgLz5cbiAgICAgICAgICAgIDwvYnV0dG9uPlxuICAgICAgICAgIDwvZGl2PlxuICAgICAgICA8L2Rpdj5cbiAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWJldHdlZW4gbXQtMiB0ZXh0LVsxMXB4XSB0ZXh0LXNsYXRlLTUwMCBkYXJrOnRleHQtc2xhdGUtNDAwXCI+XG4gICAgICAgICAgPHNwYW4+VHJhbW8ge25hdi5sZWdJbmRleH0gZGUge25hdi5sZWdDb3VudH08L3NwYW4+XG4gICAgICAgICAge2N1ZSAmJiA8c3Bhbj57Zm9ybWF0RGlzdGFuY2UoY3VlLnJlbWFpbmluZ0Rpc3RhbmNlKX0gwrcge2Zvcm1hdER1cmF0aW9uKGN1ZS5ldGEpfTwvc3Bhbj59XG4gICAgICAgIDwvZGl2PlxuICAgICAgPC9kaXY+XG4gICAgPC9CYW5uZXI+XG4gICk7XG59XG5cbmZ1bmN0aW9uIEJhbm5lcih7IGNoaWxkcmVuIH06IHsgY2hpbGRyZW46IFJlYWN0LlJlYWN0Tm9kZSB9KSB7XG4gIHJldHVybiAoXG4gICAgPGRpdiBjbGFzc05hbWU9XCJhYnNvbHV0ZSB0b3AtMCBsZWZ0LTAgcmlnaHQtMCB6LVsxMDAwXSBzYWZlLXRvcCBwb2ludGVyLWV2ZW50cy1hdXRvXCI+XG4gICAgICA8ZGl2IGNsYXNzTmFtZT1cIm14LWF1dG8gbWF4LXctbWQgbS0yIGJnLWNhcmQvOTUgYmFja2Ryb3AtYmx1ci1tZCByb3VuZGVkLTJ4bCBzaGFkb3cteGwgYm9yZGVyIGJvcmRlci1ib3JkZXIvNDAgb3ZlcmZsb3ctaGlkZGVuXCI+XG4gICAgICAgIHtjaGlsZHJlbn1cbiAgICAgIDwvZGl2PlxuICAgIDwvZGl2PlxuICApO1xufVxuIl0sImZpbGUiOiJDOi9Vc2Vycy9BU1VTL0RvY3VtZW50cy9NZXRyb0JPVC9zcmMvY29tcG9uZW50cy9NYXAvTmF2aWdhdGlvbk92ZXJsYXkudHN4In0=

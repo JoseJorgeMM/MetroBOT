@@ -1,0 +1,103 @@
+
+  <div id="content"><!---->
+    <div id="main-frame-error" class="interstitial-wrapper ">
+      <div id="main-content">
+        <div class="icon icon-elixir-thinking"></div>
+        <div id="main-message">
+          <h1>
+            <span>Vaya… no se puede obtener acceso a esta página</span>
+          </h1>
+          <!--?lit$653079752$-->
+            <p><strong>127.0.0.1</strong> rechazó la conexión.</p>
+          
+          <div id="diagnose-frame" class="hidden"></div>
+
+          <!--?lit$653079752$-->
+            <div id="suggestions-list">
+              <p><!--?lit$653079752$-->Prueba a:</p>
+              <ul class="">
+                <!--?lit$653079752$--><!---->
+                  <li>Buscar <a href="https://www.bing.com/search?form=ANLKDR&amp;q=127 0 0 1" onclick="navigationCorrectionClicked(this)" id="search-link">127 0 0 1</a> en internet</li>
+                <!----><!---->
+                  <li>Comprobando la conexión</li>
+                <!----><!---->
+                  <li><a href="#buttons" onclick="toggleHelpBox()">Comprobando el proxy y el firewall</a></li>
+                <!---->
+              </ul>
+            </div>
+          
+
+          <div class="error-code"><!--?lit$653079752$-->ERR_CONNECTION_REFUSED</div>
+
+          <!--?lit$653079752$-->
+        </div>
+      </div>
+      <div id="buttons" class="nav-wrapper suggested-left">
+        <div id="control-buttons">
+          <!--?lit$653079752$-->
+      <!--?lit$653079752$-->
+        <button id="reload-button" class="blue-button text-button" data-url="http://127.0.0.1:3000/">
+          <!--?lit$653079752$-->Actualizar
+        </button>
+      <!--?-->
+        </div>
+        <!--?lit$653079752$-->
+        <!--?lit$653079752$-->
+        <!--?lit$653079752$-->
+      </div>
+      <!--?lit$653079752$-->
+        <div id="details">
+          <!--?lit$653079752$--><!---->
+            <div class="suggestions">
+              <div class="suggestion-header">Compruebe su conexión a Internet</div>
+              <div class="suggestion-body">Compruebe los cables de red, el módem y los enrutadores.</div>
+            </div>
+          <!----><!---->
+            <div class="suggestions">
+              <div class="suggestion-header">Permitir que Microsoft Edge acceda a la red en la configuración de su
+          firewall o antivirus.</div>
+              <div class="suggestion-body">Si ya aparece como programa con permiso para obtener acceso a la red, intente
+      quitarlo de la lista y agregarlo de nuevo.</div>
+            </div>
+          <!----><!---->
+            <div class="suggestions">
+              <div class="suggestion-header">Si usa un servidor proxy:</div>
+              <div class="suggestion-body">Vete a
+          el menú Microsoft Edge &gt;
+          <span jscontent="settingsTitle">Configuración</span>
+          &gt;
+          <span jscontent="advancedTitle">Sistema</span>
+          &gt;
+          <span jscontent="proxyTitle">Abrir la configuración de proxy del equipo</span>
+          &gt;
+          configuración de LAN
+          y anule la selección de la casilla "Usar un servidor proxy para la LAN".</div>
+            </div>
+          <!---->
+        </div>
+      
+    </div>
+    <!--?lit$653079752$-->
+      <div class="footer">
+        <div class="left-footer">
+          <!--?lit$653079752$-->
+            <img class="edge-logo" alt="" src="data:image/png;base64,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">
+          
+          <div class="edge-branding-text"><!--?lit$653079752$-->Microsoft Edge</div>
+        </div>
+      </div>
+    
+    <!--?lit$653079752$-->
+      <div id="sub-frame-error">
+        <!-- Show details when hovering over the icon, in case the details are
+             hidden because they're too large. -->
+        <div class="icon "></div>
+        <div id="sub-frame-error-details"><strong>127.0.0.1</strong> rechazó la conexión.</div>
+        <!--?lit$653079752$-->
+      </div>
+    
+  </div>
+
+
+
+<script>var loadTimeDataRaw = {"details":"Detalles","errorCode":"ERR_CONNECTION_REFUSED","fontfamily":"system-ui, sans-serif","fontfamilyMd":"system-ui, sans-serif","fontsize":"75%","footer":{"msg":"Microsoft Edge"},"heading":{"msg":"Vaya… no se puede obtener acceso a esta página"},"hideDetails":"Ocultar detalles","iconClass":"icon-elixir-thinking","isOfflineError":false,"is_windows_xbox_sku":"false","language":"es","productLogo":"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","reloadButton":{"msg":"Actualizar","reloadUrl":"http://127.0.0.1:3000/"},"suggestionsDetails":[{"body":"Compruebe los cables de red, el módem y los enrutadores.","header":"Compruebe su conexión a Internet"},{"body":"Si ya aparece como programa con permiso para obtener acceso a la red, intente\n      quitarlo de la lista y agregarlo de nuevo.","header":"Permitir que Microsoft Edge acceda a la red en la configuración de su\n          firewall o antivirus."},{"body":"Vete a\n          el menú Microsoft Edge >\n          \u003Cspan jscontent=\"settingsTitle\">Configuración\u003C/span>\n          >\n          \u003Cspan jscontent=\"advancedTitle\">Sistema\u003C/span>\n          >\n          \u003Cspan jscontent=\"proxyTitle\">Abrir la configuración de proxy del equipo\u003C/span>\n          >\n          configuración de LAN\n          y anule la selección de la casilla \"Usar un servidor proxy para la LAN\".","header":"Si usa un servidor proxy:"}],"suggestionsSummaryList":[{"clickData":"0","searchTerms":"127 0 0 1","searchUrl":"https://www.bing.com/search?form=ANLKDR&amp;q=127 0 0 1","summary":"Buscar \u003Ca href=\"https://www.bing.com/search?form=ANLKDR&q=127 0 0 1\" onclick=\"navigationCorrectionClicked(this)\" id=\"search-link\">127 0 0 1\u003C/a> en internet"},{"summary":"Comprobando la conexión"},{"summary":"\u003Ca href=\"#buttons\" onclick=\"toggleHelpBox()\">Comprobando el proxy y el firewall\u003C/a>"}],"suggestionsSummaryListHeader":"Prueba a:","summary":{"msg":"\u003Cstrong>127.0.0.1\u003C/strong> rechazó la conexión."},"textdirection":"ltr","title":"127.0.0.1"};</script>

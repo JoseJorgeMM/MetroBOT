@@ -533,7 +533,7 @@ export function MapComponent({
       )}
       
       {/* Mobile Vertical controls stack - Positioned higher to avoid bottom sheet overlaps */}
-      <div className="absolute bottom-[48dvh] right-3 z-[999] flex flex-col gap-2.5 pointer-events-none md:hidden transition-all duration-300">
+      <div className="absolute top-3 right-3 z-[999] flex flex-col gap-2.5 pointer-events-none lg:hidden transition-all duration-300">
         {/* Zoom Controls (Customized for mobile) */}
         <div className="flex flex-col bg-card/90 backdrop-blur-md rounded-2xl shadow-lg border border-border/40 overflow-hidden pointer-events-auto">
           <button 
