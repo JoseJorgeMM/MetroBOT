@@ -1,25 +1,6 @@
 // routeValidator.ts
 // -----------------------------------------------------------------------------
-// Defends the app against LLM hallucinations in Gemini's `render_route` output.
-//
-// When Gemini suggests a `bus_articulado` step we cannot trust:
-//   - The route id (it might be invented).
-//   - The boarding stop name (it might be a real place the route never visits).
-//   - The boarding stop coordinates (it might be a centroid or an arbitrary
-//     point on the map).
-//
-// This module validates each `bus_articulado` step against the official
-// `rutas_integradas.json` data and either:
-//   - Reconstructs the step using the REAL route id, REAL stop name and REAL
-//     stop coords from our catalog (so the map shows the correct boarding
-//     point), or
-//   - Degrades the step to a `walk` with an honest "we could not verify a
-//     bus on this leg" instruction, so the user is never told a bus stops
-//     where it actually does not.
-//
-// The original Gemini step is preserved on `validation.validatedRoute` for UI
-// transparency. Per-route `validation` aggregates how many steps were
-// validated vs degraded, used by `RouteCard` to render a badge.
+// Defends the app against LLM hallucinations in Gemini render_route output.
 // -----------------------------------------------------------------------------
 
 import { IntegratedRoute, IntegratedStop } from './integratedRoutes';
@@ -31,14 +12,12 @@ export const BBOX_VALLE_ABURRA = {
   lngMax: -75.30,
 } as const;
 
-// Maximum distance (meters) between Gemini's candidate stop and the nearest
-// real stop on the matched route for us to accept it.
 const MAX_BOARDING_DISTANCE_METERS = 400;
+const MAX_USER_DISTANCE_METERS = 25000;
 
-export interface LatLng {
-  lat: number;
-  lng: number;
-}
+export interface LatLng { lat: number; lng: number }
+
+export interface OfficialStation { nombre: string; lat: number; lng: number; sistema?: string; linea?: string }
 
 export function clampBbox(p: LatLng | null | undefined): boolean {
   if (!p) return false;
@@ -52,33 +31,16 @@ export function clampBbox(p: LatLng | null | undefined): boolean {
   );
 }
 
-export type ValidationReason = 'route-not-found' | 'stop-too-far' | 'invalid-step' | 'not-bus-step';
-
-export interface ValidationResult {
-  ok: boolean;
-  reason?: ValidationReason;
-  validatedRoute?: IntegratedRoute;
-  boardingStop?: IntegratedStop;
-  distanceMeters?: number;
-}
-
-export interface BusStepCandidate {
-  mode: 'bus_articulado' | string;
-  line?: string;
-  station?: { nameRef?: string; name?: string; lat?: number; lng?: number } | null;
-}
-
 function normalize(name: string): string {
-  return name
+  return String(name)
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[̀-ͯ]/g, '')
     .replace(/[^a-z0-9]/g, ' ')
-    .replace(/\s+/g, ' ')
+    .replace(/s+/g, ' ')
     .trim();
 }
 
-// Cheap great-circle distance in meters (matches `stations.calculateDistance`).
 function distanceMeters(a: LatLng, b: LatLng): number {
   const R = 6371e3;
   const toRad = (d: number) => (d * Math.PI) / 180;
@@ -95,11 +57,13 @@ function distanceMeters(a: LatLng, b: LatLng): number {
 function findRoute(routes: IntegratedRoute[], line?: string): IntegratedRoute | undefined {
   if (!line) return undefined;
   const norm = normalize(line);
-  const direct = routes.find(r => normalize(r.id) === norm);
+  const direct = routes.find((r) => normalize(r.id) === norm);
   if (direct) return direct;
-  const byName = routes.find(r => normalize(r.name) === norm);
+  const byName = routes.find((r) => normalize(r.name) === norm);
   if (byName) return byName;
-  return routes.find(r => normalize(r.id).includes(norm) || norm.includes(normalize(r.id)));
+  return routes.find(
+    (r) => normalize(r.id).includes(norm) || norm.includes(normalize(r.id)),
+  );
 }
 
 function matchStopByName(stops: IntegratedStop[], query: string): IntegratedStop | undefined {
@@ -116,7 +80,37 @@ function matchStopByName(stops: IntegratedStop[], query: string): IntegratedStop
   return best;
 }
 
-export function validateBusStep(step: BusStepCandidate, routes: IntegratedRoute[]): ValidationResult {
+export type ValidationReason =
+  | 'route-not-found'
+  | 'stop-too-far'
+  | 'invalid-step'
+  | 'not-bus-step'
+  | 'unknown-station'
+  | 'no-name'
+  | 'not-applicable'
+  | 'out-of-bbox'
+  | 'far-from-network';
+
+export interface ValidationResult {
+  ok: boolean;
+  reason?: ValidationReason;
+  validatedRoute?: IntegratedRoute;
+  boardingStop?: IntegratedStop;
+  station?: OfficialStation;
+  nearest?: OfficialStation;
+  distanceMeters?: number;
+}
+
+export interface BusStepCandidate {
+  mode: string;
+  line?: string;
+  station?: { nameRef?: string; name?: string; lat?: number; lng?: number } | null;
+}
+
+export function validateBusStep(
+  step: BusStepCandidate,
+  routes: IntegratedRoute[],
+): ValidationResult {
   if (!step || step.mode !== 'bus_articulado') {
     return { ok: true, reason: 'not-bus-step' };
   }
@@ -124,7 +118,7 @@ export function validateBusStep(step: BusStepCandidate, routes: IntegratedRoute[
   if (!route) return { ok: false, reason: 'route-not-found' };
 
   const station = step.station;
-  const queryName = station?.nameRef || station?.name;
+  const queryName = station && (station.nameRef || station.name);
   if (!queryName) return { ok: false, reason: 'invalid-step', validatedRoute: route };
 
   const byName = matchStopByName(route.stops, queryName);
@@ -132,7 +126,7 @@ export function validateBusStep(step: BusStepCandidate, routes: IntegratedRoute[
 
   let bestStop: IntegratedStop = byName;
   let bestDist = 0;
-  if (typeof station?.lat === 'number' && typeof station?.lng === 'number') {
+  if (station && typeof station.lat === 'number' && typeof station.lng === 'number') {
     bestDist = distanceMeters({ lat: station.lat, lng: station.lng }, byName);
     if (bestDist > MAX_BOARDING_DISTANCE_METERS) {
       return { ok: false, reason: 'stop-too-far', validatedRoute: route, distanceMeters: bestDist };
@@ -141,9 +135,48 @@ export function validateBusStep(step: BusStepCandidate, routes: IntegratedRoute[
   return { ok: true, validatedRoute: route, boardingStop: bestStop, distanceMeters: bestDist };
 }
 
+const METRO_MODES = new Set(['metro', 'metrocable', 'tranvia', 'metroplus', 'encicla']);
+
+export function validateMetroStation(
+  step: BusStepCandidate | { mode?: string; station?: { nameRef?: string; name?: string } } | null | undefined,
+  stations: OfficialStation[],
+): ValidationResult {
+  if (!step) return { ok: false, reason: 'invalid-step' };
+  const mode = String(step.mode || '').toLowerCase();
+  if (!METRO_MODES.has(mode)) return { ok: true, reason: 'not-applicable' };
+  const q = step.station && (step.station.nameRef || step.station.name);
+  if (!q) return { ok: false, reason: 'no-name' };
+  const norm = normalize(q);
+  for (const s of stations) {
+    if (normalize(s.nombre) === norm) return { ok: true, station: s };
+  }
+  for (const s of stations) {
+    const n = normalize(s.nombre);
+    if (n.includes(norm) || norm.includes(n)) return { ok: true, station: s };
+  }
+  return { ok: false, reason: 'unknown-station' };
+}
+
+export function validateUserCoords(
+  point: LatLng | null | undefined,
+  stations: OfficialStation[],
+): ValidationResult {
+  if (!clampBbox(point)) return { ok: false, reason: 'out-of-bbox' };
+  let nearest: OfficialStation | null = null;
+  let best = Infinity;
+  for (const s of stations) {
+    const d = distanceMeters(point as LatLng, { lat: s.lat, lng: s.lng });
+    if (d < best) { best = d; nearest = s; }
+  }
+  if (!nearest || best > MAX_USER_DISTANCE_METERS) {
+    return { ok: false, reason: 'far-from-network' };
+  }
+  return { ok: true, nearest, distanceMeters: best };
+}
+
 export interface RouteStep {
   instruction: string;
-  mode: 'metro' | 'metrocable' | 'tranvia' | 'metroplus' | 'encicla' | 'walk' | 'bus' | 'bus_articulado' | string;
+  mode: string;
   duration: number;
   cost?: number;
   line?: string;
@@ -163,7 +196,12 @@ export function reconstructBusStep(step: RouteStep, routes: IntegratedRoute[]): 
   if (v.ok && v.validatedRoute && v.boardingStop) {
     const newStep: RouteStep = {
       ...step,
-      instruction: `Toma el Bus Integrado ${v.validatedRoute.id} (${v.validatedRoute.stops.length} paradas) en "${v.boardingStop.name}".`,
+      instruction:
+        'Toma el Bus Integrado ' +
+        v.validatedRoute.id +
+        ' (' +
+        v.validatedRoute.stops.length +
+        ' paradas) en ' + JSON.stringify(v.boardingStop.name) + '.',
       mode: 'bus_articulado',
       cost: typeof step.cost === 'number' ? step.cost : 0,
       line: v.validatedRoute.name,
@@ -187,38 +225,40 @@ export function reconstructBusStep(step: RouteStep, routes: IntegratedRoute[]): 
 
 export interface RouteValidationSummary {
   ok: boolean;
-  validatedStops: number;
-  degradedStops: number;
+  validatedSteps: number;
+  degradedSteps: number;
   total: number;
-  routes: Array<{ id: string; name: string; folder?: string; stops: IntegratedStop[] }>;
+  reasons: string[];
 }
 
 export function summarizeRouteValidation(
-  routes: IntegratedRoute[],
-  perRouteSteps: Array<{ steps: RouteStep[] }>
+  routes: Array<{ steps?: RouteStep[] }>,
+  allIntegratedRoutes: IntegratedRoute[],
+  allStations: OfficialStation[],
 ): RouteValidationSummary {
-  const validatedStops: IntegratedRoute[] = [];
-  let validated = 0;
-  let degraded = 0;
+  let validatedSteps = 0;
+  let degradedSteps = 0;
   let total = 0;
-  perRouteSteps.forEach((entry, idx) => {
-    const r = routes[idx];
-    for (const s of entry.steps) {
-      if (s.mode !== 'bus_articulado') continue;
+  const reasons: string[] = [];
+  for (const r of routes) {
+    for (const s of (r.steps || [])) {
       total++;
-      // We can't know per-step validation here without re-running; trust the
-      // caller to attach `validation` flags upstream. The summary below only
-      // counts bus_articulado steps as candidates.
+      if (s.mode === 'bus_articulado') {
+        const v = validateBusStep(s, allIntegratedRoutes);
+        if (v.ok) validatedSteps++;
+        else { degradedSteps++; reasons.push(v.reason || 'invalid'); }
+      } else {
+        const v = validateMetroStation(s, allStations);
+        if (v.reason !== 'not-applicable' && v.ok) validatedSteps++;
+        else { degradedSteps++; reasons.push(v.reason || 'invalid'); }
+      }
     }
-  });
-  // Validation already happened upstream via reconstructBusStep; this helper
-  // exists for UI aggregation when the caller passes per-step validation
-  // results. Returning a structure the RouteCard can consume.
+  }
   return {
-    ok: degraded === 0 && total > 0,
-    validatedStops: validated,
-    degradedStops: degraded,
+    ok: degradedSteps === 0 && total > 0,
+    validatedSteps,
+    degradedSteps,
     total,
-    routes: [],
+    reasons,
   };
 }

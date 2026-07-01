@@ -37,3 +37,42 @@
 - `npm run lint` exit 0.
 - `npm run build` exit 0; bundle 912 KB.
 - All 11 bundle markers verified.
+
+## 2026-06-26 - PWA + offline support
+
+### C. Progressive Web App + offline cache
+- vite-plugin-pwa@1.3.0 (Workbox 7) wired into vite.config.ts with autoUpdate + auto-register.
+- Manifest updated: name, theme color, 4 icons (192, 512, maskable-512, favicon.svg), categories, lang.
+- New icons generated from public/logo_chat.png via sharp.
+- public/offline.html fallback page (works as navigateFallback).
+- runtimeCaching strategies: NetworkFirst for HTML, CacheFirst for static assets, StaleWhileRevalidate for routes/stations/tariffs/times, NetworkOnly for tiles + Gemini API.
+- usePwaInstall hook + InstallBanner component (above the bottom sheet, dismissible for 7 days).
+- useServiceWorkerUpdate hook + UpdateToast component (top toast with Reload button).
+- index.html: theme-color, 3 apple-touch-icons.
+- Service worker registered automatically via vite-plugin-pwa inject.
+
+### Files added
+- src/hooks/usePwaInstall.ts
+- src/hooks/useServiceWorkerUpdate.ts
+- src/components/InstallBanner.tsx
+- src/components/UpdateToast.tsx
+- public/offline.html
+- public/icon-192.png, public/icon-512.png, public/icon-maskable-512.png
+- tests/test_pwa_strategies.mjs
+- tests/test_pwa_hooks.mjs
+- tests/_pwa_hooks_impl.mjs
+- docs/superpowers/plans/2026-06-26-pwa-and-offline.md
+
+### Files modified
+- vite.config.ts (VitePWA plugin + strategies)
+- public/manifest.json (new icons + theme color)
+- src/App.tsx (mount InstallBanner + UpdateToast)
+- index.html (theme-color + apple-touch-icons)
+- package.json (vite-plugin-pwa + workbox-window + sharp)
+
+### Verification (evidence)
+- 109/109 tests green across 7 files + 5/5 enrichment.
+- npm run lint exit 0.
+- npm run build exit 0; sw.js (3.6 KB) + workbox-77d36791.js + 17 precache entries (~2.7 MB).
+- HTTP checks against dist/: manifest 200, icon-192 26 KB, icon-512 132 KB, offline.html 200, sw.js 200 with all strategies present.
+- Bundle markers verified: serviceWorker, workbox-window, Workbox, beforeinstallprompt, Instala MetroBot, Nueva version disponible.

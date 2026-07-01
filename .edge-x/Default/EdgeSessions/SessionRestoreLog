@@ -4,3 +4,5 @@
 {"logTime": "0623/010822", "level": "INFO", "location": "chrome\\browser\\ui\\startup\\startup_browser_creator_impl.cc:1389 DetermineURLsAndLaunch", "message": "Browser Open Behavior: 0"}
 {"logTime": "0623/010824", "level": "INFO", "location": "components\\sessions\\core\\command_storage_manager.cc:222 operator()", "message": "No valid session file found: SessionRestore"}
 {"logTime": "0623/010824", "level": "INFO", "location": "components\\sessions\\core\\command_storage_manager.cc:222 operator()", "message": "Last session file not found for SessionType : SessionRestore"}
+{"logTime": "0626/211052", "session": "START"}
+{"logTime": "0626/211106", "session": "END"}

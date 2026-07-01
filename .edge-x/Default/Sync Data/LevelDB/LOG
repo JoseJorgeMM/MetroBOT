@@ -1,2 +1,3 @@
-2026/06/22-20:08:22.083 4dc4 Creating DB C:\Users\ASUS\Documents\MetroBOT\.edge-x\Default\Sync Data\LevelDB since it was missing.
-2026/06/22-20:08:22.097 4dc4 Reusing MANIFEST C:\Users\ASUS\Documents\MetroBOT\.edge-x\Default\Sync Data\LevelDB/MANIFEST-000001
+2026/06/26-16:10:52.991 4160 Reusing MANIFEST C:\Users\ASUS\Documents\MetroBOT\.edge-x\Default\Sync Data\LevelDB/MANIFEST-000001
+2026/06/26-16:10:52.994 4160 Recovering log #3
+2026/06/26-16:10:52.996 4160 Reusing old log C:\Users\ASUS\Documents\MetroBOT\.edge-x\Default\Sync Data\LevelDB/000003.log 

@@ -1,0 +1,15 @@
+const fs = require('fs');
+const CRLF = String.fromCharCode(13, 10);
+let orig = fs.readFileSync('src/App.tsx', 'utf8');
+orig = orig.split(CRLF).join('\n');
+const old = "  return (\n    <SkipLink />\n    <div id=\"map-region-wrapper\"";
+const next = "  return (\n    <>\n      <SkipLink />\n    <div id=\"map-region-wrapper\"";
+if (orig.indexOf(old) === -1) throw new Error('return open');
+orig = orig.replace(old, next);
+const lastClose = "      </div>\n  );\n}";
+const lastCloseNew = "      </div>\n    </>\n  );\n}";
+if (orig.indexOf(lastClose) === -1) throw new Error('return close');
+orig = orig.replace(lastClose, lastCloseNew);
+orig = orig.split('\n').join(CRLF);
+fs.writeFileSync('src/App.tsx', orig, 'utf8');
+console.log('patched', orig.length);

@@ -9,14 +9,14 @@ export function clampBbox(p) {
   if (!p) return false;
   if (typeof p.lat !== 'number' || typeof p.lng !== 'number') return false;
   if (Number.isNaN(p.lat) || Number.isNaN(p.lng)) return false;
-  return p.lat >= BBOX_VALLE_ABURRA.latMin && p.lat <= BBOX_VALLE_ABURRA.latMax
-      && p.lng >= BBOX_VALLE_ABURRA.lngMin && p.lng <= BBOX_VALLE_ABURRA.lngMax;
+  return p.lat >= BBOX_VALLE_ABURRA.latMin && p.lat <= BBOX_VALLE_ABURRA.latMax && p.lng >= BBOX_VALLE_ABURRA.lngMin && p.lng <= BBOX_VALLE_ABURRA.lngMax;
 }
 
 const MAX_BOARDING_DISTANCE_METERS = 400;
+const MAX_USER_DISTANCE_METERS = 25000;
 
 function normalize(name) {
-  return name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, ' ').replace(/\s+/g, ' ').trim();
+  return String(name).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]/g, ' ').replace(/s+/g, ' ').trim();
 }
 
 function distanceMeters(a, b) {
@@ -87,7 +87,7 @@ export function reconstructBusStep(step, routes) {
   if (v.ok && v.validatedRoute && v.boardingStop) {
     const newStep = {
       ...step,
-      instruction: `Toma el Bus Integrado ${v.validatedRoute.id} (${v.validatedRoute.stops.length} paradas) en "${v.boardingStop.name}".`,
+      instruction: 'Toma el Bus Integrado ' + v.validatedRoute.id + ' (' + v.validatedRoute.stops.length + ' paradas) en "' + v.boardingStop.name + '".',
       mode: 'bus_articulado',
       cost: typeof step.cost === 'number' ? step.cost : 0,
       line: v.validatedRoute.name,
@@ -107,4 +107,63 @@ export function reconstructBusStep(step, routes) {
     station: undefined,
   };
   return { step: degraded, validation: v };
+}
+
+const METRO_MODES = new Set(['metro', 'metrocable', 'tranvia', 'metroplus', 'encicla']);
+
+export function validateMetroStation(step, stations) {
+  if (!step) return { ok: false, reason: 'invalid-step' };
+  const mode = String(step.mode || '').toLowerCase();
+  if (!METRO_MODES.has(mode)) return { ok: true, reason: 'not-applicable' };
+  const q = step.station && (step.station.nameRef || step.station.name);
+  if (!q) return { ok: false, reason: 'no-name' };
+  const norm = normalize(q);
+  for (const s of stations) {
+    if (normalize(s.nombre) === norm) return { ok: true, station: s };
+  }
+  for (const s of stations) {
+    const n = normalize(s.nombre);
+    if (n.includes(norm) || norm.includes(n)) return { ok: true, station: s };
+  }
+  return { ok: false, reason: 'unknown-station' };
+}
+
+export function validateUserCoords(point, stations) {
+  if (!clampBbox(point)) return { ok: false, reason: 'out-of-bbox' };
+  let nearest = null;
+  let best = Infinity;
+  for (const s of stations) {
+    const d = distanceMeters(point, { lat: s.lat, lng: s.lng });
+    if (d < best) { best = d; nearest = s; }
+  }
+  if (!nearest || best > MAX_USER_DISTANCE_METERS) return { ok: false, reason: 'far-from-network' };
+  return { ok: true, nearest: nearest, distanceMeters: best };
+}
+
+export function summarizeRouteValidation(routes, allIntegratedRoutes, allStations) {
+  let validatedSteps = 0;
+  let degradedSteps = 0;
+  let total = 0;
+  const reasons = [];
+  for (const r of routes) {
+    for (const s of (r.steps || [])) {
+      total++;
+      if (s.mode === 'bus_articulado') {
+        const v = validateBusStep(s, allIntegratedRoutes);
+        if (v.ok) validatedSteps++;
+        else { degradedSteps++; reasons.push(v.reason || 'invalid'); }
+      } else {
+        const v = validateMetroStation(s, allStations);
+        if (v.reason !== 'not-applicable' && v.ok) validatedSteps++;
+        else { degradedSteps++; reasons.push(v.reason || 'invalid'); }
+      }
+    }
+  }
+  return {
+    ok: degradedSteps === 0 && total > 0,
+    validatedSteps: validatedSteps,
+    degradedSteps: degradedSteps,
+    total: total,
+    reasons: reasons,
+  };
 }

@@ -1,0 +1,15 @@
+const fs = require('fs');
+const CRLF = String.fromCharCode(13, 10);
+let orig = fs.readFileSync('src/App.tsx', 'utf8');
+orig = orig.split(CRLF).join('\n');
+const oldOpen = "  return (\n    <SkipLink />\n    <div id=\"map-region-wrapper\"";
+const newOpen = "  return (\n    <>\n      <SkipLink />\n    <div id=\"map-region-wrapper\"";
+if (orig.indexOf(oldOpen) === -1) throw new Error('open');
+orig = orig.replace(oldOpen, newOpen);
+const oldClose = "      <InstallBanner />\n      <UpdateToast />\n    </div>\n  );\n}";
+const newClose = "      <InstallBanner />\n      <UpdateToast />\n    </div>\n    </>\n  );\n}";
+if (orig.indexOf(oldClose) === -1) throw new Error('close');
+orig = orig.replace(oldClose, newClose);
+orig = orig.split('\n').join(CRLF);
+fs.writeFileSync('src/App.tsx', orig, 'utf8');
+console.log('patched', orig.length);

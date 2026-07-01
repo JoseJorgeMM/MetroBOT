@@ -16,6 +16,13 @@ import { NavigationOverlay } from './components/Map/NavigationOverlay';
 import { useNavigation } from './hooks/useNavigation';
 import { useRecentSearches } from './hooks/useRecentSearches';
 import { QuickPicksBar } from './components/QuickPicksBar';
+import { InstallBanner } from './components/InstallBanner';
+import { UpdateToast } from './components/UpdateToast';
+import { HonestyBadge } from './components/HonestyBadge';
+import { computeHonestyAssessment } from './lib/honesty';
+import { useSheetDrag } from './hooks/useSheetDrag';
+import { usePrefersReducedMotion } from './hooks/usePrefersReducedMotion';
+import { SkipLink } from './components/SkipLink';
 
 import { fetchMedellinWeather, WeatherData } from './lib/weather';
 
@@ -23,6 +30,12 @@ const DISCLAIMER_STORAGE_KEY = 'metrobot.disclaimer.dismissed.v1';
 
 export default function App() {
   const [query, setQuery] = useState('');
+  const sheetHandleRef = useRef<HTMLButtonElement>(null);
+  const sheet = useSheetDrag(sheetHandleRef, [72, 320, 720], 1);
+  const reducedMotion = usePrefersReducedMotion();
+  const sheetHeightClass = sheet.currentSnap === 0 ? 'h-[72px]' : sheet.currentSnap === 1 ? 'h-[min(58dvh,560px)]' : 'h-[92dvh]';
+  const [honestyAssessment, setHonestyAssessment] = useState<ReturnType<typeof computeHonestyAssessment> | null>(null);
+  const [pendingRoutes, setPendingRoutes] = useState<RouteOption[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
   const [weather, setWeather] = useState<WeatherData | null>(null);
@@ -138,6 +151,15 @@ export default function App() {
     const response = await processUserQuery(
       textToProcess,
       (newRoutes) => {
+        const assessment = computeHonestyAssessment(newRoutes as any);
+        setHonestyAssessment(assessment);
+        if (assessment.level === 'no_verificada') {
+          setPendingRoutes(newRoutes);
+          setRoutes([]);
+          const msg = 'No pude verificar ' + assessment.totalDegraded + ' parada(s) de bus en este recorrido. ' + 'Te recomiendo caminar o usar la opcion "Ver de todos modos" para revisar la ruta igual.';
+          setMessages(prev => [...prev, { role: 'assistant', content: msg }]);
+          return;
+        }
         setRoutes(newRoutes);
         if (newRoutes.length > 0) {
           if (!contextCoords?.origin && newRoutes[0].userOrigin) {
@@ -242,8 +264,10 @@ export default function App() {
   const navFollow = nav.state === 'navigating' || nav.state === 'at_station' || nav.state === 'locating';
 
   return (
-    <div className="relative w-full h-[100dvh] overflow-hidden bg-background text-foreground flex flex-col lg:flex-row font-sans transition-colors duration-300">
-      <div className="absolute inset-0 z-0 lg:relative lg:flex-1 h-full">
+    <>
+      <SkipLink />
+    <div id="map-region-wrapper" className="relative w-full h-[100dvh] overflow-hidden bg-background text-foreground flex flex-col lg:flex-row font-sans transition-colors duration-300">
+      <div id="map-region" className="absolute inset-0 z-0 lg:relative lg:flex-1 h-full">
         <MapComponent
           onSearchRoute={handleSearchRoute}
           origin={origin}
@@ -297,7 +321,18 @@ export default function App() {
           onTouchMove={onHandleTouchMove}
           onTouchEnd={onHandleTouchEnd}
         >
-          <div className="w-12 h-1.5 bg-slate-300 dark:bg-slate-600 rounded-full mb-1.5" />
+          <button
+          ref={sheetHandleRef}
+          type="button"
+          aria-label="Arrastrar para ajustar el panel"
+          aria-controls="chat-sheet"
+          aria-expanded={sheet.currentSnap > 0}
+          onPointerDown={sheet.onPointerDown}
+          onPointerMove={sheet.onPointerMove}
+          onPointerUp={sheet.onPointerUp}
+          onPointerCancel={sheet.onPointerCancel}
+          className="cursor-grab active:cursor-grabbing w-12 h-1.5 bg-slate-300 dark:bg-slate-600 rounded-full mb-1.5 touch-none focus:outline-none focus:ring-2 focus:ring-sitva-green/50"
+        />
           {sheetHeight === 'min' && <span className="text-[11px] text-slate-600 dark:text-slate-300 font-bold uppercase tracking-wider">{routes.length > 0 ? 'Ver rutas y chat' : 'Toca para abrir MetroBot'}</span>}
           {sheetHeight === 'mid' && <span className="text-[11px] text-slate-600 dark:text-slate-300 font-bold uppercase tracking-wider">Expandir Chat</span>}
           {sheetHeight === 'max' && <span className="text-[11px] text-slate-600 dark:text-slate-300 font-bold uppercase tracking-wider">Minimizar Chat</span>}
@@ -419,7 +454,20 @@ export default function App() {
                 exit={{ opacity: 0, y: -20 }}
                 className="space-y-3 sm:space-y-4 mt-2"
               >
-                <h3 className="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider px-1">Rutas Sugeridas</h3>
+                <div className="flex items-center gap-2 flex-wrap px-1">
+            <h3 className="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Rutas Sugeridas</h3>
+            {honestyAssessment && <HonestyBadge level={honestyAssessment.level} worstRatio={honestyAssessment.worstRatio} label={honestyAssessment.label} />}
+            {pendingRoutes.length > 0 && (
+              <button
+                type="button"
+                onClick={() => { setRoutes(pendingRoutes); setPendingRoutes([]); }}
+                className="text-[11px] font-semibold rounded-full bg-rose-100 text-rose-800 hover:bg-rose-200 dark:bg-rose-900/40 dark:text-rose-200 px-2.5 py-1 cursor-pointer"
+                aria-label="Ver rutas aunque no se pudieron verificar"
+              >
+                Ver de todos modos
+              </button>
+            )}
+          </div>
                 {routes.map((route, idx) => (
                   <div key={route.id} onClick={() => setActiveRouteIndex(idx)} className="cursor-pointer">
                     <RouteCard
@@ -458,6 +506,9 @@ export default function App() {
           </div>
         </form>
       </div>
+      <InstallBanner />
+      <UpdateToast />
     </div>
+    </>
   );
 }

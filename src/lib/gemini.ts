@@ -4,8 +4,11 @@ import { loadStations, calculateDistance } from './stations';
 import { getLocalOfflineRoute } from './localRouter';
 import { fetchMetroNews } from './news';
 import { loadIntegratedRoutes, findIntegratedRoutesNear, IntegratedRoute, IntegratedStop } from './integratedRoutes';
-import { reconstructBusStep } from './routeValidator';
+import { reconstructBusStep, summarizeRouteValidation, validateUserCoords } from './routeValidator';
 import { enrichStation } from './stationResolver';
+import { computeHonestyAssessment, HonestyAssessment } from './honesty';
+import { computeEvidenceScore } from './evidence';
+import { recordSession } from './validatorTelemetry';
 
 const apiKeys = (process.env.GEMINI_API_KEYS || process.env.GEMINI_API_KEY || "DUMMY_KEY").split(',').map(k => k.trim()).filter(Boolean);
 let currentKeyIndex = 0;
@@ -112,6 +115,14 @@ const renderRouteDeclaration = {
                       nameRef: { type: Type.STRING, description: 'EXACT name of a real bus stop or station from the catalog. NEVER invent.' }
                     },
                     description: 'The station where this step occurs or ends. Only nameRef is accepted; coordinates are filled from the catalog.'
+                  },
+                  _evidence: {
+                    type: Type.OBJECT,
+                    description: 'Citation: source catalog entry for this step (anti-hallucination).',
+                    properties: {
+                      sourceRouteId: { type: Type.STRING, description: 'Exact route id from the catalog.' },
+                      sourceStopName: { type: Type.STRING, description: 'Exact stop name from the catalog.' }
+                    }
                   }
                 },
                 required: ['instruction', 'mode', 'duration']
@@ -237,7 +248,45 @@ export async function processUserQuery(query, onRouteFound, onStatusFound, optio
 
     const newsContext = await getRecentNewsContext();
 
-    const sysPrompt = 'Eres MetroBot, el asistente inteligente de movilidad de SITVA (Metro, Metrocable, Tranvia, Metroplus, EnCicla y Buses Articulados) en Medellin Colombia.\nTu objetivo es dar rutas REALISTAS y UTILES. Prioriza SIEMPRE minimizar la caminata usando el sistema integrado (Buses).\n\n=== NOTICIAS Y ESTADO EN TIEMPO REAL ===\n' + newsContext + '\n\nREGLAS DE ORO (CRITICO):\n1. MINIMIZAR CAMINATA: Si hay una parada de BUS ARTICULADO cerca del usuario, usala.\n2. NO INVENTAR: NUNCA inventes ids de ruta, nombres de paradas ni coordenadas. Para step.station, originStation, destinationStation SOLO puedes usar nameRef (un string EXACTO del catalogo o de la lista de paradas cercanas). El sistema rellena las coordenadas; TU no escribas lat/lng.\n3. Para line en un bus_articulado, usa EXACTAMENTE el id que aparece en el catalogo (p. ej. "C7-001", "142I", "C1-001", "T4-027").\n4. ESTADO ACTUAL: Si preguntan por el estado del sistema, basate en la seccion "NOTICIAS Y ESTADO EN TIEMPO REAL".\n\nDATOS OFICIALES SITVA 2026:\n=== TARIFAS ===\n' + tarifas + '\n=== TIEMPOS ===\n' + tiempos + '\n=== ENCICLA ===\n' + encicla + '\n\nINSTRUCCIONES DE RESPUESTA:\n1. Identifica paradas de inicio y fin usando las listas "CERCANAS".\n2. Si recomiendas un Bus Integrado, usa mode: "bus_articulado" con line igual al id exacto del catalogo y station.nameRef igual al nombre exacto de la parada de abordaje.\n3. Llama a render_route con 2-3 opciones.\n4. Responde brevemente en espanol.\n\nDATOS DE RED SITVA:\n' + grounding;
+    const sysPrompt = [
+      'Eres MetroBot, el asistente inteligente de movilidad de SITVA (Metro, Metrocable, Tranvia, Metroplus, EnCicla y Buses Articulados) en Medellin Colombia.',
+      'Tu objetivo es dar rutas REALISTAS y UTILES. Prioriza SIEMPRE minimizar la caminata usando el sistema integrado (Buses).',
+      '',
+      '=== NOTICIAS Y ESTADO EN TIEMPO REAL ===',
+      newsContext,
+      '',
+      'REGLAS DE ORO (CRITICO):',
+      '1. MINIMIZAR CAMINATA: Si hay una parada de BUS ARTICULADO cerca del usuario, usala.',
+      '2. NO INVENTAR: NUNCA inventes ids de ruta, nombres de paradas ni coordenadas. Para step.station, originStation, destinationStation SOLO puedes usar nameRef (un string EXACTO del catalogo o de la lista de paradas cercanas). El sistema rellena las coordenadas; TU no escribas lat/lng.',
+      '3. Para line en un bus_articulado, usa EXACTAMENTE el id que aparece en el catalogo (p. ej. "C7-001", "142I", "C1-001", "T4-027").',
+      '4. ESTADO ACTUAL: Si preguntan por el estado del sistema, basate en la seccion "NOTICIAS Y ESTADO EN TIEMPO REAL".',
+      '',
+      'REGLAS ANTI-ALUCINACION (Plan D):',
+      '- Si NO conoces la parada exacta o el id de ruta, NO incluyas ese paso. Mejor retorna una ruta con menos pasos.',
+      '- PROHIBIDO inventar ids como "C7-999" o "Linea X". Solo usa los ids de CATALOGO DE BUSES INTEGRADOS.',
+      '- Para cada step con mode="bus_articulado" incluye _evidence: {sourceRouteId, sourceStopName} citando la fuente del catalogo.',
+      '',
+      'EJEMPLOS (NO HACER):',
+      '- Mal: line:"C7-999", station:{nameRef:"Parada inventada"}.',
+      '- Bien: omitir esa ruta o usar unicamente el id real del catalogo.',
+      '',
+      'DATOS OFICIALES SITVA 2026:',
+      '=== TARIFAS ===',
+      tarifas,
+      '=== TIEMPOS ===',
+      tiempos,
+      '=== ENCICLA ===',
+      encicla,
+      '',
+      'INSTRUCCIONES DE RESPUESTA:',
+      '1. Identifica paradas de inicio y fin usando las listas CERCANAS.',
+      '2. Si recomiendas un Bus Integrado, usa mode: "bus_articulado" con line igual al id exacto del catalogo y station.nameRef igual al nombre exacto de la parada de abordaje.',
+      '3. Llama a render_route con 2-3 opciones.',
+      '4. Responde brevemente en espanol.',
+      '',
+      'DATOS DE RED SITVA:',
+      grounding,
+    ].join('\n');
 
     const generateWithRotation = async () => {
       let attempts = 0;
@@ -247,10 +296,7 @@ export async function processUserQuery(query, onRouteFound, onStatusFound, optio
           return await ai.models.generateContent({
             model: 'gemini-2.5-flash',
             contents: query,
-            config: {
-              systemInstruction: sysPrompt,
-              tools: [{ functionDeclarations: [renderRouteDeclaration, getStationStatusDeclaration] }]
-            }
+            config: ((cfg: any) => { cfg.systemInstruction = sysPrompt; cfg.tools = [{ functionDeclarations: [renderRouteDeclaration, getStationStatusDeclaration] }]; cfg.temperature = 0.2; cfg.topP = 0.8; if ('seed' in cfg) cfg.seed = 42; return cfg; })({})
           });
         } catch (error) {
           attempts++;
@@ -308,6 +354,24 @@ export async function processUserQuery(query, onRouteFound, onStatusFound, optio
             }
           });
 
+          // Plan D - Defense D: honesty + telemetry aggregated before per-route validation.
+          try {
+            const assessment: HonestyAssessment = computeHonestyAssessment(args.routes as any);
+            (args as any).__honestyAssessment = assessment;
+            for (const r of args.routes) {
+              if (!r.validation) r.validation = { ok: true, validatedSteps: 0, degradedSteps: 0, busLegs: [], degradedReasons: [] };
+              r.validation.assessment = assessment.level;
+              r.validation.assessmentLabel = assessment.label;
+            }
+          } catch (_e) { /* non-fatal */ }
+          try {
+            const sums = { v: 0, d: 0 };
+            for (const r of args.routes) {
+              const sm = r.validation && r.validation.summary;
+              if (sm) { sums.v += sm.validatedSteps || 0; sums.d += sm.degradedSteps || 0; }
+            }
+            recordSession(undefined, sums.v, sums.d);
+          } catch (_e) { /* non-fatal */ }
           const allRoutes = await getIntegratedRoutes();
           for (const route of args.routes) {
             const validation = { ok: true, validatedSteps: 0, degradedSteps: 0, busLegs: [], degradedReasons: [] };
@@ -341,6 +405,21 @@ export async function processUserQuery(query, onRouteFound, onStatusFound, optio
               validation.degradedSteps = 0;
             }
             route.validation = validation;
+// Plan D - Defense A: real summary across all modes (bus + metro family).
+try {
+  const officialStations = await loadStations();
+  const stationMap = officialStations.map((s: any) => ({ nombre: s.nombre, lat: s.lat, lng: s.lng, sistema: s.sistema, linea: s.linea }));
+  route.validation.summary = summarizeRouteValidation([route], allRoutes, stationMap);
+  route.validation.evidenceScore = computeEvidenceScore(route);
+  if (route.userOrigin && typeof route.userOrigin.lat === 'number' && typeof route.userOrigin.lng === 'number') {
+    const v = validateUserCoords({ lat: route.userOrigin.lat, lng: route.userOrigin.lng }, stationMap);
+    route.validation.userOriginValid = v.ok;
+  }
+  if (route.userDest && typeof route.userDest.lat === 'number' && typeof route.userDest.lng === 'number') {
+    const v = validateUserCoords({ lat: route.userDest.lat, lng: route.userDest.lng }, stationMap);
+    route.validation.userDestValid = v.ok;
+  }
+} catch (_e) { /* non-fatal */ }
           }
           // Resolve nameRef-only stations to real coords from the catalog
                       // (originStation, destinationStation and every step.station).

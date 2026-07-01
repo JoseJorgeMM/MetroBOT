@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#00994C">
+    <title>MetroBot - Sin conexion</title>
+    <style>
+      :root { color-scheme: light dark; }
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        background: #F8FAFC;
+        color: #0F172A;
+      }
+      @media (prefers-color-scheme: dark) {
+        body { background: #0B0F19; color: #F8FAFC; }
+        .card { background: #1E293B !important; border-color: #334155 !important; }
+        .sub { color: #94A3B8 !important; }
+      }
+      .card {
+        max-width: 420px;
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 18px;
+        padding: 28px 24px;
+        text-align: center;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      }
+      .icon {
+        width: 64px; height: 64px;
+        margin: 0 auto 16px;
+        background: #00994C;
+        border-radius: 16px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 32px;
+      }
+      h1 { font-size: 22px; margin: 0 0 8px; font-weight: 800; }
+      .sub { color: #475569; font-size: 14px; line-height: 1.5; margin: 0 0 24px; }
+      button {
+        appearance: none;
+        border: 0;
+        background: #00994C;
+        color: #FFFFFF;
+        font-weight: 700;
+        font-size: 15px;
+        padding: 12px 24px;
+        border-radius: 999px;
+        min-height: 44px;
+        cursor: pointer;
+      }
+      button:active { transform: scale(0.98); }
+      small { display: block; margin-top: 14px; font-size: 11px; color: #94A3B8; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="icon">M</div>
+        <h1>Estas sin conexion</h1>
+        <p class="sub">No pudimos cargar MetroBot. Verifica tu internet y vuelve a intentarlo. Si tienes datos moviles, activalos y toca "Reintentar".</p>
+        <button type="button" onclick="location.reload()">Reintentar</button>
+        <small>Algunas rutas y estaciones que ya viste pueden seguir disponibles sin conexion.</small>
+    </div>
+</body>
+</html>
