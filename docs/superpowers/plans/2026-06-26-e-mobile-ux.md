@@ -40,48 +40,48 @@
 - tests/_sheet_drag_impl.mjs (new)
 - tests/test_sheet_drag.mjs (new)
 
-- [ ] **Step 1:** Mirror the pure logic in `_sheet_drag_impl.mjs`. Expose `snapPoints` (e.g. `[72, 320, 720]`), `nextSnap(currentSnap, snapPoints, deltaY, velocityY)`.
-- [ ]   - If `|deltaY| < 4` AND `|velocityY| < 0.3`, return `currentSnap` (no snap).
-- [ ]   - Snap UP (next-higher index) if `deltaY < -8` OR `velocityY < -0.3`.
-- [ ]   - Snap DOWN (next-lower index) if `deltaY > 8` OR `velocityY > 0.3`.
-- [ ]   - Clamp the index to `[0, snapPoints.length-1]`.
-- [ ] **Step 2:** Tests with at least 12 asserts:
-- [ ]   - drag UP 200px from `mid` -> `max`.
-- [ ]   - drag DOWN 200px from `max` -> `mid`.
-- [ ]   - drag DOWN 600px from `mid` -> `min`.
-- [ ]   - small drag (<4px) -> same snap.
-- [ ]   - fast flick DOWN (velocity 0.8) from `mid` -> `min`.
-- [ ]   - fast flick UP (velocity -0.8) from `min` -> `max`.
-- [ ]   - at `min`, drag DOWN -> stays at `min`.
-- [ ]   - at `max`, drag UP -> stays at `max`.
-- [ ]   - clamp applied at boundaries.
-- [ ]   - no-skip rule: going up from min with big delta -> still ends at mid (one step at a time).
-- [ ]   - mixed velocity+delta both negative -> snaps up.
-- [ ]   - empty snapPoints -> returns 0.
-- [ ] **Step 3:** Run, expect GREEN. Commit.
+- [x] **Step 1:** Mirror the pure logic in `_sheet_drag_impl.mjs`. Expose `snapPoints` (e.g. `[72, 320, 720]`), `nextSnap(currentSnap, snapPoints, deltaY, velocityY)`.
+- [x]   - If `|deltaY| < 4` AND `|velocityY| < 0.3`, return `currentSnap` (no snap).
+- [x]   - Snap UP (next-higher index) if `deltaY < -8` OR `velocityY < -0.3`.
+- [x]   - Snap DOWN (next-lower index) if `deltaY > 8` OR `velocityY > 0.3`.
+- [x]   - Clamp the index to `[0, snapPoints.length-1]`.
+- [x] **Step 2:** Tests with at least 12 asserts:
+- [x]   - drag UP 200px from `mid` -> `max`.
+- [x]   - drag DOWN 200px from `max` -> `mid`.
+- [x]   - drag DOWN 600px from `mid` -> `min`.
+- [x]   - small drag (<4px) -> same snap.
+- [x]   - fast flick DOWN (velocity 0.8) from `mid` -> `min`.
+- [x]   - fast flick UP (velocity -0.8) from `min` -> `max`.
+- [x]   - at `min`, drag DOWN -> stays at `min`.
+- [x]   - at `max`, drag UP -> stays at `max`.
+- [x]   - clamp applied at boundaries.
+- [x]   - no-skip rule: going up from min with big delta -> still ends at mid (one step at a time).
+- [x]   - mixed velocity+delta both negative -> snaps up.
+- [x]   - empty snapPoints -> returns 0.
+- [x] **Step 3:** Run, expect GREEN. Commit.
 
 ### Task 2: `useSheetDrag` hook
 
 **Files:**
 - src/hooks/useSheetDrag.ts (new)
 
-- [ ] **Step 1:** React hook: `useSheetDrag(handleRef, snapPoints, initial) -> { currentSnap, setSnap, onPointerDown, onPointerMove, onPointerUp }`.
-- [ ] **Step 2:** Listens to pointer events on `handleRef`, tracks `startY`, `currentY`, `startMs`. On pointer-up calls `nextSnap(...)` from the impl.
-- [ ] **Step 3:** Uses `setPointerCapture` so dragging off the handle still works. Removes capture on pointerup/cancel.
-- [ ] **Step 4:** Triggers `navigator.vibrate?.(10)` on snap change (best-effort).
-- [ ] **Step 5:** SSR-safe (`typeof window === "undefined"` early return).
-- [ ] **Step 6:** Lint. Commit.
+- [x] **Step 1:** React hook: `useSheetDrag(handleRef, snapPoints, initial) -> { currentSnap, setSnap, onPointerDown, onPointerMove, onPointerUp }`.
+- [x] **Step 2:** Listens to pointer events on `handleRef`, tracks `startY`, `currentY`, `startMs`. On pointer-up calls `nextSnap(...)` from the impl.
+- [x] **Step 3:** Uses `setPointerCapture` so dragging off the handle still works. Removes capture on pointerup/cancel.
+- [x] **Step 4:** Triggers `navigator.vibrate?.(10)` on snap change (best-effort).
+- [x] **Step 5:** SSR-safe (`typeof window === "undefined"` early return).
+- [x] **Step 6:** Lint. Commit.
 
 ### Task 3: Wire `useSheetDrag` into App.tsx
 
 **Files:**
 - src/App.tsx
 
-- [ ] **Step 1:** Remove `const [sheetHeight, setSheetHeight] = useState<"min"|"mid"|"max">("mid")` and any consumer.
-- [ ] **Step 2:** Add `const sheetHandleRef = useRef<HTMLButtonElement>(null)` and `const { currentSnap, setSnap } = useSheetDrag(sheetHandleRef, [72, 320, 720], 1)`.
-- [ ] **Step 3:** Snap -> CSS classes: snap 0 -> `h-[72px]`; snap 1 -> `h-[min(58dvh,560px)]`; snap 2 -> `h-[92dvh]`.
-- [ ] **Step 4:** Replace the inner drag-handle `<div>` with a `<button ref={sheetHandleRef}>` for accessibility (will get pointer events from the hook).
-- [ ] **Step 5:** Lint. Commit.
+- [x] **Step 1:** Remove `const [sheetHeight, setSheetHeight] = useState<"min"|"mid"|"max">("mid")` and any consumer.
+- [x] **Step 2:** Add `const sheetHandleRef = useRef<HTMLButtonElement>(null)` and `const { currentSnap, setSnap } = useSheetDrag(sheetHandleRef, [72, 320, 720], 1)`.
+- [x] **Step 3:** Snap -> CSS classes: snap 0 -> `h-[72px]`; snap 1 -> `h-[min(58dvh,560px)]`; snap 2 -> `h-[92dvh]`.
+- [x] **Step 4:** Replace the inner drag-handle `<div>` with a `<button ref={sheetHandleRef}>` for accessibility (will get pointer events from the hook).
+- [x] **Step 5:** Lint. Commit.
 
 ### Task 4: Reduced-motion -- test + impl
 
@@ -90,10 +90,10 @@
 - tests/test_reduced_motion.mjs (new)
 - src/hooks/usePrefersReducedMotion.ts (new)
 
-- [ ] **Step 1:** Mirror `_reduced_motion_impl.mjs`: exports `matchesReducedMotion(mediaQueryList | null | undefined) -> boolean`. Returns false if input is null/undefined or `.matches === false`.
-- [ ] **Step 2:** Tests with at least 6 asserts: null -> false; undefined -> false; `{matches:true}` -> true; `{matches:false}` -> false; truthy non-object -> false; object that throws on `.matches` access -> false.
-- [ ] **Step 3:** Implement the hook in TS: uses `window.matchMedia("(prefers-reduced-motion: reduce)")`; subscribes to changes via `addEventListener("change", ...)`; SSR-safe (`typeof window === "undefined"` guard); returns boolean state.
-- [ ] **Step 4:** Lint. Commit.
+- [x] **Step 1:** Mirror `_reduced_motion_impl.mjs`: exports `matchesReducedMotion(mediaQueryList | null | undefined) -> boolean`. Returns false if input is null/undefined or `.matches === false`.
+- [x] **Step 2:** Tests with at least 6 asserts: null -> false; undefined -> false; `{matches:true}` -> true; `{matches:false}` -> false; truthy non-object -> false; object that throws on `.matches` access -> false.
+- [x] **Step 3:** Implement the hook in TS: uses `window.matchMedia("(prefers-reduced-motion: reduce)")`; subscribes to changes via `addEventListener("change", ...)`; SSR-safe (`typeof window === "undefined"` guard); returns boolean state.
+- [x] **Step 4:** Lint. Commit.
 
 ### Task 5: Apply reduced-motion in App.tsx + index.css
 
@@ -101,23 +101,23 @@
 - src/App.tsx
 - src/index.css
 
-- [ ] **Step 1:** In `index.css`, append at the end:
-- [ ]     ```css
-- [ ]     @media (prefers-reduced-motion: reduce) {
-- [ ]       *, *::before, *::after {
-- [ ]         animation-duration: 0.001ms !important;
-- [ ]         animation-iteration-count: 1 !important;
-- [ ]         transition-duration: 0.001ms !important;
-- [ ]         scroll-behavior: auto !important;
-- [ ]       }
-- [ ]     }
-- [ ]     @media (prefers-contrast: more) {
-- [ ]       .border-border\/30 { border-width: 2px !important; }
-- [ ]       button:focus-visible { outline: 3px solid currentColor !important; outline-offset: 2px !important; }
-- [ ]     }
-- [ ]     ```
-- [ ] **Step 2:** In `App.tsx`, wrap `motion.div`/`AnimatePresence` with `usePrefersReducedMotion()` -- when true, swap `motion.div` for plain `div` with the same className. Use a tiny helper `const M = reduced ? "div" : motion.div`.
-- [ ] **Step 3:** Lint. Commit.
+- [x] **Step 1:** In `index.css`, append at the end:
+- [x]     ```css
+- [x]     @media (prefers-reduced-motion: reduce) {
+- [x]       *, *::before, *::after {
+- [x]         animation-duration: 0.001ms !important;
+- [x]         animation-iteration-count: 1 !important;
+- [x]         transition-duration: 0.001ms !important;
+- [x]         scroll-behavior: auto !important;
+- [x]       }
+- [x]     }
+- [x]     @media (prefers-contrast: more) {
+- [x]       .border-border\/30 { border-width: 2px !important; }
+- [x]       button:focus-visible { outline: 3px solid currentColor !important; outline-offset: 2px !important; }
+- [x]     }
+- [x]     ```
+- [x] **Step 2:** In `App.tsx`, wrap `motion.div`/`AnimatePresence` with `usePrefersReducedMotion()` -- when true, swap `motion.div` for plain `div` with the same className. Use a tiny helper `const M = reduced ? "div" : motion.div`.
+- [x] **Step 3:** Lint. Commit.
 
 ### Task 6: SkipLink component
 
@@ -125,9 +125,9 @@
 - src/components/SkipLink.tsx (new)
 - src/App.tsx
 
-- [ ] **Step 1:** Component: anchor with `href="#map-region"`, `sr-only` class until focused. Renders "Saltar al mapa".
-- [ ] **Step 2:** In `App.tsx`, add `id="map-region"` to the map wrapper and `<SkipLink />` as the first child of the root.
-- [ ] **Step 3:** Lint. Commit.
+- [x] **Step 1:** Component: anchor with `href="#map-region"`, `sr-only` class until focused. Renders "Saltar al mapa".
+- [x] **Step 2:** In `App.tsx`, add `id="map-region"` to the map wrapper and `<SkipLink />` as the first child of the root.
+- [x] **Step 3:** Lint. Commit.
 
 ### Task 7: a11y across components
 
@@ -138,35 +138,35 @@
 - src/components/Map/NavigationOverlay.tsx
 - src/App.tsx
 
-- [ ] **Step 1:** `RouteCard`: wrap root in `<section role="region" aria-label={`Ruta ${index+1}: ${summary}`}>`.
-- [ ] **Step 2:** `QuickPicksBar`: root `<nav aria-label="Favoritos y busquedas recientes">`. Each chip `<button aria-label={`Ir a ${name}`}>`.
-- [ ] **Step 3:** `MapSearch`: the favorite star `<button aria-label={isFavorite ? `Quitar ${name} de favoritos` : `Guardar ${name} en favoritos`}>`. On click, call `navigator.vibrate?.(15)` if available.
-- [ ] **Step 4:** `NavigationOverlay`: outer `<div role="status" aria-live="polite" aria-atomic="true">` so screen readers announce each cue change.
-- [ ] **Step 5:** `App.tsx`: chat list `<div role="log" aria-live="polite" aria-relevant="additions">`. Sheet handle `<button aria-expanded={currentSnap > 0} aria-controls="chat-sheet" aria-label="Expandir panel">`.
-- [ ] **Step 6:** Focus management: when sheet opens to `max`, capture `document.activeElement` before snap, then after snap call `firstRouteCardRef.current?.focus()`. When sheet collapses to `min`, call `previousActiveElement?.focus()`.
-- [ ] **Step 7:** Lint. Commit.
+- [x] **Step 1:** `RouteCard`: wrap root in `<section role="region" aria-label={`Ruta ${index+1}: ${summary}`}>`.
+- [x] **Step 2:** `QuickPicksBar`: root `<nav aria-label="Favoritos y busquedas recientes">`. Each chip `<button aria-label={`Ir a ${name}`}>`.
+- [x] **Step 3:** `MapSearch`: the favorite star `<button aria-label={isFavorite ? `Quitar ${name} de favoritos` : `Guardar ${name} en favoritos`}>`. On click, call `navigator.vibrate?.(15)` if available.
+- [x] **Step 4:** `NavigationOverlay`: outer `<div role="status" aria-live="polite" aria-atomic="true">` so screen readers announce each cue change.
+- [x] **Step 5:** `App.tsx`: chat list `<div role="log" aria-live="polite" aria-relevant="additions">`. Sheet handle `<button aria-expanded={currentSnap > 0} aria-controls="chat-sheet" aria-label="Expandir panel">`.
+- [x] **Step 6:** Focus management: when sheet opens to `max`, capture `document.activeElement` before snap, then after snap call `firstRouteCardRef.current?.focus()`. When sheet collapses to `min`, call `previousActiveElement?.focus()`.
+- [x] **Step 7:** Lint. Commit.
 
 ### Task 8: index.html viewport fix
 
 **Files:**
 - index.html
 
-- [ ] **Step 1:** Replace `<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">` with `<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0">`.
-- [ ] **Step 2:** Justification: the previous `maximum-scale=5.0` was the source of the rogue zoom the user reported. Pinch-zoom is preserved (we are not setting `user-scalable=no`).
-- [ ] **Step 3:** Lint + build to ensure nothing breaks. Commit.
+- [x] **Step 1:** Replace `<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">` with `<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0">`.
+- [x] **Step 2:** Justification: the previous `maximum-scale=5.0` was the source of the rogue zoom the user reported. Pinch-zoom is preserved (we are not setting `user-scalable=no`).
+- [x] **Step 3:** Lint + build to ensure nothing breaks. Commit.
 
 ### Task 9: Full verification
 
 **Files:**
 
-- [ ] **Step 1:** `node tests/test_sheet_drag.mjs` -> 12+/12+ GREEN.
-- [ ] **Step 2:** `node tests/test_reduced_motion.mjs` -> 6+/6+ GREEN.
-- [ ] **Step 3:** All 12 prior test files still GREEN.
-- [ ] **Step 4:** `npm run lint` exit 0.
-- [ ] **Step 5:** `npm run build` exit 0.
-- [ ] **Step 6:** Bundle markers: verify bundle contains `useSheetDrag`, `prefers-reduced-motion`, `role="log"`, `aria-live`, `Saltar al mapa`.
-- [ ] **Step 7:** Update CHANGELOG with section `## 2026-06-26 -- Plan E: Mobile UX pro`.
-- [ ] **Step 8:** Commit.
+- [x] **Step 1:** `node tests/test_sheet_drag.mjs` -> 12+/12+ GREEN.
+- [x] **Step 2:** `node tests/test_reduced_motion.mjs` -> 6+/6+ GREEN.
+- [x] **Step 3:** All 12 prior test files still GREEN.
+- [x] **Step 4:** `npm run lint` exit 0.
+- [x] **Step 5:** `npm run build` exit 0.
+- [x] **Step 6:** Bundle markers: verify bundle contains `useSheetDrag`, `prefers-reduced-motion`, `role="log"`, `aria-live`, `Saltar al mapa`.
+- [x] **Step 7:** Update CHANGELOG with section `## 2026-06-26 -- Plan E: Mobile UX pro`.
+- [x] **Step 8:** Commit.
 
 ---
 
