@@ -50,7 +50,7 @@ async function main() {
     const x = parseFloat(cols[0]);
     const y = parseFloat(cols[1]);
     const { lat, lng } = mercatorToWgs84(x, y);
-    const nombre = cols[6] ? cols[6].replace(/^Estación /, '').replace(/ \(Línea .*\)$/, '').trim() : '';
+    const nombre = cols[6] ? cols[6].replace(/^(Estación|Parada) /, '').replace(/ \(Línea .*\)$/, '').trim() : '';
     officialStations.push({
       nombre,
       lat,

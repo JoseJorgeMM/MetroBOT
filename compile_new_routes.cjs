@@ -106,8 +106,13 @@ if (fs.existsSync(METRO_CSV)) {
     const x = parseFloat(cols[0]);
     const y = parseFloat(cols[1]);
     const { lat, lng } = mercatorToWgs84(x, y);
-    const nombre = cols[6] ? cols[6].replace(/^Estaci\u00f3n /, '').replace(/ \(L\u00ednea .*\)$/, '').trim() : '';
-    officialStations.push({ nombre, lat, lng });
+    const nombre = cols[6] ? cols[6].replace(/^(Estación|Parada) /, '').replace(/ \(Línea .*\)$/, '').trim() : '';
+    officialStations.push({
+      nombre,
+      lat,
+      lng,
+      sNorm: normalize(nombre)
+    });
   }
 }
 

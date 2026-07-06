@@ -79,7 +79,7 @@ if (fs.existsSync(metroStationsFile)) {
     const x = parseFloat(cols[0]), y = parseFloat(cols[1]);
     const lng = (x / RADIUS) * (180 / Math.PI);
     const lat = (2 * Math.atan(Math.exp(y / RADIUS)) - Math.PI / 2) * (180 / Math.PI);
-    const nombre = cols[6] ? cols[6].replace(/^Estación /, '').replace(/ \(Línea .*\)$/, '').trim() : '';
+    const nombre = cols[6] ? cols[6].replace(/^(Estación|Parada) /, '').replace(/ \(Línea .*\)$/, '').trim() : '';
     officialStations.push({ nombre, lat, lng });
   });
 }

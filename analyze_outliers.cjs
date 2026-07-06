@@ -34,7 +34,7 @@ if (fs.existsSync(METRO_CSV)) {
     const x = parseFloat(cols[0]);
     const y = parseFloat(cols[1]);
     const { lat, lng } = mercatorToWgs84(x, y);
-    const nombre = cols[6] ? cols[6].replace(/^Estación /, '').replace(/ \(Línea .*\)$/, '').trim() : '';
+    const nombre = cols[6] ? cols[6].replace(/^(Estación|Parada) /, '').replace(/ \(Línea .*\)$/, '').trim() : '';
     officialStations.push({ nombre, lat, lng, sistema: cols[4] });
   }
 }
@@ -79,27 +79,36 @@ for (const r of routes) {
 
   // Check each stop on this route
   for (const stop of r.stops) {
-    // Find min distance to any connected station
-    let minDist = Infinity;
-    let closestStation = null;
+    // Find min distance to connected stations
+    let minDistConnected = Infinity;
+    let closestConnected = null;
     for (const s of connectedStations) {
       const dist = calculateDistance(stop.lat, stop.lng, s.lat, s.lng);
-      if (dist < minDist) {
-        minDist = dist;
-        closestStation = s;
+      if (dist < minDistConnected) {
+        minDistConnected = dist;
+        closestConnected = s;
       }
     }
 
-    // If a stop is more than 3.5 km away from its connecting station, it is likely an outlier!
-    if (minDist > 3500 && minDist !== Infinity) {
+    // Find min distance to ANY official station in the entire network
+    let minDistAny = Infinity;
+    for (const s of officialStations) {
+      const dist = calculateDistance(stop.lat, stop.lng, s.lat, s.lng);
+      if (dist < minDistAny) minDistAny = dist;
+    }
+
+    // Outlier check matching clean_geocoding_cache.cjs
+    const isOutlier = (minDistConnected > 3500) && (minDistConnected - minDistAny > 2500);
+
+    if (isOutlier && minDistConnected !== Infinity) {
       outlierStopsCount++;
       outliersList.push({
         routeId: r.id,
         stopName: stop.name,
         lat: stop.lat,
         lng: stop.lng,
-        distanceKm: (minDist / 1000).toFixed(2),
-        closestStation: closestStation.nombre
+        distanceKm: (minDistConnected / 1000).toFixed(2),
+        closestStation: closestConnected.nombre
       });
     }
   }
@@ -112,3 +121,4 @@ console.log("\nSample Outliers (first 20):");
 outliersList.slice(0, 20).forEach(o => {
   console.log(`Route: ${o.routeId} | Stop: "${o.stopName}" | Coords: ${o.lat.toFixed(5)}, ${o.lng.toFixed(5)} | Dist: ${o.distanceKm} km from ${o.closestStation}`);
 });
+
