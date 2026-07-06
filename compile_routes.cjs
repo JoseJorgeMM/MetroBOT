@@ -84,30 +84,91 @@ if (fs.existsSync(metroStationsFile)) {
   });
 }
 
-function normalizeName(name) {
-  return name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, ' ').replace(/\s+/g, ' ').trim();
+function calculateDistance(lat1, lng1, lat2, lng2) {
+  const R = 6371e3; // metres
+  const phi1 = lat1 * Math.PI / 180;
+  const phi2 = lat2 * Math.PI / 180;
+  const deltaPhi = (lat2 - lat1) * Math.PI / 180;
+  const deltaLambda = (lng2 - lng1) * Math.PI / 180;
+
+  const a = Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2) +
+            Math.cos(phi1) * Math.cos(phi2) *
+            Math.sin(deltaLambda / 2) * Math.sin(deltaLambda / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c; // in metres
 }
 
-async function geocode(name) {
+function cleanQueryForGeocoding(name, defaultCity) {
+  let query = name;
+  const addrMatch = name.match(/\(([^)]+)\)/);
+  if (addrMatch) {
+    query = addrMatch[1];
+  }
+  
+  let city = defaultCity || 'Medellín';
+  const cities = ['Medellín', 'Bello', 'Itagüí', 'Envigado', 'Sabaneta', 'Copacabana', 'Caldas', 'La Estrella', 'Barbosa', 'Girardota'];
+  for (const c of cities) {
+    const reg = new RegExp(c, 'i');
+    if (name.match(reg)) {
+      city = c;
+      break;
+    }
+  }
+
+  // Remove existing city/state suffixes from query part
+  query = query.replace(/,\s*Medell[ií]n/gi, '')
+               .replace(/,\s*Bello/gi, '')
+               .replace(/,\s*Itag[uü][ií]/gi, '')
+               .replace(/,\s*Envigado/gi, '')
+               .replace(/,\s*Sabaneta/gi, '')
+               .replace(/,\s*Copacabana/gi, '')
+               .replace(/,\s*Caldas/gi, '')
+               .replace(/,\s*La Estrella/gi, '')
+               .replace(/,\s*Barbosa/gi, '')
+               .replace(/,\s*Girardota/gi, '')
+               .replace(/,\s*Antioquia/gi, '')
+               .trim();
+
+  // Expand abbreviations
+  query = query
+    .replace(/\bKr\b/gi, 'Carrera')
+    .replace(/\bCra\b/gi, 'Carrera')
+    .replace(/\bCr\b/gi, 'Carrera')
+    .replace(/\bCl\b/gi, 'Calle')
+    .replace(/\bCll\b/gi, 'Calle')
+    .replace(/\bDiag\b/gi, 'Diagonal')
+    .replace(/\bTv\b/gi, 'Transversal')
+    .replace(/\bTrans\b/gi, 'Transversal')
+    .replace(/\bAv\b\.?/gi, 'Avenida')
+    .replace(/\s*-\s*/g, ' con ')
+    .replace(/\s*&\s*/g, ' con ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  query += `, ${city}`;
+  return query;
+}
+
+function normalizeName(name) {
+  if (!name) return '';
+  return name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, '').trim();
+}
+
+async function geocode(name, defaultCity) {
   if (manualOverrides[name]) return manualOverrides[name];
   if (geocodingCache[name]) return geocodingCache[name];
 
   const norm = normalizeName(name);
   for (const s of officialStations) {
     const sNorm = normalizeName(s.nombre);
-    if (norm === sNorm || (norm.length > 5 && sNorm.includes(norm)) || (sNorm.length > 5 && norm.includes(sNorm))) {
+    if (norm === sNorm || (norm.length > 5 && norm.includes(sNorm) && sNorm.length >= 4)) {
       return { lat: s.lat, lng: s.lng };
     }
   }
 
-  let query = name;
-  const addrMatch = name.match(/\(([^)]+)\)/);
-  if (addrMatch) {
-    query = addrMatch[1];
-    if (!query.toLowerCase().includes("medellin") && !query.toLowerCase().includes("bello")) query += ", Medellín";
-  }
-
+  const query = cleanQueryForGeocoding(name, defaultCity);
   console.log(`Geocoding: ${query}...`);
+
   // Try Photon first (no rate limits, OSM-based, good for Colombia)
   try {
     const response = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&limit=1`, {
@@ -179,11 +240,58 @@ async function main() {
       }
     }
 
+    // Determine default city for the route
+    let defaultCity = 'Medellín';
+    if (routeId.startsWith('C5-')) defaultCity = 'Sabaneta';
+    else if (routeId.startsWith('C6-')) defaultCity = 'Medellín';
+    else if (routeId.startsWith('C3-')) defaultCity = 'Medellín';
+
+    // Identify connected official stations on this route
+    const connectedStations = [];
+    for (const stop of rawStops) {
+      const stopNorm = normalizeName(stop.name);
+      for (const s of officialStations) {
+        const sNorm = normalizeName(s.nombre);
+        if (stopNorm === sNorm || (stopNorm.length > 5 && stopNorm.includes(sNorm) && sNorm.length >= 4)) {
+          if (!connectedStations.some(cs => cs.nombre === s.nombre)) {
+            connectedStations.push(s);
+          }
+        }
+      }
+    }
+
     console.log(`Route ${routeId}: Geocoding ${rawStops.length} stops...`);
     for (let stop of rawStops) {
       if (!stop.hasCoords) {
-        const res = await geocode(stop.name);
-        if (res) { stop.lat = res.lat; stop.lng = res.lng; stop.hasCoords = true; }
+        const res = await geocode(stop.name, defaultCity);
+        if (res) {
+          // Outlier check:
+          let isOutlier = false;
+          if (connectedStations.length > 0) {
+            let minDistConnected = Infinity;
+            for (const s of connectedStations) {
+              const dist = calculateDistance(res.lat, res.lng, s.lat, s.lng);
+              if (dist < minDistConnected) minDistConnected = dist;
+            }
+
+            let minDistAny = Infinity;
+            for (const s of officialStations) {
+              const dist = calculateDistance(res.lat, res.lng, s.lat, s.lng);
+              if (dist < minDistAny) minDistAny = dist;
+            }
+
+            // Outlier check using difference logic
+            isOutlier = (minDistConnected > 3500) && (minDistConnected - minDistAny > 2500);
+          }
+
+          if (!isOutlier) {
+            stop.lat = res.lat;
+            stop.lng = res.lng;
+            stop.hasCoords = true;
+          } else {
+            console.log(`[Outlier] Discarded geocoded coords for "${stop.name}" (${res.lat.toFixed(5)}, ${res.lng.toFixed(5)})`);
+          }
+        }
         if (res && !geocodingCache[stop.name] && !manualOverrides[stop.name]) await new Promise(r => setTimeout(r, 1500));
       }
     }
@@ -213,5 +321,6 @@ async function main() {
   fs.writeFileSync(jsonPath, JSON.stringify(compiledRoutes, null, 2));
   console.log(`Success! Compiled ${compiledRoutes.length} routes.`);
 }
+
 
 main().catch(console.error);

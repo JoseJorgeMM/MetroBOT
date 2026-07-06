@@ -1,4 +1,4 @@
-﻿// Compiles ONLY the TPC Itagui routes and merges them into rutas_integradas.json.
+// Compiles ONLY the TPC Itagui routes and merges them into rutas_integradas.json.
 // Mirrors compile_c5_only.cjs: reuses existing geocoding cache + manual overrides,
 // falls back to Photon (komoot) for addresses within the Valle de Aburrá bbox,
 // and linearly interpolates between known coords.
@@ -55,19 +55,106 @@ const manualOverrides = {
   'Cootrasana': { lat: 6.1830, lng: -75.6580 }
 };
 
-async function geocode(name) {
+const metroStationsFile = path.join(__dirname, 'public', 'Estaciones_Sistema_Metro.csv');
+const officialStations = [];
+if (fs.existsSync(metroStationsFile)) {
+  const content = fs.readFileSync(metroStationsFile, 'utf-8');
+  const rows = content.trim().split(/\r?\n/).slice(1);
+  const RADIUS = 6378137;
+  rows.forEach(row => {
+    const cols = row.split(',');
+    if (cols.length < 9) return;
+    const x = parseFloat(cols[0]), y = parseFloat(cols[1]);
+    const lng = (x / RADIUS) * (180 / Math.PI);
+    const lat = (2 * Math.atan(Math.exp(y / RADIUS)) - Math.PI / 2) * (180 / Math.PI);
+    const nombre = cols[6] ? cols[6].replace(/^Estación /, '').replace(/ \(Línea .*\)$/, '').trim() : '';
+    officialStations.push({ nombre, lat, lng });
+  });
+}
+
+function calculateDistance(lat1, lng1, lat2, lng2) {
+  const R = 6371e3; // metres
+  const phi1 = lat1 * Math.PI / 180;
+  const phi2 = lat2 * Math.PI / 180;
+  const deltaPhi = (lat2 - lat1) * Math.PI / 180;
+  const deltaLambda = (lng2 - lng1) * Math.PI / 180;
+
+  const a = Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2) +
+            Math.cos(phi1) * Math.cos(phi2) *
+            Math.sin(deltaLambda / 2) * Math.sin(deltaLambda / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c; // in metres
+}
+
+function cleanQueryForGeocoding(name, defaultCity) {
+  let query = name;
+  const addrMatch = name.match(/\(([^)]+)\)/);
+  if (addrMatch) {
+    query = addrMatch[1];
+  }
+  
+  let city = defaultCity || 'Itagüí';
+  const cities = ['Medellín', 'Bello', 'Itagüí', 'Envigado', 'Sabaneta', 'Copacabana', 'Caldas', 'La Estrella', 'Barbosa', 'Girardota'];
+  for (const c of cities) {
+    const reg = new RegExp(c, 'i');
+    if (name.match(reg)) {
+      city = c;
+      break;
+    }
+  }
+
+  // Remove existing city/state suffixes from query part
+  query = query.replace(/,\s*Medell[ií]n/gi, '')
+               .replace(/,\s*Bello/gi, '')
+               .replace(/,\s*Itag[uü][ií]/gi, '')
+               .replace(/,\s*Envigado/gi, '')
+               .replace(/,\s*Sabaneta/gi, '')
+               .replace(/,\s*Copacabana/gi, '')
+               .replace(/,\s*Caldas/gi, '')
+               .replace(/,\s*La Estrella/gi, '')
+               .replace(/,\s*Barbosa/gi, '')
+               .replace(/,\s*Girardota/gi, '')
+               .replace(/,\s*Antioquia/gi, '')
+               .trim();
+
+  // Expand abbreviations
+  query = query
+    .replace(/\bKr\b/gi, 'Carrera')
+    .replace(/\bCra\b/gi, 'Carrera')
+    .replace(/\bCr\b/gi, 'Carrera')
+    .replace(/\bCl\b/gi, 'Calle')
+    .replace(/\bCll\b/gi, 'Calle')
+    .replace(/\bDiag\b/gi, 'Diagonal')
+    .replace(/\bTv\b/gi, 'Transversal')
+    .replace(/\bTrans\b/gi, 'Transversal')
+    .replace(/\bAv\b\.?/gi, 'Avenida')
+    .replace(/\s*-\s*/g, ' con ')
+    .replace(/\s*&\s*/g, ' con ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  query += `, ${city}`;
+  return query;
+}
+
+function normalizeName(name) {
+  if (!name) return '';
+  return name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, '').trim();
+}
+
+async function geocode(name, defaultCity) {
   if (manualOverrides[name]) return manualOverrides[name];
   if (geocodingCache[name]) return geocodingCache[name];
 
-  let query = name;
-  const addrMatch = name.match(/\(([^)]+)\)/);
-  if (addrMatch) query = addrMatch[1];
-  const q = query.toLowerCase();
-  if (!q.includes('medellin') && !q.includes('medellín') && !q.includes('bello') &&
-      !q.includes('sabaneta') && !q.includes('itagüí') && !q.includes('itagui') &&
-      !q.includes('estrella') && !q.includes('envigado')) {
-    query += ', Medellín';
+  const norm = normalizeName(name);
+  for (const s of officialStations) {
+    const sNorm = normalizeName(s.nombre);
+    if (norm === sNorm || (norm.length > 5 && norm.includes(sNorm) && sNorm.length >= 4)) {
+      return { lat: s.lat, lng: s.lng };
+    }
   }
+
+  const query = cleanQueryForGeocoding(name, defaultCity);
 
   try {
     const response = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&limit=1`, {
@@ -112,13 +199,57 @@ async function compileRoute(file) {
     }
   }
 
+  // Identify connected official stations on this route
+  const connectedStations = [];
+  for (const stop of rawStops) {
+    const stopNorm = normalizeName(stop.name);
+    for (const s of officialStations) {
+      const sNorm = normalizeName(s.nombre);
+      if (stopNorm === sNorm || (stopNorm.length > 5 && stopNorm.includes(sNorm) && sNorm.length >= 4)) {
+        if (!connectedStations.some(cs => cs.nombre === s.nombre)) {
+          connectedStations.push(s);
+        }
+      }
+    }
+  }
+
   console.log(`[${routeId}] ${rawStops.length} stops, geocoding...`);
   let ok = 0, fail = 0;
   for (const stop of rawStops) {
     if (stop.hasCoords) continue;
-    const res = await geocode(stop.name);
-    if (res) { stop.lat = res.lat; stop.lng = res.lng; stop.hasCoords = true; ok++; }
-    else fail++;
+    const res = await geocode(stop.name, 'Itagüí');
+    if (res) {
+      // Outlier check:
+      let isOutlier = false;
+      if (connectedStations.length > 0) {
+        let minDistConnected = Infinity;
+        for (const s of connectedStations) {
+          const dist = calculateDistance(res.lat, res.lng, s.lat, s.lng);
+          if (dist < minDistConnected) minDistConnected = dist;
+        }
+
+        let minDistAny = Infinity;
+        for (const s of officialStations) {
+          const dist = calculateDistance(res.lat, res.lng, s.lat, s.lng);
+          if (dist < minDistAny) minDistAny = dist;
+        }
+
+        // Outlier check using difference logic
+        isOutlier = (minDistConnected > 3500) && (minDistConnected - minDistAny > 2500);
+      }
+
+      if (!isOutlier) {
+        stop.lat = res.lat;
+        stop.lng = res.lng;
+        stop.hasCoords = true;
+        ok++;
+      } else {
+        fail++;
+        console.log(`[Outlier] Discarded geocoded coords for "${stop.name}" (${res.lat.toFixed(5)}, ${res.lng.toFixed(5)})`);
+      }
+    } else {
+      fail++;
+    }
     await new Promise(r => setTimeout(r, 180));
   }
   console.log(`  -> ${ok} geocoded, ${fail} failed`);

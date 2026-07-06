@@ -1,12 +1,4 @@
 {
-  "Belen La Palma Avenida. 80": {
-    "lat": 6.227381,
-    "lng": -75.601822
-  },
-  "Avenida 80 - Calle 32b": {
-    "lat": 6.3207777,
-    "lng": -75.5609813
-  },
   "6°11'58.7\"\"N 75°35'05.3\"\"W": {
     "lat": 6.1996289,
     "lng": -75.5847669
@@ -42,10 +34,6 @@
   "Br. Bomboná No. 1 (Cl 47 - Cr 39, Medellín)": {
     "lat": 6.2400191,
     "lng": -75.5555567
-  },
-  "Fundación Ximena Rico Llano (Cl 47a - Cr 37, Medellín)": {
-    "lat": 6.257338,
-    "lng": -75.603735
   },
   "Br. La Milagrosa (Cl 45 - Cr 28, Medellín)": {
     "lat": 6.2417133,
@@ -94,10 +82,6 @@
   "Br. Villatina (Cl 54 - Cr 16, Medellín)": {
     "lat": 6.2364352,
     "lng": -75.4973628
-  },
-  "Br. Villatina (Cr 13 - Cl 52b, Medellín)": {
-    "lat": 6.2664716,
-    "lng": -75.5979409
   },
   "Parque De Boston": {
     "lat": 6.2480741,
@@ -219,10 +203,6 @@
     "lat": 6.2664574,
     "lng": -75.5645291
   },
-  "Br. Versalles (Cl 68a - Cr 28, Medellín)": {
-    "lat": 6.2788904,
-    "lng": -75.5950851
-  },
   "Br. Manrique Central (Cl 71a - Cr 41, Medellín)": {
     "lat": 6.2668038,
     "lng": -75.5491963
@@ -275,10 +255,6 @@
     "lat": 6.2299081,
     "lng": -75.5328297
   },
-  "Br. Jesús (Cl 49a - Cr 5, Medellín)": {
-    "lat": 6.2614157,
-    "lng": -75.6091937
-  },
   "Calle. 78 Sur #35- 182, Sabaneta, Cañaveralejo, Sabaneta, Antioquia": {
     "lat": 6.1484824,
     "lng": -75.6224733
@@ -310,10 +286,6 @@
   "Carrera. 43B #70 Sur-1 a 70 Sur-75, Sabaneta, Antioquia": {
     "lat": 6.1478578,
     "lng": -75.6165313
-  },
-  "Calle. 51 Sur #105 a 103, Sabaneta, Antioquia": {
-    "lat": 6.244203,
-    "lng": -75.5812119
   },
   "Calle. 52 Sur #44-65, Sabaneta, Antioquia": {
     "lat": 6.1588532,
@@ -359,17 +331,9 @@
     "lat": 6.1474326,
     "lng": -75.6188755
   },
-  "Calle. 64 Sur #39-348 a 39-376": {
-    "lat": 6.2553053,
-    "lng": -75.5809805
-  },
   "Vía Vda. Los Lomitos, Las Lomitas, Sabaneta, Antioquia": {
     "lat": 6.1425483,
     "lng": -75.6021806
-  },
-  "Calle. 62 Sur": {
-    "lat": 6.2392171,
-    "lng": -75.5776973
   },
   "Carrera. 45 #65 sur 51, Sabaneta, Antioquia": {
     "lat": 6.1556092,
@@ -378,10 +342,6 @@
   "Carrrea. 46 #70S-74, Sabaneta, Antioquia": {
     "lat": 6.1503498,
     "lng": -75.6213421
-  },
-  "Carrera. 46 #33": {
-    "lat": 6.2395633,
-    "lng": -75.5702933
   },
   "Carrera. 46 #74 sur - 47, Sabaneta, Antioquia": {
     "lat": 6.1537621,
@@ -395,21 +355,9 @@
     "lat": 6.1831485,
     "lng": -75.6537756
   },
-  "Carrera. 32": {
-    "lat": 6.2280159,
-    "lng": -75.5617606
-  },
-  "Calle. 75 Sur #32-45 a 32-3": {
-    "lat": 6.1902717,
-    "lng": -75.5696434
-  },
   "Carrera 43AA # 75SUT-5, Sabaneta, Antioquia": {
     "lat": 6.1570729,
     "lng": -75.6057333
-  },
-  "Calle. 68 Sur #45-81": {
-    "lat": 6.2573477,
-    "lng": -75.5849502
   },
   "055450, Sabaneta, Antioquia": {
     "lat": 6.1515344,
@@ -519,29 +467,9 @@
     "lat": 6.169006,
     "lng": -75.6160377
   },
-  "Carrera 49, 42:4": {
-    "lat": 6.1995078,
-    "lng": -75.5795001
-  },
-  "Carrera 49, 442": {
-    "lat": 6.1995078,
-    "lng": -75.5795001
-  },
-  "Carrera 49, 48a-30": {
-    "lat": 6.2006332,
-    "lng": -75.579074
-  },
-  "Carrera 49, 522": {
-    "lat": 6.1995078,
-    "lng": -75.5795001
-  },
   "Carrera. 52 #58-116 a 58-302, Itagüí, Itagüi, Antioquia": {
     "lat": 6.1825335,
     "lng": -75.6121556
-  },
-  "Avenida Simón Bolivar, 4521": {
-    "lat": 6.243803,
-    "lng": -75.602801
   },
   "Calle. 50, Santa Cruz, Itagüí, Itagüi, Antioquia": {
     "lat": 6.1729848,
@@ -550,10 +478,6 @@
   "Calle 38 Sur, Parque Cultural Débora Arango": {
     "lat": 6.172242,
     "lng": -75.5906412
-  },
-  "Gaunteros, Parque Principal": {
-    "lat": 6.3019862,
-    "lng": -75.5739411
   },
   "Calle. 39 Sur #38-14, Zona 9, Envigado, Antioquia": {
     "lat": 6.15002,
@@ -583,17 +507,9 @@
     "lat": 6.185414,
     "lng": -75.5833046
   },
-  "Teresiano": {
-    "lat": 6.2582524,
-    "lng": -75.6069347
-  },
   "Avenida El Poblado, Comfama Envigado": {
     "lat": 6.1750126,
     "lng": -75.5860631
-  },
-  "Carrera 52, 531": {
-    "lat": 6.2690154,
-    "lng": -75.5661053
   },
   "Carrera. 51a #46-117 a 46-1, Itagüí, Itagüi, Antioquia": {
     "lat": 6.1699144,
@@ -723,17 +639,9 @@
     "lat": 6.1880731,
     "lng": -75.6006739
   },
-  "Carrera 42, 721, C.C Capricentro": {
-    "lat": 6.2911691,
-    "lng": -75.549882
-  },
   "Carrera. 40 #1175, Santa Cruz, Itagüí, Itagüi, Antioquia": {
     "lat": 6.1661728,
     "lng": -75.6036725
-  },
-  "Calle 51, 412": {
-    "lat": 6.248258,
-    "lng": -75.5618971
   },
   "Calle 36, 6444": {
     "lat": 6.2384169,
@@ -742,10 +650,6 @@
   "Carrera 70, 281": {
     "lat": 6.2291852,
     "lng": -75.5913838
-  },
-  "Las Vegas": {
-    "lat": 6.2018777,
-    "lng": -75.5772857
   },
   "Calle. 36 #59-26 a 59-138, Itagüí, Itagüi, Antioquia": {
     "lat": 6.1692167,
@@ -771,25 +675,9 @@
     "lat": 6.158775,
     "lng": -75.6263442
   },
-  "Calle 31, 61289": {
-    "lat": 6.2337272,
-    "lng": -75.592368
-  },
-  "Calle 31, 602": {
-    "lat": 6.2337272,
-    "lng": -75.592368
-  },
   "Calle. 31 #61-72, Itagüí, Itagüi, Antioquia": {
     "lat": 6.1638954,
     "lng": -75.6295127
-  },
-  "Diagonal 40, 3266": {
-    "lat": 6.2316136,
-    "lng": -75.4933069
-  },
-  "Carrera 50a, 29a2": {
-    "lat": 6.2855111,
-    "lng": -75.5585042
   },
   "Calle 29A #50, San Pio, Itagüí, Itagüi, Antioquia": {
     "lat": 6.1648303,
@@ -827,21 +715,9 @@
     "lat": 6.1814693,
     "lng": -75.6033388
   },
-  "Carrera 57, 8043": {
-    "lat": 6.2279304,
-    "lng": -75.5813863
-  },
   "Carrera 58, 83, Parroquia El Porvenir": {
     "lat": 6.1938735,
     "lng": -75.5992903
-  },
-  "Calle 15c Sur, Cancha El Porvenir": {
-    "lat": 6.1868569,
-    "lng": -75.5671155
-  },
-  "Planta San Fernando": {
-    "lat": 6.2828074,
-    "lng": -75.5758883
   },
   "Calle. 86 #51A-68, Itagüí, Itagüi, Antioquia": {
     "lat": 6.1922086,
@@ -850,10 +726,6 @@
   "Vivendas del Sur, Itagüí, Itagüi, Antioquia": {
     "lat": 6.1582552,
     "lng": -75.6188464
-  },
-  "Carrera 58, Urb Laureles Del Sur": {
-    "lat": 6.2523025,
-    "lng": -75.578819
   },
   "Calle 76, Iglesia Del Ajizal": {
     "lat": 6.1934694,
@@ -867,10 +739,6 @@
     "lat": 6.179551,
     "lng": -75.6057118
   },
-  "La Y": {
-    "lat": 6.2697324,
-    "lng": -75.6025597
-  },
   "Calle 50, 512, Parque De Itagüí": {
     "lat": 6.1728295,
     "lng": -75.6091007
@@ -878,14 +746,6 @@
   "Carrera. 68 #55-587 a 55-537, Itagüí, Itagüi, Antioquia": {
     "lat": 6.1815187,
     "lng": -75.6125075
-  },
-  "Calle 41, 55a2": {
-    "lat": 6.2444096,
-    "lng": -75.5828512
-  },
-  "Calle. 39A, Itagüi, Antioquia": {
-    "lat": 6.1951794,
-    "lng": -75.5853004
   },
   "Calle. 40 #5339, Itagüí, Itagüi, Antioquia": {
     "lat": 6.1658274,
@@ -902,14 +762,6 @@
   "Avenida. Pilsen, Itagüí, Itagüi, Antioquia": {
     "lat": 6.1610393,
     "lng": -75.6135259
-  },
-  "Autopista Sur, 29a1": {
-    "lat": 6.2314222,
-    "lng": -75.5758665
-  },
-  "San fernando itagui": {
-    "lat": 6.1919997,
-    "lng": -75.5897635
   },
   "Carrera. 48 #41-4, Germania, Itagüí, Itagüi, Antioquia": {
     "lat": 6.1810677,
@@ -939,10 +791,6 @@
     "lat": 6.1683268,
     "lng": -75.6224361
   },
-  "Calle 36, 45-35": {
-    "lat": 6.2041574,
-    "lng": -75.5670161
-  },
   "Carrera. 50A #21-191 a 21-49, Itagüí, Itagüi, Antioquia": {
     "lat": 6.1699449,
     "lng": -75.6119094
@@ -967,10 +815,6 @@
     "lat": 6.1723508,
     "lng": -75.6293651
   },
-  "Carrera 67, 41a Sur": {
-    "lat": 6.1989109,
-    "lng": -75.568014
-  },
   "Calle 42 Sur, 2 Este29": {
     "lat": 6.1734967,
     "lng": -75.6477927
@@ -990,10 +834,6 @@
   "Carrera. 58, San Antonio de Prado, Medellín, Antioquia": {
     "lat": 6.1779726,
     "lng": -75.6404854
-  },
-  "Carrera 12 Este, 42": {
-    "lat": 6.2674024,
-    "lng": -75.5240667
   },
   "Cra. 50A #39a-06, Germania, Itagüí, Itagüi, Antioquia": {
     "lat": 6.1705556,
@@ -1027,10 +867,6 @@
     "lat": 6.1849874,
     "lng": -75.6570057
   },
-  "Calle 42 Sur, 2 Este 31": {
-    "lat": 6.1824769,
-    "lng": -75.5677665
-  },
   "Calle 42 Sur, 2 Este30": {
     "lat": 6.1734967,
     "lng": -75.6477927
@@ -1042,10 +878,6 @@
   "Carrera 67, 112": {
     "lat": 6.1852092,
     "lng": -75.6481827
-  },
-  "Carrera 3, 13a2": {
-    "lat": 6.2257312,
-    "lng": -75.5331221
   },
   "Calle. 13aa #5-35 a 5-1, San Antonio de Prado, Medellín, Antioquia": {
     "lat": 6.1735161,
@@ -1087,53 +919,9 @@
     "lat": 6.1872715,
     "lng": -75.6488397
   },
-  "Canalización": {
-    "lat": 6.2159161,
-    "lng": -75.5977798
-  },
-  "Calle 72": {
-    "lat": 6.2677465,
-    "lng": -75.547844
-  },
-  "Calle 68 #52-20": {
-    "lat": 6.261687,
-    "lng": -75.5425768
-  },
-  "H, Santa María": {
-    "lat": 6.2341596,
-    "lng": -75.5273081
-  },
-  "Calle 60 #53-18": {
-    "lat": 6.2549302,
-    "lng": -75.5594207
-  },
   "I,E, Marceliana Saldarriaga": {
     "lat": 6.1845748,
     "lng": -75.5999245
-  },
-  "Calle 56 #52-18": {
-    "lat": 6.2423657,
-    "lng": -75.5446831
-  },
-  "El Guayabo": {
-    "lat": 6.2585282,
-    "lng": -75.6064919
-  },
-  "Calle 53 #51-20": {
-    "lat": 6.2679795,
-    "lng": -75.5687589
-  },
-  "Calle 52 #50-18": {
-    "lat": 6.2312475,
-    "lng": -75.5147447
-  },
-  "Carrera 50 #48-20": {
-    "lat": 6.2002022,
-    "lng": -75.5784855
-  },
-  "Carrera 50 #45-20": {
-    "lat": 6.2002022,
-    "lng": -75.5784855
   },
   "Sena Calatrava": {
     "lat": 6.1807225,
@@ -1143,85 +931,9 @@
     "lat": 6.1995078,
     "lng": -75.5795001
   },
-  "Terranova": {
-    "lat": 6.2792266,
-    "lng": -75.5793055
-  },
-  "Carrera 48 #41-20": {
-    "lat": 6.2539887,
-    "lng": -75.5638951
-  },
-  "Patio Bonito": {
-    "lat": 6.2040853,
-    "lng": -75.5745864
-  },
-  "Carrera 48 #39-20": {
-    "lat": 6.2539887,
-    "lng": -75.5638951
-  },
-  "Carrera 47 #37-20": {
-    "lat": 6.3038477,
-    "lng": -75.5476624
-  },
-  "Carrera 46 #35-20": {
-    "lat": 6.2395633,
-    "lng": -75.5702933
-  },
-  "Parq. Buses": {
-    "lat": 6.2597638,
-    "lng": -75.6081014
-  },
-  "Carrera 45 #33-20": {
-    "lat": 6.2444991,
-    "lng": -75.5665715
-  },
-  "El Hueco": {
-    "lat": 6.2741101,
-    "lng": -75.6274853
-  },
-  "Calle 51 #53-20": {
-    "lat": 6.248258,
-    "lng": -75.5618971
-  },
-  "Calle 53 #55-20": {
-    "lat": 6.2679795,
-    "lng": -75.5687589
-  },
-  "Carrera 48 #43-20": {
-    "lat": 6.2539887,
-    "lng": -75.5638951
-  },
   "Carrera 49 #41-20": {
     "lat": 6.1995078,
     "lng": -75.5795001
-  },
-  "Esc. Maria Bernal": {
-    "lat": 6.2203559,
-    "lng": -75.5936574
-  },
-  "Calle 51 #49-20": {
-    "lat": 6.248258,
-    "lng": -75.5618971
-  },
-  "Carrera 52 #53-20": {
-    "lat": 6.2690154,
-    "lng": -75.5661053
-  },
-  "Carrera 52a": {
-    "lat": 6.2785369,
-    "lng": -75.5641826
-  },
-  "Calle 58 #52A-20": {
-    "lat": 6.2503632,
-    "lng": -75.5571156
-  },
-  "Calle 62 #54-20": {
-    "lat": 6.2538731,
-    "lng": -75.5550531
-  },
-  "Calle 65 #54-20": {
-    "lat": 6.2732019,
-    "lng": -75.5926511
   },
   "Carrera 43A #63-20": {
     "lat": 6.1926955,
@@ -1231,10 +943,6 @@
     "lat": 6.2293835,
     "lng": -75.591087
   },
-  "Diagonal 43 #28-51": {
-    "lat": 6.2064985,
-    "lng": -75.5723605
-  },
   "Carrera 50A #32-16": {
     "lat": 6.2855111,
     "lng": -75.5585042
@@ -1243,14 +951,6 @@
     "lat": 6.2855111,
     "lng": -75.5585042
   },
-  "Calle 34b, 50a10": {
-    "lat": 6.2285189,
-    "lng": -75.5525527
-  },
-  "Calle 34B #50A-10": {
-    "lat": 6.2285189,
-    "lng": -75.5525527
-  },
   "Calle 36 #50A-20": {
     "lat": 6.2384169,
     "lng": -75.5757816
@@ -1258,10 +958,6 @@
   "Calle 36 #48-20": {
     "lat": 6.2384169,
     "lng": -75.5757816
-  },
-  "Carrera 65a, Vía La María": {
-    "lat": 6.2118066,
-    "lng": -75.5885398
   },
   "Carrera 65A #36-20": {
     "lat": 6.2333299,
@@ -1299,18 +995,6 @@
     "lat": 6.2314222,
     "lng": -75.5758665
   },
-  "Centro De La Moda": {
-    "lat": 6.2499166,
-    "lng": -75.576158
-  },
-  "Calle 77A #50-20": {
-    "lat": 6.2853738,
-    "lng": -75.5926881
-  },
-  "Calle 77a, 50-24": {
-    "lat": 6.2499585,
-    "lng": -75.5688841
-  },
   "Carrera 50 #74-18": {
     "lat": 6.2002022,
     "lng": -75.5784855
@@ -1319,33 +1003,9 @@
     "lat": 6.2002022,
     "lng": -75.5784855
   },
-  "Calle 72 #52-20": {
-    "lat": 6.2677465,
-    "lng": -75.547844
-  },
-  "Calle 68 #51-18": {
-    "lat": 6.261687,
-    "lng": -75.5425768
-  },
-  "Calle 64 #50-20": {
-    "lat": 6.2837052,
-    "lng": -75.6072037
-  },
-  "Calle 55 #50-18": {
-    "lat": 6.2396746,
-    "lng": -75.4978473
-  },
   "Calle 55, 50, Cc Itagüí": {
     "lat": 6.1920992,
     "lng": -75.5943726
-  },
-  "Calle 52 #48-20": {
-    "lat": 6.2312475,
-    "lng": -75.5147447
-  },
-  "Calle 50 #42-18": {
-    "lat": 6.2476452,
-    "lng": -75.5634962
   },
   "Calle 13c Sur, Urb Alfarera": {
     "lat": 6.1957903,
@@ -1455,49 +1115,13 @@
     "lat": 6.1995078,
     "lng": -75.5795001
   },
-  "Calle 70 #55-10": {
-    "lat": 6.2653165,
-    "lng": -75.5562752
-  },
-  "Carrera 52A #72-20": {
-    "lat": 6.2164768,
-    "lng": -75.5818819
-  },
-  "Calle 76 #54-20": {
-    "lat": 6.2687035,
-    "lng": -75.5438889
-  },
   "Calle 76, 52d, Casa Finca De Los Del Valle": {
     "lat": 6.1886921,
     "lng": -75.5989234
   },
-  "Calle 76 #52D-20": {
-    "lat": 6.2687035,
-    "lng": -75.5438889
-  },
   "Calle 15C Sur #53-20": {
     "lat": 6.1937003,
     "lng": -75.5950771
-  },
-  "Carrera 53, 84a, Viviendas De Sur": {
-    "lat": 6.2085691,
-    "lng": -75.602988
-  },
-  "Carrera 53 #84A-20": {
-    "lat": 6.2486073,
-    "lng": -75.5712445
-  },
-  "Calle 85 #50-10": {
-    "lat": 6.2769034,
-    "lng": -75.552434
-  },
-  "Calle 85a, 48, Cancha San Fernando": {
-    "lat": 6.2590934,
-    "lng": -75.608649
-  },
-  "Calle 85A #48-20": {
-    "lat": 6.277161,
-    "lng": -75.5383654
   },
   "Fábrica De Licores Y Alcoholes De Antioquia (Cl 12 Sur - Kr 50c, Medellín)": {
     "lat": 6.1961895,
@@ -1555,10 +1179,6 @@
     "lat": 6.1825335,
     "lng": -75.6121556
   },
-  "Calle 64, 5071": {
-    "lat": 6.2837052,
-    "lng": -75.6072037
-  },
   "Av. Santa Maria X Cll 72": {
     "lat": 6.1926619,
     "lng": -75.5801547
@@ -1595,25 +1215,13 @@
     "lat": 6.2082184,
     "lng": -75.5903921
   },
-  "Cristo Rey": {
-    "lat": 6.2072805,
-    "lng": -75.5863794
-  },
   "Carrera. 52 #2-123 a 2-3, Guayabal, Medellín, Guayabal, Medellín, Antioquia": {
     "lat": 6.2290986,
     "lng": -75.5826708
   },
-  "Noel": {
-    "lat": 6.2083717,
-    "lng": -75.5800216
-  },
   "El Poblado, Medellín, El Poblado, Medellín, Antioquia": {
     "lat": 6.2006197,
     "lng": -75.5636832
-  },
-  "Calle 10": {
-    "lat": 6.2087466,
-    "lng": -75.5633079
   },
   "Calle 10 #50-119 a 50-35, Guayabal, Medellín, Guayabal, Medellín, Antioquia": {
     "lat": 6.214548,
@@ -1731,10 +1339,6 @@
     "lat": 6.2314634,
     "lng": -75.5775668
   },
-  "San Rafael": {
-    "lat": 6.2056279,
-    "lng": -75.4976447
-  },
   "Avenida Guayabal, 10 Sur1": {
     "lat": 6.1980643,
     "lng": -75.5850054
@@ -1782,10 +1386,6 @@
   "Zona 1 Envigado": {
     "lat": 6.1626541,
     "lng": -75.6027191
-  },
-  "Carrera 3 13a2": {
-    "lat": 6.2257312,
-    "lng": -75.5331221
   },
   "Calle. 13aa #5-35 a 5-1, San Antonio de Prado Medellín Antioquia": {
     "lat": 6.1735161,
@@ -1919,10 +1519,6 @@
     "lat": 6.2074883,
     "lng": -75.5871147
   },
-  "Calle 36 / Carrera 68": {
-    "lat": 6.2434266,
-    "lng": -75.5567424
-  },
   "Calle 36 #65-1": {
     "lat": 6.2384169,
     "lng": -75.5757816
@@ -1930,10 +1526,6 @@
   "Calle 36 #61-45": {
     "lat": 6.2384169,
     "lng": -75.5757816
-  },
-  "Calle 36 / Carrera 60": {
-    "lat": 6.2434266,
-    "lng": -75.5567424
   },
   "Calle 36 #57-20": {
     "lat": 6.2384169,
@@ -1963,10 +1555,6 @@
     "lat": 6.2055085,
     "lng": -75.5827712
   },
-  "Carrera 49 / Calle 36": {
-    "lat": 6.2434266,
-    "lng": -75.5567424
-  },
   "Carrera 48a / Av. Las Vegas": {
     "lat": 6.2018777,
     "lng": -75.5772857
@@ -1994,26 +1582,6 @@
   "Carrera 49 / Calle 55": {
     "lat": 6.238668,
     "lng": -75.5758001
-  },
-  "Carrera 49 / Calle 58": {
-    "lat": 6.2434266,
-    "lng": -75.5567424
-  },
-  "Calle 64 #50-71": {
-    "lat": 6.2837052,
-    "lng": -75.6072037
-  },
-  "Calle 64 / Carrera 47": {
-    "lat": 6.3038477,
-    "lng": -75.5476624
-  },
-  "Calle 66 / Carrera 47": {
-    "lat": 6.3038477,
-    "lng": -75.5476624
-  },
-  "Calle 68 / Carrera 47": {
-    "lat": 6.3038477,
-    "lng": -75.5476624
   },
   "Av. El Poblado / Calle 80 Sur": {
     "lat": 6.1913915,
@@ -2119,10 +1687,6 @@
     "lat": 6.2002022,
     "lng": -75.5784855
   },
-  "Calle 47 / Carrera 46": {
-    "lat": 6.3038477,
-    "lng": -75.5476624
-  },
   "Calle 44 #52-70": {
     "lat": 6.2457816,
     "lng": -75.5732492
@@ -2195,10 +1759,6 @@
     "lat": 6.2384169,
     "lng": -75.5757816
   },
-  "Calle 36 / Carrera 66": {
-    "lat": 6.2434266,
-    "lng": -75.5567424
-  },
   "Calle 55 Sur #60a": {
     "lat": 6.1746967,
     "lng": -75.6430219
@@ -2263,10 +1823,6 @@
     "lat": 6.1995078,
     "lng": -75.5795001
   },
-  "Carrera 49 #50-18": {
-    "lat": 6.2002022,
-    "lng": -75.5784855
-  },
   "Calle 58 #50-25": {
     "lat": 6.2503632,
     "lng": -75.5571156
@@ -2310,10 +1866,6 @@
   "Calle 25 #63-20": {
     "lat": 6.2271427,
     "lng": -75.6018078
-  },
-  "Avenida 33 #54-20": {
-    "lat": 6.2388331,
-    "lng": -75.6014822
   },
   "Calle 29 #50-20": {
     "lat": 6.2263876,
@@ -2399,10 +1951,6 @@
     "lat": 6.2642428,
     "lng": -75.5432608
   },
-  "Calle 18 #65-20": {
-    "lat": 6.2239646,
-    "lng": -75.60645
-  },
   "Calle 14 #64-20": {
     "lat": 6.2181837,
     "lng": -75.5831713
@@ -2438,10 +1986,6 @@
   "Calle 53 #54-20": {
     "lat": 6.2679795,
     "lng": -75.5687589
-  },
-  "Calle 55 #52-20": {
-    "lat": 6.2396746,
-    "lng": -75.4978473
   },
   "Carrera 51 #40-18": {
     "lat": 6.242031,
@@ -2518,10 +2062,6 @@
   "Carrera 49 #48A-30": {
     "lat": 6.1995078,
     "lng": -75.5795001
-  },
-  "Calle 64 #50-60": {
-    "lat": 6.2837052,
-    "lng": -75.6072037
   },
   "Avenida Santa María #72-20": {
     "lat": 6.1928088,
@@ -2839,10 +2379,6 @@
     "lat": 6.2679795,
     "lng": -75.5687589
   },
-  "Calle 52 #49-18": {
-    "lat": 6.2312475,
-    "lng": -75.5147447
-  },
   "Carrera 50 #46-20": {
     "lat": 6.2002022,
     "lng": -75.5784855
@@ -2854,10 +2390,6 @@
   "Carrera 48 #40-20": {
     "lat": 6.2539887,
     "lng": -75.5638951
-  },
-  "Carrera 47 #38-20": {
-    "lat": 6.3038477,
-    "lng": -75.5476624
   },
   "Carrera 46 #36-20": {
     "lat": 6.2395633,
@@ -2886,10 +2418,6 @@
   "Carrera 58 #14-20": {
     "lat": 6.2558722,
     "lng": -75.5744378
-  },
-  "Calle 25 #62-20": {
-    "lat": 6.2271427,
-    "lng": -75.6018078
   },
   "Avenida Ferrocarril #40-18": {
     "lat": 6.2421592,
@@ -3027,10 +2555,6 @@
     "lat": 6.1945948,
     "lng": -75.590237
   },
-  "Calle 10 #50-18": {
-    "lat": 6.2087466,
-    "lng": -75.5633079
-  },
   "Carrera 64 #24-18": {
     "lat": 6.2430657,
     "lng": -75.5812086
@@ -3079,10 +2603,6 @@
     "lat": 6.1995078,
     "lng": -75.5795001
   },
-  "Calle 63 #50-20": {
-    "lat": 6.2792129,
-    "lng": -75.6310727
-  },
   "Calle 63, 50-34": {
     "lat": 6.27394,
     "lng": -75.5962854
@@ -3119,10 +2639,6 @@
     "lat": 6.1873607,
     "lng": -75.6500053
   },
-  "Carrera 31 #35-18": {
-    "lat": 6.2299772,
-    "lng": -75.5603422
-  },
   "Clinica Santa Gertrudis": {
     "lat": 6.1686318,
     "lng": -75.5818312
@@ -3131,17 +2647,9 @@
     "lat": 6.2406213,
     "lng": -75.5966006
   },
-  "Carrera 32C #32-18": {
-    "lat": 6.2078053,
-    "lng": -75.5640731
-  },
   "Br. Guayabal Calle 12 Sur - Carrera 50e": {
     "lat": 6.2055085,
     "lng": -75.5827712
-  },
-  "Clinica Vida Avenida 80 - Calle 19": {
-    "lat": 6.2245395,
-    "lng": -75.5988933
   },
   "Br. La Palma Avenida 80 - Calle 30a": {
     "lat": 6.2320894,
@@ -3191,14 +2699,6 @@
     "lat": 6.2018768,
     "lng": -75.5933327
   },
-  "calle 9b sur": {
-    "lat": 6.1896065,
-    "lng": -75.5619892
-  },
-  "Carrera 53b, 13a Sur 65": {
-    "lat": 6.0883467,
-    "lng": -75.634404
-  },
   "Estación Aguacatala (Kr 48 - Cl 12 Sur, Medellín)": {
     "lat": 6.193919630894213,
     "lng": -75.58180954383404
@@ -3206,10 +2706,6 @@
   "Calle 12c Sur, 53-6": {
     "lat": 6.1968326,
     "lng": -75.5930196
-  },
-  "Terminal Coonatra Calasanz (Cl 55 - Cr 99)": {
-    "lat": 6.2055852,
-    "lng": -75.5886827
   },
   "Calle 57 97b110": {
     "lat": 6.2431761,
@@ -3251,17 +2747,9 @@
     "lat": 6.1730887,
     "lng": -75.6446747
   },
-  "Carrera 50a, Cervecería Unión": {
-    "lat": 6.1701554,
-    "lng": -75.6210609
-  },
   "Avenida San Antonio, 10 Este2": {
     "lat": 6.2471945433626335,
     "lng": -75.5697034075725
-  },
-  "Cr 52 - C! 16, Medellín": {
-    "lat": 6.2921129,
-    "lng": -75.5620534
   },
   "Estación Poblado Buses Occidental": {
     "lat": 6.21217834028053,
@@ -3314,10 +2802,6 @@
   "Cra. 57 # 44A-7": {
     "lat": 6.2500261,
     "lng": -75.5913829
-  },
-  "Av. Guayabal #6 Sur-1 a 6 Sur-65": {
-    "lat": 6.2082184,
-    "lng": -75.5903921
   },
   "Niquía - Hatillo": {
     "lat": 6.337827496650861,
@@ -3763,14 +3247,6 @@
     "lat": 6.3471927,
     "lng": -75.509724
   },
-  "Fin Ruta. Integrado Copacabana (San Juan)": {
-    "lat": 6.2308602,
-    "lng": -75.6015749
-  },
-  "Calle 50, Copacabana Tienda D1": {
-    "lat": 6.2833532,
-    "lng": -75.5604981
-  },
   "Calle 50, Copacabana": {
     "lat": 6.3563789,
     "lng": -75.4963783
@@ -3863,14 +3339,6 @@
     "lat": 6.26391952498488,
     "lng": -75.56333480265283
   },
-  "Carrera 48, Clínica Antioquia Sede Bello": {
-    "lat": 6.2223394,
-    "lng": -75.574882
-  },
-  "Calle 50 # 47 - 05": {
-    "lat": 6.1523004,
-    "lng": -75.6229961
-  },
   "Avenida 42, Niquía": {
     "lat": 6.337827496650861,
     "lng": -75.54428739895442
@@ -3923,10 +3391,6 @@
     "lat": 6.337827496650861,
     "lng": -75.54428739895442
   },
-  "Calle 80 # 65 - 05": {
-    "lat": 6.1906199,
-    "lng": -75.5970256
-  },
   "Calle 72a, 63b, Niquía, Ie Villa Del Sol": {
     "lat": 6.337827496650861,
     "lng": -75.54428739895442
@@ -3970,10 +3434,6 @@
   "Estación Hospital (Av. Bolívar - Cl 66, Medellín)": {
     "lat": 6.26391952498488,
     "lng": -75.56333480265283
-  },
-  "Paradero Ruta 055 (Cr 51d - Cl 55, Medellín)": {
-    "lat": 6.2055852,
-    "lng": -75.5886827
   },
   "Ruta N Carabobo": {
     "lat": 6.2650183,
@@ -4062,14 +3522,6 @@
   "Carrera 51, 12b Sur 41": {
     "lat": 6.1952741,
     "lng": -75.5886741
-  },
-  "Cra. 84 #20": {
-    "lat": 6.3083047,
-    "lng": -75.5824199
-  },
-  "Cra. 84 #50A-28": {
-    "lat": 6.3083047,
-    "lng": -75.5824199
   },
   "Carrera 62, 3a, Iglesia Del Limonar": {
     "lat": 6.1743981,
@@ -4163,25 +3615,13 @@
     "lat": 6.152784264230396,
     "lng": -75.62636321936316
   },
-  "Carrera 50, 80 Sur148": {
-    "lat": 6.1966886,
-    "lng": -75.5850128
-  },
   "Carrera 50 #80 Sur-20, La Estrella": {
     "lat": 6.152784264230396,
     "lng": -75.62636321936316
   },
-  "Carrera 50, 80 Sur1": {
-    "lat": 6.1966886,
-    "lng": -75.5850128
-  },
   "Carrera 50 #80 Sur-170, La Estrella": {
     "lat": 6.152784264230396,
     "lng": -75.62636321936316
-  },
-  "Carrera 50, 80 Sur343": {
-    "lat": 6.1966886,
-    "lng": -75.5850128
   },
   "Carrera 50 #87 Sur-20, La Estrella": {
     "lat": 6.152784264230396,
@@ -4451,14 +3891,6 @@
     "lat": 6.3425267,
     "lng": -75.5683826
   },
-  "Calle 57, 66bb2": {
-    "lat": 6.2431761,
-    "lng": -75.5775106
-  },
-  "Calle 58 # 59 - 05": {
-    "lat": 6.1721602,
-    "lng": -75.6260953
-  },
   "Br. Andalucía (Dg 55 - Kr 50 # Intermedia": {
     "lat": 6.296272054478761,
     "lng": -75.5518969353113
@@ -4507,20 +3939,328 @@
     "lat": 6.3515924,
     "lng": -75.5600563
   },
-  "Carrera 55, 64-73": {
-    "lat": 6.1814693,
-    "lng": -75.6033388
+  "Br. Guayabal Avenida 80 - Carrera 51": {
+    "lat": 6.2032267,
+    "lng": -75.5850108
   },
-  "Carrera 48 # 50 - 05": {
-    "lat": 6.0885207,
-    "lng": -75.6342976
+  "Av. 80 #51-2 a 51-90": {
+    "lat": 6.2296564,
+    "lng": -75.6021601
   },
-  "carrera 53 #13b sur- 3 a 13b sur-9": {
-    "lat": 6.0909729,
-    "lng": -75.638104
+  "Clinica Vida Avenida 80 - Calle 19": {
+    "lat": 6.2245395,
+    "lng": -75.5988933
   },
-  "Carrera 50 # 56 - 05": {
-    "lat": 6.0909425,
-    "lng": -75.635965
+  "Av. 80 #20a-2 a 20a-244": {
+    "lat": 6.2259454,
+    "lng": -75.6007057
+  },
+  "Br. Belén Avenida 80 - Calle 24": {
+    "lat": 6.2119516,
+    "lng": -75.6038193
+  },
+  "Av. 80 #25-2 a 25-56": {
+    "lat": 6.2273273,
+    "lng": -75.6019757
+  },
+  "Av. 80 #45": {
+    "lat": 6.2551266,
+    "lng": -75.5988033
+  },
+  "Belen La Palma Avenida. 80": {
+    "lat": 6.2300867,
+    "lng": -75.6019467
+  },
+  "Cl. 28 #80a-32": {
+    "lat": 6.2355027,
+    "lng": -75.6030499
+  },
+  "Avenida 80 - Calle 32b": {
+    "lat": 6.2638335,
+    "lng": -75.5971449
+  },
+  "Avenida. 80 Con Calle. 33 Sur - Norte": {
+    "lat": 6.2077385,
+    "lng": -75.5895815
+  },
+  "Avenida. 80 Con Calle. 33 Norte - Sur": {
+    "lat": 6.2077385,
+    "lng": -75.5895815
+  },
+  "Calle 12 Sur #50C-22": {
+    "lat": 6.1961895,
+    "lng": -75.5840815
+  },
+  "Carrera 79 # 1 Sur-145": {
+    "lat": 6.2085691,
+    "lng": -75.602988
+  },
+  "Br. La Mota Calle 2b Sur - Carrera 75": {
+    "lat": 6.2435567,
+    "lng": -75.5713406
+  },
+  "Br. La Mota Carrera 75 - Calle 2b Sur": {
+    "lat": 6.2435567,
+    "lng": -75.5713406
+  },
+  "Calle 5 Sur #51-85": {
+    "lat": 6.1997586,
+    "lng": -75.5731351
+  },
+  "Calle 12 Sur #50e20": {
+    "lat": 6.1943967,
+    "lng": -75.5789399
+  },
+  "Br. Guayabal Carrera 51 - Calle 10 Sur": {
+    "lat": 6.2055085,
+    "lng": -75.5827712
+  },
+  "Carrera 51 # 6 Sur-62": {
+    "lat": 6.2612511,
+    "lng": -75.5664294
+  },
+  "Br. Diego Echavarria Carrera 70 - Calle 9": {
+    "lat": 6.2153825,
+    "lng": -75.5925607
+  },
+  "Carrera 70 # 3-87": {
+    "lat": 6.2460813,
+    "lng": -75.5893812
+  },
+  "Carrera 70 #10a-57 a 10a-1": {
+    "lat": 6.2137467,
+    "lng": -75.5756732
+  },
+  "Aeroparque Juan Pablo II Carrera 70 - Calle 16": {
+    "lat": 6.2221372,
+    "lng": -75.5919624
+  },
+  "Estación Rosales Carrera 70 - Calle 30": {
+    "lat": 6.2314179,
+    "lng": -75.5914891
+  },
+  "Cra. 69C # 30C-41": {
+    "lat": 6.2114066,
+    "lng": -75.5598362
+  },
+  "Cra. 70 # 32-126": {
+    "lat": 6.2343911,
+    "lng": -75.59109
+  },
+  "Calle 34 #101": {
+    "lat": 6.2400411,
+    "lng": -75.5831699
+  },
+  "Glorieta Bulerías Diagonal 74b - Calle 32f": {
+    "lat": 6.2387618,
+    "lng": -75.5902424
+  },
+  "Br. Belén Rosales Carrera 70 - Calle 32a": {
+    "lat": 6.2357529,
+    "lng": -75.5917832
+  },
+  "Carrera 70 #30a152": {
+    "lat": 6.2312311,
+    "lng": -75.5914469
+  },
+  "Carrera 70 #17-55 a 17-1": {
+    "lat": 6.2324988,
+    "lng": -75.5916258
+  },
+  "Br. Diego Echavarria Carrera 70 - Calle 9a": {
+    "lat": 6.2153825,
+    "lng": -75.5925607
+  },
+  "Carrera 70 #11-2 a 11-54": {
+    "lat": 6.2267586,
+    "lng": -75.5800737
+  },
+  "Carrera 70 #3-2 a 3-204": {
+    "lat": 6.2354327,
+    "lng": -75.6012991
+  },
+  "Carrera 70 con Calle 1": {
+    "lat": 6.2153825,
+    "lng": -75.5925607
+  },
+  "Calle 3 Sur #51-87 a 51-1": {
+    "lat": 6.2054453,
+    "lng": -75.585333
+  },
+  "Unidad Residencial Sorrento II (Kr 76 - Av 80, Medellín)": {
+    "lat": 6.2409815,
+    "lng": -75.6029098
+  },
+  "Br. Belén El Rincón (Cl 2b - Kr 81a, Medellín)": {
+    "lat": 6.2067859,
+    "lng": -75.6022565
+  },
+  "Br. El Ñeque (Kr 81a - Cl 1 Sur, Medellín)": {
+    "lat": 6.3062348,
+    "lng": -75.5786882
+  },
+  "Conjunto Residencial Remanso Del Rodeo (Cl 6 Sur - Kr 79c, Medellín)": {
+    "lat": 6.167493,
+    "lng": -75.6464974
+  },
+  "Br. La Capilla (Cl 6 Sur - Kr 80b, Medellín)": {
+    "lat": 6.2747852,
+    "lng": -75.5652727
+  },
+  "Acueducto Manzanillo (Vía Manzanillo, Medellín)": {
+    "lat": 6.2002018,
+    "lng": -75.6167957
+  },
+  "Br. La Hondonada (Vía Manzanillo, Medellín)": {
+    "lat": 6.2002018,
+    "lng": -75.6167957
+  },
+  "Vereda Manzanillo (Vía Manzanillo, Medellín)": {
+    "lat": 6.2002018,
+    "lng": -75.6167957
+  },
+  "Finca La Marina (Vía Manzanillo, Medellín)": {
+    "lat": 6.2002018,
+    "lng": -75.6167957
+  },
+  "Urbanizacion Bosques Del Rodeo (Kr 79 - Cl 1 Sur, Medellín)": {
+    "lat": 6.2074883,
+    "lng": -75.5871147
+  },
+  "Br. Belén El Rincón (Cl 3c - Kr 78, Medellín)": {
+    "lat": 6.262935,
+    "lng": -75.5947134
+  },
+  "Br. La Mota (Kr 76 - Cl 5, Medellín)": {
+    "lat": 6.2431765,
+    "lng": -75.5775081
+  },
+  "Centro Comercial Mall Gran Vía (Kr 76 - Av 80, Medellín)": {
+    "lat": 6.2409815,
+    "lng": -75.6029098
+  },
+  "Br. San Bernardo (Kr 76 - Cl 21, Medellín)": {
+    "lat": 6.2434266,
+    "lng": -75.5567424
+  },
+  "Edificio San Miguel (Kr 76 - Cl 27, Medellín)": {
+    "lat": 6.2625948,
+    "lng": -75.5418374
+  },
+  "Urbanización Nueva York (Cl 2b - Kr 81b, Medellín)": {
+    "lat": 6.2067859,
+    "lng": -75.6022565
+  },
+  "Urbanización Aura (Cl 2b - Kr 81, Medellín)": {
+    "lat": 6.2115759,
+    "lng": -75.6060591
+  },
+  "Acueducto Manzanillo (Cl 5a Sur - Kr 81, Medellín)": {
+    "lat": 6.2032112,
+    "lng": -75.5841564
+  },
+  "Unidad Campestre Al Parque (Cl 2b - Kr 81, Medellín)": {
+    "lat": 6.2115759,
+    "lng": -75.6060591
+  },
+  "Urbanización Rodeo De Santa Ana (Kr 79c - Cl 6a Sur, Medellín)": {
+    "lat": 6.167493,
+    "lng": -75.6464974
+  },
+  "Urbanización Rodeo De San Simón (Kr 79c - Cl 9 Sur, Medellín)": {
+    "lat": 6.167493,
+    "lng": -75.6464974
+  },
+  "Urbanización Rodeo De Santa María (Cl 9 Sur - Kr 79c, Medellín)": {
+    "lat": 6.167493,
+    "lng": -75.6464974
+  },
+  "Urbanización Rodeo Alto (Cl 9a Sur - Kr 82, Medellín)": {
+    "lat": 6.2089703,
+    "lng": -75.5678618
+  },
+  "Urbanización Rayo De Sol (Cl 9 Sur - Kr 78c, Medellín)": {
+    "lat": 6.167493,
+    "lng": -75.6464974
+  },
+  "Urbanización Sol Del Rodeo (Cl 9b Sur - Kr 79c, Medellín)": {
+    "lat": 6.2007357,
+    "lng": -75.5914673
+  },
+  "Br. Altavista Baja (Kr 83 - Cl 21, Medellín)": {
+    "lat": 6.2201314,
+    "lng": -75.6052119
+  },
+  "Br. Aliadas (Cl 20 - Kr 84f, Medellín)": {
+    "lat": 6.2577528,
+    "lng": -75.6015941
+  },
+  "Br. Mano De Dios (Cl 18 - Kr 92b, Medellín)": {
+    "lat": 6.2542537,
+    "lng": -75.589682
+  },
+  "Quebrada Chocho (Cl 18 - Kr 102, Medellín)": {
+    "lat": 6.2915626,
+    "lng": -75.5445064
+  },
+  "Biblioteca Pública Altavista (Cl 18 - Kr 103, Medellín)": {
+    "lat": 6.2096557,
+    "lng": -75.5732756
+  },
+  "Colegio Débora Arango (Cl 18 - Kr 104, Medellín)": {
+    "lat": 6.2212249,
+    "lng": -75.581148
+  },
+  "Br. Manzanares (Cl 18 - Kr 110, Medellín)": {
+    "lat": 6.2542537,
+    "lng": -75.589682
+  },
+  "Br. Sabor Latino (Cl 18 - Kr 110a, Medellín)": {
+    "lat": 6.2542537,
+    "lng": -75.589682
+  },
+  "Subestación De Policia Altavista (Cl 17 - Kr 112, Medellín)": {
+    "lat": 6.2201534,
+    "lng": -75.5807281
+  },
+  "Br. Altavista (Cl 18 - Kr 113, Medellín)": {
+    "lat": 6.2542537,
+    "lng": -75.589682
+  },
+  "Vereda Buga (Kr 113 - Cl 18, Medellín)": {
+    "lat": 6.2542537,
+    "lng": -75.589682
+  },
+  "Br. Manzanares (Cl 18 - Kr 106c, Medellín)": {
+    "lat": 6.2542537,
+    "lng": -75.589682
+  },
+  "Cancha Buenavista (Kr 84f - Cl 18, Medellín)": {
+    "lat": 6.2542537,
+    "lng": -75.589682
+  },
+  "Br. La Gloria Belén (Cl 19 - Kr 82b, Medellín)": {
+    "lat": 6.2065782,
+    "lng": -75.5710675
+  },
+  "Parroquia María Madre Admirable (Cl 19b - Kr 82a, Medellín)": {
+    "lat": 6.2065782,
+    "lng": -75.5710675
+  },
+  "Br. Altavista Baja (Kr 82a - Cl 21, Medellín)": {
+    "lat": 6.2144051,
+    "lng": -75.5843404
+  },
+  "Colegio Cedepro (Kr 112 - Cl 13, Medellín)": {
+    "lat": 6.2479074,
+    "lng": -75.6231679
+  },
+  "Br. La Perla (Kr 112 - Cl 12, Medellín)": {
+    "lat": 6.3038477,
+    "lng": -75.5476624
+  },
+  "Br. La Perla (Kr 112 - Cl 14, Medellín)": {
+    "lat": 6.2006142,
+    "lng": -75.5765749
   }
 }

@@ -111,37 +111,94 @@ if (fs.existsSync(METRO_CSV)) {
   }
 }
 
+function calculateDistance(lat1, lng1, lat2, lng2) {
+  const R = 6371e3; // metres
+  const phi1 = lat1 * Math.PI / 180;
+  const phi2 = lat2 * Math.PI / 180;
+  const deltaPhi = (lat2 - lat1) * Math.PI / 180;
+  const deltaLambda = (lng2 - lng1) * Math.PI / 180;
+
+  const a = Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2) +
+            Math.cos(phi1) * Math.cos(phi2) *
+            Math.sin(deltaLambda / 2) * Math.sin(deltaLambda / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c; // in metres
+}
+
+function cleanQueryForGeocoding(name, folder) {
+  let query = name;
+  const addrMatch = name.match(/\(([^)]+)\)/);
+  if (addrMatch) {
+    query = addrMatch[1];
+  }
+  
+  // Determine default city from folder
+  let city = 'Medellín';
+  if (folder) {
+    const f = folder.toLowerCase();
+    if (f.includes('barbosa')) city = 'Barbosa';
+    else if (f.includes('caldas')) city = 'Caldas';
+    else if (f.includes('copacabana')) city = 'Copacabana';
+    else if (f.includes('girardota')) city = 'Girardota';
+    else if (f.includes('itagui')) city = 'Itagüí';
+    else if (f.includes('sabaneta')) city = 'Sabaneta';
+    else if (f.includes('niquia') || f.includes('bello')) city = 'Bello';
+  }
+
+  // Remove existing city/state suffixes from query part
+  query = query.replace(/,\s*Medell[ií]n/gi, '')
+               .replace(/,\s*Bello/gi, '')
+               .replace(/,\s*Itag[uü][ií]/gi, '')
+               .replace(/,\s*Envigado/gi, '')
+               .replace(/,\s*Sabaneta/gi, '')
+               .replace(/,\s*Copacabana/gi, '')
+               .replace(/,\s*Caldas/gi, '')
+               .replace(/,\s*La Estrella/gi, '')
+               .replace(/,\s*Barbosa/gi, '')
+               .replace(/,\s*Girardota/gi, '')
+               .replace(/,\s*Antioquia/gi, '')
+               .trim();
+
+  // Expand abbreviations
+  query = query
+    .replace(/\bKr\b/gi, 'Carrera')
+    .replace(/\bCra\b/gi, 'Carrera')
+    .replace(/\bCr\b/gi, 'Carrera')
+    .replace(/\bCl\b/gi, 'Calle')
+    .replace(/\bCll\b/gi, 'Calle')
+    .replace(/\bDiag\b/gi, 'Diagonal')
+    .replace(/\bTv\b/gi, 'Transversal')
+    .replace(/\bTrans\b/gi, 'Transversal')
+    .replace(/\bAv\b\.?/gi, 'Avenida')
+    .replace(/\s*-\s*/g, ' con ')
+    .replace(/\s*&\s*/g, ' con ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  query += `, ${city}`;
+  return query;
+}
+
 let geocodingCache = {};
 if (fs.existsSync(CACHE_PATH)) {
   try { geocodingCache = JSON.parse(fs.readFileSync(CACHE_PATH, 'utf-8')); }
   catch (e) { console.warn('Could not load geocoding cache, starting fresh.'); }
 }
 
-async function geocode(name, manualSet) {
+async function geocode(name, folder, manualSet) {
   if (manualSet.has(name)) return manualOverrides[name];
   if (geocodingCache[name]) return geocodingCache[name];
 
   const norm = normalize(name);
   for (const s of officialStations) {
     const sNorm = normalize(s.nombre);
-    if (norm === sNorm || (norm.length > 5 && sNorm.includes(norm)) || (sNorm.length > 5 && norm.includes(sNorm))) {
+    if (norm === sNorm || (norm.length > 5 && norm.includes(sNorm) && sNorm.length >= 4)) {
       geocodingCache[name] = { lat: s.lat, lng: s.lng };
       return { lat: s.lat, lng: s.lng };
     }
   }
 
-  let query = name;
-  const addrMatch = name.match(/\(([^)]+)\)/);
-  if (addrMatch) {
-    query = addrMatch[1];
-    if (!query.toLowerCase().includes('medellin') && !query.toLowerCase().includes('bello') &&
-        !query.toLowerCase().includes('sabaneta') && !query.toLowerCase().includes('itag') &&
-        !query.toLowerCase().includes('copacabana') && !query.toLowerCase().includes('b\u00e1rbosa') &&
-        !query.toLowerCase().includes('caldas') && !query.toLowerCase().includes('estrella') &&
-        !query.toLowerCase().includes('envigado') && !query.toLowerCase().includes('antioquia')) {
-      query += ', Medell\u00edn';
-    }
-  }
+  const query = cleanQueryForGeocoding(name, folder);
 
   try {
     const response = await fetch('https://photon.komoot.io/api/?q=' + encodeURIComponent(query) + '&limit=1', {
@@ -180,7 +237,7 @@ function parseCsv(text) {
       }
     } else {
       const cleanName = line.replace(/^"|"$/g, '').trim();
-      if (cleanName.toLowerCase().startsWith('m\u00e1s horarios') || cleanName.length < 3) continue;
+      if (cleanName.toLowerCase().startsWith('más horarios') || cleanName.length < 3) continue;
       rawStops.push({ name: cleanName, lat: null, lng: null, hasCoords: false });
     }
   }
@@ -222,12 +279,56 @@ async function compileRoute(route) {
   const rawStops = parseCsv(text);
   if (rawStops.length < 2) return null;
 
+  // Identify connected official stations on this route
+  const connectedStations = [];
+  for (const stop of rawStops) {
+    const stopNorm = normalize(stop.name);
+    for (const s of officialStations) {
+      const sNorm = normalize(s.nombre);
+      if (stopNorm === sNorm || (stopNorm.length > 5 && stopNorm.includes(sNorm) && sNorm.length >= 4)) {
+        if (!connectedStations.some(cs => cs.nombre === s.nombre)) {
+          connectedStations.push(s);
+        }
+      }
+    }
+  }
+
   let ok = 0, fail = 0;
   for (const stop of rawStops) {
     if (stop.hasCoords) continue;
-    const res = await geocode(stop.name, new Set(Object.keys(manualOverrides)));
-    if (res) { stop.lat = res.lat; stop.lng = res.lng; stop.hasCoords = true; ok++; }
-    else { fail++; }
+    const res = await geocode(stop.name, route.folder, new Set(Object.keys(manualOverrides)));
+    if (res) {
+      // Outlier check:
+      let isOutlier = false;
+      if (connectedStations.length > 0) {
+        let minDistConnected = Infinity;
+        for (const s of connectedStations) {
+          const dist = calculateDistance(res.lat, res.lng, s.lat, s.lng);
+          if (dist < minDistConnected) minDistConnected = dist;
+        }
+
+        let minDistAny = Infinity;
+        for (const s of officialStations) {
+          const dist = calculateDistance(res.lat, res.lng, s.lat, s.lng);
+          if (dist < minDistAny) minDistAny = dist;
+        }
+
+        // Outlier criteria matching clean_geocoding_cache.cjs
+        isOutlier = (minDistConnected > 3500) && (minDistConnected - minDistAny > 2500);
+      }
+
+      if (!isOutlier) {
+        stop.lat = res.lat;
+        stop.lng = res.lng;
+        stop.hasCoords = true;
+        ok++;
+      } else {
+        fail++;
+        console.log(`[Outlier] Discarded geocoded coords for "${stop.name}" (${res.lat.toFixed(5)}, ${res.lng.toFixed(5)})`);
+      }
+    } else {
+      fail++;
+    }
     await new Promise(r => setTimeout(r, 180));
   }
   interpolate(rawStops);
@@ -241,6 +342,7 @@ async function compileRoute(route) {
     geocodedFail: fail
   };
 }
+
 
 async function main() {
   const manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, 'utf-8'));
