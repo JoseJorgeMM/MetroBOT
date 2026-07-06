@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Correct the coordinates of integrated bus stops in theCompiled SITVA network by implementing query normalization and outlier filtering during compilation, and cleaning the cache.
+**Goal:** Correct the coordinates of integrated bus stops in the Compiled SITVA network by implementing query normalization and outlier filtering during compilation, and cleaning the cache.
 
 **Architecture:**
 1. A cache cleaning script (`clean_geocoding_cache.cjs`) will run retroactively to remove outlier coordinates from `public/geocoding_cache.json`.
@@ -18,7 +18,7 @@
 **Files:**
 - Create: `clean_geocoding_cache.cjs`
 
-- [ ] **Step 1: Write the cache cleanup script**
+- [x] **Step 1: Write the cache cleanup script**
   Create the file `C:\Users\ASUS\Documents\MetroBOT\clean_geocoding_cache.cjs` with the following content:
 
   ```javascript
@@ -117,11 +117,11 @@
   console.log(`\nSuccessfully cleaned ${deletedCount} outlier entries from cache.`);
   ```
 
-- [ ] **Step 2: Run cache cleanup dry-run / verify**
+- [x] **Step 2: Run cache cleanup dry-run / verify**
   Run: `node clean_geocoding_cache.cjs`
   Expected: Cleaned logs showing specific removed keys like `"Avenida 80 - Calle 32b"`.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
   Run:
   ```bash
   git add clean_geocoding_cache.cjs
@@ -135,7 +135,7 @@
 **Files:**
 - Modify: `compile_new_routes.cjs`
 
-- [ ] **Step 1: Write query cleaning helper and integrate into geocode()**
+- [x] **Step 1: Write query cleaning helper and integrate into geocode()**
   Modify the `geocode` function in `C:\Users\ASUS\Documents\MetroBOT\compile_new_routes.cjs` (around lines 120-167) to parse queries and expand abbreviations, and add the helper:
 
   ```javascript
@@ -195,7 +195,7 @@
   // ... fetch using komoot/photon ...
   ```
 
-- [ ] **Step 2: Define calculateDistance and implement outlier filter in compileRoute**
+- [x] **Step 2: Define calculateDistance and implement outlier filter in compileRoute**
   In `compile_new_routes.cjs`, define the `calculateDistance` function at the top of the file:
   ```javascript
   function calculateDistance(lat1, lng1, lat2, lng2) {
@@ -248,11 +248,11 @@
     }
   ```
 
-- [ ] **Step 3: Verify syntax**
+- [x] **Step 3: Verify syntax**
   Run: `node -e "require('./compile_new_routes.cjs')"`
   Expected: Execution begins and exits without syntax errors.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
   Run:
   ```bash
   git add compile_new_routes.cjs
@@ -266,10 +266,10 @@
 **Files:**
 - Modify: `compile_routes.cjs`
 
-- [ ] **Step 1: Implement cleanQueryForGeocoding and distance checks**
+- [x] **Step 1: Implement cleanQueryForGeocoding and distance checks**
   Apply the exact same changes (`cleanQueryForGeocoding` function and `calculateDistance` outlier detection filter in `compileRoute` or `main`) to `C:\Users\ASUS\Documents\MetroBOT\compile_routes.cjs`.
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
   Run:
   ```bash
   git add compile_routes.cjs
@@ -283,10 +283,10 @@
 **Files:**
 - Modify: `compile_tpc_itagui.cjs`
 
-- [ ] **Step 1: Implement cleanQueryForGeocoding and distance checks**
+- [x] **Step 1: Implement cleanQueryForGeocoding and distance checks**
   Apply the exact same changes to `C:\Users\ASUS\Documents\MetroBOT\compile_tpc_itagui.cjs`.
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
   Run:
   ```bash
   git add compile_tpc_itagui.cjs
@@ -297,31 +297,31 @@
 
 ### Task 5: Clean cache and Recompile everything
 
-- [ ] **Step 1: Run cache cleaner**
+- [x] **Step 1: Run cache cleaner**
   Run: `node clean_geocoding_cache.cjs`
   Expected: Success output reporting multiple removed entries.
 
-- [ ] **Step 2: Recompile existing routes**
+- [x] **Step 2: Recompile existing routes**
   Run: `node compile_routes.cjs`
   Expected: Compilation outputs showing routes geocoding and completing successfully.
 
-- [ ] **Step 3: Recompile new routes**
+- [x] **Step 3: Recompile new routes**
   Run: `node compile_new_routes.cjs`
   Expected: Recompiles successfully.
 
-- [ ] **Step 4: Recompile Itagüí TPC routes**
+- [x] **Step 4: Recompile Itagüí TPC routes**
   Run: `node compile_tpc_itagui.cjs`
   Expected: Recompiles successfully.
 
-- [ ] **Step 5: Run outlier analysis and verify**
+- [x] **Step 5: Run outlier analysis and verify**
   Run: `node analyze_outliers.cjs`
   Expected: `Outlier stops found: 0 (0.00%)` (or extremely close to 0%).
 
-- [ ] **Step 6: Verify whole project build and lints**
+- [x] **Step 6: Verify whole project build and lints**
   Run: `npm run build` and `npm run lint`
   Expected: Build succeeds, no TS compiler errors.
 
-- [ ] **Step 7: Commit compiled assets**
+- [x] **Step 7: Commit compiled assets**
   Run:
   ```bash
   git add public/geocoding_cache.json public/rutas_integradas.json
