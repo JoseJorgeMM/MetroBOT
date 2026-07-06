@@ -6742,5 +6742,341 @@
   "Carrera 50 #150 Sur-40, Caldas": {
     "lat": 6.0917673,
     "lng": -75.6363807
+  },
+  "Carrera 50 con Calle 150 Sur": {
+    "lat": 6.0917673,
+    "lng": -75.6363807
+  },
+  "Sector Los Cerezos": {
+    "lat": 6.078208,
+    "lng": -75.618703
+  },
+  "Calle 134 Sur": {
+    "lat": 6.0874602,
+    "lng": -75.6252708
+  },
+  "Intercambiador Vial de la 77 Sur": {
+    "lat": 6.0913194,
+    "lng": -75.63675
+  },
+  "Carrera 50, 80 Sur 148": {
+    "lat": 6.0798923,
+    "lng": -75.6350076
+  },
+  "Carrera 48, 46a Sur 1": {
+    "lat": 6.0919191,
+    "lng": -75.6344765
+  },
+  "Autopista Sur, 79 Sur 129": {
+    "lat": 6.0922276,
+    "lng": -75.6352048
+  },
+  "Carrera 48 & Carrera 48 59": {
+    "lat": 6.3564193,
+    "lng": -75.5110123
+  },
+  "Calle 59 & Calle 59 55": {
+    "lat": 6.3507447,
+    "lng": -75.5086708
+  },
+  "Carrera 56a, 56, Haceb": {
+    "lat": 6.349296,
+    "lng": -75.5128238
+  },
+  "Autopista Norte, Tienda D1": {
+    "lat": 6.3594154,
+    "lng": -75.4982651
+  },
+  "Bello-Copacabana #55-167 a 55-51": {
+    "lat": 6.330097700334238,
+    "lng": -75.55363508182951
+  },
+  "Cl. 56": {
+    "lat": 6.3487098,
+    "lng": -75.5130603
+  },
+  "Bello-Copacabana #5530": {
+    "lat": 6.330097700334238,
+    "lng": -75.55363508182951
+  },
+  "Bello-Copacabana #55-627 a 55-363": {
+    "lat": 6.330097700334238,
+    "lng": -75.55363508182951
+  },
+  "Diagonal 52 & Diagonal 52 10": {
+    "lat": 6.3373642,
+    "lng": -75.5488354
+  },
+  "Bello-Copacabana #20-290 a 20-362": {
+    "lat": 6.330097700334238,
+    "lng": -75.55363508182951
+  },
+  "Bello-Copacabana #20-198 a 20-282": {
+    "lat": 6.330097700334238,
+    "lng": -75.55363508182951
+  },
+  "Bello-Copacabana #12-507 a 12-459": {
+    "lat": 6.330097700334238,
+    "lng": -75.55363508182951
+  },
+  "Dg. 52 #10-207, Bello, Antioquia": {
+    "lat": 6.330097700334238,
+    "lng": -75.55363508182951
+  },
+  "Bello-Copacabana #55-49 a 55-1": {
+    "lat": 6.330097700334238,
+    "lng": -75.55363508182951
+  },
+  "Cl. 50 #47-05, Copacabana, Antioquia": {
+    "lat": 6.3563789,
+    "lng": -75.4963783
+  },
+  "Calle 50, Copacabana Tienda D1": {
+    "lat": 6.2833532,
+    "lng": -75.5604981
+  },
+  "Calle 50": {
+    "lat": 6.3563789,
+    "lng": -75.4963783
+  },
+  "Bello-Copacabana #55-627 a 55-363, Copacabana, Antioquia": {
+    "lat": 6.330097700334238,
+    "lng": -75.55363508182951
+  },
+  "Calle 59 & Carrera 63": {
+    "lat": 6.26062,
+    "lng": -75.576051
+  },
+  "a 12-94, Dg. 53 #12-52, Bello, Antioquia": {
+    "lat": 6.330097700334238,
+    "lng": -75.55363508182951
+  },
+  "Bello-Copacabana #20-826 a 20-842, Bello, Antioquia": {
+    "lat": 6.330097700334238,
+    "lng": -75.55363508182951
+  },
+  "Bello-Copacabana #20-844 a 20-1222, Bello, Antioquia": {
+    "lat": 6.330097700334238,
+    "lng": -75.55363508182951
+  },
+  "Bello-Copacabana #20-315 a 20-285, Bello, Antioquia": {
+    "lat": 6.330097700334238,
+    "lng": -75.55363508182951
+  },
+  "bomba primax maderos, Dg. 52 #12-233, Bello, Antioquia": {
+    "lat": 6.330097700334238,
+    "lng": -75.55363508182951
+  },
+  "Cl. 50 #78, Copacabana, Antioquia": {
+    "lat": 6.3475845,
+    "lng": -75.505952
+  },
+  "Cl. 46 #72-46, Copacabana, Antioquia": {
+    "lat": 6.3553585,
+    "lng": -75.4947808
+  },
+  "Calle 41, Machado": {
+    "lat": 6.3346789,
+    "lng": -75.531452
+  },
+  "Dg. 44 #30C-16, Machado, Copacabana, Bello, Antioquia": {
+    "lat": 6.330097700334238,
+    "lng": -75.55363508182951
+  },
+  "Dg. 44 #Av. 32-13, Los Ciruellos, Bello, Antioquia": {
+    "lat": 6.330097700334238,
+    "lng": -75.55363508182951
+  },
+  "Dg. 44 #36A 17, Las Vegas, Bello, Antioquia": {
+    "lat": 6.330097700334238,
+    "lng": -75.55363508182951
+  },
+  "carrera 45": {
+    "lat": 6.3474674,
+    "lng": -75.5040717
+  },
+  "Carrera 45, 37124": {
+    "lat": 6.3474674,
+    "lng": -75.5040717
+  },
+  "Avenida 40 # 58 - 05": {
+    "lat": 6.3200123,
+    "lng": -75.5640471
+  },
+  "Avenida 33 5790": {
+    "lat": 6.3414063,
+    "lng": -75.5411937
+  },
+  "Calle 53, 44, Bello": {
+    "lat": 6.330097700334238,
+    "lng": -75.55363508182951
+  },
+  "Postobón (Autopista Norte - Cl 43, Bello)": {
+    "lat": 6.330097700334238,
+    "lng": -75.55363508182951
+  },
+  "Autopista Norte # 43 - 05": {
+    "lat": 6.3372908,
+    "lng": -75.5464468
+  },
+  "Centro Comercial Parque Fabricato (Autopista Norte - Cl 39, Bello)": {
+    "lat": 6.330097700334238,
+    "lng": -75.55363508182951
+  },
+  "Almacafé (Autopista Norte - Cl 31, Bello)": {
+    "lat": 6.330097700334238,
+    "lng": -75.55363508182951
+  },
+  "Urbanización Ciudad Central (Autopista Norte - Cl 27b, Bello)": {
+    "lat": 6.330097700334238,
+    "lng": -75.55363508182951
+  },
+  "Escuela De Policía Carlos Holguín Mallarino (Autopista Norte - Cl 111f, Medellín)": {
+    "lat": 6.3325745,
+    "lng": -75.5555166
+  },
+  "Zenú (Autopista Norte - Cl 111a, Medellín)": {
+    "lat": 6.3325745,
+    "lng": -75.5555166
+  },
+  "Carrera 64 # 111a - 05": {
+    "lat": 6.3459693,
+    "lng": -75.5674309
+  },
+  "Br. Belalcázar (Autopista Norte - Cl 103, Medellín)": {
+    "lat": 6.3325745,
+    "lng": -75.5555166
+  },
+  "Parque Juanes De La Paz (Autopista Norte - Cl 97, Medellín)": {
+    "lat": 6.3325745,
+    "lng": -75.5555166
+  },
+  "Terminal Del Norte (Autopista Norte - Cl 83, Medellín)": {
+    "lat": 6.3325745,
+    "lng": -75.5555166
+  },
+  "Carrera 64 # 74 - 05": {
+    "lat": 6.3459693,
+    "lng": -75.5674309
+  },
+  "Secretaría De Movilidad De Medellín (Autopista Norte - Cl 72, Medellín)": {
+    "lat": 6.3325745,
+    "lng": -75.5555166
+  },
+  "Puente Punto Cero (Autopista Norte - Cl 67, Medellín)": {
+    "lat": 6.3325745,
+    "lng": -75.5555166
+  },
+  "Carrera 49 # 54 - 05": {
+    "lat": 6.3210279,
+    "lng": -75.5599328
+  },
+  "Carrera 64 # 65 - 10": {
+    "lat": 6.3470571,
+    "lng": -75.5668208
+  },
+  "Proleche (Autopista Norte - Cl 72, Medellín)": {
+    "lat": 6.3325745,
+    "lng": -75.5555166
+  },
+  "Feria De Ganado (Autopista Norte - Cl 103ff, Medellín)": {
+    "lat": 6.3325745,
+    "lng": -75.5555166
+  },
+  "Carrera 64 # 103ff - 05": {
+    "lat": 6.3459693,
+    "lng": -75.5674309
+  },
+  "Carrera 64 # 119a - 05": {
+    "lat": 6.3459693,
+    "lng": -75.5674309
+  },
+  "Fabricato (Autopista Norte - Cl 38, Bello)": {
+    "lat": 6.330097700334238,
+    "lng": -75.55363508182951
+  },
+  "Autopista Norte # 38 - 05": {
+    "lat": 6.3372908,
+    "lng": -75.5464468
+  },
+  "Carrera 48, Clínica Antioquia Sede Bello": {
+    "lat": 6.330097700334238,
+    "lng": -75.55363508182951
+  },
+  "Calle 50 # 47 - 05": {
+    "lat": 6.3341574,
+    "lng": -75.5543607
+  },
+  "Diagonal 51 # 34 - 05": {
+    "lat": 6.3368522,
+    "lng": -75.5507605
+  },
+  "Avenida 42 # 49 - 05": {
+    "lat": 6.339133,
+    "lng": -75.5481531
+  },
+  "Avenida 47b # 61 - 05": {
+    "lat": 6.3498821,
+    "lng": -75.5509369
+  },
+  "Avenida 43 # 52 - 05": {
+    "lat": 6.3355402,
+    "lng": -75.5503328
+  },
+  "Diagonal 51, 3450": {
+    "lat": 6.3368522,
+    "lng": -75.5507605
+  },
+  "Autopista Norte, 3279": {
+    "lat": 6.3372908,
+    "lng": -75.5464468
+  },
+  "Autopista Norte # 25 - 50": {
+    "lat": 6.3234731,
+    "lng": -75.5574732
+  },
+  "Autopista Norte, 12216": {
+    "lat": 6.3372908,
+    "lng": -75.5464468
+  },
+  "Autopista Norte, 12183": {
+    "lat": 6.3372908,
+    "lng": -75.5464468
+  },
+  "Diagonal 51 # 35 - 20": {
+    "lat": 6.33899,
+    "lng": -75.54317
+  },
+  "Carrera 49, 56a2": {
+    "lat": 6.3438202,
+    "lng": -75.5588958
+  },
+  "Transversal 56a, 512": {
+    "lat": 6.3439825,
+    "lng": -75.5638542
+  },
+  "Transversal 56a, 56-24": {
+    "lat": 6.3439825,
+    "lng": -75.5638542
+  },
+  "Transversal 56a # 56 - 24": {
+    "lat": 6.3439825,
+    "lng": -75.5638542
+  },
+  "Calle 62a, 5818": {
+    "lat": 6.3447341,
+    "lng": -75.5664274
+  },
+  "Carrera 65a # 69 - 05": {
+    "lat": 6.3569043,
+    "lng": -75.5687752
+  },
+  "Calle 80 # 65 - 05": {
+    "lat": 6.3550504,
+    "lng": -75.5688541
+  },
+  "Carrera 50 # 56 - 05": {
+    "lat": 6.3459657,
+    "lng": -75.5614431
   }
 }
