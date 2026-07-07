@@ -1,4 +1,4 @@
-// tests/test_pwa_strategies.mjs
+﻿// tests/test_pwa_strategies.mjs
 // Validates vite.config.ts PWA configuration contract.
 
 import fs from 'node:fs';
@@ -13,7 +13,7 @@ function assert(name, cond, hint) {
 const cfg = fs.readFileSync(path.join('vite.config.ts'), 'utf8');
 
 assert('VitePWA plugin registered', cfg.includes('VitePWA('));
-assert('registerType autoUpdate', /registerType:\s*['"]autoUpdate['"]/.test(cfg));
+assert('registerType prompt', /registerType:\s*['"]prompt['"]/.test(cfg));
 assert('injectRegister auto', /injectRegister:\s*['"]auto['"]/.test(cfg));
 assert('navigateFallback /offline.html', /navigateFallback:\s*['"]\/offline\.html['"]/.test(cfg));
 assert('cleanupOutdatedCaches true', /cleanupOutdatedCaches:\s*true/.test(cfg));
