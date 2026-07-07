@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+﻿import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { MapComponent } from './components/Map/MapComponent';
 import { Input } from './components/ui/input';
 import { Button } from './components/ui/button';
@@ -14,7 +14,7 @@ import { CloudRain, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { NavigationOverlay } from './components/Map/NavigationOverlay';
 import { useNavigation } from './hooks/useNavigation';
-import { useRecentSearches } from './hooks/useRecentSearches';
+import { runMigrations } from './lib/migration';
 import { QuickPicksBar } from './components/QuickPicksBar';
 import { InstallBanner } from './components/InstallBanner';
 import { UpdateToast } from './components/UpdateToast';
@@ -56,11 +56,20 @@ export default function App() {
   };
 
   const [origin, setOrigin] = useState<{lat: number, lng: number, name?: string} | null>(null);
+
   const [dest, setDest] = useState<{lat: number, lng: number, name?: string} | null>(null);
 
   // ----- Hooks ---------------------------------------------------------------
   const nav = useNavigation();
-  const { push: pushRecent } = useRecentSearches();
+
+  // Run one-shot localStorage migrations on mount (idempotent).
+  useEffect(() => {
+    try {
+      if (typeof window === 'undefined') return;
+      runMigrations(window.localStorage);
+    } catch (e) { /* ignore */ }
+  }, []);
+
 
   // Haptic on cue change
   const lastCueRef = useRef<typeof nav.cue>(null);
@@ -145,8 +154,6 @@ export default function App() {
     setActiveRouteIndex(0);
     setSheetHeight('mid');
 
-    // Remember this query in the recent-searches MRU.
-    pushRecent(textToProcess, contextCoords ? { coords: contextCoords.origin || contextCoords.dest } : undefined);
 
     const response = await processUserQuery(
       textToProcess,
@@ -293,14 +300,6 @@ export default function App() {
           onPickFavorite={(fav) => {
             // Drop the favorite into the origin input and let the user pick a destination.
             setOrigin({ lat: fav.lat, lng: fav.lng, name: fav.name });
-          }}
-          onPickRecent={(entry) => {
-            if (entry.coords) {
-              setOrigin({ lat: entry.coords.lat, lng: entry.coords.lng, name: entry.query });
-            } else {
-              setQuery(entry.query);
-              void handleSubmit(null, entry.query, 'Repitiendo busqueda reciente');
-            }
           }}
         />
         <div className="hidden lg:block absolute bottom-6 left-6 z-[1000] pointer-events-none">

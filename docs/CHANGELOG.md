@@ -76,3 +76,35 @@
 - npm run build exit 0; sw.js (3.6 KB) + workbox-77d36791.js + 17 precache entries (~2.7 MB).
 - HTTP checks against dist/: manifest 200, icon-192 26 KB, icon-512 132 KB, offline.html 200, sw.js 200 with all strategies present.
 - Bundle markers verified: serviceWorker, workbox-window, Workbox, beforeinstallprompt, Instala MetroBot, Nueva version disponible.
+
+## 2026-07-06 - Remove recent searches
+
+### Why
+The recent-searches chip strip overlapped the MapSearch origin/destination
+inputs on mobile and on desktop, blocking access to the input fields. User
+preference: remove the feature entirely instead of refactoring the layout.
+
+### Removed
+- `src/hooks/useRecentSearches.ts` (MRU list backed by `metrobot.history.v1`).
+- `src/components/RecentsPanel.tsx` (was already orphan: not mounted anywhere).
+- `src/components/QuickPicksBar.tsx`: dropped the "Recientes" section; bar now
+  renders only Favoritos. Lowered `max-h` from `40dvh` to `18dvh` to free vertical
+  space above the MapSearch inputs.
+- `src/App.tsx`: removed `useRecentSearches` import + `pushRecent` call in
+  `handleSubmit` + `onPickRecent` handler on `<QuickPicksBar>`.
+- `tests/test_recents.mjs` + `tests/_recents_impl.mjs` (14 asserts retired).
+
+### Added
+- `src/lib/migration.ts`: idempotent one-shot `runMigrations(storage)` that
+  removes `metrobot.history.v1` from `localStorage` on the next app launch and
+  sets a `metrobot.migrated.v2` flag. Safe against blocked storage, quota
+  errors, and SSR.
+- `App.tsx` calls `runMigrations(window.localStorage)` once in a mount effect.
+- `tests/test_migration_v2.mjs` + `tests/_migration_v2_impl.mjs` (15 asserts):
+  removal, idempotency, preservation of unrelated keys, null/blocked storage.
+
+### Verification (evidence)
+- `node tests/test_migration_v2.mjs` -> 15/15 green.
+- All 12 remaining test files green: favorites (14/14), share (14/14), stationResolver (7/7), routeValidator (45/45), validatorTelemetry (20/20), honesty (15/15), evidence (10/10), reduced_motion (11/11), pwa_strategies (5/5), pwa_hooks (6/6), sheet_drag (25/25), enrichment (17/17).
+- `npm run lint` exit 0.
+- `npm run build` exit 0; bundle 949.71 kB (gz 260.35 kB), sw.js + workbox + 18 precache entries.

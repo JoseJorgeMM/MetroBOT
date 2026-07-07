@@ -1,13 +1,13 @@
-# Active Navigation + Favorites/Recent/Share Implementation Plan
+﻿# Active Navigation + Favorites + Share Implementation Plan (Recents removed 2026-07-06)
 
 > REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Wire the existing-but-unused `useNavigation` + `NavigationOverlay` so users can hit "Iniciar navegaci�n" on any RouteCard and get turn-by-turn guidance (TTS in Spanish, vibration, follow-user). Add favorites, recent searches, and a share button that work offline via localStorage.
+**Goal:** Wire the existing-but-unused `useNavigation` + `NavigationOverlay` so users can hit "Iniciar navegación" on any RouteCard and get turn-by-turn guidance (TTS in Spanish, vibration, follow-user). Add favorites and a share button that work offline via localStorage. **Recent searches were removed on 2026-07-06 — see `docs/CHANGELOG.md` 2026-07-06 entry.**
 
 **Architecture:**
 
-- A. Pull `useNavigation` into `App.tsx`. When the user taps "Iniciar navegaci�n" on the selected `RouteCard`, call `nav.start(route)`. Mount `<NavigationOverlay nav={nav} />` above the map. Pipe `nav.pos` and `nav.heading` into `MapComponent` props so the user marker and `followUser` flag activate. Add `navigator.vibrate` on cue changes. TTS is enabled by default; user can mute.
-- B. Two localStorage-backed hooks: `useFavorites` (max 50) and `useRecentSearches` (max 10). A `<ShareButton>` uses `navigator.share` with a clipboard fallback. Mount a new `RecentsPanel` inside `MapSearch` that renders both lists.
+- A. Pull `useNavigation` into `App.tsx`. When the user taps "Iniciar navegación" on the selected `RouteCard`, call `nav.start(route)`. Mount `<NavigationOverlay nav={nav} />` above the map. Pipe `nav.pos` and `nav.heading` into `MapComponent` props so the user marker and `followUser` flag activate. Add `navigator.vibrate` on cue changes. TTS is enabled by default; user can mute.
+- B. Two localStorage-backed hooks: `useFavorites` (max 50). **`useRecentSearches` was removed on 2026-07-06 — see `docs/CHANGELOG.md` 2026-07-06 entry.** A `<ShareButton>` uses `navigator.share` with a clipboard fallback. 
 
 **Tech Stack:** Vite + React 19 + TypeScript, `@google/genai` (existing), Web Speech API for TTS, Web Share API for share. No new runtime deps.
 
@@ -18,12 +18,12 @@
 - Modify: `src/App.tsx` (use nav hook, mount NavigationOverlay, pass user position to map).
 - Modify: `src/components/RouteCards/RouteCard.tsx` (add Start Nav button + Share button + validation badge tooltip stays).
 - Modify: `src/components/Map/MapComponent.tsx` (no schema change; userPosition/userHeading/followUser already supported).
-- Modify: `src/components/Map/MapSearch.tsx` (mount RecentsPanel + add "Save as favorite" on the picked result).
+- Modify: `src/components/Map/MapSearch.tsx` (add "Save as favorite" on the picked result).
 - New: `src/hooks/useFavorites.ts` (localStorage-backed list, add/remove/has).
-- New: `src/hooks/useRecentSearches.ts` (localStorage-backed MRU dedup, cap 10).
-- New: `src/components/RecentsPanel.tsx` (chips for favorites + recent searches).
+- `src/hooks/useRecentSearches.ts` was REMOVED on 2026-07-06.
+- `src/components/RecentsPanel.tsx` was REMOVED on 2026-07-06.
 - New: `src/components/ShareButton.tsx` (uses navigator.share + clipboard fallback).
-- New: `tests/test_favorites.mjs` + `tests/test_recents.mjs` + `tests/test_share.mjs` (Node, no framework).
+- New: `tests/test_favorites.mjs` + `tests/test_share.mjs` (Node, no framework). `tests/test_recents.mjs` was REMOVED on 2026-07-06.
 - New: `src/lib/share.ts` (pure helper: buildShareText + tryShare, easily testable in Node).
 
 ---
@@ -118,7 +118,7 @@
   }, [nav.cue]);
   ```
 
-- [ ] **Step 5: Extend `RouteOption` with optional `onStartNav?: () => void` prop on `RouteCard`** so the card can call `nav.start(route)` with the right argument. Render an "Iniciar navegaci�n" button at the bottom of the card when `nav.state === 'idle'` AND `onStartNav` is provided AND the route has at least one walk segment.
+- [ ] **Step 5: Extend `RouteOption` with optional `onStartNav?: () => void` prop on `RouteCard`** so the card can call `nav.start(route)` with the right argument. Render an "Iniciar navegación" button at the bottom of the card when `nav.state === 'idle'` AND `onStartNav` is provided AND the route has at least one walk segment.
 
 - [ ] **Step 6: Update the `NavigationOverlay` to read `nav.state === 'arrived'` and auto-close after 6 seconds** (set a timeout that calls `nav.stop()`).
 
