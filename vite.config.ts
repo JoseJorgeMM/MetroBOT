@@ -119,6 +119,7 @@ export default defineConfig(({mode}) => {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
       'process.env.GEMINI_API_KEYS': JSON.stringify(env.GEMINI_API_KEYS),
       'process.env.VITE_MAPBOX_ACCESS_TOKEN': JSON.stringify(env.VITE_MAPBOX_ACCESS_TOKEN || env.MAPBOX_ACCESS_TOKEN),
+      'import.meta.env.VITE_BUILD_ID': JSON.stringify(env.VITE_BUILD_ID || 'dev'),
     },
     resolve: {
       alias: {
