@@ -1,5 +1,6 @@
-// tests/test_pwa_hooks.mjs
+﻿// tests/test_pwa_hooks.mjs
 import { isDismissedRecently, markDismissed, shouldOfferInstall, DISMISS_KEY } from './_pwa_hooks_impl.mjs';
+import { shouldApplyUpdate, markUpdateApplied } from './_sw_update_hook_impl.mjs';
 
 let pass = 0, fail = 0;
 function assertEq(name, actual, expected) {
