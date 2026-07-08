@@ -3,6 +3,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { execSync } from 'node:child_process';
 
 let pass = 0, fail = 0;
 function assert(name, cond, hint) {
@@ -136,6 +137,28 @@ assert('manifest icon-192 present', cfg.includes('icon-192.png'));
 assert('manifest icon-512 present', cfg.includes('icon-512.png'));
 assert('manifest maskable icon present', cfg.includes('icon-maskable'));
 assert('devOptions enabled', /devOptions:\s*{[\s\S]*enabled:\s*true/.test(cfg));
+// Build-time guard: vite-plugin-pwa with autoUpdate injects a self-reload
+// path inside the generated sw.js. We must not see it now that we use 'prompt'.
+let buildOk = true;
+try {
+  execSync('npm run build', { stdio: 'pipe' });
+} catch (e) {
+  buildOk = false;
+  assert('build succeeds', false, 'npm run build failed');
+  console.log('  (build output suppressed)');
+}
+if (buildOk) {
+  const swPath = path.join('dist', 'sw.js');
+  if (fs.existsSync(swPath)) {
+    const sw = fs.readFileSync(swPath, 'utf8');
+    const hasAutoReload = /skipWaiting[\s\S]{0,200}location\.reload/.test(sw)
+      || /location\.reload[\s\S]{0,200}skipWaiting/.test(sw);
+    assert('dist/sw.js does not contain autoUpdate skipWaiting+reload handler', !hasAutoReload);
+  } else {
+    assert('dist/sw.js exists after build', false, 'sw.js missing');
+  }
+}
+
 
 console.log('\n-----');
 if (fail === 0) { console.log('ALL TESTS PASS (' + pass + '/' + (pass + fail) + ')'); process.exit(0); }
