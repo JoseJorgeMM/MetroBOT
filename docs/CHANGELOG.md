@@ -108,3 +108,47 @@ preference: remove the feature entirely instead of refactoring the layout.
 - All 12 remaining test files green: favorites (14/14), share (14/14), stationResolver (7/7), routeValidator (45/45), validatorTelemetry (20/20), honesty (15/15), evidence (10/10), reduced_motion (11/11), pwa_strategies (5/5), pwa_hooks (6/6), sheet_drag (25/25), enrichment (17/17).
 - `npm run lint` exit 0.
 - `npm run build` exit 0; bundle 949.71 kB (gz 260.35 kB), sw.js + workbox + 18 precache entries.
+
+## 2026-07-07 - SW update policy: silent apply
+
+### Why
+Safari iOS was reloading MetroBot in the middle of an active navigation when
+the SW detected an update. Root cause: `vite-plugin-pwa` with
+`registerType: 'autoUpdate'` injects a handler that calls
+`skipWaiting() + window.location.reload()` on the first `waiting` event, and
+Safari iOS triggers that lifecycle during the geolocation / speech-synthesis
+handshake at navigation start. The PWA installed on the home screen does not
+exhibit the bug because its SW is decoupled from the tab session.
+
+### Changed
+- `vite.config.ts`: `registerType: 'autoUpdate'` -> `'prompt'`. Added
+  `import.meta.env.VITE_BUILD_ID` to `define` (default `'dev'`).
+- `src/hooks/useServiceWorkerUpdate.ts`: removed every call to
+  `window.location.reload()`. New SW activates via `messageSkipWaiting()` and
+  applies on next cold start. Added `consumeUpdate()` to mark the current
+  build as seen.
+- `src/components/UpdateToast.tsx`: redesign as a discreet bottom strip with
+  no "Recargar" button. The text is "Hay una version nueva. Se aplicara al
+  reiniciar." Dismissing marks the current build as seen (7-day window).
+- `src/lib/swUpdatePolicy.ts`: new pure module (`getSeenUpdateRevision`,
+  `markUpdateSeen`, `shouldShowUpdateToast`).
+
+### Added (TDD)
+- `tests/_sw_update_policy_impl.mjs` + `tests/test_sw_update_policy.mjs`:
+  20 asserts for the policy module.
+- `tests/_sw_update_hook_impl.mjs` + extended `tests/test_pwa_hooks.mjs`:
+  asserts for the no-reload contract and `consumeUpdate` flow.
+- `tests/test_pwa_strategies.mjs`: updated `registerType` assertion to
+  `'prompt'`; added a build-time guard that the generated `dist/sw.js` does
+  NOT contain the `skipWaiting + location.reload` handler from `autoUpdate`.
+
+### Verification (evidence)
+- `node tests/test_sw_update_policy.mjs` -> 20/20 green.
+- `node tests/test_pwa_hooks.mjs` -> 11/11 green.
+- `node tests/test_pwa_strategies.mjs` -> 26/26 green, including the
+  dist/sw.js marker guard.
+- `npm run lint` exit 0.
+- `npm run build` exit 0; `dist/sw.js` no longer contains the
+  `skipWaiting + location.reload` inline handler.
+- Manual smoke: open MetroBot in Safari iOS, trigger an SW update, start a
+  route. No reload in the middle of the session.
