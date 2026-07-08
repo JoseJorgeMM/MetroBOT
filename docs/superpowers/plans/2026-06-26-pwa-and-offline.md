@@ -59,7 +59,7 @@
 
 - [x] **Step 1:** Write the test FIRST. `tests/test_pwa_strategies.mjs` reads `vite.config.ts` (regex over the source), asserts:
   - `VitePWA` plugin is registered.
-  - `registerType: 'autoUpdate'`.
+  - `registerType: 'prompt'` (was `'autoUpdate'`; superseded 2026-07-07 by spec `docs/superpowers/specs/2026-07-07-sw-update-policy-design.md`).
   - `injectRegister: 'auto'` (auto-injects the SW registration on app load).
   - `workbox.runtimeCaching` has rules for:
     - `rutas_integradas\.json$` with handler `StaleWhileRevalidate`.
@@ -97,11 +97,11 @@
 
 **Files:** `src/hooks/useServiceWorkerUpdate.ts`, `src/components/UpdateToast.tsx`, `src/App.tsx`.
 
-- [x] **Step 1:** `useServiceWorkerUpdate()` subscribes to `workbox-window` `waiting` and `controlling` events. Exposes `{ hasUpdate: boolean, applyUpdate: () => void }`. `applyUpdate` calls `wb.messageSkipWaiting()` then `location.reload()`.
+- [x] **Step 1 (SUPERSEDED 2026-07-07):** `useServiceWorkerUpdate()` subscribes to `workbox-window` `waiting` and `controlling` events. The hook no longer calls `location.reload()`; see `docs/superpowers/specs/2026-07-07-sw-update-policy-design.md` for the new contract.
 
 - [x] **Step 2:** Initialize `Workbox` from `workbox-window` only when `import.meta.env.PROD` is true (no SW in dev). In dev, expose `{ hasUpdate: false }` so the UI does nothing.
 
-- [x] **Step 3:** `<UpdateToast>` shows a top-center toast "Nueva version disponible" with a Reload button. Dismissable (but auto-applies on next app launch).
+- [x] **Step 3 (SUPERSEDED 2026-07-07):** `<UpdateToast>` is now a discreet bottom strip without a Reload button. The new SW applies silently on the next cold start.
 
 - [x] **Step 4:** Mount in `App.tsx`.
 
