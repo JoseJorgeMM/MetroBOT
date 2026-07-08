@@ -9,6 +9,7 @@ import { MapSearch } from './MapSearch';
 import { getRouteGeometry } from '@/src/lib/osrm';
 
 import { RouteOption } from '@/src/lib/routing';
+import { getVisibleStations } from '@/src/lib/mapStationsFilter';
 import { SupportCard } from '../SupportCard';
 
 const getDistanceMeters = (lat1: number, lon1: number, lat2: number, lon2: number) => {
@@ -63,6 +64,8 @@ interface MapComponentProps {
   userHeading?: number | null;
   /** When true, the map pans to follow the user. */
   followUser?: boolean;
+  /** When true, the map only shows stations that are part of the active route. */
+  isNavigating?: boolean;
 }
 
 // Helper to handle map centering and zooming
@@ -104,6 +107,7 @@ export function MapComponent({
   userPosition = null,
   userHeading = null,
   followUser = false,
+  isNavigating = false,
 }: MapComponentProps) {
   const [stations, setStations] = useState<Station[]>([]);
   const [loading, setLoading] = useState(true);
@@ -480,7 +484,7 @@ export function MapComponent({
         {renderOriginMarker()}
         {renderDestMarker()}
 
-        {stations.map((station, idx) => (
+        {getVisibleStations(stations, currentRoute, isNavigating).map((station, idx) => (
           <Marker 
             key={`${station.id}-${idx}`} 
             position={[station.lat, station.lng]}
@@ -503,7 +507,7 @@ export function MapComponent({
                   </div>
                   <div className="pt-2">
                     <button 
-                      onClick={() => handleComoLlegar(station)}
+                      onClick={() => handleComoLlegar(station as Station)}
                       className="w-full bg-sitva-green text-white font-bold py-1.5 rounded-lg text-xs shadow-sm hover:bg-sitva-green/90 transition-colors cursor-pointer"
                     >
                       ¿Cómo llegar?

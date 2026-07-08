@@ -294,6 +294,7 @@ export default function App() {
           userPosition={nav.pos}
           userHeading={nav.heading}
           followUser={navFollow}
+          isNavigating={navFollow}
         />
         <NavigationOverlay nav={nav} />
         <QuickPicksBar
