@@ -1,11 +1,17 @@
-// useServiceWorkerUpdate.ts
+﻿// useServiceWorkerUpdate.ts
 // -----------------------------------------------------------------------------
-// Listens to Workbox events to detect when a new service worker is waiting and
-// exposes an applyUpdate() helper that activates it and reloads the page.
-// In dev mode (or when workbox-window is unavailable) this hook is a no-op.
+// Listens for new service workers and lets the user dismiss the update notice.
+// We intentionally DO NOT call window.location.reload() anywhere: the new SW
+// activates via messageSkipWaiting() and applies silently on the next cold
+// start. This is the fix for the Safari iOS mid-session reload bug.
 // -----------------------------------------------------------------------------
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  getSeenUpdateRevision,
+  markUpdateSeen,
+  shouldShowUpdateToast,
+} from '../lib/swUpdatePolicy';
 
 interface WorkboxLike {
   addEventListener: (type: string, listener: (event: unknown) => void) => void;
@@ -17,6 +23,7 @@ export interface UseServiceWorkerUpdateResult {
   hasUpdate: boolean;
   controlling: boolean;
   applyUpdate: () => void;
+  consumeUpdate: () => void;
   enabled: boolean;
 }
 
@@ -28,6 +35,16 @@ async function loadWorkbox(): Promise<{ new (url: string): WorkboxLike } | null>
     return W || null;
   } catch {
     return null;
+  }
+}
+
+function currentBuildRevision(): string {
+  // Vite injects this at build time. Default 'dev' so the policy still works
+  // in dev where the plugin does not generate a real sw.js.
+  try {
+    return (import.meta as unknown as { env: { VITE_BUILD_ID?: string } }).env.VITE_BUILD_ID || 'dev';
+  } catch {
+    return 'dev';
   }
 }
 
@@ -55,7 +72,19 @@ export function useServiceWorkerUpdate(swUrl = '/sw.js'): UseServiceWorkerUpdate
       const wb = new WB(swUrl);
       wbRef.current = wb;
 
-      const onWaiting = () => setHasUpdate(true);
+      const revision = currentBuildRevision();
+      const storage = (() => {
+        try { return window.localStorage; } catch { return null; }
+      })();
+
+      const onWaiting = () => {
+        if (shouldShowUpdateToast(storage, revision)) {
+          setHasUpdate(true);
+        } else {
+          // Already seen recently. Apply silently without bothering the user.
+          try { wb.messageSkipWaiting(); } catch { /* noop */ }
+        }
+      };
       const onControlling = () => setControlling(true);
 
       try {
@@ -75,28 +104,27 @@ export function useServiceWorkerUpdate(swUrl = '/sw.js'): UseServiceWorkerUpdate
 
   const applyUpdate = useCallback(() => {
     const wb = wbRef.current;
-    if (!wb) {
-      if (typeof window !== 'undefined') window.location.reload();
-      return;
-    }
+    if (!wb) return;
     try {
       wb.messageSkipWaiting();
     } catch {
       /* noop */
     }
-    if (typeof window !== 'undefined') {
-      window.setTimeout(() => {
-        try {
-          window.location.reload();
-        } catch {
-          /* noop */
-        }
-      }, 250);
-    }
+    setControlling(true);
+    // No window.location.reload() here, by design. The next navigation or
+    // cold start picks up the new SW.
+  }, []);
+
+  const consumeUpdate = useCallback(() => {
+    const storage = (() => {
+      try { return window.localStorage; } catch { return null; }
+    })();
+    markUpdateSeen(storage, currentBuildRevision());
+    setHasUpdate(false);
   }, []);
 
   return useMemo(
-    () => ({ hasUpdate, controlling, applyUpdate, enabled }),
-    [hasUpdate, controlling, applyUpdate, enabled],
+    () => ({ hasUpdate, controlling, applyUpdate, consumeUpdate, enabled }),
+    [hasUpdate, controlling, applyUpdate, consumeUpdate, enabled],
   );
 }
