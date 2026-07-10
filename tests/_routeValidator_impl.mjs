@@ -167,3 +167,23 @@ export function summarizeRouteValidation(routes, allIntegratedRoutes, allStation
     reasons: reasons,
   };
 }
+export const BUS_UNSAFE_THRESHOLD = 0.5;
+
+export function isRouteUnsafe(route, allIntegratedRoutes, allStations, threshold) {
+  if (!route || !Array.isArray(route.steps) || route.steps.length === 0) return { unsafe: false };
+  const t = typeof threshold === 'number' ? threshold : BUS_UNSAFE_THRESHOLD;
+  let busCount = 0;
+  for (const s of route.steps) {
+    if (s && s.mode === 'bus_articulado') busCount++;
+  }
+  if (busCount === 0) return { unsafe: false };
+  // dominant = more bus steps than non-bus steps
+  if (busCount <= route.steps.length - busCount) return { unsafe: false };
+  const summary = summarizeRouteValidation([route], allIntegratedRoutes, allStations);
+  if (summary.total === 0) return { unsafe: false };
+  const ratio = summary.degradedSteps / summary.total;
+  if (ratio >= t) {
+    return { unsafe: true, reason: 'mostly-invalid-buses', ratio, threshold: t };
+  }
+  return { unsafe: false, ratio, threshold: t };
+}

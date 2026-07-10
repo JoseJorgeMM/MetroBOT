@@ -1,6 +1,6 @@
 // tests/test_routeValidator.mjs
 // Self-contained Node test runner for src/lib/routeValidator.ts.
-import { clampBbox, validateBusStep, reconstructBusStep, validateMetroStation, validateUserCoords, summarizeRouteValidation } from './_routeValidator_impl.mjs';
+import { clampBbox, validateBusStep, reconstructBusStep, validateMetroStation, validateUserCoords, summarizeRouteValidation, isRouteUnsafe, BUS_UNSAFE_THRESHOLD } from './_routeValidator_impl.mjs';
 
 let passed = 0, failed = 0;
 const failures = [];
@@ -22,7 +22,7 @@ const FAKE_ROUTES = [
     id: 'C7-001',
     name: 'Ruta Integrada C7-001',
     stops: [
-      { name: 'Niquía', lat: 6.3074, lng: -75.5535 },
+      { name: 'Niquï¿½a', lat: 6.3074, lng: -75.5535 },
       { name: 'Autopista Norte, 3279', lat: 6.3100, lng: -75.5600 },
       { name: 'Dg. 50A #32-200, Bello', lat: 6.3340, lng: -75.5700 },
     ],
@@ -53,7 +53,7 @@ console.log('validateBusStep');
 const validResult = validateBusStep({
   mode: 'bus_articulado',
   line: 'C7-001',
-  station: { nameRef: 'Niquía', lat: 6.3074, lng: -75.5535 },
+  station: { nameRef: 'Niquï¿½a', lat: 6.3074, lng: -75.5535 },
 }, FAKE_ROUTES);
 assertEq('valid-step.ok', validResult.ok, true);
 assertEq('valid-step.route.id', validResult.validatedRoute && validResult.validatedRoute.id, 'C7-001');
@@ -63,7 +63,7 @@ assertTrue('valid-step.distanceMeters < 50', validResult.distanceMeters < 50, 'd
 const unknownRoute = validateBusStep({
   mode: 'bus_articulado',
   line: 'C7-999',
-  station: { nameRef: 'Niquía', lat: 6.3074, lng: -75.5535 },
+  station: { nameRef: 'Niquï¿½a', lat: 6.3074, lng: -75.5535 },
 }, FAKE_ROUTES);
 assertEq('unknown-route.reason', unknownRoute.reason, 'route-not-found');
 assertEq('unknown-route.ok', unknownRoute.ok, false);
@@ -71,13 +71,13 @@ assertEq('unknown-route.ok', unknownRoute.ok, false);
 const tooFar = validateBusStep({
   mode: 'bus_articulado',
   line: 'C7-001',
-  station: { nameRef: 'Niquía', lat: 6.40, lng: -75.40 },
+  station: { nameRef: 'Niquï¿½a', lat: 6.40, lng: -75.40 },
 }, FAKE_ROUTES);
 assertEq('too-far.reason', tooFar.reason, 'stop-too-far');
 
 const wrongMode = validateBusStep({
   mode: 'metro',
-  line: 'Línea A',
+  line: 'Lï¿½nea A',
   station: undefined,
 }, FAKE_ROUTES);
 assertEq('wrong-mode.ok', wrongMode.ok, true);
@@ -86,7 +86,7 @@ console.log('reconstructBusStep');
 const validReconstruct = reconstructBusStep({
   mode: 'bus_articulado',
   line: 'C7-001',
-  station: { nameRef: 'Niquía', lat: 6.3074, lng: -75.5535 },
+  station: { nameRef: 'Niquï¿½a', lat: 6.3074, lng: -75.5535 },
   duration: 20,
   instruction: 'Toma el bus inventado',
 }, FAKE_ROUTES);
@@ -151,7 +151,7 @@ console.log('summarizeRouteValidation');
 const sumRoutes = [
   {
     steps: [
-      { mode: 'bus_articulado', line: 'C7-001', station: { nameRef: 'Niquía', lat: 6.3074, lng: -75.5535 } },
+      { mode: 'bus_articulado', line: 'C7-001', station: { nameRef: 'Niquï¿½a', lat: 6.3074, lng: -75.5535 } },
       { mode: 'bus_articulado', line: 'C7-999', station: { nameRef: 'Inventada', lat: 6.31, lng: -75.55 } },
       { mode: 'metro', station: { nameRef: 'Poblado' } },
     ],
@@ -167,6 +167,60 @@ assertTrue('summary.reasons has one entry', Array.isArray(sum.reasons) && sum.re
 const sumEmpty = summarizeRouteValidation([], FAKE_ROUTES, FAKE_STATIONS);
 assertEq('summary.empty.ok', sumEmpty.ok, false);
 assertEq('summary.empty.total', sumEmpty.total, 0);
+
+console.log('isRouteUnsafe');
+{
+  const allInvalidBuses = {
+    steps: [
+      { mode: 'bus_articulado', line: 'C7-999', station: { nameRef: 'Parada X' } },
+      { mode: 'bus_articulado', line: 'FAKE-1', station: { nameRef: 'Parada Y' } },
+    ],
+  };
+  const u1 = isRouteUnsafe(allInvalidBuses, FAKE_ROUTES, FAKE_STATIONS);
+  assertEq('unsafe: 100% invalid buses', u1.unsafe, true);
+  assertEq('unsafe: reason', u1.reason, 'mostly-invalid-buses');
+  assertTrue('unsafe: ratio >= 0.5', u1.ratio >= 0.5, JSON.stringify(u1));
+}
+{
+  const partialBus = {
+    steps: [
+      { mode: 'bus_articulado', line: 'C7-001', station: { nameRef: 'NiquÃ­a', lat: 6.3074, lng: -75.5535 } },
+      { mode: 'bus_articulado', line: 'C7-999', station: { nameRef: 'X' } },
+      { mode: 'metro', station: { nameRef: 'Poblado' } },
+    ],
+  };
+  const u2 = isRouteUnsafe(partialBus, FAKE_ROUTES, FAKE_STATIONS);
+  assertEq('not unsafe: 1/3 invalid (ratio 0.33 < 0.5)', u2.unsafe, false);
+}
+{
+  const metroDominant = {
+    steps: [
+      { mode: 'metro', station: { nameRef: 'Acevedo' } },
+      { mode: 'metro', station: { nameRef: 'Poblado' } },
+      { mode: 'bus_articulado', line: 'C7-999', station: { nameRef: 'X' } },
+    ],
+  };
+  const u3 = isRouteUnsafe(metroDominant, FAKE_ROUTES, FAKE_STATIONS);
+  assertEq('not unsafe: bus is not dominant (1 of 3)', u3.unsafe, false);
+}
+{
+  const onlyWalk = { steps: [{ mode: 'walk' }] };
+  const u4 = isRouteUnsafe(onlyWalk, FAKE_ROUTES, FAKE_STATIONS);
+  assertEq('not unsafe: no bus steps', u4.unsafe, false);
+}
+{
+  const allInvalid = {
+    steps: [
+      { mode: 'bus_articulado', line: 'C7-999', station: { nameRef: 'X' } },
+      { mode: 'bus_articulado', line: 'C7-998', station: { nameRef: 'Y' } },
+    ],
+  };
+  const u5 = isRouteUnsafe(allInvalid, FAKE_ROUTES, FAKE_STATIONS, 0.3);
+  assertEq('threshold 0.3: still unsafe', u5.unsafe, true);
+  const u6 = isRouteUnsafe(allInvalid, FAKE_ROUTES, FAKE_STATIONS, 0.99);
+  assertEq('threshold 0.99: still unsafe (100% degraded)', u6.unsafe, true);
+}
+assertEq('BUS_UNSAFE_THRESHOLD default', BUS_UNSAFE_THRESHOLD, 0.5);
 
 console.log('\n-----');
 if (failed === 0) {
