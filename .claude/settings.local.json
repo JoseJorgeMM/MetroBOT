@@ -9,7 +9,10 @@
       "Bash(mkdir -p public/bus_routes)",
       "Bash(cp \"C:/Users/ASUS/Documents/Rutas Integradas MetroBOT\"/*.csv public/bus_routes/)",
       "Bash(python *)",
-      "Bash(node *)"
+      "Bash(node *)",
+      "Bash(npx tsc *)",
+      "Bash(git commit *)",
+      "Bash(git reset *)"
     ]
   }
 }
