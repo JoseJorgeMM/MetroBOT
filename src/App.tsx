@@ -160,6 +160,13 @@ export default function App() {
       (newRoutes) => {
         const assessment = computeHonestyAssessment(newRoutes as any);
         setHonestyAssessment(assessment);
+        if (assessment.level === 'unsafe') {
+          setRoutes([]);
+          setPendingRoutes([]);
+          const msg = 'No encontre rutas validas para este trayecto. Intenta con origen y destino dentro de la red SITVA, o verifica los nombres de los lugares.';
+          setMessages(prev => [...prev, { role: 'assistant', content: msg }]);
+          return;
+        }
         if (assessment.level === 'no_verificada') {
           setPendingRoutes(newRoutes);
           setRoutes([]);
