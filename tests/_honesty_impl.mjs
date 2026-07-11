@@ -2,6 +2,15 @@
 // Pure logic mirror of src/lib/honesty.ts.
 
 export const PARTIAL_THRESHOLD = 0.41;
+export const UNSAFE_DEGRADED_THRESHOLD = 0.5;
+
+export function isAnyUnsafe(routes) {
+  if (!Array.isArray(routes)) return false;
+  for (const r of routes) {
+    if (r && r.validation && r.validation.unsafe === true) return true;
+  }
+  return false;
+}
 
 export function ratioFor(route) {
   const v = route && route.validation;
@@ -13,6 +22,14 @@ export function ratioFor(route) {
 export function computeHonestyAssessment(routes) {
   if (!routes || routes.length === 0) {
     return { level: 'confiable', label: 'Sin rutas', worstRatio: 0, totalDegraded: 0 };
+  }
+  if (isAnyUnsafe(routes)) {
+    return {
+      level: 'unsafe',
+      label: 'No encontre rutas validas para este trayecto',
+      worstRatio: 1,
+      totalDegraded: 0,
+    };
   }
   let worst = 0;
   let totalDeg = 0;

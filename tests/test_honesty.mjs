@@ -1,5 +1,5 @@
 // tests/test_honesty.mjs
-import { computeHonestyAssessment, ratioFor, PARTIAL_THRESHOLD } from './_honesty_impl.mjs';
+import { computeHonestyAssessment, ratioFor, isAnyUnsafe, PARTIAL_THRESHOLD, UNSAFE_DEGRADED_THRESHOLD } from './_honesty_impl.mjs';
 
 let pass = 0, fail = 0;
 const failures = [];
@@ -12,6 +12,22 @@ function tru(name, cond, hint) {
   if (cond) { pass++; console.log('  ✓', name); }
   else { fail++; failures.push({ name, hint }); console.log('  ✗', name, hint ? '(' + hint + ')' : ''); }
 }
+
+console.log('isAnyUnsafe');
+eq('null -> false', isAnyUnsafe(null), false);
+eq('empty -> false', isAnyUnsafe([]), false);
+eq('none unsafe -> false', isAnyUnsafe([{ validation: { unsafe: false } }]), false);
+eq('one unsafe -> true', isAnyUnsafe([{ validation: { unsafe: false } }, { validation: { unsafe: true } }]), true);
+eq('unsafe first -> true', isAnyUnsafe([{ validation: { unsafe: true } }, { validation: { unsafe: false } }]), true);
+
+console.log('computeHonestyAssessment (unsafe)');
+eq('any unsafe -> unsafe level', computeHonestyAssessment([{ validation: { total: 5, degradedSteps: 0, unsafe: true } }]).level, 'unsafe');
+eq('any unsafe mixed: confiable + unsafe -> unsafe wins', computeHonestyAssessment([
+  { validation: { total: 5, degradedSteps: 0 } },
+  { validation: { total: 5, degradedSteps: 0, unsafe: true } },
+]).level, 'unsafe');
+eq('unsafe label is Spanish', /No encontre rutas validas/.test(computeHonestyAssessment([{ validation: { total: 5, degradedSteps: 0, unsafe: true } }]).label), true);
+eq('UNSAFE threshold default', UNSAFE_DEGRADED_THRESHOLD, 0.5);
 
 console.log('ratioFor');
 eq('no validation -> 0', ratioFor({}), 0);

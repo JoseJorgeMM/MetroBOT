@@ -4,7 +4,7 @@
 // chat UI next to Rutas Sugeridas. Accessible: role=status + aria-live.
 // -----------------------------------------------------------------------------
 
-import { ShieldCheck, ShieldAlert } from 'lucide-react';
+import { ShieldCheck, ShieldAlert, ShieldX } from 'lucide-react';
 import type { HonestyLevel } from '../lib/honesty';
 
 export interface HonestyBadgeProps {
@@ -17,6 +17,7 @@ const STYLES: Record<HonestyLevel, { wrap: string; icon: typeof ShieldCheck }> =
   confiable: { wrap: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200', icon: ShieldCheck },
   parcial:   { wrap: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200', icon: ShieldAlert },
   no_verificada: { wrap: 'bg-rose-100 text-rose-800 dark:bg-rose-900/40 dark:text-rose-200', icon: ShieldAlert },
+  unsafe: { wrap: 'bg-slate-900 text-white dark:bg-slate-200 dark:text-slate-900', icon: ShieldX },
 };
 
 export function HonestyBadge({ level, worstRatio, label }: HonestyBadgeProps) {

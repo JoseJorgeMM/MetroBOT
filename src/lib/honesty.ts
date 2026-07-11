@@ -5,11 +5,12 @@
 // -----------------------------------------------------------------------------
 
 export const PARTIAL_THRESHOLD = 0.41;
+export const UNSAFE_DEGRADED_THRESHOLD = 0.5;
 
-export type HonestyLevel = 'confiable' | 'parcial' | 'no_verificada';
+export type HonestyLevel = 'confiable' | 'parcial' | 'no_verificada' | 'unsafe';
 
 export interface RouteValidationLike {
-  validation?: { total?: number; degradedSteps?: number };
+  validation?: { total?: number; degradedSteps?: number; unsafe?: boolean };
 }
 
 export interface HonestyAssessment {
@@ -26,9 +27,25 @@ export function ratioFor(route: RouteValidationLike | null | undefined): number 
   return v.degradedSteps / v.total;
 }
 
+export function isAnyUnsafe(routes: RouteValidationLike[] | null | undefined): boolean {
+  if (!Array.isArray(routes)) return false;
+  for (const r of routes) {
+    if (r && r.validation && r.validation.unsafe === true) return true;
+  }
+  return false;
+}
+
 export function computeHonestyAssessment(routes: RouteValidationLike[] | null | undefined): HonestyAssessment {
   if (!routes || routes.length === 0) {
     return { level: 'confiable', label: 'Sin rutas', worstRatio: 0, totalDegraded: 0 };
+  }
+  if (isAnyUnsafe(routes)) {
+    return {
+      level: 'unsafe',
+      label: 'No encontre rutas validas para este trayecto',
+      worstRatio: 1,
+      totalDegraded: 0,
+    };
   }
   let worst = 0;
   let totalDeg = 0;
