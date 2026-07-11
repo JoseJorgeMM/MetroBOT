@@ -4,11 +4,12 @@ import { loadStations, calculateDistance } from './stations';
 import { getLocalOfflineRoute } from './localRouter';
 import { fetchMetroNews } from './news';
 import { loadIntegratedRoutes, findIntegratedRoutesNear, IntegratedRoute, IntegratedStop } from './integratedRoutes';
-import { reconstructBusStep, summarizeRouteValidation, validateUserCoords } from './routeValidator';
+import { reconstructBusStep, summarizeRouteValidation, validateUserCoords, isRouteUnsafe, BUS_UNSAFE_THRESHOLD } from './routeValidator';
 import { enrichStation } from './stationResolver';
 import { computeHonestyAssessment, HonestyAssessment } from './honesty';
 import { computeEvidenceScore } from './evidence';
 import { recordSession } from './validatorTelemetry';
+import { buildSysPrompt, BUS_CATALOG_CAP, STATION_CATALOG_CAP } from './geminiPrompt';
 
 const apiKeys = (process.env.GEMINI_API_KEYS || process.env.GEMINI_API_KEY || "DUMMY_KEY").split(',').map(k => k.trim()).filter(Boolean);
 let currentKeyIndex = 0;
@@ -239,54 +240,35 @@ export async function processUserQuery(query, onRouteFound, onStatusFound, optio
         passingThrough = out.slice(0, 6).join('\n');
       }
 
-      const catalogSnippet = allIntegratedRoutes.slice(0, 80).map(r => r.id + ': ' + r.stops.slice(0, 3).map(s => s.name).join(' | ') + ' ...').join('\n');
+      const catalogSnippet = allIntegratedRoutes.slice(0, BUS_CATALOG_CAP).map(r => r.id + ': ' + r.stops.slice(0, 3).map(s => s.name).join(' | ') + ' ...').join('\n');
+      const allGrounding = await getGroundingData();
 
-      grounding = 'ESTACIONES RELEVANTES CERCANAS A LA BUSQUEDA:\n' + nearbyContext + '\n\nPARADAS DE BUSES INTEGRADOS CERCANAS:\n' + integratedContext + (passingThrough ? '\n\nBUSES INTEGRADOS QUE PASAN CERCA DE ORIGEN Y DESTINO:\n' + passingThrough + '\n' : '') + '\nCATALOGO DE BUSES INTEGRADOS (ids validos, parcial):\n' + catalogSnippet + '\n\nOTRAS ESTACIONES DEL SISTEMA:\n' + (await getGroundingData());
+      grounding = 'ESTACIONES RELEVANTES CERCANAS A LA BUSQUEDA:\n' + nearbyContext + '\n\nPARADAS DE BUSES INTEGRADOS CERCANAS:\n' + integratedContext + (passingThrough ? '\n\nBUSES INTEGRADOS QUE PASAN CERCA DE ORIGEN Y DESTINO:\n' + passingThrough + '\n' : '') + '\nCATALOGO DE BUSES INTEGRADOS (ids validos, parcial):\n' + catalogSnippet + '\n\nOTRAS ESTACIONES DEL SISTEMA:\n' + allGrounding;
     } else {
       grounding = await getGroundingData();
     }
 
     const newsContext = await getRecentNewsContext();
 
-    const sysPrompt = [
-      'Eres MetroBot, el asistente inteligente de movilidad de SITVA (Metro, Metrocable, Tranvia, Metroplus, EnCicla y Buses Articulados) en Medellin Colombia.',
-      'Tu objetivo es dar rutas REALISTAS y UTILES. Prioriza SIEMPRE minimizar la caminata usando el sistema integrado (Buses).',
-      '',
-      '=== NOTICIAS Y ESTADO EN TIEMPO REAL ===',
-      newsContext,
-      '',
-      'REGLAS DE ORO (CRITICO):',
-      '1. MINIMIZAR CAMINATA: Si hay una parada de BUS ARTICULADO cerca del usuario, usala.',
-      '2. NO INVENTAR: NUNCA inventes ids de ruta, nombres de paradas ni coordenadas. Para step.station, originStation, destinationStation SOLO puedes usar nameRef (un string EXACTO del catalogo o de la lista de paradas cercanas). El sistema rellena las coordenadas; TU no escribas lat/lng.',
-      '3. Para line en un bus_articulado, usa EXACTAMENTE el id que aparece en el catalogo (p. ej. "C7-001", "142I", "C1-001", "T4-027").',
-      '4. ESTADO ACTUAL: Si preguntan por el estado del sistema, basate en la seccion "NOTICIAS Y ESTADO EN TIEMPO REAL".',
-      '',
-      'REGLAS ANTI-ALUCINACION (Plan D):',
-      '- Si NO conoces la parada exacta o el id de ruta, NO incluyas ese paso. Mejor retorna una ruta con menos pasos.',
-      '- PROHIBIDO inventar ids como "C7-999" o "Linea X". Solo usa los ids de CATALOGO DE BUSES INTEGRADOS.',
-      '- Para cada step con mode="bus_articulado" incluye _evidence: {sourceRouteId, sourceStopName} citando la fuente del catalogo.',
-      '',
-      'EJEMPLOS (NO HACER):',
-      '- Mal: line:"C7-999", station:{nameRef:"Parada inventada"}.',
-      '- Bien: omitir esa ruta o usar unicamente el id real del catalogo.',
-      '',
-      'DATOS OFICIALES SITVA 2026:',
-      '=== TARIFAS ===',
-      tarifas,
-      '=== TIEMPOS ===',
-      tiempos,
-      '=== ENCICLA ===',
-      encicla,
-      '',
-      'INSTRUCCIONES DE RESPUESTA:',
-      '1. Identifica paradas de inicio y fin usando las listas CERCANAS.',
-      '2. Si recomiendas un Bus Integrado, usa mode: "bus_articulado" con line igual al id exacto del catalogo y station.nameRef igual al nombre exacto de la parada de abordaje.',
-      '3. Llama a render_route con 2-3 opciones.',
-      '4. Responde brevemente en espanol.',
-      '',
-      'DATOS DE RED SITVA:',
+    // Build the station snippet from the full grounding string. We slice the
+    // first STATION_CATALOG_CAP lines so Gemini sees SITVA stations with the
+    // same weight as the (now capped) bus catalog.
+    const stationSnippet = (typeof grounding === 'string' ? grounding : '').split('\n').slice(0, STATION_CATALOG_CAP).join('\n');
+    // When there is no nearby search, surface the capped bus catalog too so
+    // the model still has a balanced view of the network.
+    const integratedSnippet = (options && (options.origin || options.dest))
+      ? (allIntegratedRoutes.slice(0, BUS_CATALOG_CAP).map(r => r.id + ': ' + r.stops.slice(0, 3).map(s => s.name).join(' | ') + ' ...').join('\n'))
+      : '';
+
+    const sysPrompt = buildSysPrompt({
       grounding,
-    ].join('\n');
+      integratedSnippet,
+      stationSnippet,
+      tarifas,
+      tiempos,
+      encicla,
+      news: newsContext,
+    });
 
     const generateWithRotation = async () => {
       let attempts = 0;
@@ -411,6 +393,12 @@ try {
   const stationMap = officialStations.map((s: any) => ({ nombre: s.nombre, lat: s.lat, lng: s.lng, sistema: s.sistema, linea: s.linea }));
   route.validation.summary = summarizeRouteValidation([route], allRoutes, stationMap);
   route.validation.evidenceScore = computeEvidenceScore(route);
+  // Plan D - hard-fail: flag the route as unsafe when the bus steps dominate
+  // and most of them fail validation. The chat UI drops unsafe routes
+  // entirely (see src/App.tsx -> handleSubmit -> (newRoutes) => { ... }).
+  const unsafe = isRouteUnsafe(route, allRoutes, stationMap, BUS_UNSAFE_THRESHOLD);
+  route.validation.unsafe = unsafe.unsafe;
+  route.validation.unsafeReason = unsafe.reason;
   if (route.userOrigin && typeof route.userOrigin.lat === 'number' && typeof route.userOrigin.lng === 'number') {
     const v = validateUserCoords({ lat: route.userOrigin.lat, lng: route.userOrigin.lng }, stationMap);
     route.validation.userOriginValid = v.ok;
