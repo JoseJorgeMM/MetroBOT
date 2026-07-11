@@ -22,7 +22,7 @@ const FAKE_ROUTES = [
     id: 'C7-001',
     name: 'Ruta Integrada C7-001',
     stops: [
-      { name: 'Niqu�a', lat: 6.3074, lng: -75.5535 },
+      { name: 'Niquía', lat: 6.3074, lng: -75.5535 },
       { name: 'Autopista Norte, 3279', lat: 6.3100, lng: -75.5600 },
       { name: 'Dg. 50A #32-200, Bello', lat: 6.3340, lng: -75.5700 },
     ],
@@ -53,7 +53,7 @@ console.log('validateBusStep');
 const validResult = validateBusStep({
   mode: 'bus_articulado',
   line: 'C7-001',
-  station: { nameRef: 'Niqu�a', lat: 6.3074, lng: -75.5535 },
+  station: { nameRef: 'Niquía', lat: 6.3074, lng: -75.5535 },
 }, FAKE_ROUTES);
 assertEq('valid-step.ok', validResult.ok, true);
 assertEq('valid-step.route.id', validResult.validatedRoute && validResult.validatedRoute.id, 'C7-001');
@@ -63,7 +63,7 @@ assertTrue('valid-step.distanceMeters < 50', validResult.distanceMeters < 50, 'd
 const unknownRoute = validateBusStep({
   mode: 'bus_articulado',
   line: 'C7-999',
-  station: { nameRef: 'Niqu�a', lat: 6.3074, lng: -75.5535 },
+  station: { nameRef: 'Niquía', lat: 6.3074, lng: -75.5535 },
 }, FAKE_ROUTES);
 assertEq('unknown-route.reason', unknownRoute.reason, 'route-not-found');
 assertEq('unknown-route.ok', unknownRoute.ok, false);
@@ -71,13 +71,13 @@ assertEq('unknown-route.ok', unknownRoute.ok, false);
 const tooFar = validateBusStep({
   mode: 'bus_articulado',
   line: 'C7-001',
-  station: { nameRef: 'Niqu�a', lat: 6.40, lng: -75.40 },
+  station: { nameRef: 'Niquía', lat: 6.40, lng: -75.40 },
 }, FAKE_ROUTES);
 assertEq('too-far.reason', tooFar.reason, 'stop-too-far');
 
 const wrongMode = validateBusStep({
   mode: 'metro',
-  line: 'L�nea A',
+  line: 'Línea A',
   station: undefined,
 }, FAKE_ROUTES);
 assertEq('wrong-mode.ok', wrongMode.ok, true);
@@ -86,7 +86,7 @@ console.log('reconstructBusStep');
 const validReconstruct = reconstructBusStep({
   mode: 'bus_articulado',
   line: 'C7-001',
-  station: { nameRef: 'Niqu�a', lat: 6.3074, lng: -75.5535 },
+  station: { nameRef: 'Niquía', lat: 6.3074, lng: -75.5535 },
   duration: 20,
   instruction: 'Toma el bus inventado',
 }, FAKE_ROUTES);
@@ -151,7 +151,7 @@ console.log('summarizeRouteValidation');
 const sumRoutes = [
   {
     steps: [
-      { mode: 'bus_articulado', line: 'C7-001', station: { nameRef: 'Niqu�a', lat: 6.3074, lng: -75.5535 } },
+      { mode: 'bus_articulado', line: 'C7-001', station: { nameRef: 'Niquía', lat: 6.3074, lng: -75.5535 } },
       { mode: 'bus_articulado', line: 'C7-999', station: { nameRef: 'Inventada', lat: 6.31, lng: -75.55 } },
       { mode: 'metro', station: { nameRef: 'Poblado' } },
     ],

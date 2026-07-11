@@ -229,6 +229,8 @@ export interface RouteValidationSummary {
   degradedSteps: number;
   total: number;
   reasons: string[];
+  unsafe: boolean;
+  unsafeReason?: string;
 }
 
 export function summarizeRouteValidation(
@@ -260,5 +262,34 @@ export function summarizeRouteValidation(
     degradedSteps,
     total,
     reasons,
+    unsafe: false,
+    unsafeReason: undefined,
   };
+}
+
+export const BUS_UNSAFE_THRESHOLD = 0.5;
+
+export function isRouteUnsafe(
+  route: { steps?: RouteStep[] } | null | undefined,
+  allIntegratedRoutes: IntegratedRoute[],
+  allStations: OfficialStation[],
+  threshold: number = BUS_UNSAFE_THRESHOLD,
+): { unsafe: boolean; reason?: string; ratio?: number; threshold?: number } {
+  if (!route || !Array.isArray(route.steps) || route.steps.length === 0) {
+    return { unsafe: false };
+  }
+  let busCount = 0;
+  for (const s of route.steps) {
+    if (s && s.mode === 'bus_articulado') busCount++;
+  }
+  if (busCount === 0) return { unsafe: false };
+  // dominant = more bus steps than non-bus steps
+  if (busCount <= route.steps.length - busCount) return { unsafe: false };
+  const summary = summarizeRouteValidation([route], allIntegratedRoutes, allStations);
+  if (summary.total === 0) return { unsafe: false };
+  const ratio = summary.degradedSteps / summary.total;
+  if (ratio >= threshold) {
+    return { unsafe: true, reason: 'mostly-invalid-buses', ratio, threshold };
+  }
+  return { unsafe: false, ratio, threshold };
 }
