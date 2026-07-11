@@ -1,10 +1,10 @@
 # MetroBOT changelog
 
-## 2026-06-23 — Active navigation + favorites + recent searches + share
+## 2026-06-23 ï¿½ Active navigation + favorites + recent searches + share
 
 ### A. Active turn-by-turn navigation (wired in)
 - New: `NavigationOverlay` is now mounted above the map.
-- Each `RouteCard` shows an **Iniciar navegación** button (only when the route has a walk segment).
+- Each `RouteCard` shows an **Iniciar navegaciï¿½n** button (only when the route has a walk segment).
 - While navigation runs: the sheet auto-collapses so the overlay is visible, `followUser` is true on the map, the user position is fed back via `nav.pos`, `navigator.vibrate([120,60,120])` fires on each cue change.
 - Auto-stop 6 seconds after `arrived`.
 - TTS in Spanish (existing `tts.ts`), mute toggle persisted to localStorage.
@@ -29,7 +29,7 @@
 
 ### Files modified
 - `src/App.tsx` (useNavigation + QuickPicksBar + NavigationOverlay + pushRecent on submit)
-- `src/components/RouteCards/RouteCard.tsx` (Iniciar navegación + ShareButton + nav state)
+- `src/components/RouteCards/RouteCard.tsx` (Iniciar navegaciï¿½n + ShareButton + nav state)
 - `src/components/Map/MapSearch.tsx` (favorite star per result)
 
 ### Verification (evidence)
@@ -152,3 +152,52 @@ exhibit the bug because its SW is decoupled from the tab session.
   `skipWaiting + location.reload` inline handler.
 - Manual smoke: open MetroBot in Safari iOS, trigger an SW update, start a
   route. No reload in the middle of the session.
+
+## 2026-07-08 - Bus route honesty: SITVA-first prompt + hard-fail validator
+
+### Why
+Gemini was returning routes dominated by `bus_articulado`, many of which
+referenced bus lines or stops that did not exist in
+`public/rutas_integradas.json`. The previous validator only marked such steps
+as `degraded` (warned the user); it never hid the route, so a user could be
+sent to a non-existent bus stop. Root cause was a prompt bias toward buses and
+an over-weighted bus catalog in the grounding section.
+
+### Changed
+- `src/lib/gemini.ts`: rewrote the system prompt to be SITVA-first. Buses are
+  now feeders, not the backbone. Bus catalog in the prompt is capped at 30
+  routes; a 30-station snippet is added to balance the datasets. The per-route
+  validator now sets `validation.unsafe` and `validation.unsafeReason` via
+  `isRouteUnsafe()`.
+- `src/lib/routeValidator.ts`: added `BUS_UNSAFE_THRESHOLD` and
+  `isRouteUnsafe()`. A route whose bus steps dominate AND whose degraded
+  ratio is >= 0.5 is now flagged `unsafe`. `RouteValidationSummary` gained
+  the `unsafe` / `unsafeReason` fields.
+- `src/lib/honesty.ts`: added the `'unsafe'` level. When any route is
+  `unsafe`, the assessment is `unsafe` (most restrictive wins).
+- `src/App.tsx`: routes with assessment `unsafe` are dropped silently. A
+  clear assistant message is shown instead. No "Ver de todos modos" for unsafe.
+- `src/components/HonestyBadge.tsx`: added the `unsafe` style (`ShieldX`,
+  slate fill).
+
+### Added (TDD)
+- `src/lib/geminiPrompt.ts`: pure `buildSysPrompt(parts)` helper with
+  `BUS_CATALOG_CAP` and `STATION_CATALOG_CAP` constants.
+- `tests/_gemini_prompt_impl.mjs` + `tests/test_gemini_prompt.mjs`:
+  18 asserts for the SITVA-first contract.
+- `tests/_routeValidator_impl.mjs` + `tests/test_routeValidator.mjs`:
+  asserts for `isRouteUnsafe` and the `unsafe` flag in
+  `RouteValidationSummary` (54/54 green).
+- `tests/_honesty_impl.mjs` + `tests/test_honesty.mjs`: asserts for the
+  `'unsafe'` honesty level and `isAnyUnsafe` helper (29/29 green).
+
+### Verification (evidence)
+- `node tests/test_gemini_prompt.mjs` -> 18/18 green.
+- `node tests/test_routeValidator.mjs` -> 54/54 green.
+- `node tests/test_honesty.mjs` -> 29/29 green.
+- All 15 test files green.
+- `npm run lint` exit 0.
+- `npm run build` exit 0.
+- Manual: query "de Poblado a Niquia" -> Gemini returns SITVA route; no
+  fabricated buses. Query to a remote vereda -> unsafe message shown
+  instead of fake routes.
