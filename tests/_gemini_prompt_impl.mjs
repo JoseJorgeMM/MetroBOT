@@ -15,6 +15,17 @@ export function buildSysPrompt(parts) {
   const tiempos = p.tiempos || '';
   const encicla = p.encicla || '';
   const news = p.news || '';
+  const allowBuses = p.allowBuses !== false; // default true unless explicitly disabled
+
+  // Mirror of src/lib/geminiPrompt.ts: when the user disables articulated
+  // buses, the prompt forbids the mode outright and drops the bus catalog.
+  const busBlock = allowBuses ? '' : (
+    'REGLA BLOQUEO BUSES: El usuario ha DESACTIVADO los buses articulados. ' +
+    'NO uses mode "bus_articulado" bajo ninguna circunstancia. ' +
+    'Arma la ruta unicamente con Metro, Metrocable, Tranvia, Metroplus, EnCicla y caminata. ' +
+    'Ignora el catalogo de buses integrados.'
+  );
+  const effectiveIntegratedSnippet = allowBuses ? integratedSnippet : '';
 
   return [
     'Eres MetroBot, el asistente inteligente de movilidad de SITVA (Metro, Metrocable, Tranvia, Metroplus, EnCicla y Buses Articulados) en Medellin Colombia.',
@@ -33,6 +44,7 @@ export function buildSysPrompt(parts) {
     '- Si NO conoces la parada exacta o el id de ruta, NO incluyas ese paso. Mejor retorna una ruta con menos pasos.',
     '- PROHIBIDO inventar ids como "C7-999" o "Linea X". Solo usa los ids de CATALOGO DE BUSES INTEGRADOS.',
     '- Para cada step con mode="bus_articulado" incluye _evidence: {sourceRouteId, sourceStopName} citando la fuente del catalogo.',
+    busBlock,
     '',
     'EJEMPLOS (NO HACER):',
     '- Mal: line:"C7-999", station:{nameRef:"Parada inventada"}.',
@@ -56,7 +68,7 @@ export function buildSysPrompt(parts) {
     '4. Responde brevemente en espanol.',
     '',
     'CATALOGO DE BUSES INTEGRADOS (ids validos, parcial):',
-    integratedSnippet,
+    effectiveIntegratedSnippet,
     '',
     'OTRAS ESTACIONES DEL SISTEMA:',
     grounding,
