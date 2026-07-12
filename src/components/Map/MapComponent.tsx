@@ -1,3 +1,22 @@
+// MapComponent
+// -----------------------------------------------------------------------------
+// Cartographic convention for route polylines (SITVA):
+//   - Solid line: any transit mode (Metro, Metrocable, Tranvia, Metroplus,
+//     buses articulados, EnCicla), including short transfer walks between
+//     modes. Transfers use the destination mode's color and a thinner stroke.
+//   - Dashed line (`5, 10`): only the end-to-end walks at the start
+//     (walk-origin) and end (walk-dest) of the route, plus any free-form walk
+//     the user did before the first station. NEVER dashed for a transfer.
+// Three polylines exist for this:
+//   1. walk-origin (origin -> routeOrigin)       — solid emerald, dashed
+//   2. walk-dest   (routeDest  -> destination)  — solid rose,    dashed
+//   3. intermediate segments from routePaths:
+//        - segment-{mode}-{i}        (bus / encicla / first-or-last walk)
+//        - segment-straight-{i}      (metro / metrocable / tranvia / metroplus)
+//        - segment-transfer-{i}      (mid-route walk connecting two transit
+//                                      modes — solid, destination color)
+// -----------------------------------------------------------------------------
+
 import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, ZoomControl, useMap, Polyline } from 'react-leaflet';
 import L from 'leaflet';
@@ -173,14 +192,27 @@ export function MapComponent({
         for (let i = 0; i < stepPoints.length - 1; i++) {
            const p1 = stepPoints[i];
            const p2 = stepPoints[i+1];
-           
+
            // Mode applying to this segment is p2's mode since p2 is the destination of the step
            const mode = p2.mode;
-           
+           // Total number of intermediate points (between routeOrigin and routeDest)
+           // determines whether this is a real walk (first or last segment) or a
+           // transfer (any segment in the middle). The first segment is the walk
+           // from the user to the first station; the last is the walk from the
+           // last station to the user destination. Both are already drawn as
+           // walk-origin / walk-dest. Everything in between is a transfer.
+           const isFirstSegment = i === 0;
+           const isLastSegment = i === stepPoints.length - 2;
+
            if (mode === 'walk' || mode === 'encicla' || mode === 'bus' || mode === 'bus_articulado') {
               const profile = (mode === 'bus' || mode === 'bus_articulado') ? 'car' : (mode === 'encicla' ? 'bike' : 'foot');
               const geometry = await getRouteGeometry([p1.point, p2.point], profile);
-              paths[`segment-${mode}-${i}`] = geometry;
+              // Walk segments in the middle of the route are transfers, not
+              // end-to-end walks; tag them so the renderer can use the
+              // destination mode's color and a solid line.
+              const isTransfer = mode === 'walk' && !isFirstSegment && !isLastSegment;
+              const key = isTransfer ? `segment-transfer-${i}` : `segment-${mode}-${i}`;
+              paths[key] = geometry;
               geometry.forEach(p => allPoints.push(p));
            } else {
               // For SITVA, we just draw a straight line
@@ -381,13 +413,24 @@ export function MapComponent({
          const isBus = k.includes('-bus-') || k.includes('-bus_articulado-');
          const isStraight = k.includes('straight');
          const isEncicla = k.includes('-encicla-');
+         // A transfer is a short walk in the middle of the route, e.g. leaving
+         // a metro station to walk to a bus stop or vice versa. Per the SITVA
+         // cartographic convention, only the start/end walks to the user's
+         // origin/destination are dashed; transfers take the destination
+         // mode's color and are drawn as a solid line.
+         const isTransfer = k.includes('-transfer-');
 
          // Determinar color basado en el segmento
          let color = '#3b82f6'; // default blue
          const segmentIndex = parseInt(k.split('-').pop() || '0');
          const step = route.steps[segmentIndex];
 
-         if (isWalk) {
+         if (isTransfer) {
+           // Take the color from the step this transfer is connecting to. If
+           // the step index is out of bounds fall back to amber (bus) since
+           // transfers are most often between metro and bus.
+           color = step ? getMarkerColor(step.mode) : '#f59e0b';
+         } else if (isWalk) {
            color = '#10b981'; // emerald for walk
          } else if (isEncicla) {
            color = '#00A4E4'; // encicla color
@@ -407,7 +450,9 @@ export function MapComponent({
               positions={positions}
               pathOptions={{
                  color: color,
-                 weight: 6,
+                 // Transfers are thinner than primary transport lines so the
+                 // destination mode's color still reads as the main segment.
+                 weight: isTransfer ? 4 : 6,
                  opacity: 0.9,
                  dashArray: (isWalk && !isStraight) ? '5, 10' : undefined,
                  interactive: true
@@ -415,7 +460,9 @@ export function MapComponent({
             >
               <Popup>
                 <div className="text-xs font-bold">
-                  {isWalk ? 'Tramo a pie' : (isBus ? 'Trayecto en Bus' : 'Trayecto en SITVA')}
+                  {isTransfer
+                    ? 'Transbordo (caminata corta)'
+                    : (isWalk ? 'Tramo a pie' : (isBus ? 'Trayecto en Bus' : 'Trayecto en SITVA'))}
                 </div>
               </Popup>
             </Polyline>

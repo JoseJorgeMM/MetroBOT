@@ -12,7 +12,8 @@
       "Bash(node *)",
       "Bash(npx tsc *)",
       "Bash(git commit *)",
-      "Bash(git reset *)"
+      "Bash(git reset *)",
+      "WebSearch"
     ]
   }
 }
