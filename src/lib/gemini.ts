@@ -199,6 +199,11 @@ export async function processUserQuery(query, onRouteFound, onStatusFound, optio
     let grounding = '';
     let nearbyContext = '';
     let integratedContext = '';
+    // User-facing toggle: when allowBuses is false we drop every bus-articulado
+    // signal from the prompt AND downgrade any bus step Gemini still returns.
+    // Lets the user empirically test whether hallucinated buses are the source
+    // of bad routes by forcing a SITVA-only answer.
+    const allowBuses = !(options && (options as any).allowBuses === false);
 
     if (options && (options.origin || options.dest)) {
       const allStations = await loadStations();
@@ -214,16 +219,18 @@ export async function processUserQuery(query, onRouteFound, onStatusFound, optio
       }, []);
       nearbyContext = relevantStations.map(s => '- [Para ' + s.tag + '] ' + s.nombre + ' (' + s.sistema + ' - Linea ' + s.linea + '): A ' + Math.round(s.distance) + ' metros (Caminando: ~' + s.walkingMinutes + ' min) - Coord: LAT ' + s.lat.toFixed(5) + ', LNG ' + s.lng.toFixed(5)).join('\n');
 
-      const originHits = options.origin ? await findIntegratedRoutesNear(options.origin.lat, options.origin.lng, 1500) : [];
-      const destHits = options.dest ? await findIntegratedRoutesNear(options.dest.lat, options.dest.lng, 1500) : [];
+      const originHits = (allowBuses && options.origin) ? await findIntegratedRoutesNear(options.origin.lat, options.origin.lng, 1500) : [];
+      const destHits = (allowBuses && options.dest) ? await findIntegratedRoutesNear(options.dest.lat, options.dest.lng, 1500) : [];
       const bestBusStops = [];
       for (const h of originHits.slice(0, 10)) bestBusStops.push({ stop: h.closestStop, route: h.route, dist: h.distance, tag: 'Origen' });
       for (const h of destHits.slice(0, 10)) bestBusStops.push({ stop: h.closestStop, route: h.route, dist: h.distance, tag: 'Destino' });
       bestBusStops.sort((a, b) => a.dist - b.dist);
-      integratedContext = bestBusStops.map(s => '- [Para ' + s.tag + '] Parada "' + s.stop.name + '" (Bus Articulado ' + s.route.id + '): A ' + Math.round(s.dist) + ' metros (Caminando: ~' + Math.ceil(s.dist / 80) + ' min) - Coord: LAT ' + s.stop.lat.toFixed(5) + ', LNG ' + s.stop.lng.toFixed(5)).join('\n');
+      integratedContext = allowBuses
+        ? bestBusStops.map(s => '- [Para ' + s.tag + '] Parada "' + s.stop.name + '" (Bus Articulado ' + s.route.id + '): A ' + Math.round(s.dist) + ' metros (Caminando: ~' + Math.ceil(s.dist / 80) + ' min) - Coord: LAT ' + s.stop.lat.toFixed(5) + ', LNG ' + s.stop.lng.toFixed(5)).join('\n')
+        : '';
 
       let passingThrough = '';
-      if (options.origin && options.dest) {
+      if (allowBuses && options.origin && options.dest) {
         const out = [];
         for (const r of allIntegratedRoutes) {
           let oIdx = -1, dIdx = -1;
@@ -240,10 +247,14 @@ export async function processUserQuery(query, onRouteFound, onStatusFound, optio
         passingThrough = out.slice(0, 6).join('\n');
       }
 
-      const catalogSnippet = allIntegratedRoutes.slice(0, BUS_CATALOG_CAP).map(r => r.id + ': ' + r.stops.slice(0, 6).map(s => s.name).join(' | ') + ' ...').join('\n');
+      const catalogSnippet = allowBuses ? allIntegratedRoutes.slice(0, BUS_CATALOG_CAP).map(r => r.id + ': ' + r.stops.slice(0, 6).map(s => s.name).join(' | ') + ' ...').join('\n') : '';
       const allGrounding = await getGroundingData();
 
-      grounding = 'ESTACIONES RELEVANTES CERCANAS A LA BUSQUEDA:\n' + nearbyContext + '\n\nPARADAS DE BUSES INTEGRADOS CERCANAS:\n' + integratedContext + (passingThrough ? '\n\nBUSES INTEGRADOS QUE PASAN CERCA DE ORIGEN Y DESTINO:\n' + passingThrough + '\n' : '') + '\nCATALOGO DE BUSES INTEGRADOS (ids validos, parcial):\n' + catalogSnippet + '\n\nOTRAS ESTACIONES DEL SISTEMA:\n' + allGrounding;
+      // When buses are disabled, strike the whole integrated-bus section from
+      // grounding so the model literally has no bus ids to cite.
+      grounding = allowBuses
+        ? 'ESTACIONES RELEVANTES CERCANAS A LA BUSQUEDA:\n' + nearbyContext + '\n\nPARADAS DE BUSES INTEGRADOS CERCANAS:\n' + integratedContext + (passingThrough ? '\n\nBUSES INTEGRADOS QUE PASAN CERCA DE ORIGEN Y DESTINO:\n' + passingThrough + '\n' : '') + '\nCATALOGO DE BUSES INTEGRADOS (ids validos, parcial):\n' + catalogSnippet + '\n\nOTRAS ESTACIONES DEL SISTEMA:\n' + allGrounding
+        : 'ESTACIONES RELEVANTES CERCANAS A LA BUSQUEDA:\n' + nearbyContext + '\n\nEL USUARIO DESACTIVO LOS BUSES ARTICULADOS: no incluyas bus_articulado.\n\nOTRAS ESTACIONES DEL SISTEMA:\n' + allGrounding;
     } else {
       grounding = await getGroundingData();
     }
@@ -256,7 +267,7 @@ export async function processUserQuery(query, onRouteFound, onStatusFound, optio
     const stationSnippet = (typeof grounding === 'string' ? grounding : '').split('\n').slice(0, STATION_CATALOG_CAP).join('\n');
     // When there is no nearby search, surface the capped bus catalog too so
     // the model still has a balanced view of the network.
-    const integratedSnippet = (options && (options.origin || options.dest))
+    const integratedSnippet = (allowBuses && options && (options.origin || options.dest))
       ? (allIntegratedRoutes.slice(0, BUS_CATALOG_CAP).map(r => r.id + ': ' + r.stops.slice(0, 6).map(s => s.name).join(' | ') + ' ...').join('\n'))
       : '';
 
@@ -268,6 +279,7 @@ export async function processUserQuery(query, onRouteFound, onStatusFound, optio
       tiempos,
       encicla,
       news: newsContext,
+      allowBuses,
     });
 
     const generateWithRotation = async () => {
@@ -360,6 +372,16 @@ export async function processUserQuery(query, onRouteFound, onStatusFound, optio
             if (Array.isArray(route.steps)) {
               for (let i = 0; i < route.steps.length; i++) {
                 const original = route.steps[i];
+                // Defense-in-depth: if the user disabled buses, force every bus
+                // step to a walk regardless of what the model returned. The
+                // prompt already says not to emit bus_articulado, but we cannot
+                // trust the LLM to obey.
+                if (!allowBuses && original && (original.mode || '').toLowerCase() === 'bus_articulado') {
+                  original.instruction = 'Camina hacia tu destino (los buses articulados estaban desactivados por el usuario).';
+                  original.mode = 'walk';
+                  original.cost = 0;
+                  original.station = undefined;
+                }
                 const rec = reconstructBusStep(original, allRoutes);
                 route.steps[i] = rec.step;
                 if (original.mode === 'bus_articulado') {

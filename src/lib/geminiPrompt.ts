@@ -21,6 +21,7 @@ export interface SysPromptParts {
   tiempos?: string;
   encicla?: string;
   news?: string;
+  allowBuses?: boolean;
 }
 
 export function buildSysPrompt(parts: SysPromptParts = {}): string {
@@ -31,6 +32,19 @@ export function buildSysPrompt(parts: SysPromptParts = {}): string {
   const tiempos = parts.tiempos ?? '';
   const encicla = parts.encicla ?? '';
   const news = parts.news ?? '';
+  const allowBuses = parts.allowBuses !== false; // default true unless explicitly disabled
+
+  // When the user disables articulated buses, forbid the mode outright and drop
+  // the bus catalog so the model has nothing to hallucinate from. The catalog
+  // snippet is replaced with an empty string here; gemini.ts also zeroes the
+  // nearby-bus context when allowBuses is false.
+  const busBlock = allowBuses ? '' : (
+    'REGLA BLOQUEO BUSES: El usuario ha DESACTIVADO los buses articulados. ' +
+    'NO uses mode "bus_articulado" bajo ninguna circunstancia. ' +
+    'Arma la ruta unicamente con Metro, Metrocable, Tranvia, Metroplus, EnCicla y caminata. ' +
+    'Ignora el catalogo de buses integrados.'
+  );
+  const effectiveIntegratedSnippet = allowBuses ? integratedSnippet : '';
 
   return [
     'Eres MetroBot, el asistente inteligente de movilidad de SITVA (Metro, Metrocable, Tranvia, Metroplus, EnCicla y Buses Articulados) en Medellin Colombia.',
@@ -49,6 +63,7 @@ export function buildSysPrompt(parts: SysPromptParts = {}): string {
     '- Si NO conoces la parada exacta o el id de ruta, NO incluyas ese paso. Mejor retorna una ruta con menos pasos.',
     '- PROHIBIDO inventar ids como "C7-999" o "Linea X". Solo usa los ids de CATALOGO DE BUSES INTEGRADOS.',
     '- Para cada step con mode="bus_articulado" incluye _evidence: {sourceRouteId, sourceStopName} citando la fuente del catalogo.',
+    busBlock,
     '',
     'EJEMPLOS (NO HACER):',
     '- Mal: line:"C7-999", station:{nameRef:"Parada inventada"}.',
@@ -72,7 +87,7 @@ export function buildSysPrompt(parts: SysPromptParts = {}): string {
     '4. Responde brevemente en espanol.',
     '',
     'CATALOGO DE BUSES INTEGRADOS (ids validos, parcial):',
-    integratedSnippet,
+    effectiveIntegratedSnippet,
     '',
     'OTRAS ESTACIONES DEL SISTEMA:',
     grounding,

@@ -2,7 +2,7 @@
 import { MapComponent } from './components/Map/MapComponent';
 import { Input } from './components/ui/input';
 import { Button } from './components/ui/button';
-import { Send, Menu, MessageSquare, AlertCircle, Sun, Moon, HelpCircle, X, Info } from 'lucide-react';
+import { Send, Menu, MessageSquare, AlertCircle, Sun, Moon, HelpCircle, X, Info, Bus } from 'lucide-react';
 import { processUserQuery } from './lib/gemini';
 import { RouteOption } from './lib/routing';
 import { RouteCard } from './components/RouteCards/RouteCard';
@@ -27,6 +27,7 @@ import { SkipLink } from './components/SkipLink';
 import { fetchMedellinWeather, WeatherData } from './lib/weather';
 
 const DISCLAIMER_STORAGE_KEY = 'metrobot.disclaimer.dismissed.v1';
+const BUSES_TOGGLE_STORAGE_KEY = 'metrobot.buses.enabled.v1';
 
 export default function App() {
   const [query, setQuery] = useState('');
@@ -45,6 +46,24 @@ export default function App() {
   const [routes, setRoutes] = useState<RouteOption[]>([]);
   const [activeRouteIndex, setActiveRouteIndex] = useState(0);
   const [sheetHeight, setSheetHeight] = useState<'min' | 'mid' | 'max'>('mid');
+  // User experiment toggle: when false, MetroBot omits articulated buses from
+  // the route (prompt + defense-in-force downgrade). Defaults to ON so the
+  // default behavior is unchanged; the user can turn it off to test whether
+  // hallucinated buses are the source of bad results.
+  const [busesEnabled, setBusesEnabled] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return true;
+    try {
+      const v = localStorage.getItem(BUSES_TOGGLE_STORAGE_KEY);
+      return v === null ? true : v === '1';
+    } catch (e) { return true; }
+  });
+  const toggleBuses = useCallback(() => {
+    setBusesEnabled(prev => {
+      const next = !prev;
+      try { localStorage.setItem(BUSES_TOGGLE_STORAGE_KEY, next ? '1' : '0'); } catch (e) { /* ignore */ }
+      return next;
+    });
+  }, []);
 
   const [disclaimerDismissed, setDisclaimerDismissed] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
@@ -187,7 +206,8 @@ export default function App() {
       (status) => console.log("Status:", status),
       {
         origin: contextCoords?.origin || (origin ? {lat: origin.lat, lng: origin.lng} : undefined),
-        dest: contextCoords?.dest || (dest ? {lat: dest.lat, lng: dest.lng} : undefined)
+        dest: contextCoords?.dest || (dest ? {lat: dest.lat, lng: dest.lng} : undefined),
+        allowBuses: busesEnabled
       }
     );
 
@@ -493,6 +513,32 @@ export default function App() {
         </div>
 
         <form onSubmit={handleSubmit} className="p-2.5 sm:p-3 bg-card border-t border-border/30 shrink-0">
+          <div className="flex items-center gap-2 mb-2">
+            <button
+              type="button"
+              onClick={toggleBuses}
+              aria-pressed={busesEnabled}
+              aria-label={busesEnabled ? 'Buses articulados activados. Clic para desactivar.' : 'Buses articulados desactivados. Clic para activar.'}
+              title={busesEnabled ? 'Buses articulados: ACTIVADOS (clic para apagar y probar solo SITVA)' : 'Buses articulados: APAGADOS (clic para activar)'}
+              className={
+                'inline-flex items-center gap-1.5 px-3 h-8 rounded-full text-xs font-medium border transition-colors cursor-pointer ' +
+                (busesEnabled
+                  ? 'bg-sitva-green/15 border-sitva-green/40 text-sitva-green'
+                  : 'bg-muted/40 border-border/40 text-muted-foreground')
+              }
+            >
+              <Bus className="w-3.5 h-3.5" />
+              <span>Buses articulados</span>
+              <span className={busesEnabled ? 'text-sitva-green/80' : 'text-muted-foreground/70'}>
+                {busesEnabled ? 'ON' : 'OFF'}
+              </span>
+            </button>
+            {!busesEnabled && (
+              <span className="text-[11px] text-muted-foreground/80 leading-tight">
+                Modo solo SITVA — probando sin buses articulados.
+              </span>
+            )}
+          </div>
           <div className="flex items-center gap-2">
             <Input
               value={query}
