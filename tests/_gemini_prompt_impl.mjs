@@ -3,7 +3,7 @@
 // one, change both. The test runner asserts behavior against this file. The
 // production TS module is the one shipped to the browser.
 
-export const BUS_CATALOG_CAP = 30;
+export const BUS_CATALOG_CAP = 60;
 export const STATION_CATALOG_CAP = 30;
 
 export function buildSysPrompt(parts) {

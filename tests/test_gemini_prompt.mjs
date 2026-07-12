@@ -50,7 +50,7 @@ assert('contains "C7-999"', out.includes('C7-999'));
 assert('contains "REGLA 0"', out.includes('REGLA 0'));
 
 console.log('prompt: catalog caps');
-assertEq('BUS_CATALOG_CAP = 30', BUS_CATALOG_CAP, 30);
+assertEq('BUS_CATALOG_CAP = 60', BUS_CATALOG_CAP, 60);
 assertEq('STATION_CATALOG_CAP = 30', STATION_CATALOG_CAP, 30);
 
 console.log('prompt: empty parts produce sane string');

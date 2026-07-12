@@ -5,7 +5,12 @@
 // used at runtime in the browser.
 // -----------------------------------------------------------------------------
 
-export const BUS_CATALOG_CAP = 30;
+// Number of integrated-bus routes surfaced in the system prompt. The catalog
+// holds ~125 routes total; sending fewer left unknown ids that Gemini would
+// hallucinate (e.g. "C7-999"). Surfacing more ids + more stops per route gives
+// the model exact nameRef material so it can cite real paradas. See
+// tests/_gemini_prompt_impl.mjs for the mirrored contract.
+export const BUS_CATALOG_CAP = 60;
 export const STATION_CATALOG_CAP = 30;
 
 export interface SysPromptParts {

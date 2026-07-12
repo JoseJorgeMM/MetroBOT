@@ -240,7 +240,7 @@ export async function processUserQuery(query, onRouteFound, onStatusFound, optio
         passingThrough = out.slice(0, 6).join('\n');
       }
 
-      const catalogSnippet = allIntegratedRoutes.slice(0, BUS_CATALOG_CAP).map(r => r.id + ': ' + r.stops.slice(0, 3).map(s => s.name).join(' | ') + ' ...').join('\n');
+      const catalogSnippet = allIntegratedRoutes.slice(0, BUS_CATALOG_CAP).map(r => r.id + ': ' + r.stops.slice(0, 6).map(s => s.name).join(' | ') + ' ...').join('\n');
       const allGrounding = await getGroundingData();
 
       grounding = 'ESTACIONES RELEVANTES CERCANAS A LA BUSQUEDA:\n' + nearbyContext + '\n\nPARADAS DE BUSES INTEGRADOS CERCANAS:\n' + integratedContext + (passingThrough ? '\n\nBUSES INTEGRADOS QUE PASAN CERCA DE ORIGEN Y DESTINO:\n' + passingThrough + '\n' : '') + '\nCATALOGO DE BUSES INTEGRADOS (ids validos, parcial):\n' + catalogSnippet + '\n\nOTRAS ESTACIONES DEL SISTEMA:\n' + allGrounding;
@@ -257,7 +257,7 @@ export async function processUserQuery(query, onRouteFound, onStatusFound, optio
     // When there is no nearby search, surface the capped bus catalog too so
     // the model still has a balanced view of the network.
     const integratedSnippet = (options && (options.origin || options.dest))
-      ? (allIntegratedRoutes.slice(0, BUS_CATALOG_CAP).map(r => r.id + ': ' + r.stops.slice(0, 3).map(s => s.name).join(' | ') + ' ...').join('\n'))
+      ? (allIntegratedRoutes.slice(0, BUS_CATALOG_CAP).map(r => r.id + ': ' + r.stops.slice(0, 6).map(s => s.name).join(' | ') + ' ...').join('\n'))
       : '';
 
     const sysPrompt = buildSysPrompt({
@@ -381,10 +381,17 @@ export async function processUserQuery(query, onRouteFound, onStatusFound, optio
                 }
               }
             }
-            if (validation.busLegs.length === 0) {
+            // Plan D - honest bookkeeping: do NOT reset degradedSteps when the
+            // route had no valid bus leg. If Gemini emitted a bus_articulado we
+            // could not verify, reconstructBusStep already downgraded it to a
+            // walk and bumped degradedSteps. Resetting it here would erase the
+            // evidence of the hallucinated bus, leaving the route looking clean
+            // (confiable/parcial) and showing the false route to the user. Only
+            // mark the route ok=false when at least one step was degraded; an
+            // empty route (no bus step attempted) keeps ok=true with zeroed counts.
+            if (validation.busLegs.length === 0 && validation.degradedSteps === 0) {
               validation.ok = true;
               validation.validatedSteps = 0;
-              validation.degradedSteps = 0;
             }
             route.validation = validation;
 // Plan D - Defense A: real summary across all modes (bus + metro family).
