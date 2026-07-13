@@ -3,7 +3,7 @@ import { getStationStatus } from './routing';
 import { loadStations, calculateDistance } from './stations';
 import { getLocalOfflineRoute } from './localRouter';
 import { fetchMetroNews } from './news';
-import { loadIntegratedRoutes, findIntegratedRoutesNear, IntegratedRoute, IntegratedStop } from './integratedRoutes';
+import { loadIntegratedRoutes, findIntegratedRoutesNear, findIntegratedRoutesNearFull, IntegratedRoute, IntegratedStop } from './integratedRoutes';
 import { reconstructBusStep, summarizeRouteValidation, validateUserCoords, isRouteUnsafe, BUS_UNSAFE_THRESHOLD } from './routeValidator';
 import { enrichStation } from './stationResolver';
 import { computeHonestyAssessment, HonestyAssessment } from './honesty';
@@ -229,6 +229,42 @@ export async function processUserQuery(query, onRouteFound, onStatusFound, optio
         ? bestBusStops.map(s => '- [Para ' + s.tag + '] Parada "' + s.stop.name + '" (Bus Articulado ' + s.route.id + '): A ' + Math.round(s.dist) + ' metros (Caminando: ~' + Math.ceil(s.dist / 80) + ' min) - Coord: LAT ' + s.stop.lat.toFixed(5) + ', LNG ' + s.stop.lng.toFixed(5)).join('\n')
         : '';
 
+      // Build a complete-stop catalog for every bus route that passes within
+      // 1.5 km of the user's origin or destination. The capped catalog already
+      // shown to Gemini only lists the first 6 stops of each route, which made
+      // the LLM invent paradas that don't exist on the chosen route. By
+      // giving the model the FULL stop list for the routes that are actually
+      // relevant to this query (origin or destination nearby), the LLM can
+      // pick an exact nameRef from the real data.
+      let fullStopsContext = '';
+      if (allowBuses) {
+        const NEARBY_RADIUS_M = 1500;
+        const NEARBY_ROUTE_LIMIT = 15;
+        const nearbyRoutes: IntegratedRoute[] = [];
+        const seenIds = new Set<string>();
+        const collect = (lat: number, lng: number) => {
+          for (const r of allIntegratedRoutes) {
+            if (seenIds.has(r.id) || nearbyRoutes.length >= NEARBY_ROUTE_LIMIT) continue;
+            for (const stop of r.stops) {
+              if (calculateDistance(lat, lng, stop.lat, stop.lng) <= NEARBY_RADIUS_M) {
+                seenIds.add(r.id);
+                nearbyRoutes.push(r);
+                break;
+              }
+            }
+          }
+        };
+        if (options.origin) collect(options.origin.lat, options.origin.lng);
+        if (options.dest) collect(options.dest.lat, options.dest.lng);
+        if (nearbyRoutes.length > 0) {
+          fullStopsContext = 'STOPS COMPLETOS DE RUTAS CERCANAS (radio 1.5 km, hasta ' + NEARBY_ROUTE_LIMIT + ' rutas):\n' +
+            nearbyRoutes.map(r => {
+              const stopsList = r.stops.map((s, idx) => (idx + 1) + '. ' + s.name).join(' | ');
+              return 'Bus ' + r.id + ' (' + r.stops.length + ' paradas): ' + stopsList;
+            }).join('\n') + '\n';
+        }
+      }
+
       let passingThrough = '';
       if (allowBuses && options.origin && options.dest) {
         const out = [];
@@ -253,7 +289,7 @@ export async function processUserQuery(query, onRouteFound, onStatusFound, optio
       // When buses are disabled, strike the whole integrated-bus section from
       // grounding so the model literally has no bus ids to cite.
       grounding = allowBuses
-        ? 'ESTACIONES RELEVANTES CERCANAS A LA BUSQUEDA:\n' + nearbyContext + '\n\nPARADAS DE BUSES INTEGRADOS CERCANAS:\n' + integratedContext + (passingThrough ? '\n\nBUSES INTEGRADOS QUE PASAN CERCA DE ORIGEN Y DESTINO:\n' + passingThrough + '\n' : '') + '\nCATALOGO DE BUSES INTEGRADOS (ids validos, parcial):\n' + catalogSnippet + '\n\nOTRAS ESTACIONES DEL SISTEMA:\n' + allGrounding
+        ? 'ESTACIONES RELEVANTES CERCANAS A LA BUSQUEDA:\n' + nearbyContext + '\n\nPARADAS DE BUSES INTEGRADOS CERCANAS:\n' + integratedContext + (passingThrough ? '\n\nBUSES INTEGRADOS QUE PASAN CERCA DE ORIGEN Y DESTINO:\n' + passingThrough + '\n' : '') + (fullStopsContext ? '\n' + fullStopsContext : '') + '\nCATALOGO DE BUSES INTEGRADOS (ids validos, parcial):\n' + catalogSnippet + '\n\nOTRAS ESTACIONES DEL SISTEMA:\n' + allGrounding
         : 'ESTACIONES RELEVANTES CERCANAS A LA BUSQUEDA:\n' + nearbyContext + '\n\nEL USUARIO DESACTIVO LOS BUSES ARTICULADOS: no incluyas bus_articulado.\n\nOTRAS ESTACIONES DEL SISTEMA:\n' + allGrounding;
     } else {
       grounding = await getGroundingData();

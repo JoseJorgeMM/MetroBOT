@@ -63,6 +63,7 @@ export function buildSysPrompt(parts: SysPromptParts = {}): string {
     '- Si NO conoces la parada exacta o el id de ruta, NO incluyas ese paso. Mejor retorna una ruta con menos pasos.',
     '- PROHIBIDO inventar ids como "C7-999" o "Linea X". Solo usa los ids de CATALOGO DE BUSES INTEGRADOS.',
     '- Para cada step con mode="bus_articulado" incluye _evidence: {sourceRouteId, sourceStopName} citando la fuente del catalogo.',
+    '- Cuando el grounding incluya "STOPS COMPLETOS DE RUTAS CERCANAS", usa EXCLUSIVAMENTE paradas de esa lista para el nombre de la parada de abordaje/bajada. NO cites paradas de rutas no listadas.',
     busBlock,
     '',
     'EJEMPLOS (NO HACER):',

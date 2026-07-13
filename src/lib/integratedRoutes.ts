@@ -125,6 +125,37 @@ export async function findIntegratedRoutesNear(
   return hits;
 }
 
+// Like findIntegratedRoutesNear but returns the FULL route (all its stops) for
+// every match. Used to send Gemini the complete stop list of routes that pass
+// near the user's origin/destination, so the LLM can pick an exact nameRef
+// instead of inventing one. The catalog base (BUS_CATALOG_CAP) keeps a fixed
+// size to control tokens; this helper is opt-in and is used to enrich the
+// nearby-context with full data.
+export async function findIntegratedRoutesNearFull(
+  lat: number,
+  lng: number,
+  radiusMeters = 1500,
+  limit = 15
+): Promise<IntegratedRoute[]> {
+  const routes = await loadIntegratedRoutes();
+  const seen = new Set<string>();
+  const out: IntegratedRoute[] = [];
+  for (const r of routes) {
+    if (seen.has(r.id)) continue;
+    let hit = false;
+    for (const stop of r.stops) {
+      const d = calculateDistance(lat, lng, stop.lat, stop.lng);
+      if (d <= radiusMeters) { hit = true; break; }
+    }
+    if (hit) {
+      seen.add(r.id);
+      out.push(r);
+      if (out.length >= limit) break;
+    }
+  }
+  return out;
+}
+
 export async function matchIntegratedRoutes(
   originName: string,
   destName: string
