@@ -15,7 +15,7 @@
 **Files:**
 - Modify: `package.json`
 
-- [ ] **Step 1: Add MapLibre GL and update react-map-gl**
+- [x] **Step 1: Add MapLibre GL and update react-map-gl**
   Edit `package.json` to include `"maplibre-gl": "^4.5.0"` in dependencies, and ensure `react-map-gl` is configured:
   ```json
   "dependencies": {
@@ -25,15 +25,15 @@
   }
   ```
 
-- [ ] **Step 2: Install dependencies**
+- [x] **Step 2: Install dependencies**
   Run: `npm install`
   Expected: Successful dependency installation.
 
-- [ ] **Step 3: Run project compilation test**
+- [x] **Step 3: Run project compilation test**
   Run: `npm run lint`
   Expected: Successful compilation with zero errors.
 
-- [ ] **Step 4: Commit dependencies**
+- [x] **Step 4: Commit dependencies**
   Run:
   ```bash
   git add package.json package-lock.json
