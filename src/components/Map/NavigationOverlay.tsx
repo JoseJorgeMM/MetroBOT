@@ -75,48 +75,76 @@ export function NavigationOverlay({ nav }: NavigationOverlayProps) {
   const cue = nav.cue;
 
   return (
-    <Banner>
-      <div className="px-4 py-3">
-        <div className="flex items-center gap-3">
-          <div className="w-11 h-11 rounded-full bg-blue-500 text-white flex items-center justify-center shrink-0 shadow-md">
+    <>
+      <Banner dark={true}>
+        <div className="px-4 py-3.5 flex items-center gap-3">
+          <div className="w-12 h-12 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-md">
             {recalculating ? <TriangleAlert className="w-6 h-6 animate-pulse" /> : <Icon className="w-6 h-6" />}
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-baseline gap-2">
-              <span className="text-xl font-extrabold text-foreground leading-none">
+              <span className="text-xl font-black text-white leading-none">
                 {cue ? formatDistance(cue.distanceToManeuver) : '—'}
               </span>
-              <span className="text-[12px] text-slate-600 dark:text-slate-300">hasta el próximo paso</span>
+              <span className="text-[11px] text-slate-300">para la maniobra</span>
             </div>
-            <div className="font-semibold text-foreground truncate">
+            <div className="font-bold text-white text-base leading-snug truncate">
               {recalculating ? 'Recalculando ruta…' : (cue?.instruction || 'Continúa')}
             </div>
             {cue?.nextInstruction && !recalculating && (
-              <div className="text-[12px] text-slate-500 dark:text-slate-400 truncate">Luego: {cue.nextInstruction}</div>
+              <div className="text-[11px] text-slate-400 truncate">Luego: {cue.nextInstruction}</div>
             )}
           </div>
-          <div className="flex flex-col items-end gap-1 shrink-0">
-            <button onClick={nav.toggleMute} className="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-foreground active:scale-90" aria-label={nav.muted ? 'Activar voz' : 'Silenciar voz'}>
-              {nav.muted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+        </div>
+      </Banner>
+
+      <BottomBar>
+        <div className="px-4 py-3 flex items-center justify-between">
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-2xl font-black text-emerald-600 dark:text-emerald-450 leading-none">
+              {cue ? formatDuration(cue.eta) : '—'}
+            </span>
+            <span className="text-xs text-slate-500 dark:text-slate-400">
+              ({cue ? formatDistance(cue.remainingDistance) : '—'})
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={nav.toggleMute}
+              className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-foreground hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-90 transition-all cursor-pointer"
+              aria-label={nav.muted ? 'Activar voz' : 'Silenciar voz'}
+            >
+              {nav.muted ? <VolumeX className="w-5 h-5 text-rose-500" /> : <Volume2 className="w-5 h-5 text-sitva-green" />}
             </button>
-            <button onClick={nav.stop} className="w-9 h-9 rounded-full bg-red-100 dark:bg-red-900/40 flex items-center justify-center text-red-600 dark:text-red-300 active:scale-90" aria-label="Detener navegación">
+            <button
+              onClick={nav.stop}
+              className="w-10 h-10 rounded-full bg-rose-100 dark:bg-rose-950/40 flex items-center justify-center text-rose-600 dark:text-rose-450 hover:bg-rose-200 active:scale-90 transition-all cursor-pointer"
+              aria-label="Detener navegación"
+            >
               <X className="w-5 h-5" />
             </button>
           </div>
         </div>
-        <div className="flex items-center justify-between mt-2 text-[11px] text-slate-500 dark:text-slate-400">
-          <span>Tramo {nav.legIndex} de {nav.legCount}</span>
-          {cue && <span>{formatDistance(cue.remainingDistance)} · {formatDuration(cue.eta)}</span>}
-        </div>
-      </div>
-    </Banner>
+      </BottomBar>
+    </>
   );
 }
 
-function Banner({ children }: { children: React.ReactNode }) {
+function Banner({ children, dark = false }: { children: React.ReactNode; dark?: boolean }) {
   return (
     <div className="absolute top-0 left-0 right-0 z-[1000] safe-top pointer-events-auto">
-      <div className="mx-auto max-w-md m-2 bg-card/95 backdrop-blur-md rounded-2xl shadow-xl border border-border/40 overflow-hidden">
+      <div className={`mx-auto max-w-md m-2 ${dark ? 'bg-slate-900/95 dark:bg-slate-950/95 text-white' : 'bg-card/95 text-foreground'} backdrop-blur-md rounded-2xl shadow-xl border border-border/40 overflow-hidden`}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function BottomBar({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="absolute bottom-4 left-0 right-0 z-[1000] safe-bottom pointer-events-auto px-4">
+      <div className="mx-auto max-w-md bg-card/95 text-foreground backdrop-blur-md rounded-2xl shadow-xl border border-border/40 overflow-hidden">
         {children}
       </div>
     </div>
