@@ -191,17 +191,17 @@
 **Files:**
 - Modify: `src/App.tsx`
 
-- [ ] **Step 1: Link navigation activation with Safari compass requests**
+- [x] **Step 1: Link navigation activation with Safari compass requests**
   In the `handleStartNav` routine, invoke the newly added `requestOrientationPermission()` before calling `nav.start()`.
 
-- [ ] **Step 2: Collapse sheet and recenter camera on navigation init**
+- [x] **Step 2: Collapse sheet and recenter camera on navigation init**
   Ensure that when navigation is initialized, sheet height collapses to `min` to allow complete Map visibility.
 
-- [ ] **Step 3: Run final project validation tests**
+- [x] **Step 3: Run final project validation tests**
   Run: `npm run build`
   Expected: Successful deployment bundle compilation with zero warnings or errors.
 
-- [ ] **Step 4: Commit layout integration**
+- [x] **Step 4: Commit layout integration**
   Run:
   ```bash
   git add src/App.tsx
