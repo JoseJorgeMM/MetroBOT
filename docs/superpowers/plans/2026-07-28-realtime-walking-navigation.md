@@ -47,7 +47,7 @@
 **Files:**
 - Modify: `src/hooks/useNavigation.ts`
 
-- [ ] **Step 1: Implement Compass Heading Smoothing (EMA Filter)**
+- [x] **Step 1: Implement Compass Heading Smoothing (EMA Filter)**
   Add compass smoothing utility to prevent map orientation jitter:
   ```typescript
   const EMA_ALPHA = 0.1;
@@ -60,7 +60,7 @@
   };
   ```
 
-- [ ] **Step 2: Integrate Screen Wake Lock API**
+- [x] **Step 2: Integrate Screen Wake Lock API**
   Add active wake lock state and requested screen locking in the hook's `start` and `stop` functions:
   ```typescript
   let wakeLockSentinel: any = null;
@@ -82,7 +82,7 @@
   ```
   Call `requestWakeLock()` inside the navigation `start` routine, and `releaseWakeLock()` inside `stop`.
 
-- [ ] **Step 3: Add Safari iOS DeviceOrientation request permission handler**
+- [x] **Step 3: Add Safari iOS DeviceOrientation request permission handler**
   Expose a method `requestOrientationPermission` in the hook context to prompt for iOS compass permission:
   ```typescript
   const requestOrientationPermission = async (): Promise<boolean> => {
@@ -102,11 +102,11 @@
   };
   ```
 
-- [ ] **Step 4: Run compilation check**
+- [x] **Step 4: Run compilation check**
   Run: `npm run lint`
   Expected: Successful compilation.
 
-- [ ] **Step 5: Commit Sensor enhancements**
+- [x] **Step 5: Commit Sensor enhancements**
   Run:
   ```bash
   git add src/hooks/useNavigation.ts
