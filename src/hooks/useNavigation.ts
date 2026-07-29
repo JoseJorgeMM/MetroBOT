@@ -50,6 +50,7 @@ export interface NavigationContext {
   stop: () => void;
   nextLeg: () => void;
   toggleMute: () => void;
+  requestOrientationPermission: () => Promise<boolean>;
 }
 
 interface Leg {
@@ -92,6 +93,7 @@ export function useNavigation(): NavigationContext {
   const lastSpokenStepRef = useRef(-1);
   const lastSpokenEarlyRef = useRef<Set<number>>(new Set());
   const mutedRef = useRef(muted);
+  const wakeLockRef = useRef<any>(null);
   // Keep a ref to stop() so callbacks defined earlier in the component can call it.
   const stopRef = useRef<() => void>(() => {});
 
@@ -100,6 +102,19 @@ export function useNavigation(): NavigationContext {
   // ----- Speech helpers ----------------------------------------------------
   const say = useCallback((text: string) => {
     speak(text, { muted: mutedRef.current });
+  }, []);
+
+  const requestOrientationPermission = useCallback(async (): Promise<boolean> => {
+    if (typeof (DeviceOrientationEvent as any)?.requestPermission === 'function') {
+      try {
+        const permissionState = await (DeviceOrientationEvent as any).requestPermission();
+        return permissionState === 'granted';
+      } catch (err) {
+        console.warn('Error requesting orientation permission', err);
+        return false;
+      }
+    }
+    return true;
   }, []);
 
   // ----- Build legs from a RouteOption ------------------------------------
@@ -355,7 +370,15 @@ export function useNavigation(): NavigationContext {
     if (state !== 'navigating' && state !== 'locating') return;
     const handler = (e: DeviceOrientationEvent & { webkitCompassHeading?: number }) => {
       const h = (typeof e.webkitCompassHeading === 'number') ? e.webkitCompassHeading : (typeof e.alpha === 'number' ? 360 - e.alpha : null);
-      if (h !== null && !Number.isNaN(h)) setHeading(h);
+      if (h !== null && !Number.isNaN(h)) {
+        setHeading(prev => {
+          if (prev === null) return h;
+          let diff = h - prev;
+          if (diff > 180) diff -= 360;
+          if (diff < -180) diff += 360;
+          return (prev + 0.1 * diff + 360) % 360;
+        });
+      }
     };
     window.addEventListener('deviceorientation', handler as EventListener);
     return () => window.removeEventListener('deviceorientation', handler as EventListener);
@@ -403,6 +426,14 @@ export function useNavigation(): NavigationContext {
     setBoardingLabel(null);
     setState('navigating');
     say(legs[0].steps[0]?.instruction || 'Comienza a caminar.');
+
+    if ('wakeLock' in navigator) {
+      try {
+        wakeLockRef.current = await (navigator as any).wakeLock.request('screen');
+      } catch (err) {
+        console.warn('Wake Lock request failed', err);
+      }
+    }
   }, [buildLegs, say]);
 
   const stop = useCallback(() => {
@@ -414,6 +445,12 @@ export function useNavigation(): NavigationContext {
     legsRef.current = [];
     currentLegRef.current = 0;
     activeStepRef.current = 0;
+
+    if (wakeLockRef.current) {
+      wakeLockRef.current.release().then(() => {
+        wakeLockRef.current = null;
+      }).catch((e: any) => console.warn(e));
+    }
   }, []);
   // Expose stop via ref so earlier callbacks can reference it safely.
   stopRef.current = stop;
@@ -459,6 +496,7 @@ export function useNavigation(): NavigationContext {
     stop,
     nextLeg,
     toggleMute,
+    requestOrientationPermission,
   };
 }
 
