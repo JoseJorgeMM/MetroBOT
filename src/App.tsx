@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { MapComponent } from './components/Map/MapComponent';
 import { Input } from './components/ui/input';
 import { Button } from './components/ui/button';
@@ -150,11 +150,16 @@ export default function App() {
     scrollToBottom();
   }, [messages, routes, scrollToBottom]);
 
-  const handleStartNav = useCallback((route: RouteOption) => {
+  const handleStartNav = useCallback(async (route: RouteOption) => {
     if (!route) return;
     if (!origin || !dest) {
       alert('Marca origen y destino en el mapa antes de iniciar la navegacion.');
       return;
+    }
+    // Request permission for orientation (especially on iOS)
+    const orientationGranted = await nav.requestOrientationPermission();
+    if (!orientationGranted) {
+      console.warn('Orientation permission not granted; compass orientation may not work.');
     }
     // Expand the sheet so the NavigationOverlay is visible.
     setSheetHeight('min');
