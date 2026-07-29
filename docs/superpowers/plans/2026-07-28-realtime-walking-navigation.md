@@ -162,10 +162,10 @@
 **Files:**
 - Modify: `src/components/Map/NavigationOverlay.tsx`
 
-- [ ] **Step 1: Enhance instructions banner layout**
+- [x] **Step 1: Enhance instructions banner layout**
   Update the top-positioned instruction overlay. Style the text and navigation maneuvers using a solid, high-contrast dark green or dark slate style. Make the maneuver icon, turn direction, and distance highly visible.
 
-- [ ] **Step 2: Add status bar with ETA and cancel controls**
+- [x] **Step 2: Add status bar with ETA and cancel controls**
   Modify the footer panel to collapse chat sheet when navigating. Instead, render a clean, bottom-anchored, horizontal mobile HUD displaying:
   - Remaining walk duration (minutes) in green.
   - Remaining distance (meters).
@@ -173,11 +173,11 @@
   - Quick cancel (`X`) button.
   - Volume toggle.
 
-- [ ] **Step 3: Test and compile overlay**
+- [x] **Step 3: Test and compile overlay**
   Run: `npm run lint`
   Expected: Successful compilation.
 
-- [ ] **Step 4: Commit HUD modifications**
+- [x] **Step 4: Commit HUD modifications**
   Run:
   ```bash
   git add src/components/Map/NavigationOverlay.tsx
