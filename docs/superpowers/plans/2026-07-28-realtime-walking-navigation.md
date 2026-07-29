@@ -121,7 +121,7 @@
 - Modify: `src/components/Map/MapComponent.tsx`
 - Modify: `src/components/Map/UserLocationMarker.tsx`
 
-- [ ] **Step 1: Rewrite MapComponent to use react-map-gl and maplibre-gl**
+- [x] **Step 1: Rewrite MapComponent to use react-map-gl and maplibre-gl**
   Replace react-leaflet imports and containers with `react-map-gl` `<Map>` component:
   ```typescript
   import Map, { Marker, Source, Layer, MapRef } from 'react-map-gl/maplibre';
@@ -130,25 +130,25 @@
   Load CartoDB Voyager Style:
   `style="https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json"`
 
-- [ ] **Step 2: Bind camera pitch (tilt) and rotation (bearing) parameters**
+- [x] **Step 2: Bind camera pitch (tilt) and rotation (bearing) parameters**
   Add state and effect handlers to track `viewState`:
   - When `isNavigating` is true, bind camera `pitch` to `60` and `bearing` to `userHeading` (EMA smoothed).
   - Center map around `userPosition`.
   - Handle manual user drags to temporarily pause auto-follow and show a "Recentrar" button.
 
-- [ ] **Step 3: Implement route shapes rendering using GeoJSON layers**
+- [x] **Step 3: Implement route shapes rendering using GeoJSON layers**
   Convert the route segment polylines (`routePaths`) to a GeoJSON Source and Layer:
   - Transit layers get solid colors mapping to transport modes.
   - Walk layers get dotted/dashed line styling.
 
-- [ ] **Step 4: Refactor UserLocationMarker to 3D MapLibre Marker**
+- [x] **Step 4: Refactor UserLocationMarker to 3D MapLibre Marker**
   Rewrite `UserLocationMarker.tsx` using `react-map-gl`'s `<Marker>` to render the blue location halo and rotating navigation arrow, adapting the rotation styling for map-aligned bearing.
 
-- [ ] **Step 5: Run lint and production builds**
+- [x] **Step 5: Run lint and production builds**
   Run: `npm run build`
   Expected: Successful production build with no WebGL or typing errors.
 
-- [ ] **Step 6: Commit Map migration**
+- [x] **Step 6: Commit Map migration**
   Run:
   ```bash
   git add src/components/Map/MapComponent.tsx src/components/Map/UserLocationMarker.tsx
