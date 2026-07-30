@@ -24,7 +24,7 @@ import 'leaflet/dist/leaflet.css';
 import { UserLocationMarker } from './UserLocationMarker';
 import { Info, ChevronUp, ChevronDown, Map as MapIcon, MapPin, Sun, Moon } from 'lucide-react';
 import { loadStations, Station } from '@/src/lib/stations';
-import { MapSearch } from './MapSearch';
+import { MapSelectionController } from './MapSelectionController';
 import { getRouteGeometry } from '@/src/lib/osrm';
 
 import { RouteOption } from '@/src/lib/routing';
@@ -85,6 +85,8 @@ interface MapComponentProps {
   followUser?: boolean;
   /** When true, the map only shows stations that are part of the active route. */
   isNavigating?: boolean;
+  mapSelectionMode?: 'origin' | 'destination' | null;
+  onMapPlaceSelected?: (mode: 'origin' | 'destination', place: { lat: number; lng: number; name: string }) => void;
 }
 
 // Helper to handle map centering and zooming
@@ -127,6 +129,8 @@ export function MapComponent({
   userHeading = null,
   followUser = false,
   isNavigating = false,
+  mapSelectionMode = null,
+  onMapPlaceSelected,
 }: MapComponentProps) {
   const [stations, setStations] = useState<Station[]>([]);
   const [loading, setLoading] = useState(true);
@@ -517,14 +521,9 @@ export function MapComponent({
         />
         <ZoomControl position="topleft" />
         <MapController bounds={mapBounds} />
-        <MapSearch 
-          onRouteSubmit={onSearchRoute} 
-          onOriginSelect={onOriginSelect} 
-          onDestSelect={onDestSelect} 
-          origin={origin}
-          dest={dest}
-          hasActiveRoute={routes && routes.length > 0}
-          onClearRoute={handleClearRoute}
+        <MapSelectionController
+          mode={mapSelectionMode}
+          onSelect={(mode, place) => onMapPlaceSelected?.(mode, place)}
         />
         
         {renderConnections()}
