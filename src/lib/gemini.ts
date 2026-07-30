@@ -1,8 +1,6 @@
 import { GoogleGenAI, Type, FunctionDeclaration } from '@google/genai';
-import { getStationStatus } from './routing';
 import { loadStations, calculateDistance } from './stations';
 import { getLocalOfflineRoute } from './localRouter';
-import { fetchMetroNews } from './news';
 import { loadIntegratedRoutes, findIntegratedRoutesNear, findIntegratedRoutesNearFull, IntegratedRoute, IntegratedStop } from './integratedRoutes';
 import { reconstructBusStep, summarizeRouteValidation, validateUserCoords, isRouteUnsafe, BUS_UNSAFE_THRESHOLD } from './routeValidator';
 import { enrichStation } from './stationResolver';
@@ -10,6 +8,7 @@ import { computeHonestyAssessment, HonestyAssessment } from './honesty';
 import { computeEvidenceScore } from './evidence';
 import { recordSession } from './validatorTelemetry';
 import { buildSysPrompt, BUS_CATALOG_CAP, STATION_CATALOG_CAP } from './geminiPrompt';
+import { parseLiveMetroStatus, type LiveMetroStatus } from './liveMetroStatus';
 
 const apiKeys = (process.env.GEMINI_API_KEYS || process.env.GEMINI_API_KEY || "DUMMY_KEY").split(',').map(k => k.trim()).filter(Boolean);
 let currentKeyIndex = 0;
@@ -40,9 +39,9 @@ async function getTarifasData() {
 
 async function getRecentNewsContext() {
   try {
-    const news = await fetchMetroNews();
-    if (news.length === 0) return "No hay noticias recientes reportadas.";
-    return news.slice(0, 5).map(n => '- [' + n.pubDate + '] ' + n.title).join('\n');
+    const status = await getLiveMetroStatus();
+    const sources = status.sources.map(source => source.url).join(', ');
+    return 'ESTADO OPERATIVO CONSULTADO: ' + status.status + '\n' + status.summary + (sources ? '\nFUENTES: ' + sources : '');
   } catch (e) {
     return "Error al cargar noticias en tiempo real.";
   }
@@ -489,9 +488,16 @@ try {
                       }
                       onRouteFound(args.routes);
         } else if (call.name === 'get_station_status') {
-          const status = await getStationStatus((call.args as any).stationId);
-          onStatusFound(status);
-          return 'Estado para ' + ((call.args as any).stationId) + ': ' + status;
+          const status = await getLiveMetroStatus();
+          const affected = status.status === 'alerta' && status.affectedLines.length > 0
+            ? ' Líneas afectadas: ' + status.affectedLines.join(', ') + '.'
+            : '';
+          const sources = status.sources.length > 0
+            ? ' Fuentes: ' + status.sources.map(source => source.url).join(', ') + '.'
+            : '';
+          const answer = 'Estado consultado para ' + ((call.args as any).stationId) + ': ' + status.summary + affected + sources;
+          onStatusFound(answer);
+          return answer;
         }
       }
     }
@@ -524,4 +530,53 @@ try {
     } catch (offlineError) { console.error('Local routing fallback failed:', offlineError); }
     return 'Error al calcular la ruta.';
   }
+}
+
+const LIVE_STATUS_TTL_MS = 5 * 60 * 1000;
+let liveStatusCache: { value: LiveMetroStatus; expiresAt: number } | null = null;
+let liveStatusInFlight: Promise<LiveMetroStatus> | null = null;
+
+const LIVE_STATUS_PROMPT = `Consulta Google Search ahora mismo para verificar el estado operativo del Metro de Medellín.
+Prioriza fuentes oficiales de metrodemedellin.gov.co y comunicados oficiales recientes.
+Puedes usar publicaciones públicas de Instagram o Facebook solo como evidencia secundaria; no las trates como confirmación oficial por sí solas.
+Busca cierres, fallas, retrasos, interrupciones o novedades por línea y estación. No confundas horarios habituales ni noticias antiguas con una novedad actual.
+Responde EXACTAMENTE con estas cuatro líneas, sin Markdown:
+RESULTADO: NORMAL, ALERTA o NO_VERIFICADO
+RESUMEN: una frase breve en español con fecha/hora si es relevante
+LINEAS_AFECTADAS: lista separada por comas o ninguna
+ESTACIONES_AFECTADAS: lista separada por comas o ninguna
+Usa NO_VERIFICADO si las fuentes son insuficientes, contradictorias o no puedes confirmar la vigencia. Nunca inventes una línea o estación.`;
+
+/** Query current Metro status with Google Search Grounding and citations. */
+export async function getLiveMetroStatus(): Promise<LiveMetroStatus> {
+  const now = Date.now();
+  if (liveStatusCache && liveStatusCache.expiresAt > now) return liveStatusCache.value;
+  if (liveStatusInFlight) return liveStatusInFlight;
+
+  liveStatusInFlight = (async () => {
+    try {
+      const ai = getAiInstance();
+      const response = await ai.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: LIVE_STATUS_PROMPT,
+        config: { tools: [{ googleSearch: {} }], temperature: 0.1 },
+      });
+      const result = parseLiveMetroStatus(
+        response.text || '',
+        (response.candidates?.[0] as any)?.groundingMetadata,
+        new Date()
+      );
+      liveStatusCache = { value: result, expiresAt: Date.now() + LIVE_STATUS_TTL_MS };
+      return result;
+    } catch (error) {
+      console.warn('Live Metro status grounding failed:', error);
+      const result = parseLiveMetroStatus('', { groundingChunks: [] }, new Date());
+      liveStatusCache = { value: result, expiresAt: Date.now() + LIVE_STATUS_TTL_MS };
+      return result;
+    } finally {
+      liveStatusInFlight = null;
+    }
+  })();
+
+  return liveStatusInFlight;
 }
