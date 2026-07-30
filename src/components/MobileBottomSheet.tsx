@@ -1,4 +1,4 @@
-import type { PropsWithChildren } from 'react';
+import type { CSSProperties, PropsWithChildren } from 'react';
 import type { SheetPresentation } from '../lib/mobileSurface';
 
 type MobileBottomSheetProps = PropsWithChildren<{
@@ -16,8 +16,12 @@ const sheetHeights: Record<SheetPresentation, string> = {
 const nextPresentation: Record<SheetPresentation, SheetPresentation> = {
   compact: 'medium',
   medium: 'expanded',
-  expanded: 'medium',
+  expanded: 'compact',
 };
+
+export function nextSheetPresentation(presentation: SheetPresentation): SheetPresentation {
+  return nextPresentation[presentation];
+}
 
 export function MobileBottomSheet({
   presentation,
@@ -29,18 +33,18 @@ export function MobileBottomSheet({
     <section
       role="region"
       aria-labelledby="mobile-sheet-title"
-      className="fixed inset-x-0 bottom-0 z-30 flex flex-col overflow-hidden rounded-t-3xl bg-white shadow-[0_-8px_24px_rgba(15,23,42,0.12)] lg:inset-y-0 lg:left-auto lg:right-0 lg:h-full lg:w-[28rem] lg:rounded-none"
+      className="fixed inset-x-0 bottom-0 z-30 flex h-[var(--mobile-sheet-height)] flex-col overflow-hidden rounded-t-3xl bg-white shadow-[0_-8px_24px_rgba(15,23,42,0.12)] lg:inset-y-0 lg:left-auto lg:right-0 lg:h-full lg:w-[28rem] lg:rounded-none"
       style={{
-        height: sheetHeights[presentation],
+        '--mobile-sheet-height': sheetHeights[presentation],
         paddingBottom: 'calc(1rem + env(safe-area-inset-bottom))',
-      }}
+      } as CSSProperties}
     >
       <button
         type="button"
         aria-label="Cambiar tamaño del panel"
         aria-expanded={presentation !== 'compact'}
         className="mx-auto flex min-h-12 min-w-12 items-center justify-center"
-        onClick={() => onPresentationChange(nextPresentation[presentation])}
+        onClick={() => onPresentationChange(nextSheetPresentation(presentation))}
       >
         <span aria-hidden="true" className="h-1.5 w-12 rounded-full bg-slate-300" />
       </button>
