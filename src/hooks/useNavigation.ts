@@ -40,6 +40,8 @@ export interface NavigationContext {
   cue: NavCue | null;
   /** True when recalculating after the user strayed off-route. */
   recalculating: boolean;
+  /** Human-readable GPS/navigation problem, if a session cannot start. */
+  error: string | null;
   /** Current station/transport context shown while paused (at_station). */
   boardingLabel: string | null;
   /** Total number of legs and the one we're on (1-indexed). */
@@ -76,6 +78,7 @@ export function useNavigation(): NavigationContext {
   const [heading, setHeading] = useState<number | null>(null);
   const [cue, setCue] = useState<NavCue | null>(null);
   const [recalculating, setRecalculating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [boardingLabel, setBoardingLabel] = useState<string | null>(null);
   const [legIndex, setLegIndex] = useState(1);
   const [legCount, setLegCount] = useState(1);
@@ -91,6 +94,8 @@ export function useNavigation(): NavigationContext {
   const lastRecalcRef = useRef(0);
   const lastSpokenStepRef = useRef(-1);
   const lastSpokenEarlyRef = useRef<Set<number>>(new Set());
+  const startInFlightRef = useRef(false);
+  const recalcInFlightRef = useRef(false);
   const mutedRef = useRef(muted);
   // Keep a ref to stop() so callbacks defined earlier in the component can call it.
   const stopRef = useRef<() => void>(() => {});
@@ -230,15 +235,16 @@ export function useNavigation(): NavigationContext {
   }, []);
 
   // ----- Recalculate the current leg from current position ---------------
-  const recalc = useCallback(async () => {
+  const recalc = useCallback(async (currentPosition: LatLng) => {
     const now = Date.now();
-    if (now - lastRecalcRef.current < RECALC_MIN_INTERVAL_MS) return;
+    if (recalcInFlightRef.current || now - lastRecalcRef.current < RECALC_MIN_INTERVAL_MS) return;
     lastRecalcRef.current = now;
     const leg = legsRef.current[currentLegRef.current];
-    if (!leg || !pos) return;
+    if (!leg) return;
+    recalcInFlightRef.current = true;
     setRecalculating(true);
     try {
-      const steps = await getWalkSteps([[pos.lat, pos.lng], [leg.to.lat, leg.to.lng]], 'foot');
+      const steps = await getWalkSteps([[currentPosition.lat, currentPosition.lng], [leg.to.lat, leg.to.lng]], 'foot');
       const path = steps.flatMap(s => s.coordinates).map(([lat, lng]) => ({ lat, lng }));
       if (path.length >= 2) {
         legsRef.current[currentLegRef.current] = { ...leg, steps, path };
@@ -248,9 +254,10 @@ export function useNavigation(): NavigationContext {
         say('Recalculando ruta');
       }
     } finally {
+      recalcInFlightRef.current = false;
       setRecalculating(false);
     }
-  }, [pos, say]);
+  }, [say]);
 
   // ----- Handle a position update -----------------------------------------
   const onPosition = useCallback((p: LatLng) => {
@@ -293,7 +300,7 @@ export function useNavigation(): NavigationContext {
     }
 
     if (offRoute) {
-      void recalc();
+      void recalc(p);
     }
 
     if (arrived) {
@@ -312,7 +319,6 @@ export function useNavigation(): NavigationContext {
       } else {
         setState('arrived');
         say('Has llegado a tu destino.');
-        stopRef.current();
       }
     }
   }, [state, computeCue, recalc, say]);
@@ -338,6 +344,10 @@ export function useNavigation(): NavigationContext {
       },
       (err) => {
         console.warn('navigation watchPosition error', err);
+        setError(err.code === err.PERMISSION_DENIED
+          ? 'La ubicación fue bloqueada. Actívala en los permisos del navegador para continuar.'
+          : 'No se pudo actualizar tu ubicación. Revisa tu señal GPS e inténtalo de nuevo.');
+        setState('idle');
       },
       { enableHighAccuracy: true, maximumAge: 1000, timeout: 15000 }
     );
@@ -363,34 +373,67 @@ export function useNavigation(): NavigationContext {
 
   // ----- Public API --------------------------------------------------------
   const start = useCallback(async (route: RouteOption) => {
+    if (startInFlightRef.current) return;
+    startInFlightRef.current = true;
+    setError(null);
     if (!navigator.geolocation) {
+      setError('Tu navegador no soporta geolocalización, necesaria para la navegación.');
+      startInFlightRef.current = false;
       alert('Tu navegador no soporta geolocalización, necesaria para la navegación.');
       return;
     }
     setState('locating');
+    // iOS only grants compass access when this runs directly from the user
+    // action that begins navigation. The compass remains optional.
+    try {
+      const orientation = window.DeviceOrientationEvent as typeof DeviceOrientationEvent & {
+        requestPermission?: () => Promise<'granted' | 'denied'>;
+      };
+      if (typeof orientation.requestPermission === 'function') await orientation.requestPermission();
+    } catch {
+      // GPS heading is used where available; navigation still works without it.
+    }
     say('Iniciando navegación.');
     // Acquire a first fix to confirm permission before building legs.
-    await new Promise<void>((resolve) => {
+    const hasFirstFix = await new Promise<boolean>((resolve) => {
       navigator.geolocation.getCurrentPosition(
         (p) => {
           const first = { lat: p.coords.latitude, lng: p.coords.longitude };
           setPos(first);
           lastFixRef.current = { pos: first, t: Date.now() };
-          resolve();
+          resolve(true);
         },
-        () => {
+        (err) => {
+          setError(err.code === err.PERMISSION_DENIED
+            ? 'La ubicación fue bloqueada. Actívala en los permisos del navegador para iniciar la navegación.'
+            : 'No se pudo obtener tu ubicación. Revisa el GPS y vuelve a intentarlo.');
           alert('No se pudo obtener tu ubicación. Revisa los permisos de ubicación del navegador.');
-          setState('idle');
-          resolve();
+          resolve(false);
         },
         { enableHighAccuracy: true, timeout: 10000 }
       );
     });
 
-    const legs = await buildLegs(route);
+    if (!hasFirstFix) {
+      setState('idle');
+      startInFlightRef.current = false;
+      return;
+    }
+
+    let legs: Leg[];
+    try {
+      legs = await buildLegs(route);
+    } catch {
+      setError('No fue posible preparar la ruta de navegación. Inténtalo de nuevo.');
+      setState('idle');
+      startInFlightRef.current = false;
+      return;
+    }
     if (legs.length === 0) {
+      setError('Esta ruta no tiene tramos a pie que se puedan guiar. Revísala en el mapa.');
       alert('Esta ruta no tiene tramos a pie para guiar. Toca "Ver en mapa" en su lugar.');
       setState('idle');
+      startInFlightRef.current = false;
       return;
     }
     legsRef.current = legs;
@@ -403,9 +446,14 @@ export function useNavigation(): NavigationContext {
     setBoardingLabel(null);
     setState('navigating');
     say(legs[0].steps[0]?.instruction || 'Comienza a caminar.');
+    startInFlightRef.current = false;
   }, [buildLegs, say]);
 
   const stop = useCallback(() => {
+    if (watchIdRef.current !== null) {
+      navigator.geolocation?.clearWatch?.(watchIdRef.current);
+      watchIdRef.current = null;
+    }
     setState('idle');
     setCue(null);
     setBoardingLabel(null);
@@ -414,6 +462,8 @@ export function useNavigation(): NavigationContext {
     legsRef.current = [];
     currentLegRef.current = 0;
     activeStepRef.current = 0;
+    recalcInFlightRef.current = false;
+    startInFlightRef.current = false;
   }, []);
   // Expose stop via ref so earlier callbacks can reference it safely.
   stopRef.current = stop;
@@ -451,6 +501,7 @@ export function useNavigation(): NavigationContext {
     heading,
     cue,
     recalculating,
+    error,
     boardingLabel,
     legIndex,
     legCount,

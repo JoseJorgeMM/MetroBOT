@@ -44,7 +44,33 @@ export function NavigationOverlay({ nav }: NavigationOverlayProps) {
         </Banner>
       );
     }
+    if (nav.error) {
+      return (
+        <Banner>
+          <div className="flex items-center gap-3 px-4 py-3" role="alert">
+            <TriangleAlert className="w-6 h-6 text-amber-500 shrink-0" />
+            <div className="flex-1 text-sm font-medium text-foreground">{nav.error}</div>
+            <button onClick={nav.stop} className="px-3 py-1.5 rounded-full bg-slate-200 dark:bg-slate-700 text-sm font-semibold text-foreground active:scale-95">Cerrar</button>
+          </div>
+        </Banner>
+      );
+    }
     return null;
+  }
+
+  if (nav.state === 'locating') {
+    return (
+      <Banner>
+        <div className="flex items-center gap-3 px-4 py-3" role="status" aria-live="polite">
+          <div className="w-8 h-8 border-4 border-sitva-green border-t-transparent rounded-full animate-spin shrink-0" />
+          <div className="flex-1">
+            <div className="font-bold text-foreground">Buscando tu ubicación</div>
+            <div className="text-[12px] text-slate-600 dark:text-slate-300">Mantén el GPS activado y espera un momento.</div>
+          </div>
+          <button onClick={nav.stop} className="px-3 py-1.5 rounded-full bg-slate-200 dark:bg-slate-700 text-sm font-semibold text-foreground active:scale-95">Cancelar</button>
+        </div>
+      </Banner>
+    );
   }
 
   // Paused at a boarding point: tell the user what to board.
