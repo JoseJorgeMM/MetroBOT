@@ -42,3 +42,17 @@ test('route failure returns to planning without discarding endpoints', () => {
     'planning',
   );
 });
+
+test('closing results returns to explore and keeps route availability external', () => {
+  assert.equal(
+    transitionMobileSurface('results', { type: 'CLOSE' }),
+    'explore',
+  );
+});
+
+test('ending navigation returns to explore', () => {
+  assert.equal(
+    transitionMobileSurface('navigation', { type: 'END_NAVIGATION' }),
+    'explore',
+  );
+});

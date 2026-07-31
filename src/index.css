@@ -188,3 +188,60 @@
   .border-border\/30 { border-width: 2px !important; }
   button:focus-visible { outline: 3px solid currentColor !important; outline-offset: 2px !important; }
 }
+
+.mobile-app-shell {
+  min-height: 100dvh;
+  height: 100dvh;
+  overflow: clip;
+}
+
+.mobile-sheet-scroll {
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.dark .mobile-app-shell > section[role="region"] {
+  background-color: var(--card);
+}
+
+.dark .mobile-app-shell #mobile-sheet-title {
+  color: var(--foreground);
+}
+
+.mobile-surface-planning > section[role="region"] > div,
+.mobile-surface-loading > section[role="region"] > div,
+.mobile-surface-assistant > section[role="region"] > div {
+  padding-inline: 0;
+}
+
+.mobile-surface-planning #mobile-sheet-title,
+.mobile-surface-loading #mobile-sheet-title,
+.mobile-surface-assistant #mobile-sheet-title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.mobile-surface-assistant > section[role="region"] > div {
+  overflow: hidden;
+}
+
+@media (min-width: 64rem) {
+  .mobile-app-shell > section[role="region"] {
+    position: relative;
+    flex: none;
+  }
+}
+
+@supports (height: 100svh) {
+  .mobile-app-shell {
+    min-height: 100svh;
+    height: 100svh;
+  }
+}
