@@ -4,6 +4,13 @@ import type { WalkStep } from '../lib/osrm';
 import { getWalkSteps } from '../lib/osrm';
 import { distanceTo, nearestPointOnPath, type LatLng } from '../lib/geo';
 import { speak, stopSpeaking } from '../lib/tts';
+import {
+  beginNavigationStart,
+  cancelNavigationStart,
+  completeNavigationStart,
+  createNavigationStartState,
+  isNavigationStartCurrent,
+} from './navigationStartSession';
 
 // ---------------------------------------------------------------------------
 // Walking-only, turn-by-turn navigation.
@@ -94,7 +101,7 @@ export function useNavigation(): NavigationContext {
   const lastRecalcRef = useRef(0);
   const lastSpokenStepRef = useRef(-1);
   const lastSpokenEarlyRef = useRef<Set<number>>(new Set());
-  const startInFlightRef = useRef(false);
+  const startSessionRef = useRef(createNavigationStartState());
   const recalcInFlightRef = useRef(false);
   const mutedRef = useRef(muted);
   // Keep a ref to stop() so callbacks defined earlier in the component can call it.
@@ -373,13 +380,23 @@ export function useNavigation(): NavigationContext {
 
   // ----- Public API --------------------------------------------------------
   const start = useCallback(async (route: RouteOption) => {
-    if (startInFlightRef.current) return;
-    startInFlightRef.current = true;
+    const started = beginNavigationStart(startSessionRef.current);
+    if (started.token === null) return;
+    startSessionRef.current = started.state;
+    const startToken = started.token;
+
+    const isCurrentStart = () => isNavigationStartCurrent(startSessionRef.current, startToken);
+    const completeCurrentStart = () => {
+      if (!isCurrentStart()) return false;
+      startSessionRef.current = completeNavigationStart(startSessionRef.current, startToken);
+      return true;
+    };
+
     setError(null);
     if (!navigator.geolocation) {
       setError('Tu navegador no soporta geolocalización, necesaria para la navegación.');
-      startInFlightRef.current = false;
       alert('Tu navegador no soporta geolocalización, necesaria para la navegación.');
+      completeCurrentStart();
       return;
     }
     setState('locating');
@@ -393,17 +410,26 @@ export function useNavigation(): NavigationContext {
     } catch {
       // GPS heading is used where available; navigation still works without it.
     }
+    if (!isCurrentStart()) return;
     say('Iniciando navegación.');
     // Acquire a first fix to confirm permission before building legs.
     const hasFirstFix = await new Promise<boolean>((resolve) => {
       navigator.geolocation.getCurrentPosition(
         (p) => {
+          if (!isCurrentStart()) {
+            resolve(false);
+            return;
+          }
           const first = { lat: p.coords.latitude, lng: p.coords.longitude };
           setPos(first);
           lastFixRef.current = { pos: first, t: Date.now() };
           resolve(true);
         },
         (err) => {
+          if (!isCurrentStart()) {
+            resolve(false);
+            return;
+          }
           setError(err.code === err.PERMISSION_DENIED
             ? 'La ubicación fue bloqueada. Actívala en los permisos del navegador para iniciar la navegación.'
             : 'No se pudo obtener tu ubicación. Revisa el GPS y vuelve a intentarlo.');
@@ -414,9 +440,10 @@ export function useNavigation(): NavigationContext {
       );
     });
 
+    if (!isCurrentStart()) return;
     if (!hasFirstFix) {
       setState('idle');
-      startInFlightRef.current = false;
+      completeCurrentStart();
       return;
     }
 
@@ -424,16 +451,18 @@ export function useNavigation(): NavigationContext {
     try {
       legs = await buildLegs(route);
     } catch {
+      if (!isCurrentStart()) return;
       setError('No fue posible preparar la ruta de navegación. Inténtalo de nuevo.');
       setState('idle');
-      startInFlightRef.current = false;
+      completeCurrentStart();
       return;
     }
+    if (!isCurrentStart()) return;
     if (legs.length === 0) {
       setError('Esta ruta no tiene tramos a pie que se puedan guiar. Revísala en el mapa.');
       alert('Esta ruta no tiene tramos a pie para guiar. Toca "Ver en mapa" en su lugar.');
       setState('idle');
-      startInFlightRef.current = false;
+      completeCurrentStart();
       return;
     }
     legsRef.current = legs;
@@ -446,10 +475,11 @@ export function useNavigation(): NavigationContext {
     setBoardingLabel(null);
     setState('navigating');
     say(legs[0].steps[0]?.instruction || 'Comienza a caminar.');
-    startInFlightRef.current = false;
+    completeCurrentStart();
   }, [buildLegs, say]);
 
   const stop = useCallback(() => {
+    startSessionRef.current = cancelNavigationStart(startSessionRef.current);
     if (watchIdRef.current !== null) {
       navigator.geolocation?.clearWatch?.(watchIdRef.current);
       watchIdRef.current = null;
@@ -463,7 +493,6 @@ export function useNavigation(): NavigationContext {
     currentLegRef.current = 0;
     activeStepRef.current = 0;
     recalcInFlightRef.current = false;
-    startInFlightRef.current = false;
   }, []);
   // Expose stop via ref so earlier callbacks can reference it safely.
   stopRef.current = stop;

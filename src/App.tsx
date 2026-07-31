@@ -6,7 +6,7 @@ import { InstallBanner } from './components/InstallBanner';
 import { MapComponent } from './components/Map/MapComponent';
 import { NavigationOverlay } from './components/Map/NavigationOverlay';
 import { MobileBottomSheet } from './components/MobileBottomSheet';
-import { MobileExploreActions } from './components/MobileExploreActions';
+import { MobileExploreSurface } from './components/MobileExploreSurface';
 import { QuickPicksBar } from './components/QuickPicksBar';
 import { RouteCard } from './components/RouteCards/RouteCard';
 import { SkipLink } from './components/SkipLink';
@@ -22,6 +22,15 @@ import { useNavigation } from './hooks/useNavigation';
 import { computeHonestyAssessment } from './lib/honesty';
 import { processUserQuery } from './lib/gemini';
 import { runMigrations } from './lib/migration';
+import {
+  admitAssistantRequest,
+  admitRouteRequest,
+  assistantResponseForOutcome,
+  completeAppRequest,
+  createAppRequestState,
+  type AppRequest,
+  type RouteOutcome,
+} from './lib/appRouteFlow';
 import type { SheetPresentation } from './lib/mobileSurface';
 import type { RouteOption } from './lib/routing';
 import { fetchMedellinWeather, type WeatherData } from './lib/weather';
@@ -64,6 +73,7 @@ export default function App() {
   const [origin, setOrigin] = useState<PlaceValue | null>(null);
   const [dest, setDest] = useState<PlaceValue | null>(null);
   const [mapSelectionMode, setMapSelectionMode] = useState<PlannerField | null>(null);
+  const appRequestRef = useRef(createAppRequestState());
   const lastExploreActionRef = useRef<'planning' | 'assistant' | null>(null);
   const previousSurfaceRef = useRef(surface);
 
@@ -177,7 +187,7 @@ export default function App() {
         document.querySelector<HTMLInputElement>('#assistant-query')?.focus();
       } else if (surface === 'explore' && previousSurface !== 'explore' && mapSelectionMode === null) {
         const selector = lastExploreActionRef.current === 'assistant'
-          ? '.mobile-explore-actions button:nth-of-type(2)'
+          ? '[aria-label="Pregúntale a MetroBot"]'
           : '[aria-label="Planear un viaje"]';
         document.querySelector<HTMLButtonElement>(selector)?.focus();
       }
@@ -225,13 +235,28 @@ export default function App() {
     customQuery?: string,
     visualMessage?: string,
     contextCoords?: QueryContext,
+    acceptedRequest?: AppRequest,
   ) => {
     event?.preventDefault();
     const textToProcess = customQuery || query;
-    if (!textToProcess.trim() || isLoading) return;
+    if (!textToProcess.trim()) return;
 
-    const isRouteRequest = Boolean(contextCoords?.origin && contextCoords?.dest);
-    let routeOutcome: 'none' | 'ready' | 'failed' = 'none';
+    let request = acceptedRequest;
+    if (!request) {
+      const admission = admitAssistantRequest(appRequestRef.current);
+      if (!admission.request) return;
+      appRequestRef.current = admission.state;
+      request = admission.request;
+    }
+
+    const isRouteRequest = request.kind === 'route';
+    const requestContext: QueryContext = request.kind === 'route'
+      ? {
+          origin: { lat: request.endpoints.origin.lat, lng: request.endpoints.origin.lng },
+          dest: { lat: request.endpoints.destination.lat, lng: request.endpoints.destination.lng },
+        }
+      : (contextCoords || {});
+    let routeOutcome: RouteOutcome = 'none';
     if (!customQuery) setQuery('');
     setMessages((current) => [...current, { role: 'user', content: visualMessage || textToProcess }]);
     setIsLoading(true);
@@ -277,14 +302,14 @@ export default function App() {
           }
 
           const firstRoute = newRoutes[0];
-          if (!contextCoords?.origin && firstRoute.userOrigin) {
+          if (!requestContext.origin && firstRoute.userOrigin) {
             setOrigin({
               lat: firstRoute.userOrigin.lat,
               lng: firstRoute.userOrigin.lng,
               name: firstRoute.userOrigin.name || 'Origen de la ruta',
             });
           }
-          if (!contextCoords?.dest && firstRoute.userDest) {
+          if (!requestContext.dest && firstRoute.userDest) {
             setDest({
               lat: firstRoute.userDest.lat,
               lng: firstRoute.userDest.lng,
@@ -295,17 +320,20 @@ export default function App() {
         },
         (status: string) => console.log('Status:', status),
         {
-          origin: contextCoords?.origin || (origin ? { lat: origin.lat, lng: origin.lng } : undefined),
-          dest: contextCoords?.dest || (dest ? { lat: dest.lat, lng: dest.lng } : undefined),
+          origin: requestContext.origin || (origin ? { lat: origin.lat, lng: origin.lng } : undefined),
+          dest: requestContext.dest || (dest ? { lat: dest.lat, lng: dest.lng } : undefined),
           allowBuses: busesEnabled,
         },
       );
 
-      setMessages((current) => [...current, { role: 'assistant', content: response }]);
       if (isRouteRequest && routeOutcome === 'none') {
         routeOutcome = 'failed';
         setRouteError(response || 'No fue posible calcular rutas. Inténtalo de nuevo.');
         dispatchSurface({ type: 'ROUTES_FAILED' });
+      }
+      const publishedResponse = assistantResponseForOutcome(routeOutcome, response);
+      if (publishedResponse) {
+        setMessages((current) => [...current, { role: 'assistant', content: publishedResponse }]);
       }
     } catch (error) {
       console.error('Route or assistant request failed:', error);
@@ -316,6 +344,7 @@ export default function App() {
         dispatchSurface({ type: 'ROUTES_FAILED' });
       }
     } finally {
+      appRequestRef.current = completeAppRequest(appRequestRef.current, request.id);
       setIsLoading(false);
     }
   };
@@ -324,15 +353,25 @@ export default function App() {
     searchOrigin: { lat: number; lng: number; name: string },
     searchDest: { lat: number; lng: number; name: string },
   ) => {
-    setOrigin(searchOrigin);
-    setDest(searchDest);
-    const originText = searchOrigin.name.split(',')[0];
-    const destText = searchDest.name.split(',')[0];
-    const finalMessage = `Busca la mejor ruta en SITVA para ir de "${originText}" a "${destText}". (LAT ${searchOrigin.lat}, LNG ${searchOrigin.lng} a LAT ${searchDest.lat}, LNG ${searchDest.lng}). Busca estaciones de SITVA y ENCICLA cercanas y dame la ruta. REGLA MUY IMPORTANTE: Usa EXACTAMENTE los nombres y líneas de las estaciones como aparecen en los DATOS DE ESTACIONES provistos. NUNCA inventes nombres, sistemas, o líneas. Por ejemplo, "Doce de Octubre" es Metrocable Línea P, NO Metroplús. Si la estación es de EnCicla, llámala "EnCicla - [Nombre]". El mensaje para el usuario no debe contener coordenadas.`;
-    void handleSubmit(null, finalMessage, `Ruta desde ${originText} hasta ${destText}`, {
-      origin: { lat: searchOrigin.lat, lng: searchOrigin.lng },
-      dest: { lat: searchDest.lat, lng: searchDest.lng },
+    const admission = admitRouteRequest(appRequestRef.current, {
+      origin: searchOrigin,
+      destination: searchDest,
     });
+    if (!admission.request || admission.request.kind !== 'route') return false;
+    appRequestRef.current = admission.state;
+
+    const acceptedOrigin = admission.request.endpoints.origin;
+    const acceptedDest = admission.request.endpoints.destination;
+    setOrigin(acceptedOrigin);
+    setDest(acceptedDest);
+    const originText = acceptedOrigin.name.split(',')[0];
+    const destText = acceptedDest.name.split(',')[0];
+    const finalMessage = `Busca la mejor ruta en SITVA para ir de "${originText}" a "${destText}". (LAT ${acceptedOrigin.lat}, LNG ${acceptedOrigin.lng} a LAT ${acceptedDest.lat}, LNG ${acceptedDest.lng}). Busca estaciones de SITVA y ENCICLA cercanas y dame la ruta. REGLA MUY IMPORTANTE: Usa EXACTAMENTE los nombres y líneas de las estaciones como aparecen en los DATOS DE ESTACIONES provistos. NUNCA inventes nombres, sistemas, o líneas. Por ejemplo, "Doce de Octubre" es Metrocable Línea P, NO Metroplús. Si la estación es de EnCicla, llámala "EnCicla - [Nombre]". El mensaje para el usuario no debe contener coordenadas.`;
+    void handleSubmit(null, finalMessage, `Ruta desde ${originText} hasta ${destText}`, {
+      origin: { lat: acceptedOrigin.lat, lng: acceptedOrigin.lng },
+      dest: { lat: acceptedDest.lat, lng: acceptedDest.lng },
+    }, admission.request);
+    return true;
   };
 
   const handlePlannerSubmit = () => {
@@ -420,28 +459,12 @@ export default function App() {
           </div>
         </div>
 
-        <MobileBottomSheet
-          presentation={presentation}
-          title={surfaceTitles[surface]}
-          onPresentationChange={handlePresentationChange}
-        >
-          {showWeatherNotice && (
-            <div className="my-3 flex items-center gap-3 rounded-xl border border-sitva-blue/30 bg-sitva-blue/10 p-3" role="status">
-              <CloudRain className="h-5 w-5 shrink-0 text-sitva-blue" aria-hidden="true" />
-              <p className="text-xs leading-snug text-foreground">
-                Llueve en Medellín. Los metrocables podrían operar con intermitencia.
-              </p>
-            </div>
-          )}
-
-          {surface === 'explore' && (
-            <div className="mobile-explore-actions pb-2">
-              {mapSelectionMode && (
-                <div className="mb-3 rounded-xl border border-sitva-blue/30 bg-sitva-blue/10 p-3 text-sm" role="status">
-                  Selecciona el {mapSelectionMode === 'origin' ? 'origen' : 'destino'} en el mapa.
-                </div>
-              )}
-              <MobileExploreActions onPlanTrip={openPlanning} onAskMetroBot={openAssistant} />
+        {surface === 'explore' ? (
+          <MobileExploreSurface
+            mapSelectionMode={mapSelectionMode}
+            hasAvailableRoutes={hasAvailableRoutes}
+            isRaining={Boolean(weather?.isRaining)}
+            quickPicks={(
               <QuickPicksBar
                 hidden={mapSelectionMode !== null}
                 onPickFavorite={(favorite) => {
@@ -449,15 +472,24 @@ export default function App() {
                   openPlanning();
                 }}
               />
-              {hasAvailableRoutes && (
-                <button
-                  type="button"
-                  onClick={() => dispatchSurface({ type: 'SHOW_RESULTS' })}
-                  className="mt-3 min-h-11 w-full rounded-xl border border-sitva-green px-4 text-sm font-bold text-sitva-green"
-                >
-                  Ver rutas encontradas
-                </button>
-              )}
+            )}
+            onPlanTrip={openPlanning}
+            onAskMetroBot={openAssistant}
+            onShowResults={() => dispatchSurface({ type: 'SHOW_RESULTS' })}
+            onPresentationChange={handlePresentationChange}
+          />
+        ) : (
+          <MobileBottomSheet
+            presentation={presentation}
+            title={surfaceTitles[surface]}
+            onPresentationChange={handlePresentationChange}
+          >
+          {showWeatherNotice && (
+            <div className="my-3 flex items-center gap-3 rounded-xl border border-sitva-blue/30 bg-sitva-blue/10 p-3" role="status">
+              <CloudRain className="h-5 w-5 shrink-0 text-sitva-blue" aria-hidden="true" />
+              <p className="text-xs leading-snug text-foreground">
+                Llueve en Medellín. Los metrocables podrían operar con intermitencia.
+              </p>
             </div>
           )}
 
@@ -586,7 +618,8 @@ export default function App() {
               </button>
             </section>
           )}
-        </MobileBottomSheet>
+          </MobileBottomSheet>
+        )}
 
         <InstallBanner />
         <UpdateToast />

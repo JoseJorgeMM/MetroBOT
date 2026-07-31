@@ -48,7 +48,7 @@ export function MobileBottomSheet({
       >
         <span aria-hidden="true" className="h-1.5 w-12 rounded-full bg-slate-300" />
       </button>
-      <div className="min-h-0 flex-1 overflow-y-auto px-4">
+      <div data-mobile-sheet-scroll-owner="true" className="min-h-0 flex-1 overflow-y-auto px-4">
         <h2 id="mobile-sheet-title" className="text-lg font-semibold text-slate-950">
           {title}
         </h2>
