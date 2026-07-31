@@ -5,7 +5,10 @@ type Phase = 'idle' | 'locating' | 'follow' | 'error';
 
 interface LocateControlProps {
   /** Called when the user requests "follow me" mode. Should pan to position. */
-  onRequestLocation: (onFirstFix: (pos: { lat: number; lng: number }) => void) => void;
+  onRequestLocation: (
+    onFirstFix: (pos: { lat: number; lng: number }) => void,
+    onError?: () => void,
+  ) => void;
   /** Hide on desktop; this is a mobile-first control. */
   hidden?: boolean;
 }
@@ -29,10 +32,10 @@ export function LocateControl({ onRequestLocation, hidden }: LocateControlProps)
       return;
     }
     setPhase('locating');
-    onRequestLocation((pos) => {
+    onRequestLocation(() => {
       // First fix arrived — switch to follow.
       setPhase('follow');
-    });
+    }, () => setPhase('error'));
     // If nothing happens in 12s, mark error.
     setTimeout(() => {
       setPhase(prev => (prev === 'locating' ? 'error' : prev));

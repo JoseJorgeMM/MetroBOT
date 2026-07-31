@@ -32,6 +32,20 @@ const ModeColor = (mode: string) => {
   }
 };
 
+const ModeLabel = (mode: string) => {
+  switch (mode) {
+    case 'metro': return 'Metro';
+    case 'metrocable': return 'Metrocable';
+    case 'tranvia': return 'Tranvía';
+    case 'metroplus': return 'Metroplús';
+    case 'bus':
+    case 'bus_articulado': return 'Bus';
+    case 'encicla': return 'EnCicla';
+    case 'walk': return 'A pie';
+    default: return 'A pie';
+  }
+};
+
 export interface BusLegValidation {
   routeId: string;
   routeName: string;
@@ -54,6 +68,7 @@ export interface RouteCardProps {
   isSelected?: boolean;
   originName?: string | null;
   destName?: string | null;
+  routeIndex?: number;
   onSelect?: (route: RouteOption) => void;
   onStartNav?: (route: RouteOption) => void;
   navState?: 'idle' | 'locating' | 'navigating' | 'at_station' | 'arrived' | null;
@@ -84,17 +99,23 @@ const RealStopsPanel = ({ leg }: { leg: BusLegValidation }) => {
   );
 };
 
-export function RouteCard({ route, isSelected, originName, destName, onSelect, onStartNav, navState }: RouteCardProps) {
+export function RouteCard({ route, isSelected, originName, destName, routeIndex = 0, onSelect, onStartNav, navState }: RouteCardProps) {
+  const steps = Array.isArray(route.steps) ? route.steps : [];
+  const modes = Array.isArray(route.modes) ? route.modes : [];
   const validation = route.validation;
   const hasBusLegs = (validation?.busLegs?.length ?? 0) > 0;
   const showValidatedBadge = hasBusLegs && validation?.ok;
   const showUnvalidatedBadge = hasBusLegs && !validation?.ok;
-  const hasWalkSegment = (route.steps || []).some((s) => s && (s.mode === 'walk' || s.mode === 'encicla'));
+  const hasWalkSegment = steps.some((step) => step.mode === 'walk' || step.mode === 'encicla') || modes.includes('walk') || modes.includes('encicla');
   const navIsActive = navState === 'navigating' || navState === 'at_station' || navState === 'locating';
   const showStartNavButton = !!onStartNav && !navIsActive && hasWalkSegment;
-  const walkingMinutes = route.steps
+  const walkingSteps = steps
     .filter((step) => step.mode === 'walk')
-    .reduce((total, step) => total + step.duration, 0);
+  const hasKnownWalkingDuration = walkingSteps.some((step) => Number.isFinite(step.duration));
+  const walkingMinutes = walkingSteps
+    .reduce((total, step) => total + (Number.isFinite(step.duration) ? step.duration : 0), 0);
+  const modeSummary = modes.map(ModeLabel).join(', ') || 'transporte público';
+  const selectionLabel = `Seleccionar Ruta ${routeIndex + 1}: ${route.duration} minutos por ${modeSummary}`;
 
   return (
     <Card className={'mb-3 sm:mb-4 overflow-hidden border-0 shadow-md ring-1 transition-all duration-200 ' + (isSelected ? 'ring-sitva-green ring-2 shadow-lg bg-emerald-50/30 dark:bg-emerald-950/10 transform scale-[1.02]' : 'ring-slate-200/50 dark:ring-slate-800/80 hover:bg-slate-50 dark:hover:bg-slate-800/40 bg-card')}>
@@ -108,7 +129,7 @@ export function RouteCard({ route, isSelected, originName, destName, onSelect, o
             <button
               type="button"
               onClick={() => onSelect(route)}
-              aria-label={`Seleccionar ruta de ${route.duration} minutos`}
+              aria-label={selectionLabel}
               aria-pressed={isSelected}
               className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full px-3 text-sm font-semibold text-sitva-green hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sitva-green dark:hover:bg-emerald-950/30"
             >
@@ -145,26 +166,27 @@ export function RouteCard({ route, isSelected, originName, destName, onSelect, o
           </div>
         </div>
 
-        <div className="mt-3 flex items-center space-x-2 overflow-x-auto pb-1" aria-label="Modos de transporte">
-          {route.modes.map((mode, index) => (
-            <React.Fragment key={index}>
+        <ul className="mt-3 flex items-center space-x-2 overflow-x-auto pb-1" aria-label="Modos de transporte">
+          {modes.map((mode, index) => (
+            <li key={index} className="flex items-center space-x-2 shrink-0">
               <div className={'p-2 rounded-full bg-slate-50 dark:bg-slate-800/60 shrink-0 ' + ModeColor(mode)}>
                 <ModeIcon mode={mode} className="w-5 h-5" />
+                <span className="sr-only">{ModeLabel(mode)}</span>
               </div>
-              {index < route.modes.length - 1 && (
-                <div className="h-0.5 w-4 bg-slate-200 dark:bg-slate-800 rounded-full shrink-0" />
+              {index < modes.length - 1 && (
+                <span aria-hidden="true" className="h-0.5 w-4 bg-slate-200 dark:bg-slate-800 rounded-full shrink-0" />
               )}
-            </React.Fragment>
+            </li>
           ))}
-        </div>
+        </ul>
 
         <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs font-medium text-slate-500 dark:text-slate-400">
           <span>{route.transfers === 0 ? 'Sin transbordos' : `${route.transfers} ${route.transfers === 1 ? 'transbordo' : 'transbordos'}`}</span>
-          <span>{walkingMinutes > 0 ? `${walkingMinutes} min a pie` : 'Sin tramos a pie'}</span>
+          <span>{hasKnownWalkingDuration ? `${walkingMinutes} min a pie` : hasWalkSegment ? 'Incluye tramo a pie' : 'Sin tramos a pie'}</span>
         </div>
 
         <div className="space-y-3 mt-3 pt-3 border-t border-border">
-          {route.steps.map((step, index) => {
+          {steps.map((step, index) => {
             const leg = validation?.busLegs?.find(l => l.routeId && step.line === l.routeName);
             return (
               <div key={index}>

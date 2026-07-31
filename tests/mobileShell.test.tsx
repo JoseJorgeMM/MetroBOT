@@ -97,11 +97,50 @@ test('a route result exposes selection and navigation as separate controls', () 
     <RouteCard
       route={routeFixture}
       isSelected={false}
+      routeIndex={0}
       onSelect={() => {}}
       onStartNav={() => {}}
     />,
   );
 
-  assert.match(html, /aria-label="Seleccionar ruta/);
+  assert.match(html, /aria-label="Seleccionar Ruta 1: 24 minutos por A pie, Metro, A pie"/);
   assert.match(html, />Iniciar navegación</);
+});
+
+test('route mode icons expose a semantic Spanish transport summary', () => {
+  const html = renderToStaticMarkup(
+    <RouteCard route={routeFixture} routeIndex={0} onSelect={() => {}} />,
+  );
+
+  assert.match(html, /<ul[^>]*aria-label="Modos de transporte"/);
+  assert.match(html, /class="sr-only">A pie</);
+  assert.match(html, /class="sr-only">Metro</);
+});
+
+test('incomplete route steps retain a truthful walking and navigation summary', () => {
+  const routeWithoutSteps = { ...routeFixture, steps: undefined } as unknown as RouteOption;
+  const routeWithEmptySteps = { ...routeFixture, id: 'empty-steps', steps: [] };
+
+  for (const route of [routeWithoutSteps, routeWithEmptySteps]) {
+    assert.doesNotThrow(() => renderToStaticMarkup(
+      <RouteCard route={route} routeIndex={0} onStartNav={() => {}} />,
+    ));
+    const html = renderToStaticMarkup(
+      <RouteCard route={route} routeIndex={0} onStartNav={() => {}} />,
+    );
+    assert.match(html, />Incluye tramo a pie</);
+    assert.match(html, />Iniciar navegación</);
+  }
+});
+
+test('same-duration route results have distinct selection names', () => {
+  const html = renderToStaticMarkup(
+    <>
+      <RouteCard route={routeFixture} routeIndex={0} onSelect={() => {}} />
+      <RouteCard route={{ ...routeFixture, id: 'route-fixture-2' }} routeIndex={1} onSelect={() => {}} />
+    </>,
+  );
+
+  assert.match(html, /aria-label="Seleccionar Ruta 1: 24 minutos por A pie, Metro, A pie"/);
+  assert.match(html, /aria-label="Seleccionar Ruta 2: 24 minutos por A pie, Metro, A pie"/);
 });

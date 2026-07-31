@@ -22,6 +22,7 @@ import { MapContainer, TileLayer, Marker, Popup, ZoomControl, useMap, Polyline }
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { UserLocationMarker } from './UserLocationMarker';
+import { MapLocationControl } from './MapLocationControl';
 import { Info, ChevronUp, ChevronDown, Map as MapIcon, MapPin, Sun, Moon } from 'lucide-react';
 import { loadStations, Station } from '@/src/lib/stations';
 import { MapSelectionController } from './MapSelectionController';
@@ -586,6 +587,7 @@ export function MapComponent({
       
       {/* Mobile Vertical controls stack - Positioned higher to avoid bottom sheet overlaps */}
       {!isNavigating && <div className="absolute top-3 right-3 z-[999] flex flex-col gap-2.5 pointer-events-none lg:hidden transition-all duration-300">
+        <MapLocationControl />
         {/* Zoom Controls (Customized for mobile) */}
         <div className="flex flex-col bg-card/90 backdrop-blur-md rounded-2xl shadow-lg border border-border/40 overflow-hidden pointer-events-auto">
           <button 

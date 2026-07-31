@@ -583,6 +583,7 @@ export default function App() {
                   isSelected={activeRouteIndex === index}
                   originName={origin?.name ?? null}
                   destName={dest?.name ?? null}
+                  routeIndex={index}
                   onSelect={() => setActiveRouteIndex(index)}
                   onStartNav={handleStartNav}
                   navState={nav.state}
