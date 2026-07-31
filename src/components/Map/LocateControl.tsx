@@ -47,14 +47,20 @@ export function LocateControl({ onRequestLocation, hidden }: LocateControlProps)
     follow: 'bg-blue-500 border-blue-400 text-white',
     error: 'bg-red-500 border-red-400 text-white',
   };
+  const labels: Record<Phase, string> = {
+    idle: 'Ubicarme en el mapa',
+    locating: 'Buscando mi ubicación',
+    follow: 'Dejar de seguir mi ubicación',
+    error: 'Reintentar mi ubicación',
+  };
 
   return (
     <button
       type="button"
       onClick={handleClick}
       className={`${base} ${styles[phase]}`}
-      title={phase === 'error' ? 'No se pudo obtener tu ubicación. Revisa los permisos.' : 'Mi ubicación'}
-      aria-label="Mi ubicación"
+      title={phase === 'error' ? 'No se pudo obtener tu ubicación. Revisa los permisos.' : labels[phase]}
+      aria-label={labels[phase]}
     >
       {phase === 'idle' && <Locate className="w-5 h-5" />}
       {phase === 'locating' && <Navigation className="w-5 h-5" />}

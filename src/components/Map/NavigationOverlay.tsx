@@ -39,7 +39,7 @@ export function NavigationOverlay({ nav }: NavigationOverlayProps) {
               <div className="font-bold text-foreground">Has llegado a tu destino</div>
               <div className="text-[12px] text-slate-600 dark:text-slate-300">Fin de la navegación</div>
             </div>
-            <button onClick={nav.stop} className="px-3 py-1.5 rounded-full bg-slate-200 dark:bg-slate-700 text-sm font-semibold text-foreground active:scale-95">Cerrar</button>
+            <button type="button" onClick={nav.stop} className="min-h-11 px-3 py-1.5 rounded-full bg-slate-200 dark:bg-slate-700 text-sm font-semibold text-foreground active:scale-95" aria-label="Cerrar aviso de llegada" title="Cerrar aviso de llegada">Cerrar</button>
           </div>
         </Banner>
       );
@@ -50,7 +50,7 @@ export function NavigationOverlay({ nav }: NavigationOverlayProps) {
           <div className="flex items-center gap-3 px-4 py-3" role="alert">
             <TriangleAlert className="w-6 h-6 text-amber-500 shrink-0" />
             <div className="flex-1 text-sm font-medium text-foreground">{nav.error}</div>
-            <button onClick={nav.stop} className="px-3 py-1.5 rounded-full bg-slate-200 dark:bg-slate-700 text-sm font-semibold text-foreground active:scale-95">Cerrar</button>
+            <button type="button" onClick={nav.stop} className="min-h-11 px-3 py-1.5 rounded-full bg-slate-200 dark:bg-slate-700 text-sm font-semibold text-foreground active:scale-95" aria-label="Cerrar aviso de navegación" title="Cerrar aviso de navegación">Cerrar</button>
           </div>
         </Banner>
       );
@@ -67,7 +67,7 @@ export function NavigationOverlay({ nav }: NavigationOverlayProps) {
             <div className="font-bold text-foreground">Buscando tu ubicación</div>
             <div className="text-[12px] text-slate-600 dark:text-slate-300">Mantén el GPS activado y espera un momento.</div>
           </div>
-          <button onClick={nav.stop} className="px-3 py-1.5 rounded-full bg-slate-200 dark:bg-slate-700 text-sm font-semibold text-foreground active:scale-95">Cancelar</button>
+          <button type="button" onClick={nav.stop} className="min-h-11 px-3 py-1.5 rounded-full bg-slate-200 dark:bg-slate-700 text-sm font-semibold text-foreground active:scale-95" aria-label="Cancelar inicio de navegación" title="Cancelar inicio de navegación">Cancelar</button>
         </div>
       </Banner>
     );
@@ -85,10 +85,10 @@ export function NavigationOverlay({ nav }: NavigationOverlayProps) {
             <div className="text-[12px] text-slate-600 dark:text-slate-300">Cuando estés a bordo, toca "Siguiente tramo".</div>
           </div>
           <div className="flex flex-col gap-1.5 shrink-0">
-            <button onClick={nav.nextLeg} className="px-3 py-1.5 rounded-full bg-sitva-green text-white text-sm font-bold active:scale-95 flex items-center gap-1">
+            <button type="button" onClick={nav.nextLeg} className="min-h-11 px-3 py-1.5 rounded-full bg-sitva-green text-white text-sm font-bold active:scale-95 flex items-center gap-1" aria-label="Continuar al siguiente tramo">
               <Footprints className="w-4 h-4" /> Siguiente tramo
             </button>
-            <button onClick={nav.stop} className="px-3 py-1 rounded-full bg-slate-200 dark:bg-slate-700 text-xs font-semibold text-foreground active:scale-95">Terminar</button>
+            <button type="button" onClick={nav.stop} className="min-h-11 px-3 py-1 rounded-full bg-slate-200 dark:bg-slate-700 text-xs font-semibold text-foreground active:scale-95" aria-label="Finalizar navegación" title="Finalizar navegación">Terminar</button>
           </div>
         </div>
       </Banner>
@@ -122,10 +122,10 @@ export function NavigationOverlay({ nav }: NavigationOverlayProps) {
             )}
           </div>
           <div className="flex flex-col items-end gap-1 shrink-0">
-            <button onClick={nav.toggleMute} className="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-foreground active:scale-90" aria-label={nav.muted ? 'Activar voz' : 'Silenciar voz'}>
+            <button type="button" onClick={nav.toggleMute} className="w-11 h-11 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-foreground active:scale-90" aria-label={nav.muted ? 'Activar voz' : 'Silenciar voz'} title={nav.muted ? 'Activar voz' : 'Silenciar voz'}>
               {nav.muted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
             </button>
-            <button onClick={nav.stop} className="w-9 h-9 rounded-full bg-red-100 dark:bg-red-900/40 flex items-center justify-center text-red-600 dark:text-red-300 active:scale-90" aria-label="Detener navegación">
+            <button type="button" onClick={nav.stop} className="w-11 h-11 rounded-full bg-red-100 dark:bg-red-900/40 flex items-center justify-center text-red-600 dark:text-red-300 active:scale-90" aria-label="Finalizar navegación" title="Finalizar navegación">
               <X className="w-5 h-5" />
             </button>
           </div>

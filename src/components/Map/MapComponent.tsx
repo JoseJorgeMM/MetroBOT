@@ -519,7 +519,7 @@ export function MapComponent({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
           url={darkMode ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"}
         />
-        <ZoomControl position="topleft" />
+        {!isNavigating && <ZoomControl position="topleft" />}
         <MapController bounds={mapBounds} />
         <MapSelectionController
           mode={mapSelectionMode}
@@ -535,6 +535,8 @@ export function MapComponent({
             key={`${station.id}-${idx}`} 
             position={[station.lat, station.lng]}
             icon={createCustomMarker(getMarkerColor(station.sistema))}
+            alt={`Estación ${station.nombre}`}
+            title={station.nombre}
           >
             <Popup>
               <div className="p-2 min-w-[200px] font-sans">
@@ -554,7 +556,7 @@ export function MapComponent({
                   <div className="pt-2">
                     <button 
                       onClick={() => handleComoLlegar(station as Station)}
-                      className="w-full bg-sitva-green text-white font-bold py-1.5 rounded-lg text-xs shadow-sm hover:bg-sitva-green/90 transition-colors cursor-pointer"
+                      className="min-h-11 w-full bg-sitva-green text-white font-bold py-1.5 rounded-lg text-xs shadow-sm hover:bg-sitva-green/90 transition-colors cursor-pointer"
                     >
                       ¿Cómo llegar?
                     </button>
@@ -583,7 +585,7 @@ export function MapComponent({
       )}
       
       {/* Mobile Vertical controls stack - Positioned higher to avoid bottom sheet overlaps */}
-      <div className="absolute top-3 right-3 z-[999] flex flex-col gap-2.5 pointer-events-none lg:hidden transition-all duration-300">
+      {!isNavigating && <div className="absolute top-3 right-3 z-[999] flex flex-col gap-2.5 pointer-events-none lg:hidden transition-all duration-300">
         {/* Zoom Controls (Customized for mobile) */}
         <div className="flex flex-col bg-card/90 backdrop-blur-md rounded-2xl shadow-lg border border-border/40 overflow-hidden pointer-events-auto">
           <button 
@@ -592,6 +594,8 @@ export function MapComponent({
               if (map) map.setZoom(map.getZoom() + 1);
             }}
             className="w-11 h-11 flex items-center justify-center text-foreground hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors border-b border-border/20 cursor-pointer"
+            aria-label="Acercar el mapa"
+            title="Acercar el mapa"
           >
             <span className="text-xl font-bold">+</span>
           </button>
@@ -601,6 +605,8 @@ export function MapComponent({
               if (map) map.setZoom(map.getZoom() - 1);
             }}
             className="w-11 h-11 flex items-center justify-center text-foreground hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+            aria-label="Alejar el mapa"
+            title="Alejar el mapa"
           >
             <span className="text-xl font-bold">−</span>
           </button>
@@ -612,6 +618,7 @@ export function MapComponent({
             onClick={onThemeToggle}
             className="w-11 h-11 flex items-center justify-center bg-card/90 backdrop-blur-md rounded-2xl shadow-lg border border-border/40 text-foreground pointer-events-auto hover:bg-card transition-all active:scale-95 cursor-pointer"
             title="Cambiar tema"
+            aria-label="Cambiar tema del mapa"
           >
             {darkMode ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5 text-slate-700" />}
           </button>
@@ -623,6 +630,7 @@ export function MapComponent({
             onClick={() => setIsLegendExpanded(!isLegendExpanded)}
             className={`w-11 h-11 flex items-center justify-center bg-card/90 backdrop-blur-md rounded-2xl shadow-lg border border-border/40 pointer-events-auto transition-all active:scale-95 cursor-pointer ${isLegendExpanded ? 'text-sitva-blue border-sitva-blue/30 bg-blue-50/20' : 'text-foreground'}`}
             title="Leyendas"
+            aria-label={isLegendExpanded ? 'Ocultar leyenda del mapa' : 'Mostrar leyenda del mapa'}
           >
             <MapIcon className="w-5 h-5" />
           </button>
@@ -654,26 +662,33 @@ export function MapComponent({
         <div className="pointer-events-auto">
           <SupportCard compact={true} />
         </div>
-      </div>
+      </div>}
       
       {/* Legend Area (Desktop only) */}
-      <div 
-        className={`hidden md:flex absolute top-4 right-4 bg-card/95 border border-border backdrop-blur shadow-xl rounded-2xl z-[1000] flex-col transition-all duration-300 pointer-events-auto overflow-hidden ${isLegendExpanded ? 'p-3 w-48' : 'p-2 w-auto cursor-pointer hover:bg-card'}`}
-        onClick={() => !isLegendExpanded && setIsLegendExpanded(true)}
+      {!isNavigating && <div
+        className={`hidden md:flex absolute top-4 right-4 bg-card/95 border border-border backdrop-blur shadow-xl rounded-2xl z-[1000] flex-col transition-all duration-300 pointer-events-auto overflow-hidden ${isLegendExpanded ? 'p-3 w-48' : 'p-2 w-auto hover:bg-card'}`}
       >
          <div className="flex items-center justify-between gap-3">
-           <div className="flex items-center gap-2">
+           <button
+             type="button"
+             onClick={() => setIsLegendExpanded(!isLegendExpanded)}
+             aria-label={isLegendExpanded ? 'Ocultar leyenda del mapa' : 'Mostrar leyenda del mapa'}
+             title={isLegendExpanded ? 'Ocultar leyenda del mapa' : 'Mostrar leyenda del mapa'}
+             className="flex min-h-11 items-center gap-2 rounded-lg px-1 text-left"
+           >
              <div className="p-1 bg-slate-100 dark:bg-slate-800 rounded-lg">
                <MapIcon className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" />
              </div>
              <h4 className="text-xs font-bold text-foreground whitespace-nowrap">Leyendas</h4>
-           </div>
+           </button>
            <button 
              onClick={(e) => {
                e.stopPropagation();
                setIsLegendExpanded(!isLegendExpanded);
              }}
-             className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors ml-1 cursor-pointer"
+             className="min-h-11 min-w-11 p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors ml-1 cursor-pointer"
+             aria-label={isLegendExpanded ? 'Contraer leyenda del mapa' : 'Expandir leyenda del mapa'}
+             title={isLegendExpanded ? 'Contraer leyenda del mapa' : 'Expandir leyenda del mapa'}
            >
              {isLegendExpanded ? <ChevronDown className="w-3.5 h-3.5 text-slate-400" /> : <ChevronUp className="w-3.5 h-3.5 text-slate-400" />}
            </button>
@@ -704,7 +719,7 @@ export function MapComponent({
              </div>
            </div>
          )}
-      </div>
+      </div>}
     </div>
   );
 }

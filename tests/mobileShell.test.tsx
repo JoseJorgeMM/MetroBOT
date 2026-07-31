@@ -7,6 +7,21 @@ import {
 } from '../src/components/MobileBottomSheet';
 import { MobileExploreActions } from '../src/components/MobileExploreActions';
 import { MobileExploreSurface } from '../src/components/MobileExploreSurface';
+import { RouteCard } from '../src/components/RouteCards/RouteCard';
+import type { RouteOption } from '../src/lib/routing';
+
+const routeFixture: RouteOption = {
+  id: 'route-fixture',
+  modes: ['walk', 'metro', 'walk'],
+  duration: 24,
+  cost: 3430,
+  transfers: 0,
+  steps: [
+    { instruction: 'Camina a la estación', mode: 'walk', duration: 4, cost: 0 },
+    { instruction: 'Toma el Metro', mode: 'metro', duration: 16, cost: 3430 },
+    { instruction: 'Camina al destino', mode: 'walk', duration: 4, cost: 0 },
+  ],
+};
 
 test('explore actions expose one primary trip action and a secondary assistant action', () => {
   const html = renderToStaticMarkup(
@@ -75,4 +90,18 @@ test('compact explore keeps both core actions, rain, and quick picks outside the
   assert.ok(html.indexOf('Llueve en Medellín') >= overlayStart && html.indexOf('Llueve en Medellín') < sheetScrollOwner, 'Rain context must stay with the map-first destination cluster');
   assert.ok(html.indexOf('Casa') < sheetScrollOwner, 'Quick picks must stay outside compact-sheet scrolling');
   assert.match(html, /--mobile-sheet-height:112px/);
+});
+
+test('a route result exposes selection and navigation as separate controls', () => {
+  const html = renderToStaticMarkup(
+    <RouteCard
+      route={routeFixture}
+      isSelected={false}
+      onSelect={() => {}}
+      onStartNav={() => {}}
+    />,
+  );
+
+  assert.match(html, /aria-label="Seleccionar ruta/);
+  assert.match(html, />Iniciar navegación</);
 });

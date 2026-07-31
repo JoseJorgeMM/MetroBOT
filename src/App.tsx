@@ -577,16 +577,16 @@ export default function App() {
               )}
 
               {routes.map((route, index) => (
-                <div key={route.id} onClick={() => setActiveRouteIndex(index)} className="cursor-pointer">
-                  <RouteCard
-                    route={route}
-                    isSelected={activeRouteIndex === index}
-                    originName={origin?.name ?? null}
-                    destName={dest?.name ?? null}
-                    onStartNav={handleStartNav}
-                    navState={nav.state}
-                  />
-                </div>
+                <RouteCard
+                  key={route.id}
+                  route={route}
+                  isSelected={activeRouteIndex === index}
+                  originName={origin?.name ?? null}
+                  destName={dest?.name ?? null}
+                  onSelect={() => setActiveRouteIndex(index)}
+                  onStartNav={handleStartNav}
+                  navState={nav.state}
+                />
               ))}
             </section>
           )}

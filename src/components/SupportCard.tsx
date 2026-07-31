@@ -20,6 +20,7 @@ export function SupportCard({ compact = false }: SupportCardProps) {
         rel="noopener noreferrer"
         className="flex items-center justify-center w-12 h-12 rounded-full bg-[#25D366] hover:bg-[#20ba5a] text-white shadow-xl transition-all duration-300 pointer-events-auto border-2 border-white dark:border-slate-800 scale-100 hover:scale-110 active:scale-95 group relative"
         title="Soporte EnCicla"
+        aria-label="Abrir soporte de EnCicla por WhatsApp"
       >
         <WhatsAppIcon className="w-5 h-5 brightness-0 invert" />
         <span className="absolute right-14 bg-slate-900/90 text-white text-xs font-semibold px-2 py-1 rounded shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none z-50">
