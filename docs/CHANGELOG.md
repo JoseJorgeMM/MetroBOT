@@ -1,5 +1,21 @@
 # MetroBOT changelog
 
+## 2026-08-03 - Experiencia móvil map-first
+
+### Cambiado
+- La app abre en un mapa utilizable con una acción principal clara para planear el viaje; MetroBot queda disponible en un toque como superficie secundaria.
+- Un único modelo semántico controla explorar, planificar, cargar, mostrar rutas, consultar al asistente y navegar, evitando paneles móviles en conflicto.
+- El planificador concentra origen, destino, ubicación actual, selección sobre el mapa, favoritos y opciones avanzadas con controles táctiles de al menos 44 px.
+- Las rutas separan la selección de la acción principal de iniciar navegación y exponen resúmenes de transporte accesibles y honestos incluso con datos incompletos.
+- Los controles del mapa incorporan nombres accesibles, ubicación real montada y menor interferencia visual durante la navegación.
+- Se retiró el componente legado `MapSearch`; su búsqueda y selección viven ahora en el planificador móvil.
+
+### Accesibilidad y validación
+- Paneles con identificadores únicos, scroll contenido, títulos no duplicados y estados no redimensionables correctamente anunciados.
+- Contraste oscuro corregido en paneles, acciones de ubicación y sugerencias de MetroBot.
+- Validación responsive en 360×800, 390×844 y 430×932: sin desbordamiento horizontal, entradas de 16 px y acciones principales de 44 px o más.
+- Suite completa, pruebas React/TypeScript, lint y build de producción ejecutados antes de integración.
+
 ## 2026-06-23 � Active navigation + favorites + recent searches + share
 
 ### A. Active turn-by-turn navigation (wired in)

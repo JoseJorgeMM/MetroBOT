@@ -42,9 +42,68 @@ test('bottom sheet exposes its title and expansion state', () => {
       <p>Contenido</p>
     </MobileBottomSheet>,
   );
-  assert.match(html, /aria-labelledby="mobile-sheet-title"/);
+  const titleId = html.match(/aria-labelledby="([^"]+)"/)?.[1];
+  assert.ok(titleId);
+  assert.match(html, new RegExp(`id="${titleId}"`));
   assert.match(html, /aria-expanded="false"/);
   assert.match(html, />Planifica tu viaje</);
+});
+
+test('multiple bottom sheets keep accessible title ids unique', () => {
+  const html = renderToStaticMarkup(
+    <>
+      <MobileBottomSheet presentation="compact" title="Primero" onPresentationChange={() => {}}>
+        <p>Contenido</p>
+      </MobileBottomSheet>
+      <MobileBottomSheet presentation="medium" title="Segundo" onPresentationChange={() => {}}>
+        <p>Contenido</p>
+      </MobileBottomSheet>
+    </>,
+  );
+  const labelledByIds = [...html.matchAll(/aria-labelledby="([^"]+)"/g)].map((match) => match[1]);
+  assert.equal(new Set(labelledByIds).size, 2);
+  for (const id of labelledByIds) assert.match(html, new RegExp(`id="${id}"`));
+});
+
+test('bottom sheet owns contained scrolling and can expose a non-resizable handle', () => {
+  const html = renderToStaticMarkup(
+    <MobileBottomSheet
+      presentation="medium"
+      title="Rutas disponibles"
+      resizable={false}
+      onPresentationChange={() => {}}
+    >
+      <p>Contenido</p>
+    </MobileBottomSheet>,
+  );
+  assert.match(html, /data-mobile-sheet-scroll-owner="true" class="[^"]*mobile-sheet-scroll/);
+  assert.match(html, /aria-label="Tamaño del panel fijo"[^>]*disabled/);
+});
+
+test('bottom sheet uses theme tokens instead of fixed light colors', () => {
+  const html = renderToStaticMarkup(
+    <MobileBottomSheet presentation="compact" title="MetroBot" onPresentationChange={() => {}}>
+      <p>Contenido</p>
+    </MobileBottomSheet>,
+  );
+  assert.match(html, /\bbg-card\b/);
+  assert.match(html, /\btext-foreground\b/);
+  assert.doesNotMatch(html, /\bbg-white\b/);
+  assert.doesNotMatch(html, /\btext-slate-950\b/);
+});
+
+test('bottom sheet can keep a redundant title accessible without consuming layout space', () => {
+  const html = renderToStaticMarkup(
+    <MobileBottomSheet
+      presentation="expanded"
+      title="Pregúntale a MetroBot"
+      titleVisuallyHidden
+      onPresentationChange={() => {}}
+    >
+      <p>Contenido</p>
+    </MobileBottomSheet>,
+  );
+  assert.match(html, /<h2[^>]*class="sr-only"[^>]*>Pregúntale a MetroBot<\/h2>/);
 });
 
 test('bottom sheet lets the desktop side panel own its height', () => {

@@ -89,7 +89,7 @@ export function AssistantPanel({
                   key={prompt}
                   type="button"
                   onClick={() => onQueryChange(prompt)}
-                  className="min-h-[44px] rounded-full border border-sitva-green/30 bg-card px-3 py-2 text-left text-sm font-medium text-sitva-green transition-colors hover:bg-sitva-green/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sitva-green"
+                  className="min-h-[44px] rounded-full border border-sitva-green/30 bg-card px-3 py-2 text-left text-sm font-medium text-sitva-green transition-colors hover:bg-sitva-green/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sitva-green dark:text-green-300"
                 >
                   {prompt}
                 </button>

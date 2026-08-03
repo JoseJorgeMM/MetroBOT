@@ -656,7 +656,7 @@ git commit -m "feat: refine mobile routes and map controls"
 - No production file imports test helpers.
 - No production file retains the legacy chat-first or duplicate-sheet implementation.
 
-- [ ] **Step 1: Confirm the legacy component is unused**
+- [x] **Step 1: Confirm the legacy component is unused**
 
 ```powershell
 rg -n "MapSearch|sheetHeight|draggingFrac|SNAP_POINTS|Buses articulados.*ON|Que mas!" src
@@ -664,11 +664,11 @@ rg -n "MapSearch|sheetHeight|draggingFrac|SNAP_POINTS|Buses articulados.*ON|Que 
 
 Expected before deletion: only the legacy file may contain `MapSearch`; no live import or duplicate-sheet tokens remain.
 
-- [ ] **Step 2: Delete the unused legacy component**
+- [x] **Step 2: Delete the unused legacy component**
 
 Delete `src/components/Map/MapSearch.tsx` only after `rg` proves no imports remain.
 
-- [ ] **Step 3: Run the complete automated suite**
+- [x] **Step 3: Run the complete automated suite**
 
 ```powershell
 $tests = Get-ChildItem tests -Filter 'test_*.mjs' | Sort-Object Name
@@ -685,7 +685,7 @@ git diff --check
 
 Expected: every command exits 0.
 
-- [ ] **Step 4: Validate mobile viewports in the browser**
+- [x] **Step 4: Validate mobile viewports in the browser**
 
 At 360 × 800, 390 × 844, and 430 × 932:
 
@@ -698,11 +698,11 @@ At 360 × 800, 390 × 844, and 430 × 932:
 - repeat Explore and Planning in dark mode;
 - inspect console errors.
 
-- [ ] **Step 5: Correct any visual defect through TDD**
+- [x] **Step 5: Correct any visual defect through TDD**
 
 For behavioral defects, add a failing test before editing production code. For pure CSS/layout defects, record the failing viewport and screenshot, apply the minimal CSS change, then recapture the same state and viewport.
 
-- [ ] **Step 6: Update changelog and commit**
+- [x] **Step 6: Update changelog and commit**
 
 Document:
 

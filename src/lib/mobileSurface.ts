@@ -42,3 +42,11 @@ export function presentationForSurface(surface: MobileSurface): SheetPresentatio
   if (surface === 'results') return 'medium';
   return 'expanded';
 }
+
+export function isSheetResizable(surface: MobileSurface): boolean {
+  return surface !== 'results' && surface !== 'navigation';
+}
+
+export function shouldShowPersistentSupport(surface: MobileSurface): boolean {
+  return surface !== 'navigation';
+}

@@ -61,6 +61,12 @@ test('planner uses 16px mobile inputs, 44px clear controls, and a 44px advanced-
   assert.match(html, /<summary[^>]*min-h-11[^>]*>Opciones de viaje/);
 });
 
+test('planner avoids a duplicate visible title and keeps the location action legible in dark mode', () => {
+  const html = renderToStaticMarkup(<TripPlannerPanel {...baseProps} />);
+  assert.match(html, /<h2 class="sr-only">Planificar viaje<\/h2>/);
+  assert.match(html, /<button[^>]*class="[^"]*dark:text-blue-300[^"]*"[^>]*>[\s\S]*Usar mi ubicación/);
+});
+
 test('planner controller invalidates an edit, schedules debounce, preserves text, and emits callbacks', () => {
   const initial = createPlannerState({ origin, destination: null, busesEnabled: true });
   const edited = transitionPlanner(initial, { type: 'input', field: 'origin', value: 'Casa nueva' });

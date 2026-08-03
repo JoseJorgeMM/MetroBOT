@@ -268,7 +268,7 @@ export function TripPlannerPanel({
   return (
     <section aria-label="Planificador de viaje" className="flex flex-col gap-3 p-4">
       <header className="flex items-center justify-between">
-        <h2 className="text-base font-bold text-foreground">Planificar viaje</h2>
+        <h2 className="sr-only">Planificar viaje</h2>
         <button type="button" aria-label="Cerrar planificador" onClick={() => dispatchPlanner({ type: 'close' })} className="flex h-11 w-11 items-center justify-center rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
           <X className="h-5 w-5" />
         </button>
@@ -317,7 +317,7 @@ export function TripPlannerPanel({
       </div>
 
       <div className="grid grid-cols-2 gap-2">
-        <button type="button" onClick={requestCurrentLocation} className="flex min-h-11 items-center justify-center gap-2 rounded-xl border border-border px-3 text-sm font-semibold text-sitva-blue hover:bg-blue-50 dark:hover:bg-blue-950/20">
+        <button type="button" onClick={requestCurrentLocation} className="flex min-h-11 items-center justify-center gap-2 rounded-xl border border-border px-3 text-sm font-semibold text-sitva-blue hover:bg-blue-50 dark:text-blue-300 dark:hover:bg-blue-950/20">
           <Locate className="h-4 w-4" />
           Usar mi ubicación
         </button>

@@ -31,7 +31,11 @@ import {
   type AppRequest,
   type RouteOutcome,
 } from './lib/appRouteFlow';
-import type { SheetPresentation } from './lib/mobileSurface';
+import {
+  isSheetResizable,
+  shouldShowPersistentSupport,
+  type SheetPresentation,
+} from './lib/mobileSurface';
 import type { RouteOption } from './lib/routing';
 import { fetchMedellinWeather, type WeatherData } from './lib/weather';
 
@@ -454,9 +458,11 @@ export default function App() {
             onMapPlaceSelected={handleMapPlaceSelected}
           />
           <NavigationOverlay nav={navigationContext} />
-          <div className="pointer-events-none absolute bottom-6 left-6 z-[1000] hidden lg:block">
-            <SupportCard />
-          </div>
+          {shouldShowPersistentSupport(surface) && (
+            <div className="pointer-events-none absolute bottom-6 left-6 z-[1000] hidden lg:block">
+              <SupportCard />
+            </div>
+          )}
         </div>
 
         {surface === 'explore' ? (
@@ -482,6 +488,8 @@ export default function App() {
           <MobileBottomSheet
             presentation={presentation}
             title={surfaceTitles[surface]}
+            titleVisuallyHidden={surface === 'assistant'}
+            resizable={isSheetResizable(surface)}
             onPresentationChange={handlePresentationChange}
           >
           {showWeatherNotice && (

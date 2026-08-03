@@ -1,7 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  isSheetResizable,
   presentationForSurface,
+  shouldShowPersistentSupport,
   transitionMobileSurface,
 } from '../src/lib/mobileSurface';
 
@@ -55,4 +57,15 @@ test('ending navigation returns to explore', () => {
     transitionMobileSurface('navigation', { type: 'END_NAVIGATION' }),
     'explore',
   );
+});
+
+test('fixed result and navigation surfaces do not advertise unsupported resizing', () => {
+  assert.equal(isSheetResizable('results'), false);
+  assert.equal(isSheetResizable('navigation'), false);
+  assert.equal(isSheetResizable('planning'), true);
+});
+
+test('persistent desktop support stays out of the active navigation viewport', () => {
+  assert.equal(shouldShowPersistentSupport('navigation'), false);
+  assert.equal(shouldShowPersistentSupport('explore'), true);
 });

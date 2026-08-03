@@ -59,11 +59,17 @@ test('assistant keeps system information hidden until explicitly opened', () => 
 
 test('assistant exposes a mobile-safe composer and send target', () => {
   const html = renderToStaticMarkup(<AssistantPanel {...baseProps} />);
+  const sendButton = html.match(/<button[^>]*aria-label="Enviar pregunta"[^>]*>/)?.[0] ?? '';
 
   assert.match(html, /text-base/);
-  assert.match(html, /min-h-\[48px\]/);
-  assert.match(html, /min-w-\[48px\]/);
+  assert.match(sendButton, /min-h-\[48px\]/);
+  assert.match(sendButton, /min-w-\[48px\]/);
   assert.match(html, /safe-area-inset-bottom/);
   assert.match(html, /h-full/);
   assert.match(html, /100dvh/);
+});
+
+test('assistant suggestion text has a lighter dark-mode color', () => {
+  const html = renderToStaticMarkup(<AssistantPanel {...baseProps} />);
+  assert.match(html, /dark:text-green-300/);
 });
