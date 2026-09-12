@@ -32,6 +32,9 @@ import { RouteOption } from '@/src/lib/routing';
 import { getVisibleStations } from '@/src/lib/mapStationsFilter';
 import { SupportCard } from '../SupportCard';
 
+const cartoApiKey = import.meta.env.VITE_CARTO_API_KEY?.trim();
+const cartoTileKey = cartoApiKey ? `?key=${encodeURIComponent(cartoApiKey)}` : '';
+
 const getDistanceMeters = (lat1: number, lon1: number, lat2: number, lon2: number) => {
   const R = 6371e3; // metres
   const φ1 = lat1 * Math.PI/180; // φ, λ in radians
@@ -518,7 +521,7 @@ export function MapComponent({
         <TileLayer
           key={darkMode ? 'dark-tiles' : 'light-tiles'}
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-          url={darkMode ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"}
+          url={darkMode ? `https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png${cartoTileKey}` : `https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png${cartoTileKey}`}
         />
         {!isNavigating && <ZoomControl position="topleft" />}
         <MapController bounds={mapBounds} />
