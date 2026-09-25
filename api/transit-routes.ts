@@ -1,4 +1,4 @@
-import { createTransitHandler } from '../server/transit.ts';
+import { createTransitHandler } from '../server/transit.js';
 
 export default {
   fetch: createTransitHandler({

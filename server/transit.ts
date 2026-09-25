@@ -1,4 +1,4 @@
-import { mapGoogleRoutes, validPoint } from '../src/lib/googleTransit.ts';
+import { mapGoogleRoutes, validPoint } from '../src/lib/googleTransit.js';
 
 const FIELD_MASK = [
   'routes.duration', 'routes.polyline.encodedPolyline',
