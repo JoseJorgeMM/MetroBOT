@@ -233,6 +233,9 @@
 }
 
 @media (min-width: 64rem) {
+  .mobile-surface-explore > section[role="region"] {
+    visibility: hidden;
+  }
   .mobile-app-shell > section[role="region"] {
     position: relative;
     flex: none;

@@ -3,6 +3,7 @@ export interface WeatherData {
   weatherCode: number;
   isRaining: boolean;
   description: string;
+  checkedAt?: number;
 }
 
 export async function fetchMedellinWeather(): Promise<WeatherData | null> {
@@ -13,6 +14,7 @@ export async function fetchMedellinWeather(): Promise<WeatherData | null> {
     if (!response.ok) return null;
     
     const data = await response.json();
+    if (!Number.isFinite(data.current?.temperature_2m) || !Number.isFinite(data.current?.weather_code)) return null;
     const code = data.current.weather_code;
     
     // WMO Weather interpretation codes (WW)
@@ -22,7 +24,7 @@ export async function fetchMedellinWeather(): Promise<WeatherData | null> {
     // 95, 96, 99: Thunderstorm
     const isRaining = [51, 53, 55, 61, 63, 65, 80, 81, 82, 95, 96, 99].includes(code);
     
-    let description = 'Cielo despejado';
+    let description = code === 0 ? 'Cielo despejado' : 'Condición no clasificada';
     if (code === 1 || code === 2 || code === 3) description = 'Parcialmente nublado';
     if (code >= 45 && code <= 48) description = 'Neblina';
     if (isRaining) description = 'Lluvia / Tormenta';
@@ -31,7 +33,8 @@ export async function fetchMedellinWeather(): Promise<WeatherData | null> {
       temperature: data.current.temperature_2m,
       weatherCode: code,
       isRaining,
-      description
+      description,
+      checkedAt: Date.now(),
     };
   } catch (error) {
     console.error('Error fetching weather:', error);

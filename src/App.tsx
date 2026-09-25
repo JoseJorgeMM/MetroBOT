@@ -8,7 +8,7 @@ import { NavigationOverlay } from './components/Map/NavigationOverlay';
 import { MobileBottomSheet } from './components/MobileBottomSheet';
 import { MobileExploreSurface } from './components/MobileExploreSurface';
 import { QuickPicksBar } from './components/QuickPicksBar';
-import { RouteCard } from './components/RouteCards/RouteCard';
+import { RouteComparison } from './components/RouteComparison';
 import { SkipLink } from './components/SkipLink';
 import { SupportCard } from './components/SupportCard';
 import {
@@ -38,6 +38,7 @@ import {
 } from './lib/mobileSurface';
 import type { RouteOption } from './lib/routing';
 import { fetchMedellinWeather, type WeatherData } from './lib/weather';
+import { withDeadline, RequestTimeoutError } from './lib/requestDeadline';
 
 const DISCLAIMER_STORAGE_KEY = 'metrobot.disclaimer.dismissed.v1';
 const BUSES_TOGGLE_STORAGE_KEY = 'metrobot.buses.enabled.v1';
@@ -272,9 +273,10 @@ export default function App() {
     if (isRouteRequest) dispatchSurface({ type: 'REQUEST_ROUTES' });
 
     try {
-      const response = await processUserQuery(
+      const response = await withDeadline(processUserQuery(
         textToProcess,
         (newRoutes: RouteOption[]) => {
+          if (appRequestRef.current.activeRequest?.id !== request.id) return;
           if (newRoutes.length === 0) {
             routeOutcome = 'failed';
             setRouteError('No se encontraron rutas para este trayecto. Conservamos el origen y el destino para que puedas intentarlo de nuevo.');
@@ -328,7 +330,7 @@ export default function App() {
           dest: requestContext.dest || (dest ? { lat: dest.lat, lng: dest.lng } : undefined),
           allowBuses: busesEnabled,
         },
-      );
+      ));
 
       if (isRouteRequest && routeOutcome === 'none') {
         routeOutcome = 'failed';
@@ -340,8 +342,14 @@ export default function App() {
         setMessages((current) => [...current, { role: 'assistant', content: publishedResponse }]);
       }
     } catch (error) {
+      // The provider callback may have published routes before its final text.
+      if ((routeOutcome as RouteOutcome) === 'ready') return;
       console.error('Route or assistant request failed:', error);
-      const message = 'MetroBot no está disponible temporalmente. Puedes seguir planeando el viaje manualmente.';
+      const message = error instanceof RequestTimeoutError
+        ? isRouteRequest
+          ? 'La consulta tardó más de lo esperado. Conservamos tu origen y destino: vuelve a pulsar “Ver rutas” para reintentar.'
+          : 'La respuesta tardó más de lo esperado. Puedes enviar tu consulta de nuevo.'
+        : 'No pudimos completar la consulta. Conservamos tus puntos de viaje para que puedas reintentar.';
       setMessages((current) => [...current, { role: 'assistant', content: message }]);
       if (isRouteRequest) {
         setRouteError(message);
@@ -469,7 +477,7 @@ export default function App() {
           <MobileExploreSurface
             mapSelectionMode={mapSelectionMode}
             hasAvailableRoutes={hasAvailableRoutes}
-            isRaining={Boolean(weather?.isRaining)}
+            weather={weather}
             quickPicks={(
               <QuickPicksBar
                 hidden={mapSelectionMode !== null}
@@ -496,7 +504,7 @@ export default function App() {
             <div className="my-3 flex items-center gap-3 rounded-xl border border-sitva-blue/30 bg-sitva-blue/10 p-3" role="status">
               <CloudRain className="h-5 w-5 shrink-0 text-sitva-blue" aria-hidden="true" />
               <p className="text-xs leading-snug text-foreground">
-                Llueve en Medellín. Los metrocables podrían operar con intermitencia.
+                Se reporta lluvia en Medellín. Compara los minutos a pie y lleva protección para la lluvia.
               </p>
             </div>
           )}
@@ -584,19 +592,18 @@ export default function App() {
                 </div>
               )}
 
-              {routes.map((route, index) => (
-                <RouteCard
-                  key={route.id}
-                  route={route}
-                  isSelected={activeRouteIndex === index}
-                  originName={origin?.name ?? null}
-                  destName={dest?.name ?? null}
-                  routeIndex={index}
-                  onSelect={() => setActiveRouteIndex(index)}
+              {routes.length > 0 && (
+                <RouteComparison
+                  routes={routes}
+                  activeRouteIndex={activeRouteIndex}
+                  originName={origin?.name}
+                  destName={dest?.name}
+                  onSelect={setActiveRouteIndex}
+                  onEdit={openPlanning}
                   onStartNav={handleStartNav}
                   navState={nav.state}
                 />
-              ))}
+              )}
             </section>
           )}
 

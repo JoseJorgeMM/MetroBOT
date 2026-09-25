@@ -3,6 +3,7 @@ import { Card, CardContent } from '../ui/card';
 import { RouteOption } from '@/src/lib/routing';
 import { Train, CableCar, TramFront, Bus, Bike, Footprints, Clock, DollarSign, ShieldCheck, ShieldAlert, Navigation2, MapPin } from 'lucide-react';
 import { ShareButton } from '../ShareButton';
+import { walkingMinutes as getWalkingMinutes } from '../../lib/routeComparison';
 
 const ModeIcon = ({ mode, className }: { mode: string, className?: string }) => {
   switch (mode) {
@@ -69,6 +70,7 @@ export interface RouteCardProps {
   originName?: string | null;
   destName?: string | null;
   routeIndex?: number;
+  extraMinutes?: number | null;
   onSelect?: (route: RouteOption) => void;
   onStartNav?: (route: RouteOption) => void;
   navState?: 'idle' | 'locating' | 'navigating' | 'at_station' | 'arrived' | null;
@@ -99,7 +101,7 @@ const RealStopsPanel = ({ leg }: { leg: BusLegValidation }) => {
   );
 };
 
-export function RouteCard({ route, isSelected, originName, destName, routeIndex = 0, onSelect, onStartNav, navState }: RouteCardProps) {
+export function RouteCard({ route, isSelected, originName, destName, routeIndex = 0, extraMinutes, onSelect, onStartNav, navState }: RouteCardProps) {
   const steps = Array.isArray(route.steps) ? route.steps : [];
   const modes = Array.isArray(route.modes) ? route.modes : [];
   const validation = route.validation;
@@ -109,17 +111,18 @@ export function RouteCard({ route, isSelected, originName, destName, routeIndex 
   const hasWalkSegment = steps.some((step) => step.mode === 'walk' || step.mode === 'encicla') || modes.includes('walk') || modes.includes('encicla');
   const navIsActive = navState === 'navigating' || navState === 'at_station' || navState === 'locating';
   const showStartNavButton = !!onStartNav && !navIsActive && hasWalkSegment;
-  const walkingSteps = steps
-    .filter((step) => step.mode === 'walk')
-  const hasKnownWalkingDuration = walkingSteps.some((step) => Number.isFinite(step.duration));
-  const walkingMinutes = walkingSteps
-    .reduce((total, step) => total + (Number.isFinite(step.duration) ? step.duration : 0), 0);
+  const walkingMinutes = getWalkingMinutes(route);
+  const hasKnownWalkingDuration = walkingMinutes !== null;
   const modeSummary = modes.map(ModeLabel).join(', ') || 'transporte público';
   const selectionLabel = `Seleccionar Ruta ${routeIndex + 1}: ${route.duration} minutos por ${modeSummary}`;
 
   return (
-    <Card className={'mb-3 sm:mb-4 overflow-hidden border-0 shadow-md ring-1 transition-all duration-200 ' + (isSelected ? 'ring-sitva-green ring-2 shadow-lg bg-emerald-50/30 dark:bg-emerald-950/10 transform scale-[1.02]' : 'ring-slate-200/50 dark:ring-slate-800/80 hover:bg-slate-50 dark:hover:bg-slate-800/40 bg-card')}>
+    <Card className={'mb-3 sm:mb-4 overflow-hidden border-0 shadow-sm ring-1 transition-colors duration-200 ' + (isSelected ? 'ring-sitva-green ring-2 bg-emerald-50/30 dark:bg-emerald-950/10' : 'ring-slate-200/70 dark:ring-slate-800/80 bg-card')}>
       <CardContent className="p-3.5 sm:p-4">
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-2 text-xs font-semibold">
+          <span className="text-slate-500 dark:text-slate-400">OPCIÓN {routeIndex + 1}{isSelected ? ' · EN EL MAPA' : ''}</span>
+          {extraMinutes != null && <span className="text-sitva-green">{extraMinutes === 0 ? 'Menor tiempo estimado' : `+${extraMinutes} min frente a la más rápida`}</span>}
+        </div>
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center space-x-2">
             <Clock className="w-5 h-5 text-slate-500 dark:text-slate-400" />
@@ -134,7 +137,7 @@ export function RouteCard({ route, isSelected, originName, destName, routeIndex 
               className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full px-3 text-sm font-semibold text-sitva-green hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sitva-green dark:hover:bg-emerald-950/30"
             >
               <MapPin className="w-4 h-4" />
-              Ver en el mapa
+              {isSelected ? 'En el mapa' : 'Ver en el mapa'}
             </button>
           )}
         </div>
@@ -161,7 +164,7 @@ export function RouteCard({ route, isSelected, originName, destName, routeIndex 
             )}
             <div className="flex items-center space-x-1 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-full min-h-[32px]">
               <DollarSign className="w-4 h-4 text-slate-600 dark:text-slate-400" />
-              <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">{route.cost.toLocaleString('es-CO')}</span>
+              <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">{Number.isFinite(route.cost) && route.cost >= 0 ? `${route.cost.toLocaleString('es-CO')} COP est.` : 'Costo sin confirmar'}</span>
             </div>
           </div>
         </div>
@@ -185,7 +188,9 @@ export function RouteCard({ route, isSelected, originName, destName, routeIndex 
           <span>{hasKnownWalkingDuration ? `${walkingMinutes} min a pie` : hasWalkSegment ? 'Incluye tramo a pie' : 'Sin tramos a pie'}</span>
         </div>
 
-        <div className="space-y-3 mt-3 pt-3 border-t border-border">
+        <details className="mt-3 border-t border-border" open={isSelected || undefined}>
+          <summary className="min-h-11 cursor-pointer py-3 text-sm font-semibold text-foreground">Trayecto paso a paso · {steps.length} tramos</summary>
+          <div className="space-y-3 border-l-2 border-border pl-3">
           {steps.map((step, index) => {
             const leg = validation?.busLegs?.find(l => l.routeId && step.line === l.routeName);
             return (
@@ -200,7 +205,7 @@ export function RouteCard({ route, isSelected, originName, destName, routeIndex 
                   </div>
                   <div className="flex flex-col items-end shrink-0 min-w-[64px]">
                     <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">
-                      {step.cost !== undefined ? '$' + step.cost.toLocaleString('es-CO') : '$0'}
+                      {step.cost !== undefined && Number.isFinite(step.cost) ? '$' + step.cost.toLocaleString('es-CO') : step.mode === 'walk' ? 'A pie' : 'Sin tarifa'}
                     </span>
                     <span className="text-xs text-slate-400 dark:text-slate-500">{step.duration} min</span>
                   </div>
@@ -209,7 +214,8 @@ export function RouteCard({ route, isSelected, originName, destName, routeIndex 
               </div>
             );
           })}
-        </div>
+          </div>
+        </details>
 
         <div className="mt-4 pt-3 border-t border-border flex items-center justify-between gap-2 flex-wrap">
           {showStartNavButton ? (

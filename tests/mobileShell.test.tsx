@@ -131,7 +131,7 @@ test('compact explore keeps both core actions, rain, and quick picks outside the
     <MobileExploreSurface
       mapSelectionMode={null}
       hasAvailableRoutes
-      isRaining
+      weather={{ temperature: 18, weatherCode: 61, isRaining: true, description: 'Lluvia / Tormenta' }}
       quickPicks={<button type="button">Casa</button>}
       onPlanTrip={() => {}}
       onAskMetroBot={() => {}}
@@ -146,7 +146,8 @@ test('compact explore keeps both core actions, rain, and quick picks outside the
   assert.ok(sheetScrollOwner > overlayStart, 'The compact sheet must follow the map overlay');
   assert.ok(html.indexOf('Planear un viaje') < sheetScrollOwner, 'The destination action must stay outside compact-sheet scrolling');
   assert.ok(html.indexOf('Pregúntale a MetroBot') < sheetScrollOwner, 'The assistant action must stay outside compact-sheet scrolling');
-  assert.ok(html.indexOf('Llueve en Medellín') >= overlayStart && html.indexOf('Llueve en Medellín') < sheetScrollOwner, 'Rain context must stay with the map-first destination cluster');
+  assert.ok(html.indexOf('Lleva protección para la lluvia') >= overlayStart && html.indexOf('Lleva protección para la lluvia') < sheetScrollOwner, 'Rain context must stay with the map-first destination cluster');
+  assert.doesNotMatch(html, /metrocables podrían operar con intermitencia/);
   assert.ok(html.indexOf('Casa') < sheetScrollOwner, 'Quick picks must stay outside compact-sheet scrolling');
   assert.match(html, /--mobile-sheet-height:112px/);
 });
