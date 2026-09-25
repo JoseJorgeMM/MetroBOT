@@ -344,10 +344,8 @@ export function TripPlannerPanel({
 
       <details className="rounded-xl border border-border p-3">
         <summary className="flex min-h-11 cursor-pointer items-center text-sm font-semibold text-foreground">Opciones de viaje</summary>
-        <label className="mt-3 flex min-h-11 items-center gap-3 text-sm text-foreground">
-          <input type="checkbox" checked={planner.busesEnabled} onChange={(event) => dispatchPlanner({ type: 'set-buses-enabled', busesEnabled: event.target.checked })} className="h-5 w-5 accent-sitva-blue" />
-          Incluir buses articulados
-        </label>
+        <p className="mt-3 text-sm text-muted-foreground">Salida ahora · Se consultan todos los medios de transporte público disponibles. Puedes comparar tiempo, caminata y transbordos en los resultados.</p>
+        <p className="mt-2 text-xs text-muted-foreground">Si Google no está disponible, se usará el respaldo local con cobertura limitada.</p>
       </details>
 
       <button type="button" disabled={!canSubmit} onClick={() => dispatchPlanner({ type: 'submit' })} className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-sitva-blue px-4 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-50">

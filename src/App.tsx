@@ -4,6 +4,8 @@ import { AssistantPanel } from './components/AssistantPanel';
 import { HonestyBadge } from './components/HonestyBadge';
 import { InstallBanner } from './components/InstallBanner';
 import { MapComponent } from './components/Map/MapComponent';
+import { GoogleTransitMap } from './components/Map/GoogleTransitMap';
+import { planTransit, requestGoogleRoutes } from './lib/transitPlanner';
 import { NavigationOverlay } from './components/Map/NavigationOverlay';
 import { MobileBottomSheet } from './components/MobileBottomSheet';
 import { MobileExploreSurface } from './components/MobileExploreSurface';
@@ -25,11 +27,8 @@ import { runMigrations } from './lib/migration';
 import {
   admitAssistantRequest,
   admitRouteRequest,
-  assistantResponseForOutcome,
   completeAppRequest,
   createAppRequestState,
-  type AppRequest,
-  type RouteOutcome,
 } from './lib/appRouteFlow';
 import {
   isSheetResizable,
@@ -38,7 +37,7 @@ import {
 } from './lib/mobileSurface';
 import type { RouteOption } from './lib/routing';
 import { fetchMedellinWeather, type WeatherData } from './lib/weather';
-import { withDeadline, RequestTimeoutError } from './lib/requestDeadline';
+import { withDeadline } from './lib/requestDeadline';
 
 const DISCLAIMER_STORAGE_KEY = 'metrobot.disclaimer.dismissed.v1';
 const BUSES_TOGGLE_STORAGE_KEY = 'metrobot.buses.enabled.v1';
@@ -46,11 +45,6 @@ const BUSES_TOGGLE_STORAGE_KEY = 'metrobot.buses.enabled.v1';
 type AssistantMessage = {
   role: 'user' | 'assistant';
   content: string;
-};
-
-type QueryContext = {
-  origin?: { lat: number; lng: number };
-  dest?: { lat: number; lng: number };
 };
 
 const surfaceTitles = {
@@ -72,6 +66,7 @@ export default function App() {
   const [activeRouteIndex, setActiveRouteIndex] = useState(0);
   const [honestyAssessment, setHonestyAssessment] = useState<ReturnType<typeof computeHonestyAssessment> | null>(null);
   const [routeError, setRouteError] = useState<string | null>(null);
+  const [providerNotice, setProviderNotice] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
   const [weather, setWeather] = useState<WeatherData | null>(null);
@@ -235,126 +230,29 @@ export default function App() {
     dispatchSurface({ type: 'CLOSE' });
   };
 
-  const handleSubmit = async (
-    event: React.FormEvent | null,
-    customQuery?: string,
-    visualMessage?: string,
-    contextCoords?: QueryContext,
-    acceptedRequest?: AppRequest,
-  ) => {
+  const handleSubmit = async (event: React.FormEvent | null) => {
     event?.preventDefault();
-    const textToProcess = customQuery || query;
-    if (!textToProcess.trim()) return;
-
-    let request = acceptedRequest;
-    if (!request) {
-      const admission = admitAssistantRequest(appRequestRef.current);
-      if (!admission.request) return;
-      appRequestRef.current = admission.state;
-      request = admission.request;
-    }
-
-    const isRouteRequest = request.kind === 'route';
-    const requestContext: QueryContext = request.kind === 'route'
-      ? {
-          origin: { lat: request.endpoints.origin.lat, lng: request.endpoints.origin.lng },
-          dest: { lat: request.endpoints.destination.lat, lng: request.endpoints.destination.lng },
-        }
-      : (contextCoords || {});
-    let routeOutcome: RouteOutcome = 'none';
-    if (!customQuery) setQuery('');
-    setMessages((current) => [...current, { role: 'user', content: visualMessage || textToProcess }]);
+    if (!query.trim()) return;
+    const admission = admitAssistantRequest(appRequestRef.current);
+    if (!admission.request) return;
+    appRequestRef.current = admission.state;
+    const request = admission.request;
+    const text = query;
+    setQuery('');
+    setMessages(current => [...current, { role: 'user', content: text }]);
     setIsLoading(true);
-    setRouteError(null);
-    setRoutes([]);
-    setPendingRoutes([]);
-    setHonestyAssessment(null);
-    setActiveRouteIndex(0);
-    if (isRouteRequest) dispatchSurface({ type: 'REQUEST_ROUTES' });
-
     try {
-      const response = await withDeadline(processUserQuery(
-        textToProcess,
-        (newRoutes: RouteOption[]) => {
-          if (appRequestRef.current.activeRequest?.id !== request.id) return;
-          if (newRoutes.length === 0) {
-            routeOutcome = 'failed';
-            setRouteError('No se encontraron rutas para este trayecto. Conservamos el origen y el destino para que puedas intentarlo de nuevo.');
-            dispatchSurface({ type: 'ROUTES_FAILED' });
-            return;
-          }
-
-          const assessment = computeHonestyAssessment(newRoutes as never);
-          setHonestyAssessment(assessment);
-          if (assessment.level === 'unsafe') {
-            routeOutcome = 'failed';
-            setRoutes([]);
-            setPendingRoutes([]);
-            const message = 'No encontré rutas válidas para este trayecto. Intenta con un origen y un destino dentro de la red SITVA, o verifica los nombres de los lugares.';
-            setRouteError(message);
-            setMessages((current) => [...current, { role: 'assistant', content: message }]);
-            dispatchSurface({ type: 'ROUTES_FAILED' });
-            return;
-          }
-
-          routeOutcome = 'ready';
-          if (assessment.level === 'no_verificada') {
-            setPendingRoutes(newRoutes);
-            setRoutes([]);
-            const message = `No pude verificar ${assessment.totalDegraded} parada(s) de bus en este recorrido. Revisa la advertencia antes de elegir “Ver de todos modos”.`;
-            setMessages((current) => [...current, { role: 'assistant', content: message }]);
-          } else {
-            setRoutes(newRoutes);
-          }
-
-          const firstRoute = newRoutes[0];
-          if (!requestContext.origin && firstRoute.userOrigin) {
-            setOrigin({
-              lat: firstRoute.userOrigin.lat,
-              lng: firstRoute.userOrigin.lng,
-              name: firstRoute.userOrigin.name || 'Origen de la ruta',
-            });
-          }
-          if (!requestContext.dest && firstRoute.userDest) {
-            setDest({
-              lat: firstRoute.userDest.lat,
-              lng: firstRoute.userDest.lng,
-              name: firstRoute.userDest.name || 'Destino de la ruta',
-            });
-          }
-          dispatchSurface({ type: 'ROUTES_READY' });
-        },
-        (status: string) => console.log('Status:', status),
-        {
-          origin: requestContext.origin || (origin ? { lat: origin.lat, lng: origin.lng } : undefined),
-          dest: requestContext.dest || (dest ? { lat: dest.lat, lng: dest.lng } : undefined),
-          allowBuses: busesEnabled,
-        },
-      ));
-
-      if (isRouteRequest && routeOutcome === 'none') {
-        routeOutcome = 'failed';
-        setRouteError(response || 'No fue posible calcular rutas. Inténtalo de nuevo.');
-        dispatchSurface({ type: 'ROUTES_FAILED' });
-      }
-      const publishedResponse = assistantResponseForOutcome(routeOutcome, response);
-      if (publishedResponse) {
-        setMessages((current) => [...current, { role: 'assistant', content: publishedResponse }]);
-      }
-    } catch (error) {
-      // The provider callback may have published routes before its final text.
-      if ((routeOutcome as RouteOutcome) === 'ready') return;
-      console.error('Route or assistant request failed:', error);
-      const message = error instanceof RequestTimeoutError
-        ? isRouteRequest
-          ? 'La consulta tardó más de lo esperado. Conservamos tu origen y destino: vuelve a pulsar “Ver rutas” para reintentar.'
-          : 'La respuesta tardó más de lo esperado. Puedes enviar tu consulta de nuevo.'
-        : 'No pudimos completar la consulta. Conservamos tus puntos de viaje para que puedas reintentar.';
-      setMessages((current) => [...current, { role: 'assistant', content: message }]);
-      if (isRouteRequest) {
-        setRouteError(message);
-        dispatchSurface({ type: 'ROUTES_FAILED' });
-      }
+      let suggestedRoute = false;
+      const response = await withDeadline(processUserQuery(text, () => {
+        suggestedRoute = true;
+      }, () => {}, { allowBuses: busesEnabled }));
+      if (appRequestRef.current.activeRequest?.id !== request.id) return;
+      // The assistant can explain transport, but cannot publish invented itineraries.
+      setMessages(current => [...current, { role: 'assistant', content: suggestedRoute
+        ? 'Para consultar recorridos de Google Maps, abre “Planear un viaje”, elige origen y destino y pulsa “Ver rutas”. El asistente no sustituye al planificador de rutas.'
+        : response }]);
+    } catch {
+      setMessages(current => [...current, { role: 'assistant', content: 'No pudimos completar la consulta. Puedes intentarlo nuevamente.' }]);
     } finally {
       appRequestRef.current = completeAppRequest(appRequestRef.current, request.id);
       setIsLoading(false);
@@ -362,27 +260,66 @@ export default function App() {
   };
 
   const handleSearchRoute = (
-    searchOrigin: { lat: number; lng: number; name: string },
-    searchDest: { lat: number; lng: number; name: string },
+    searchOrigin: PlaceValue,
+    searchDest: PlaceValue,
   ) => {
-    const admission = admitRouteRequest(appRequestRef.current, {
-      origin: searchOrigin,
-      destination: searchDest,
-    });
+    const admission = admitRouteRequest(appRequestRef.current, { origin: searchOrigin, destination: searchDest });
     if (!admission.request || admission.request.kind !== 'route') return false;
+    const request = admission.request;
     appRequestRef.current = admission.state;
-
-    const acceptedOrigin = admission.request.endpoints.origin;
-    const acceptedDest = admission.request.endpoints.destination;
+    const acceptedOrigin = request.endpoints.origin;
+    const acceptedDest = request.endpoints.destination;
     setOrigin(acceptedOrigin);
     setDest(acceptedDest);
-    const originText = acceptedOrigin.name.split(',')[0];
-    const destText = acceptedDest.name.split(',')[0];
-    const finalMessage = `Busca la mejor ruta en SITVA para ir de "${originText}" a "${destText}". (LAT ${acceptedOrigin.lat}, LNG ${acceptedOrigin.lng} a LAT ${acceptedDest.lat}, LNG ${acceptedDest.lng}). Busca estaciones de SITVA y ENCICLA cercanas y dame la ruta. REGLA MUY IMPORTANTE: Usa EXACTAMENTE los nombres y líneas de las estaciones como aparecen en los DATOS DE ESTACIONES provistos. NUNCA inventes nombres, sistemas, o líneas. Por ejemplo, "Doce de Octubre" es Metrocable Línea P, NO Metroplús. Si la estación es de EnCicla, llámala "EnCicla - [Nombre]". El mensaje para el usuario no debe contener coordenadas.`;
-    void handleSubmit(null, finalMessage, `Ruta desde ${originText} hasta ${destText}`, {
-      origin: { lat: acceptedOrigin.lat, lng: acceptedOrigin.lng },
-      dest: { lat: acceptedDest.lat, lng: acceptedDest.lng },
-    }, admission.request);
+    nav.stop();
+    setIsLoading(true);
+    setRoutes([]);
+    setPendingRoutes([]);
+    setHonestyAssessment(null);
+    setRouteError(null);
+    setProviderNotice('');
+    setActiveRouteIndex(0);
+    dispatchSurface({ type: 'REQUEST_ROUTES' });
+    void (async () => {
+      try {
+        const result = await withDeadline(planTransit(acceptedOrigin, acceptedDest, {
+          google: () => requestGoogleRoutes(acceptedOrigin, acceptedDest),
+          local: async () => {
+            const { getLocalOfflineRoute } = await import('./lib/localRouter');
+            return getLocalOfflineRoute(acceptedOrigin.lat, acceptedOrigin.lng, acceptedDest.lat, acceptedDest.lng);
+          },
+        }));
+        if (appRequestRef.current.activeRequest?.id !== request.id) return;
+        setProviderNotice(result.notice);
+        if (!result.routes.length) {
+          setRouteError(result.notice + ' No encontramos una alternativa local. Cambia los puntos o inténtalo más tarde.');
+          dispatchSurface({ type: 'ROUTES_FAILED' });
+          return;
+        }
+        if (result.routes[0].source === 'local') {
+          const assessment = computeHonestyAssessment(result.routes as never);
+          // Local graph estimates are not independently verified live schedules.
+          setHonestyAssessment(assessment.level === 'confiable' ? null : assessment);
+          if (assessment.level === 'unsafe') {
+            setRouteError(result.notice + ' El respaldo no ofrece un recorrido seguro para estos puntos.');
+            dispatchSurface({ type: 'ROUTES_FAILED' });
+            return;
+          }
+          if (assessment.level === 'no_verificada') setPendingRoutes(result.routes);
+          else setRoutes(result.routes);
+        } else setRoutes(result.routes);
+        dispatchSurface({ type: 'ROUTES_READY' });
+      } catch {
+        if (appRequestRef.current.activeRequest?.id !== request.id) return;
+        setRouteError('No se pudo completar Google ni el respaldo local. Conservamos tus puntos para reintentar.');
+        dispatchSurface({ type: 'ROUTES_FAILED' });
+      } finally {
+        if (appRequestRef.current.activeRequest?.id === request.id) {
+          appRequestRef.current = completeAppRequest(appRequestRef.current, request.id);
+          setIsLoading(false);
+        }
+      }
+    })();
     return true;
   };
 
@@ -408,6 +345,12 @@ export default function App() {
   }, [dest, dispatchSurface, nav.start, origin]);
 
   const handleClearRoute = () => {
+    const activeRequest = appRequestRef.current.activeRequest;
+    if (activeRequest?.kind === 'route') {
+      appRequestRef.current = completeAppRequest(appRequestRef.current, activeRequest.id);
+      setIsLoading(false);
+    }
+    setProviderNotice('');
     setRoutes([]);
     setPendingRoutes([]);
     setHonestyAssessment(null);
@@ -439,7 +382,12 @@ export default function App() {
         className={`mobile-app-shell mobile-surface-${surface} relative flex w-full flex-col overflow-hidden bg-background font-sans text-foreground transition-colors duration-300 lg:flex-row`}
       >
         <div id="map-region" className="absolute inset-0 z-0 h-full lg:relative lg:flex-1">
-          <MapComponent
+          {routes[activeRouteIndex]?.source === 'google' ? (
+            <GoogleTransitMap route={routes[activeRouteIndex]} onClear={handleClearRoute}
+              bottomInset={presentation === 'medium' ? 'min(68dvh, 640px)' : '112px'}
+              panelExpanded={presentation === 'expanded'}
+              mapSelectionMode={mapSelectionMode} onMapPlaceSelected={handleMapPlaceSelected} />
+          ) : <MapComponent
             onSearchRoute={handleSearchRoute}
             origin={origin}
             dest={dest}
@@ -464,7 +412,7 @@ export default function App() {
             isNavigating={navFollow}
             mapSelectionMode={mapSelectionMode}
             onMapPlaceSelected={handleMapPlaceSelected}
-          />
+          />}
           <NavigationOverlay nav={navigationContext} />
           {shouldShowPersistentSupport(surface) && (
             <div className="pointer-events-none absolute bottom-6 left-6 z-[1000] hidden lg:block">
@@ -541,6 +489,8 @@ export default function App() {
 
           {surface === 'results' && (
             <section aria-label="Resultados de rutas" className="space-y-3 pb-4 pt-2">
+              {providerNotice && <p role="status" className="rounded-xl border border-border bg-card p-3 text-sm">{providerNotice}</p>}
+              <p className="text-xs text-muted-foreground"><a className="underline" href="/terms.html" target="_blank" rel="noreferrer">Condiciones de uso</a> · <a className="underline" href="/privacy.html" target="_blank" rel="noreferrer">Privacidad</a></p>
               <div className="flex items-center justify-between gap-2">
                 <div className="flex min-w-0 flex-wrap items-center gap-2">
                   <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-300">Rutas sugeridas</h3>
@@ -578,7 +528,7 @@ export default function App() {
                 </div>
               )}
 
-              {routes.length > 0 && !disclaimerDismissed && (
+              {routes.length > 0 && routes[0].source !== 'google' && !disclaimerDismissed && (
                 <div className="relative rounded-xl border border-amber-200 bg-amber-50 p-3 pr-12 text-xs leading-snug text-amber-950 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-100" role="status">
                   Las rutas son candidatas calculadas con tus coordenadas y datos del SITVA. Revisa cualquier tramo sin validar antes de abordar.
                   <button

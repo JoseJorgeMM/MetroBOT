@@ -2,9 +2,12 @@ import { loadStations, Station } from './stations';
 import { fetchMetroNews } from './news';
 import { loadIntegratedRoutes, matchIntegratedRoutes, IntegratedRoute } from './integratedRoutes';
 
-export type TransportMode = 'metro' | 'metrocable' | 'tranvia' | 'metroplus' | 'encicla' | 'walk' | 'bus' | 'bus_articulado';
+export type TransportMode = 'metro' | 'metrocable' | 'tranvia' | 'metroplus' | 'encicla' | 'walk' | 'bus' | 'bus_articulado' | 'transit';
 
 export interface RouteOption {
+  source?: 'google' | 'local';
+  googlePolyline?: string;
+  fareText?: string;
   id: string;
   modes: TransportMode[];
   duration: number;
@@ -32,6 +35,13 @@ export interface RouteOption {
 }
 
 export interface RouteStep {
+  googlePolyline?: string;
+  transit?: {
+    departureStop?: string; arrivalStop?: string;
+    departureTime?: string; arrivalTime?: string;
+    headsign?: string; stopCount?: number; vehicleName?: string;
+    agencies: Array<{ name: string; uri?: string }>;
+  };
   instruction: string;
   mode: TransportMode;
   duration: number;

@@ -40,10 +40,11 @@ test('route action is disabled until both endpoints are valid', () => {
   assert.match(html, /<button[^>]*disabled[^>]*>[^<]*Ver rutas/);
 });
 
-test('articulated buses are disclosed under advanced options', () => {
+test('transit planner explains all modes without an unsupported bus filter', () => {
   const html = renderToStaticMarkup(<TripPlannerPanel {...baseProps} />);
   assert.match(html, /Opciones de viaje/);
-  assert.match(html, /Incluir buses articulados/);
+  assert.doesNotMatch(html, /Incluir buses articulados/);
+  assert.match(html, /Salida ahora/);
   assert.doesNotMatch(html, />ON</);
   assert.doesNotMatch(html, />OFF</);
 });

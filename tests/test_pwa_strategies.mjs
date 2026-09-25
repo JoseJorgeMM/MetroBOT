@@ -136,7 +136,7 @@ assert('manifest theme_color #00994C', /theme_color:\s*['"]#00994C['"]/.test(cfg
 assert('manifest icon-192 present', cfg.includes('icon-192.png'));
 assert('manifest icon-512 present', cfg.includes('icon-512.png'));
 assert('manifest maskable icon present', cfg.includes('icon-maskable'));
-assert('devOptions enabled', /devOptions:\s*{[\s\S]*enabled:\s*true/.test(cfg));
+assert('dev service worker disabled to avoid intercepting HMR navigations', /devOptions:\s*{[\s\S]*enabled:\s*false/.test(cfg));
 // Build-time guard: vite-plugin-pwa with autoUpdate injects a self-reload
 // path inside the generated sw.js. We must not see it now that we use 'prompt'.
 let buildOk = true;

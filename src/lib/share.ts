@@ -5,6 +5,7 @@
 // -----------------------------------------------------------------------------
 
 import type { RouteOption } from './routing';
+import { googleDirectionsUrl } from './googleTransit';
 
 export function buildShareText(
   route: Partial<RouteOption> | null | undefined,
@@ -13,9 +14,12 @@ export function buildShareText(
 ): string {
   const o = (originName && String(originName).trim()) || 'origen';
   const d = (destName && String(destName).trim()) || 'destino';
+  if (route?.source === 'google' && route.userOrigin && route.userDest) {
+    return `Consulta el viaje ${o} → ${d} en Google Maps: ${googleDirectionsUrl(route.userOrigin, route.userDest)}`;
+  }
   const dur = route && typeof route.duration === 'number' ? route.duration : '?';
   const cost =
-    route && typeof route.cost === 'number' ? '$' + route.cost.toLocaleString('es-CO') : '$?';
+    route && Number.isFinite(route.cost) && route.cost! >= 0 ? '$' + route.cost!.toLocaleString('es-CO') : '$?';
   const tr = route && typeof route.transfers === 'number' ? route.transfers : '?';
   return 'Ruta MetroBOT: ' + o + ' -> ' + d + ' (~' + dur + ' min, ' + cost + ', ' + tr + ' transbordos)';
 }

@@ -4,6 +4,7 @@ import { RouteOption } from '@/src/lib/routing';
 import { Train, CableCar, TramFront, Bus, Bike, Footprints, Clock, DollarSign, ShieldCheck, ShieldAlert, Navigation2, MapPin } from 'lucide-react';
 import { ShareButton } from '../ShareButton';
 import { walkingMinutes as getWalkingMinutes } from '../../lib/routeComparison';
+import { googleDirectionsUrl } from '../../lib/googleTransit';
 
 const ModeIcon = ({ mode, className }: { mode: string, className?: string }) => {
   switch (mode) {
@@ -15,7 +16,7 @@ const ModeIcon = ({ mode, className }: { mode: string, className?: string }) => 
     case 'bus_articulado': return <Bus className={className} />;
     case 'encicla': return <Bike className={className} />;
     case 'walk': return <Footprints className={className} />;
-    default: return <Footprints className={className} />;
+    default: return <Train className={className} />;
   }
 };
 
@@ -43,7 +44,7 @@ const ModeLabel = (mode: string) => {
     case 'bus_articulado': return 'Bus';
     case 'encicla': return 'EnCicla';
     case 'walk': return 'A pie';
-    default: return 'A pie';
+    default: return 'Transporte público';
   }
 };
 
@@ -115,10 +116,14 @@ export function RouteCard({ route, isSelected, originName, destName, routeIndex 
   const hasKnownWalkingDuration = walkingMinutes !== null;
   const modeSummary = modes.map(ModeLabel).join(', ') || 'transporte público';
   const selectionLabel = `Seleccionar Ruta ${routeIndex + 1}: ${route.duration} minutos por ${modeSummary}`;
+  const googleUrl = route.source === 'google' && route.userOrigin && route.userDest ? googleDirectionsUrl(route.userOrigin, route.userDest) : null;
+  const formatTime = (value?: string) => value && Number.isFinite(Date.parse(value))
+    ? new Intl.DateTimeFormat('es-CO', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Bogota' }).format(new Date(value)) : 'Hora no disponible';
 
   return (
     <Card className={'mb-3 sm:mb-4 overflow-hidden border-0 shadow-sm ring-1 transition-colors duration-200 ' + (isSelected ? 'ring-sitva-green ring-2 bg-emerald-50/30 dark:bg-emerald-950/10' : 'ring-slate-200/70 dark:ring-slate-800/80 bg-card')}>
       <CardContent className="p-3.5 sm:p-4">
+        {route.source && <p className="mb-2 text-xs text-muted-foreground" translate="no">{route.source === 'google' ? 'Google Maps' : 'Respaldo local · SITVA'}</p>}
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2 text-xs font-semibold">
           <span className="text-slate-500 dark:text-slate-400">OPCIÓN {routeIndex + 1}{isSelected ? ' · EN EL MAPA' : ''}</span>
           {extraMinutes != null && <span className="text-sitva-green">{extraMinutes === 0 ? 'Menor tiempo estimado' : `+${extraMinutes} min frente a la más rápida`}</span>}
@@ -164,7 +169,7 @@ export function RouteCard({ route, isSelected, originName, destName, routeIndex 
             )}
             <div className="flex items-center space-x-1 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-full min-h-[32px]">
               <DollarSign className="w-4 h-4 text-slate-600 dark:text-slate-400" />
-              <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">{Number.isFinite(route.cost) && route.cost >= 0 ? `${route.cost.toLocaleString('es-CO')} COP est.` : 'Costo sin confirmar'}</span>
+              <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">{route.fareText || (Number.isFinite(route.cost) && route.cost >= 0 ? `${route.cost.toLocaleString('es-CO')} COP est.` : 'Costo sin confirmar')}</span>
             </div>
           </div>
         </div>
@@ -202,12 +207,18 @@ export function RouteCard({ route, isSelected, originName, destName, routeIndex 
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-slate-700 dark:text-slate-300 break-words">{step.instruction}</p>
                     {step.line && <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5 break-words">{step.line}</p>}
+                    {step.transit && <div className="mt-1 space-y-1 text-xs text-muted-foreground">
+                      <p>Sube: {step.transit.departureStop || 'Parada no informada'} · {formatTime(step.transit.departureTime)}</p>
+                      <p>Baja: {step.transit.arrivalStop || 'Parada no informada'} · {formatTime(step.transit.arrivalTime)}</p>
+                      {step.transit.stopCount != null && <p>{step.transit.stopCount} paradas · {step.transit.vehicleName || ModeLabel(step.mode)}</p>}
+                      {step.transit.agencies.map((agency, i) => <p key={i}>{/^https?:\/\//.test(agency.uri || '') ? <a className="underline" href={agency.uri} target="_blank" rel="noreferrer">{agency.name}</a> : agency.name}</p>)}
+                    </div>}
                   </div>
                   <div className="flex flex-col items-end shrink-0 min-w-[64px]">
                     <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">
                       {step.cost !== undefined && Number.isFinite(step.cost) ? '$' + step.cost.toLocaleString('es-CO') : step.mode === 'walk' ? 'A pie' : 'Sin tarifa'}
                     </span>
-                    <span className="text-xs text-slate-400 dark:text-slate-500">{step.duration} min</span>
+                    <span className="text-xs text-slate-400 dark:text-slate-500">{step.duration >= 0 ? `${step.duration} min` : 'Sin estimación'}</span>
                   </div>
                 </div>
                 {leg && step.mode === 'bus_articulado' && <RealStopsPanel leg={leg} />}
@@ -218,7 +229,7 @@ export function RouteCard({ route, isSelected, originName, destName, routeIndex 
         </details>
 
         <div className="mt-4 pt-3 border-t border-border flex items-center justify-between gap-2 flex-wrap">
-          {showStartNavButton ? (
+          {googleUrl ? <a href={googleUrl} target="_blank" rel="noreferrer" className="min-h-11 rounded-full bg-sitva-green px-4 py-3 text-sm font-bold text-white">Continuar en Google Maps ↗</a> : showStartNavButton ? (
             <button
               type="button"
               onClick={() => onStartNav && onStartNav(route)}
