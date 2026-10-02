@@ -1,5 +1,6 @@
 import { Station, loadStations, calculateDistance } from './stations';
 import { RouteOption, RouteStep } from './routing';
+import { priceRoute } from './fares/routeAdapter';
 
 interface GraphEdge {
   targetId: string;
@@ -378,72 +379,6 @@ function formatGroupToStep(group: {
   };
 }
 
-// Programmatic cost calculator matching our gemini.ts rules
-function calculateRouteCosts(steps: RouteStep[]): { totalCost: number; stepsWithCosts: RouteStep[] } {
-  let totalCost = 0;
-  let hasUsedMetroplus = false;
-  let currentSystem = '';
-
-  const stepsWithCosts = steps.map(step => {
-    const mode = (step.mode || '').toLowerCase();
-    if (mode === 'walk' || mode === 'encicla') {
-      return { ...step, cost: 0 };
-    }
-
-    const isArviLine = step.line === 'L' || step.line === 'Línea L' || step.line === 'Línea Línea L';
-    const isArviStation = step.station?.name?.toLowerCase().includes('arví');
-
-    if (isArviLine || isArviStation) {
-      totalCost += 11900;
-      currentSystem = 'arvi';
-      return { ...step, cost: 11900 };
-    }
-
-    if (mode === 'metroplus' || step.line === 'O' || step.line === 'Línea O' || step.line === 'Línea 1' || step.line === 'Línea 2') {
-      let stepCost = 0;
-      if (currentSystem !== 'metroplus') {
-        if (!hasUsedMetroplus) {
-          stepCost = (totalCost === 0) ? 3820 : 0;
-          hasUsedMetroplus = true;
-        } else {
-          stepCost = 3820;
-        }
-      }
-      totalCost += stepCost;
-      currentSystem = 'metroplus';
-      return { ...step, cost: stepCost };
-    } else if (['metro', 'metrocable', 'tranvia'].includes(mode)) {
-      let stepCost = 0;
-      if (totalCost === 0) {
-        stepCost = 3820;
-      } else if (currentSystem === 'arvi') {
-        stepCost = 3820;
-      }
-      totalCost += stepCost;
-      currentSystem = 'metro';
-      return { ...step, cost: stepCost };
-    }
-
-    return { ...step, cost: 0 };
-  });
-
-  // Ensure default cost if total is 0 but they took transit
-  if (totalCost === 0) {
-    const transitSteps = stepsWithCosts.filter(s => ['metro', 'metrocable', 'tranvia', 'metroplus'].includes(s.mode));
-    if (transitSteps.length > 0) {
-      totalCost = 3820;
-      let first = true;
-      stepsWithCosts.forEach(s => {
-        if (['metro', 'metrocable', 'tranvia', 'metroplus'].includes(s.mode)) {
-          s.cost = first ? 3820 : 0;
-          first = false;
-        }
-      });
-    }
-  }
-
-  return { totalCost, stepsWithCosts };
-}
 
 export async function getLocalOfflineRoute(
   originLat: number,
@@ -564,15 +499,13 @@ export async function getLocalOfflineRoute(
       const firstStation = graph.get(nearestOrigin[0].s.id)!.station;
       const lastStation = graph.get(nearestDest[0].s.id)!.station;
 
-      const { totalCost, stepsWithCosts } = calculateRouteCosts(cleanSteps);
-
       const uniqueModes = Array.from(new Set(cleanSteps.map(s => s.mode)));
 
-      routeOptions.push({
+      routeOptions.push(priceRoute({
         id: `${cfg.id}-${Date.now()}`,
         modes: uniqueModes,
         duration,
-        cost: totalCost,
+        cost: -1,
         transfers: cleanSteps.filter(s => ['metro', 'metrocable', 'tranvia', 'metroplus'].includes(s.mode)).length - 1,
         originStation: {
           name: firstStation.nombre,
@@ -594,8 +527,8 @@ export async function getLocalOfflineRoute(
           lat: destLat,
           lng: destLng
         },
-        steps: stepsWithCosts
-      });
+        steps: cleanSteps
+      }));
     }
   });
 

@@ -5,6 +5,8 @@ import { Train, CableCar, TramFront, Bus, Bike, Footprints, Clock, DollarSign, S
 import { ShareButton } from '../ShareButton';
 import { walkingMinutes as getWalkingMinutes } from '../../lib/routeComparison';
 import { googleDirectionsUrl } from '../../lib/googleTransit';
+import { FareBreakdown } from './FareBreakdown';
+import { formatCOP } from '../../lib/fares/config';
 
 const ModeIcon = ({ mode, className }: { mode: string, className?: string }) => {
   switch (mode) {
@@ -169,7 +171,7 @@ export function RouteCard({ route, isSelected, originName, destName, routeIndex 
             )}
             <div className="flex items-center space-x-1 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-full min-h-[32px]">
               <DollarSign className="w-4 h-4 text-slate-600 dark:text-slate-400" />
-              <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">{route.fareText || (Number.isFinite(route.cost) && route.cost >= 0 ? `${route.cost.toLocaleString('es-CO')} COP est.` : 'Costo sin confirmar')}</span>
+              <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">{route.fare ? (route.fare.total === null ? 'Tarifa no determinada' : formatCOP(route.fare.total)) : 'Costo sin confirmar'}</span>
             </div>
           </div>
         </div>
@@ -193,6 +195,7 @@ export function RouteCard({ route, isSelected, originName, destName, routeIndex 
           <span>{hasKnownWalkingDuration ? `${walkingMinutes} min a pie` : hasWalkSegment ? 'Incluye tramo a pie' : 'Sin tramos a pie'}</span>
         </div>
 
+        {route.fare && <FareBreakdown fare={route.fare} />}
         <details className="mt-3 border-t border-border" open={isSelected || undefined}>
           <summary className="min-h-11 cursor-pointer py-3 text-sm font-semibold text-foreground">Trayecto paso a paso · {steps.length} tramos</summary>
           <div className="space-y-3 border-l-2 border-border pl-3">
@@ -216,7 +219,7 @@ export function RouteCard({ route, isSelected, originName, destName, routeIndex 
                   </div>
                   <div className="flex flex-col items-end shrink-0 min-w-[64px]">
                     <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">
-                      {step.cost !== undefined && Number.isFinite(step.cost) ? '$' + step.cost.toLocaleString('es-CO') : step.mode === 'walk' ? 'A pie' : 'Sin tarifa'}
+                      {step.mode === 'walk' ? 'A pie' : route.fare?.breakdown[index]?.charge === 0 && route.fare.breakdown[index].description.includes('adicional') ? '$0 adicional' : route.fare?.breakdown[index]?.charge != null ? formatCOP(route.fare.breakdown[index].charge!) : 'Sin tarifa'}
                     </span>
                     <span className="text-xs text-slate-400 dark:text-slate-500">{step.duration >= 0 ? `${step.duration} min` : 'Sin estimación'}</span>
                   </div>

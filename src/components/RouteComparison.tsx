@@ -1,8 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ArrowRight, SlidersHorizontal } from 'lucide-react';
 import { rankRoutes, timeTradeoff, type RoutePriority } from '../lib/routeComparison';
 import { RouteCard, type RouteCardProps } from './RouteCards/RouteCard';
 import type { RouteOption } from '../lib/routing';
+import { fareCatalog, fareConfig } from '../lib/fares/config';
+import { priceRoute, traceFare, type FareEvidence } from '../lib/fares/routeAdapter';
+import type { FareProfile } from '../lib/fares/types';
+import { getStations } from '../lib/stations';
+import { loadIntegratedRoutes } from '../lib/integratedRoutes';
 
 interface Props {
   routes: RouteOption[];
@@ -17,7 +22,18 @@ interface Props {
 
 export function RouteComparison({ routes, activeRouteIndex, originName, destName, onSelect, onEdit, onStartNav, navState }: Props) {
   const [priority, setPriority] = useState<RoutePriority>('duration');
-  const ranked = rankRoutes(routes, priority);
+  const [profile, setProfile] = useState<FareProfile>(fareConfig.defaultProfile);
+  const [evidence, setEvidence] = useState<FareEvidence>({});
+  useEffect(() => {
+    let active = true;
+    if (routes.some(route => route.steps.some(step => step.mode === 'bus' || step.mode === 'bus_articulado'))) {
+      Promise.all([getStations(), loadIntegratedRoutes()]).then(([stations, catalog]) => { if (active) setEvidence({stations, routes:catalog}); });
+    }
+    return () => { active = false; };
+  }, [routes]);
+  const pricedRoutes = useMemo(() => routes.map(route => priceRoute(route, profile, evidence)), [routes, profile, evidence]);
+  useEffect(() => { pricedRoutes.forEach(route => traceFare(route, import.meta.env.DEV && import.meta.env.VITE_FARE_DEBUG === 'true')); }, [pricedRoutes]);
+  const ranked = rankRoutes(pricedRoutes, priority);
   return (
     <div className="space-y-4">
       <div className="border-b border-border pb-4">
@@ -37,7 +53,18 @@ export function RouteComparison({ routes, activeRouteIndex, originName, destName
             <option value="transfers">Menos transbordos</option>
           </select>
         </label>
-        <p className="mt-2 text-xs text-slate-500 dark:text-slate-400" role="status">{routes.length} {routes.length === 1 ? 'opción disponible' : 'opciones disponibles'} · Tiempos y costos estimados</p>
+        <label className="mt-3 block text-sm font-medium">Perfil tarifario
+          <select value={profile.id} onChange={event => setProfile({...profile,id:event.target.value,payment:event.target.value === 'bancarizado' ? 'bank' : 'civica'})} className="mt-1 min-h-11 w-full rounded-xl border border-border bg-background px-3 text-sm">
+            {Object.entries(fareCatalog.perfiles_masivo).map(([id, value]) => <option key={id} value={id}>{value.descripcion}</option>)}
+          </select>
+        </label>
+        {routes.some(route => route.steps.some(step => step.mode === 'metrocable')) && <label className="mt-3 block text-sm">Si usas Cable Arví
+          <select value={profile.arviCategory || ''} onChange={event => setProfile({...profile,arviCategory:event.target.value || undefined})} className="mt-1 min-h-11 w-full rounded-xl border border-border bg-background px-3">
+            <option value="">Categoría sin confirmar</option>
+            <option value="estratos_1_2_3">Estratos 1, 2 y 3</option><option value="nacionales_o_personalizados">Nacional o personalizado</option><option value="extranjeros_o_general">Extranjero o general</option>
+          </select>
+        </label>}
+        <p className="mt-2 text-xs text-slate-500 dark:text-slate-400" role="status">{routes.length} {routes.length === 1 ? 'opción disponible' : 'opciones disponibles'} · Tiempos estimados; consulta condiciones de tarifa</p>
       </div>
       {ranked.map(({ route, index }) => (
         <RouteCard key={route.id} route={route} routeIndex={index} isSelected={activeRouteIndex === index}

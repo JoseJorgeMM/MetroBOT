@@ -1,0 +1,552 @@
+{
+    "sistema": "SITVA - Metro de Medellín",
+    "version_tarifaria": "2026",
+    "fecha_vigencia": "2026-01-10",
+    "moneda": "COP",
+    "fecha_consulta": "2026-10-01",
+    "regla_principal": {
+        "descripcion": "El costo de una ruta NO debe calcularse sumando automáticamente el precio individual de cada vehículo. Primero se debe identificar la cadena de modos y aplicar la tarifa de integración correspondiente.",
+        "ventana_integracion_masivo_minutos": 90,
+        "ventana_integracion_colectivo_integrado_minutos": 90,
+        "nota": "Para el subsistema masivo se aplica la tarifa integrada cuando la transferencia ocurre dentro de 90 minutos. Para las rutas de transporte público colectivo integradas, la normativa establece que la transferencia entre el primer y último modo debe realizarse en menos de 90 minutos.",
+        "si_se_supera_la_ventana": "Cobrar la tarifa correspondiente al nuevo viaje según el modo utilizado."
+    },
+    "modos": {
+        "metro": {
+            "tipo": "masivo",
+            "codigo": "METRO",
+            "incluido_en_integraciones": true
+        },
+        "metrocable": {
+            "tipo": "masivo",
+            "codigo": "CABLE",
+            "incluido_en_integraciones": true,
+            "nota": "Incluye cables integrados al sistema. El Cable Arví tiene tarifa independiente."
+        },
+        "tranvia": {
+            "tipo": "masivo",
+            "codigo": "TRANVIA",
+            "incluido_en_integraciones": true
+        },
+        "metroplus": {
+            "tipo": "masivo",
+            "codigo": "METROPLUS",
+            "incluido_en_integraciones": true
+        },
+        "alimentador": {
+            "tipo": "masivo",
+            "codigo": "ALIMENTADOR",
+            "incluido_en_integraciones": true,
+            "nota": "Aplica para los buses alimentadores de las cuencas 3 y 6."
+        },
+        "bus_integrado": {
+            "tipo": "colectivo_integrado",
+            "codigo": "BUS_INTEGRADO",
+            "incluido_en_integraciones": true
+        },
+        "micro_integrado": {
+            "tipo": "colectivo_integrado",
+            "codigo": "MICRO_INTEGRADO",
+            "incluido_en_integraciones": true
+        },
+        "encicla": {
+            "tipo": "bicicleta_publica",
+            "codigo": "ENCICLA",
+            "costo": 0,
+            "gratis": true,
+            "nota": "EnCicla es un sistema público de bicicletas de uso gratuito."
+        }
+    },
+    "perfiles_masivo": {
+        "frecuente": {
+            "descripcion": "Tarjeta Cívica personalizada perfil frecuente",
+            "tarifas": {
+                "integracion_1_a_4": 3820,
+                "integracion_5_a_7": 4570,
+                "integracion_8": 5320,
+                "integracion_9_a_10": 6070
+            }
+        },
+        "adulto_mayor": {
+            "descripcion": "Usuario mayor de 60 años con perfil correspondiente",
+            "tarifas": {
+                "integracion_1_a_4": 3330,
+                "integracion_5_a_7": 4080,
+                "integracion_8": 4830,
+                "integracion_9_a_10": 5580
+            }
+        },
+        "estudiantil": {
+            "descripcion": "Perfil estudiantil del SITVA",
+            "tarifas": {
+                "integracion_1_a_4": 1600,
+                "integracion_5_a_7": 2350,
+                "integracion_8": 3100,
+                "integracion_9_a_10": 3850
+            }
+        },
+        "pcd": {
+            "descripcion": "Persona con discapacidad",
+            "tarifas": {
+                "integracion_1_a_4": 2720,
+                "integracion_5_a_7": 3470,
+                "integracion_8": 4220,
+                "integracion_9_a_10": 4970
+            }
+        },
+        "al_portador": {
+            "descripcion": "Tarjeta Cívica al portador",
+            "tarifas": {
+                "integracion_1_a_4": 4400,
+                "integracion_5_a_7": 5150,
+                "integracion_8": 5900,
+                "integracion_9_a_10": 6650
+            }
+        },
+        "eventual": {
+            "descripcion": "Usuario eventual o univiaje",
+            "tarifas": {
+                "integracion_1_a_4": 4400,
+                "integracion_5_a_7": 5150,
+                "integracion_8": 5900,
+                "integracion_9_a_10": 6650
+            }
+        },
+        "bancarizado": {
+            "descripcion": "Pago mediante tarjeta o dispositivo bancario",
+            "tarifa_base": 4570,
+            "otras_integraciones": "NA"
+        }
+    },
+    "integraciones_masivo": {
+        "integracion_1": {
+            "nombre": "Un solo modo",
+            "combinaciones": [
+                [
+                    "METRO"
+                ],
+                [
+                    "CABLE"
+                ],
+                [
+                    "TRANVIA"
+                ],
+                [
+                    "METROPLUS"
+                ],
+                [
+                    "ALIMENTADOR"
+                ]
+            ],
+            "perfil_frecuente": 3820
+        },
+        "integracion_2": {
+            "nombre": "Metro/Cable/Tranvía/Metroplús entre sí",
+            "combinaciones": [
+                [
+                    "METRO",
+                    "METROPLUS"
+                ],
+                [
+                    "METRO",
+                    "TRANVIA"
+                ],
+                [
+                    "TRANVIA",
+                    "METROPLUS"
+                ],
+                [
+                    "METRO",
+                    "TRANVIA",
+                    "METROPLUS"
+                ],
+                [
+                    "METROPLUS",
+                    "ALIMENTADOR"
+                ],
+                [
+                    "TRANVIA",
+                    "ALIMENTADOR"
+                ]
+            ],
+            "tarifa_frecuente": 3820,
+            "costo_adicional_por_transferencia": 0
+        },
+        "integracion_3": {
+            "nombre": "Metro/Cable con alimentador",
+            "combinaciones": [
+                [
+                    "ALIMENTADOR",
+                    "METRO"
+                ],
+                [
+                    "ALIMENTADOR",
+                    "METROPLUS",
+                    "METRO"
+                ],
+                [
+                    "ALIMENTADOR",
+                    "TRANVIA",
+                    "METRO"
+                ],
+                [
+                    "ALIMENTADOR",
+                    "TRANVIA",
+                    "METROPLUS",
+                    "METRO"
+                ],
+                [
+                    "ALIMENTADOR",
+                    "ALIMENTADOR"
+                ]
+            ],
+            "tarifa_frecuente": 4570
+        },
+        "integracion_4": {
+            "nombre": "Alimentador + Metroplús/Tranvía + Alimentador",
+            "combinaciones": [
+                [
+                    "ALIMENTADOR",
+                    "METROPLUS",
+                    "ALIMENTADOR"
+                ],
+                [
+                    "ALIMENTADOR",
+                    "TRANVIA",
+                    "ALIMENTADOR"
+                ],
+                [
+                    "ALIMENTADOR",
+                    "TRANVIA",
+                    "METROPLUS",
+                    "ALIMENTADOR"
+                ]
+            ],
+            "tarifa_frecuente": 5320
+        },
+        "integracion_5": {
+            "nombre": "Alimentador + Metro + Alimentador",
+            "combinaciones": [
+                [
+                    "ALIMENTADOR",
+                    "METRO",
+                    "ALIMENTADOR"
+                ],
+                [
+                    "ALIMENTADOR",
+                    "METRO",
+                    "METROPLUS",
+                    "ALIMENTADOR"
+                ],
+                [
+                    "ALIMENTADOR",
+                    "METRO",
+                    "TRANVIA",
+                    "ALIMENTADOR"
+                ],
+                [
+                    "ALIMENTADOR",
+                    "METRO",
+                    "TRANVIA",
+                    "METROPLUS",
+                    "ALIMENTADOR"
+                ]
+            ],
+            "tarifa_frecuente": 6070
+        }
+    },
+    "equivalencia_integraciones_oficiales": {
+        "integraciones_1_4": {
+            "frecuente": 3820,
+            "adulto_mayor": 3330,
+            "estudiantil": 1600,
+            "pcd": 2720,
+            "al_portador": 4400,
+            "eventual": 4400
+        },
+        "integraciones_5_7": {
+            "frecuente": 4570,
+            "adulto_mayor": 4080,
+            "estudiantil": 2350,
+            "pcd": 3470,
+            "al_portador": 5150,
+            "eventual": 5150
+        },
+        "integracion_8": {
+            "frecuente": 5320,
+            "adulto_mayor": 4830,
+            "estudiantil": 3100,
+            "pcd": 4220,
+            "al_portador": 5900,
+            "eventual": 5900
+        },
+        "integraciones_9_10": {
+            "frecuente": 6070,
+            "adulto_mayor": 5580,
+            "estudiantil": 3850,
+            "pcd": 4970,
+            "al_portador": 6650,
+            "eventual": 6650
+        }
+    },
+    "reglas_transferencia": {
+        "metro_a_metroplus": {
+            "dentro_90_minutos": {
+                "costo_adicional": 0,
+                "descripcion": "La transferencia está incluida dentro de la tarifa de integración."
+            }
+        },
+        "metro_a_tranvia": {
+            "dentro_90_minutos": {
+                "costo_adicional": 0,
+                "descripcion": "La transferencia está incluida dentro de la tarifa de integración."
+            }
+        },
+        "metro_a_cable": {
+            "dentro_zona_paga": {
+                "costo_adicional": 0,
+                "descripcion": "No hay cobro adicional mientras no sea necesaria una nueva validación del medio de pago."
+            }
+        },
+        "metroplus_a_metro": {
+            "dentro_90_minutos": {
+                "costo_adicional": 0,
+                "descripcion": "No se suma otro pasaje completo. Se aplica la tarifa de integración correspondiente."
+            }
+        },
+        "tranvia_a_metro": {
+            "dentro_90_minutos": {
+                "costo_adicional": 0,
+                "descripcion": "Se aplica la tarifa integrada correspondiente."
+            }
+        },
+        "alimentador_a_metro": {
+            "dentro_90_minutos": {
+                "tarifa_frecuente": 4570,
+                "costo_adicional_sobre_integracion_1": 750,
+                "descripcion": "No se cobra un segundo pasaje completo; se aplica la tarifa de integración 5."
+            }
+        },
+        "alimentador_a_metroplus": {
+            "dentro_90_minutos": {
+                "tarifa_frecuente": 3820,
+                "costo_adicional_sobre_integracion_1": 0,
+                "descripcion": "La combinación está incluida en la integración correspondiente."
+            }
+        },
+        "alimentador_a_tranvia": {
+            "dentro_90_minutos": {
+                "tarifa_frecuente": 3820,
+                "costo_adicional_sobre_integracion_1": 0,
+                "descripcion": "La combinación está incluida en la integración correspondiente."
+            }
+        },
+        "alimentador_a_alimentador": {
+            "dentro_90_minutos": {
+                "tarifa_frecuente": 4570,
+                "descripcion": "Se aplica la integración correspondiente."
+            }
+        }
+    },
+    "rutas_colectivas_integradas_2026": {
+        "regla": "Cuando una ruta de transporte público colectivo integrada se combina con Metro o Cable, el valor total es la porción bus/micro más la porción Metro/Cable.",
+        "porcion_metro_o_cable": 2230,
+        "requiere": "Tarjeta Cívica para realizar el recaudo integrado",
+        "perfiles_preferenciales": false,
+        "nota": "Los perfiles frecuente, estudiantil, adulto mayor y PCD del subsistema masivo no se aplican a estas integraciones colectivas.",
+        "tarifas_totales": {
+            "barbosa": {
+                "bus": 5890,
+                "micro": null
+            },
+            "girardota": {
+                "bus": 5040,
+                "micro": 5390
+            },
+            "copacabana": {
+                "bus": 4740,
+                "micro": null
+            },
+            "bello": {
+                "bus": 4715,
+                "micro": null
+            },
+            "bello_paris": {
+                "bus": 5330,
+                "micro": null
+            },
+            "bello_san_felix": {
+                "bus": 6780,
+                "micro": null
+            },
+            "medellin": {
+                "bus": 4715,
+                "micro": 4715
+            },
+            "cuenca_4_medellin_itagui_la_estrella": {
+                "bus": 4715,
+                "micro": 4715
+            },
+            "medellin_metrosan": {
+                "bus": 4450,
+                "micro": null
+            },
+            "cuenca_5_envigado_sabaneta": {
+                "bus": 4765,
+                "micro": 4765
+            },
+            "envigado_eia": {
+                "bus": 5785,
+                "micro": 5785
+            },
+            "envigado_eia_circular": {
+                "bus": 6635,
+                "micro": 6635
+            },
+            "envigado_arenales": {
+                "bus": 5465,
+                "micro": 5465
+            },
+            "envigado_catedral": {
+                "bus": 5785,
+                "micro": 5785
+            },
+            "caldas": {
+                "bus": 4890,
+                "micro": 4890
+            }
+        }
+    },
+    "doble_integracion_colectiva": {
+        "estructura": [
+            "BUS_INTEGRADO",
+            "METRO_O_CABLE",
+            "BUS_INTEGRADO"
+        ],
+        "regla": "La tarifa total es la suma de la porción del primer bus/micro + $2.230 de Metro/Cable + la porción del segundo bus/micro.",
+        "condicion": "Las rutas integradas del inicio y final deben pertenecer a diferentes cuencas.",
+        "ventana_maxima_minutos": 90,
+        "ejemplo": {
+            "primer_bus": 2485,
+            "metro": 2230,
+            "segundo_bus": 2535,
+            "total": 7250
+        }
+    },
+    "encicla": {
+        "costo": 0,
+        "moneda": "COP",
+        "gratis": true,
+        "debe_sumarse_al_total": 0,
+        "nota": "EnCicla es bicicleta pública gratuita. Su utilización no debe incrementar el costo monetario del viaje."
+    },
+    "cable_arvi": {
+        "codigo": "CABLE_ARVI",
+        "es_integracion_masivo_normal": false,
+        "tarifa_independiente": true,
+        "estratos_1_2_3": 3900,
+        "nacionales_o_personalizados": 11900,
+        "extranjeros_o_general": 26700,
+        "nota": "No debe confundirse con los Metrocables integrados H, J, K, M y P."
+    },
+    "reglas_para_calculador_de_rutas": {
+        "paso_1": "Identificar todos los modos utilizados en orden.",
+        "paso_2": "Identificar si cada bus es ALIMENTADOR de cuenca 3/6, BUS_INTEGRADO, MICRO_INTEGRADO o transporte no integrado.",
+        "paso_3": "Si todos los modos pertenecen al subsistema masivo, buscar la combinación en integraciones_masivo.",
+        "paso_4": "Si aparece una ruta colectiva integrada, utilizar rutas_colectivas_integradas_2026.",
+        "paso_5": "Si aparece EnCicla, asignar costo 0 a ese tramo.",
+        "paso_6": "No sumar individualmente Metro + Metroplús cuando exista una integración válida.",
+        "paso_7": "Verificar el tiempo transcurrido desde el primer pago antes de aplicar una integración.",
+        "paso_8": "Si se supera la ventana de integración, iniciar el cálculo de un nuevo viaje.",
+        "paso_9": "Si una combinación no aparece explícitamente en las tablas oficiales, NO inventar una tarifa integrada.",
+        "paso_10": "Si una ruta de Google Maps dice simplemente 'bus', primero determinar mediante los datos del SITVA si realmente corresponde a un alimentador o ruta integrada antes de calcular el precio."
+    },
+    "ejemplos_para_metrobot": [
+        {
+            "ruta": [
+                "METRO",
+                "METROPLUS"
+            ],
+            "perfil": "frecuente",
+            "tiempo_entre_transbordos_minutos": 20,
+            "costo_total": 3820,
+            "costo_adicional_transbordo": 0
+        },
+        {
+            "ruta": [
+                "METRO",
+                "TRANVIA"
+            ],
+            "perfil": "frecuente",
+            "tiempo_entre_transbordos_minutos": 20,
+            "costo_total": 3820,
+            "costo_adicional_transbordo": 0
+        },
+        {
+            "ruta": [
+                "ALIMENTADOR",
+                "METRO"
+            ],
+            "perfil": "frecuente",
+            "tiempo_entre_transbordos_minutos": 20,
+            "costo_total": 4570,
+            "costo_adicional_transbordo": 750
+        },
+        {
+            "ruta": [
+                "ALIMENTADOR",
+                "METROPLUS"
+            ],
+            "perfil": "frecuente",
+            "tiempo_entre_transbordos_minutos": 20,
+            "costo_total": 3820,
+            "costo_adicional_transbordo": 0
+        },
+        {
+            "ruta": [
+                "ALIMENTADOR",
+                "METRO",
+                "ALIMENTADOR"
+            ],
+            "perfil": "frecuente",
+            "tiempo_total_minutos": 50,
+            "costo_total": 6070
+        },
+        {
+            "ruta": [
+                "ENCICLA",
+                "METRO"
+            ],
+            "perfil": "frecuente",
+            "tiempo_total_minutos": 30,
+            "costo_total": 3820
+        },
+        {
+            "ruta": [
+                "METRO",
+                "ENCICLA"
+            ],
+            "perfil": "frecuente",
+            "tiempo_total_minutos": 30,
+            "costo_total": 3820
+        },
+        {
+            "ruta": [
+                "BUS_INTEGRADO",
+                "METRO"
+            ],
+            "municipio": "Bello",
+            "costo_total": 4715
+        },
+        {
+            "ruta": [
+                "BUS_INTEGRADO",
+                "METRO",
+                "BUS_INTEGRADO"
+            ],
+            "primer_cuenca": 1,
+            "segunda_cuenca": 5,
+            "costo_total": 7250
+        }
+    ]
+}
