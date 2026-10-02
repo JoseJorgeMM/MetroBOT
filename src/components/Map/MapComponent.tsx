@@ -31,6 +31,8 @@ import { getRouteGeometry } from '@/src/lib/osrm';
 import { RouteOption } from '@/src/lib/routing';
 import { getVisibleStations } from '@/src/lib/mapStationsFilter';
 import { SupportCard } from '../SupportCard';
+import { StationDialog } from './StationDialog';
+import { nearbyStations } from '../../lib/routeStations';
 
 const cartoApiKey = import.meta.env.VITE_CARTO_API_KEY?.trim();
 const cartoTileKey = cartoApiKey ? `?key=${encodeURIComponent(cartoApiKey)}` : '';
@@ -137,6 +139,7 @@ export function MapComponent({
   onMapPlaceSelected,
 }: MapComponentProps) {
   const [stations, setStations] = useState<Station[]>([]);
+  const [selectedStation, setSelectedStation] = useState<Station | null>(null);
   const [loading, setLoading] = useState(true);
   const [isLegendExpanded, setIsLegendExpanded] = useState(false);
   const [routePaths, setRoutePaths] = useState<{[key: string]: [number, number][]}>( {});
@@ -541,35 +544,20 @@ export function MapComponent({
             icon={createCustomMarker(getMarkerColor(station.sistema))}
             alt={`Estación ${station.nombre}`}
             title={station.nombre}
-          >
-            <Popup>
-              <div className="p-2 min-w-[200px] font-sans">
-                <div className="flex items-center gap-2 mb-2 border-b border-slate-100 pb-2">
-                  <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: getMarkerColor(station.sistema) }}></div>
-                  <h3 className="font-bold text-slate-900 text-sm leading-tight m-0">{station.nombre}</h3>
-                </div>
-                <div className="space-y-1.5 text-[11px] text-slate-600">
-                  <div className="flex justify-between items-center">
-                    <span className="text-slate-400">Sistema</span>
-                    <span className="font-semibold text-slate-700">{station.sistema}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-slate-400">Línea</span>
-                    <span className="px-1.5 py-0.5 rounded bg-slate-100 font-mono font-bold text-slate-800 border border-slate-200">{station.linea}</span>
-                  </div>
-                  <div className="pt-2">
-                    <button 
-                      onClick={() => handleComoLlegar(station as Station)}
-                      className="min-h-11 w-full bg-sitva-green text-white font-bold py-1.5 rounded-lg text-xs shadow-sm hover:bg-sitva-green/90 transition-colors cursor-pointer"
-                    >
-                      ¿Cómo llegar?
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </Popup>
-          </Marker>
+            eventHandlers={{
+              click: () => { if (!mapSelectionMode) setSelectedStation(station as Station); },
+              keypress: event => { if (!mapSelectionMode && event.originalEvent.key === 'Enter') setSelectedStation(station as Station); },
+            }}
+          />
         ))}
+        {selectedStation && !mapSelectionMode && <StationDialog
+          onClose={() => setSelectedStation(null)} source="local"
+          stop={{ id: selectedStation.id, name: selectedStation.nombre, ...selectedStation, station: selectedStation, mode: 'transit', visits: [] }}
+          nearby={nearbyStations(selectedStation, stations, `${selectedStation.sistema}:${selectedStation.id}`)}
+          onNearby={setSelectedStation}
+        >
+          <button type="button" onClick={() => { setSelectedStation(null); handleComoLlegar(selectedStation); }} className="mt-3 min-h-11 w-full rounded-xl bg-emerald-700 px-3 font-semibold text-white">Planear viaje hasta aquí</button>
+        </StationDialog>}
 
         {/* Live user location marker (blue dot + heading arrow). */}
         <UserLocationMarker

@@ -1,8 +1,12 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import type { RouteOption } from '../../lib/routing';
 import { decodePolyline, googleDirectionsUrl } from '../../lib/googleTransit';
 import { loadGoogleMaps } from '../../lib/googleMapsLoader';
 import type { PlaceValue, PlannerField } from '../TripPlannerPanel';
+import { getStations, type Station } from '../../lib/stations';
+import { getRouteStops, nearbyStations, type RouteStop } from '../../lib/routeStations';
+import { createMapPointOverlay } from '../../lib/mapPointOverlay';
+import { StationDialog } from './StationDialog';
 
 export function GoogleTransitMap({ route, onClear, mapSelectionMode, onMapPlaceSelected, bottomInset, panelExpanded }: {
   route: RouteOption; onClear: () => void;
@@ -15,6 +19,13 @@ export function GoogleTransitMap({ route, onClear, mapSelectionMode, onMapPlaceS
   const [map, setMap] = useState<any>(null);
   const [error, setError] = useState('');
   const [attempt, setAttempt] = useState(0);
+  const [stations, setStations] = useState<Station[]>([]);
+  const [selected, setSelected] = useState<{ route: RouteOption; stop: RouteStop } | null>(null);
+  const markerButton = useRef<HTMLButtonElement | null>(null);
+  const stops = useMemo(() => getRouteStops(route, stations), [route, stations]);
+  const activeStop = selected?.route === route ? selected.stop : null;
+  const closeStation = () => { setSelected(null); markerButton.current?.focus(); };
+  useEffect(() => { let active = true; getStations().then(items => { if (active) setStations(items); }); return () => { active = false; }; }, []);
   const selection = useRef({ mapSelectionMode, onMapPlaceSelected });
   selection.current = { mapSelectionMode, onMapPlaceSelected };
 
@@ -62,14 +73,26 @@ export function GoogleTransitMap({ route, onClear, mapSelectionMode, onMapPlaceS
         map, path: decodePolyline(step.googlePolyline || ''), strokeColor: step.mode === 'walk' ? '#64748b' : '#087f5b',
         strokeOpacity: 0.95, strokeWeight: step.mode === 'walk' ? 4 : 7,
       })));
-      // Mark endpoints using map-native circles without a second geocoding request.
-      for (const [point, color] of [[route.userOrigin, '#2563eb'], [route.userDest, '#dc2626']] as const) {
-        if (point) overlays.push(new maps.Circle({ map, center: point, radius: 35, fillColor: color, fillOpacity: 1, strokeColor: '#ffffff', strokeWeight: 2 }));
+      for (const [point, kind, label] of [[route.userOrigin, 'origin', 'Origen'], [route.userDest, 'destination', 'Llegada']] as const) {
+        if (point) {
+          overlays.push(createMapPointOverlay(maps, map, point, kind, `${label}: ${point.name}`));
+          bounds.extend(point);
+        }
       }
       map.fitBounds(bounds, 48);
     } catch { setError('No se pudo representar el recorrido. Consulta sus instrucciones o ábrelo en Google Maps.'); }
     return () => overlays.forEach(overlay => overlay.setMap(null));
   }, [map, route, bottomInset, panelExpanded]);
+
+  useEffect(() => {
+    if (!map) return;
+    const overlays = stops.map(stop => createMapPointOverlay(window.google.maps, map, stop, 'station', `Ver estación ${stop.name}`, button => {
+      if (selection.current.mapSelectionMode) return;
+      markerButton.current = button;
+      setSelected({ route, stop });
+    }));
+    return () => overlays.forEach(overlay => overlay.setMap(null));
+  }, [map, route, stops]);
 
   const url = route.userOrigin && route.userDest ? googleDirectionsUrl(route.userOrigin, route.userDest) : undefined;
   return <div className={`${panelExpanded ? 'hidden lg:block' : ''} absolute inset-0 bg-slate-100`} aria-label="Mapa de rutas de Google Maps" style={{ '--google-map-bottom': bottomInset } as CSSProperties}>
@@ -80,6 +103,9 @@ export function GoogleTransitMap({ route, onClear, mapSelectionMode, onMapPlaceS
       <button type="button" onClick={onClear} className="min-h-11 rounded-lg bg-white px-3 text-sm text-slate-800 shadow">Nuevo trayecto</button>
       {mapSelectionMode && <span className="rounded-lg bg-white p-3 text-sm text-slate-800">Toca el mapa para elegir {mapSelectionMode === 'origin' ? 'origen' : 'destino'}.</span>}
     </div>
+    {activeStop && !mapSelectionMode && <StationDialog onClose={closeStation} stop={activeStop} source="google" nearby={nearbyStations(activeStop, stations, activeStop.station ? `${activeStop.station.sistema}:${activeStop.station.id}` : undefined)} onNearby={station => setSelected({ route, stop: {
+          id: `${station.sistema}:${station.id}`, name: station.nombre, lat: station.lat, lng: station.lng, station, mode: station.sistema === 'EnCicla' ? 'encicla' : 'transit', visits: [],
+        } })} />}
     {error && <div role="alert" className="absolute top-20 left-3 right-3 rounded-xl bg-white p-4 text-sm text-slate-900 shadow">
       <p>{error}</p>
       <button type="button" className="mr-4 min-h-11 underline" onClick={() => { setMap(null); setAttempt(value => value + 1); }}>Reintentar mapa</button>

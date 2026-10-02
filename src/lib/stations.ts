@@ -5,6 +5,24 @@ export interface Station {
   sistema: string;
   nombre: string;
   linea: string;
+  address?: string;
+  stationType?: string;
+  capacity?: number;
+}
+
+function csvFields(row: string): string[] {
+  const fields: string[] = [];
+  let field = '', quoted = false;
+  for (let i = 0; i < row.length; i++) {
+    const char = row[i];
+    if (char === '"') {
+      if (quoted && row[i + 1] === '"') { field += '"'; i++; }
+      else quoted = !quoted;
+    } else if (char === ',' && !quoted) { fields.push(field.trim()); field = ''; }
+    else field += char;
+  }
+  fields.push(field.trim());
+  return fields;
 }
 
 const RADIUS = 6378137;
@@ -41,7 +59,7 @@ export async function loadStations(): Promise<Station[]> {
       const rows = text.trim().split('\n').slice(1);
       
       const metroStations = rows.map((row, index) => {
-        const cols = row.split(',');
+        const cols = csvFields(row);
         const x = parseFloat(cols[0]);
         const y = parseFloat(cols[1]);
         const { lat, lng } = mercatorToWgs84(x, y);
@@ -54,7 +72,7 @@ export async function loadStations(): Promise<Station[]> {
           nombre: cols[6] ? cols[6].replace(/^Estación /, '').replace(/ \(Línea .*\)$/, '') : 'Desconocida',
           linea: cols[8] || ''
         };
-      });
+      }).filter(s => Number.isFinite(s.lat) && Number.isFinite(s.lng) && Math.abs(s.lat) <= 90 && Math.abs(s.lng) <= 180);
 
       // Deduplicate stations
       const uniqueMetroStations = metroStations.reduce((acc, current) => {
@@ -75,29 +93,31 @@ export async function loadStations(): Promise<Station[]> {
       const rows = text.trim().split('\n').slice(1);
       
       const enciclaStations = rows.map((row, index) => {
-        const match = row.match(/"([^"]+)"/);
+        const cols = csvFields(row);
         let lat = 0;
         let lng = 0;
         
-        if (match && match[1]) {
-           const coords = match[1].split(';');
+        if (cols[6]) {
+           const coords = cols[6].split(';');
            if (coords.length === 2) {
              lat = parseFloat(coords[0].replace(',', '.'));
              lng = parseFloat(coords[1].replace(',', '.'));
            }
         }
         
-        const cols = row.split(',');
-        
+        const capacity = Number(cols[5]);
         return {
           id: `encicla-${cols[0] || index}`,
           lat,
           lng,
           sistema: 'EnCicla',
           nombre: cols[1] || 'Estación EnCicla',
-          linea: cols[3] || 'Bicis'
+          linea: 'Bicis',
+          address: cols[2] || undefined,
+          stationType: cols[4] || undefined,
+          capacity: cols[5] && Number.isInteger(capacity) && capacity >= 0 ? capacity : undefined,
         };
-      }).filter(s => s.lat !== 0 && s.lng !== 0);
+      }).filter(s => Number.isFinite(s.lat) && Number.isFinite(s.lng) && s.lat !== 0 && s.lng !== 0 && Math.abs(s.lat) <= 90 && Math.abs(s.lng) <= 180);
       
       allStations.push(...enciclaStations);
     }

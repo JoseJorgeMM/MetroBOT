@@ -38,6 +38,7 @@ export interface RouteStep {
   googlePolyline?: string;
   transit?: {
     departureStop?: string; arrivalStop?: string;
+    departureLocation?: { lat: number; lng: number }; arrivalLocation?: { lat: number; lng: number };
     departureTime?: string; arrivalTime?: string;
     headsign?: string; stopCount?: number; vehicleName?: string;
     agencies: Array<{ name: string; uri?: string }>;

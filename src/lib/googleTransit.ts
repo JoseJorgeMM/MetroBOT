@@ -32,13 +32,19 @@ export function decodePolyline(encoded: string): Array<{ lat: number; lng: numbe
   return points;
 }
 
+type GoogleStop = { name?: string; location?: { latLng?: { latitude?: number; longitude?: number } } };
+function stopPoint(stop?: GoogleStop): TripPoint | undefined {
+  const point = { lat: stop?.location?.latLng?.latitude, lng: stop?.location?.latLng?.longitude };
+  return validPoint(point) ? point : undefined;
+}
+
 type GoogleStep = {
   travelMode?: string; staticDuration?: string;
   navigationInstruction?: { instructions?: string };
   polyline?: { encodedPolyline?: string };
   transitDetails?: {
     headsign?: string; stopCount?: number;
-    stopDetails?: { departureStop?: { name?: string }; arrivalStop?: { name?: string }; departureTime?: string; arrivalTime?: string };
+    stopDetails?: { departureStop?: GoogleStop; arrivalStop?: GoogleStop; departureTime?: string; arrivalTime?: string };
     transitLine?: { name?: string; nameShort?: string; vehicle?: { type?: string; name?: { text?: string } }; agencies?: Array<{ name: string; uri?: string }> };
   };
 };
@@ -89,6 +95,7 @@ export function mapGoogleRoutes(data: GoogleResponse, origin: TripPoint, destina
         googlePolyline: step.polyline?.encodedPolyline,
         transit: transit ? {
           departureStop: stops?.departureStop?.name, arrivalStop: stops?.arrivalStop?.name,
+          departureLocation: stopPoint(stops?.departureStop), arrivalLocation: stopPoint(stops?.arrivalStop),
           departureTime: stops?.departureTime, arrivalTime: stops?.arrivalTime,
           headsign: transit.headsign, stopCount: transit.stopCount,
           vehicleName: line?.vehicle?.name?.text, agencies: line?.agencies || [],
