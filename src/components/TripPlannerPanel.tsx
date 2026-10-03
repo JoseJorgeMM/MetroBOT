@@ -16,6 +16,7 @@ import {
 export type { PlannerField, PlaceValue, SearchRequest } from './plannerState';
 
 interface TripPlannerPanelProps {
+  initialQueries?: {origin:string;destination:string};
   origin: PlaceValue | null;
   destination: PlaceValue | null;
   busesEnabled: boolean;
@@ -42,6 +43,7 @@ function favoriteId(place: PlaceValue) {
 }
 
 export function TripPlannerPanel({
+  initialQueries,
   origin,
   destination,
   busesEnabled,
@@ -53,9 +55,10 @@ export function TripPlannerPanel({
   onSubmit,
   onClose,
 }: TripPlannerPanelProps) {
-  const [planner, setPlanner] = useState(() => createPlannerState({ origin, destination, busesEnabled }));
+  const [planner, setPlanner] = useState(() => createPlannerState({ origin, destination, busesEnabled, initialQueries }));
   const plannerRef = useRef(planner);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lifecycleRef = useRef<AbortController | null>(null);
   const callbacksRef = useRef({
     onOriginChange,
     onDestinationChange,
@@ -74,6 +77,18 @@ export function TripPlannerPanel({
   };
   const favorites = useFavorites();
 
+  // Each effect setup owns a distinct signal: StrictMode replay must never
+  // reactivate callbacks captured before its cleanup.
+  useEffect(() => {
+    const lifecycle = new AbortController();
+    lifecycleRef.current = lifecycle;
+    return () => {
+      lifecycle.abort();
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    };
+  }, []);
+
   useEffect(() => {
     dispatchPlanner({ type: 'sync-place', field: 'origin', place: origin });
   }, [origin]);
@@ -86,11 +101,10 @@ export function TripPlannerPanel({
     dispatchPlanner({ type: 'sync-buses-enabled', busesEnabled });
   }, [busesEnabled]);
 
-  useEffect(() => () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-  }, []);
-
   function dispatchPlanner(event: PlannerEvent): PlannerTransition {
+    if (!lifecycleRef.current || lifecycleRef.current.signal.aborted) {
+      return { state: plannerRef.current, effects: [] };
+    }
     const transition = transitionPlanner(plannerRef.current, event);
     plannerRef.current = transition.state;
     setPlanner(transition.state);
@@ -99,6 +113,7 @@ export function TripPlannerPanel({
   }
 
   function runEffect(effect: PlannerEffect) {
+    if (!lifecycleRef.current || lifecycleRef.current.signal.aborted) return;
     switch (effect.type) {
       case 'place-change':
         if (effect.field === 'origin') callbacksRef.current.onOriginChange(effect.place);
@@ -131,6 +146,8 @@ export function TripPlannerPanel({
   }
 
   async function search(text: string, request: SearchRequest) {
+    const signal = lifecycleRef.current?.signal;
+    if (!signal || signal.aborted) return;
     const started = dispatchPlanner({ type: 'begin-search', request });
     if (
       started.state.operation?.type !== 'search'
@@ -149,6 +166,7 @@ export function TripPlannerPanel({
             componentRestrictions: { country: 'co' },
           }, resolve);
         });
+        if (signal.aborted) return;
         if (predictions?.length) {
           dispatchPlanner({ type: 'settle-search', request, results: predictions.map((prediction) => ({
             place_id: prediction.place_id,
@@ -160,6 +178,7 @@ export function TripPlannerPanel({
           return;
         }
       } catch (error) {
+        if (signal.aborted) return;
         console.error('Google SDK Search error:', error);
       }
     }
@@ -167,9 +186,13 @@ export function TripPlannerPanel({
     try {
       const response = await fetch(
         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(normalizeQuery(text))}&limit=8&addressdetails=1&countrycodes=co`,
+        { signal },
       );
-      dispatchPlanner({ type: 'settle-search', request, results: await response.json() });
+      const results = await response.json();
+      if (signal.aborted) return;
+      dispatchPlanner({ type: 'settle-search', request, results });
     } catch (error) {
+      if (signal.aborted) return;
       console.error('Nominatim search error:', error);
       dispatchPlanner({ type: 'settle-search', request, results: [] });
     }
@@ -181,10 +204,14 @@ export function TripPlannerPanel({
 
   const focusField = (field: PlannerField) => {
     dispatchPlanner({ type: 'focus-field', field });
+    const state=plannerRef.current;
+    const query=field==='origin'?state.originQuery:state.destinationQuery;
+    if (!state[field] && query.trim() && !state.search) dispatchPlanner({type:'input',field,value:query});
   };
 
   const handleResultSelect = async (result: SearchResult, request: SearchRequest | null) => {
-    if (!request) return;
+    const signal = lifecycleRef.current?.signal;
+    if (!request || !signal || signal.aborted) return;
     let lat = Number.parseFloat(result.lat);
     let lng = Number.parseFloat(result.lon);
     const name = result.display_name.split(',')[0];
@@ -204,9 +231,11 @@ export function TripPlannerPanel({
             else reject(status);
           });
         });
+        if (signal.aborted) return;
         lat = location.lat();
         lng = location.lng();
       } catch (error) {
+        if (signal.aborted) return;
         console.error('Error fetching Google place details:', error);
         dispatchPlanner({ type: 'search-result-failure', request });
         return;
@@ -219,6 +248,8 @@ export function TripPlannerPanel({
   };
 
   const requestCurrentLocation = () => {
+    const signal = lifecycleRef.current?.signal;
+    if (!signal || signal.aborted) return;
     if (!navigator.geolocation) {
       alert('Tu navegador no soporta geolocalización');
       return;
@@ -229,19 +260,21 @@ export function TripPlannerPanel({
     if (!token) return;
     navigator.geolocation.getCurrentPosition(
       async ({ coords }) => {
+        if (signal.aborted) return;
         const { latitude: lat, longitude: lng } = coords;
         let name = 'Mi ubicación actual';
         try {
-          const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`);
+          const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`, { signal });
           const data = await response.json();
           name = data.display_name ? data.display_name.split(',')[0] : name;
         } catch (error) {
-          console.error('Reverse geocoding failed', error);
+          if (!signal.aborted) console.error('Reverse geocoding failed', error);
         } finally {
-          dispatchPlanner({ type: 'current-location-success', token, place: { lat, lng, name } });
+          if (!signal.aborted) dispatchPlanner({ type: 'current-location-success', token, place: { lat, lng, name } });
         }
       },
       (error) => {
+        if (signal.aborted) return;
         dispatchPlanner({ type: 'current-location-failure', token });
         console.error(error);
         alert('No se pudo obtener tu ubicación. Verifica los permisos de tu navegador.');

@@ -4,12 +4,14 @@ import { VitePWA } from 'vite-plugin-pwa';
 import path from 'path';
 import {defineConfig, loadEnv} from 'vite';
 import { transitDevPlugin } from './server/transitDevPlugin';
+import { journeyDevPlugin } from './server/journeyDevPlugin';
 
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
     plugins: [
       transitDevPlugin(env),
+      journeyDevPlugin(env),
       react(),
       tailwindcss(),
       VitePWA({
@@ -122,8 +124,6 @@ export default defineConfig(({mode}) => {
       }),
     ],
     define: {
-      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-      'process.env.GEMINI_API_KEYS': JSON.stringify(env.GEMINI_API_KEYS),
       'process.env.VITE_MAPBOX_ACCESS_TOKEN': JSON.stringify(env.VITE_MAPBOX_ACCESS_TOKEN || env.MAPBOX_ACCESS_TOKEN),
       'import.meta.env.VITE_BUILD_ID': JSON.stringify(env.VITE_BUILD_ID || 'dev'),
     },

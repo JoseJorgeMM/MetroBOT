@@ -62,8 +62,8 @@ export function MobileExploreSurface({
                 <h2 className="text-sm font-semibold">Un viaje a tu medida</h2>
                 <ol className="mt-4 list-decimal space-y-4 pl-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
                   <li>Busca tu destino o elige un punto en el mapa.</li>
-                  <li>Compara las opciones según lo que más te importa.</li>
-                  <li>Revisa las paradas y sigue las indicaciones de tu ruta.</li>
+                  <li>Describe tu presupuesto y preferencias en «Diseña mi viaje».</li>
+                  <li>Compara los resultados y prueba qué cambia al ajustar tus condiciones.</li>
                 </ol>
                 <p className="mt-6 text-xs leading-relaxed text-slate-500 dark:text-slate-400">Las duraciones y tarifas son estimaciones. Revisa los tramos sin validar antes de abordar.</p>
               </div>
@@ -77,7 +77,7 @@ export function MobileExploreSurface({
         title="MetroBot"
         onPresentationChange={onPresentationChange}
       >
-        <p className="text-xs text-muted-foreground">Asistente SITVA disponible</p>
+        <p className="text-xs text-muted-foreground">Tu presupuesto, tu tiempo, tu recorrido.</p>
       </MobileBottomSheet>
     </>
   );

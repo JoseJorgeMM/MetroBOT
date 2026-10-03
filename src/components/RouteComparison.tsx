@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowRight, SlidersHorizontal } from 'lucide-react';
-import { rankRoutes, timeTradeoff, type RoutePriority } from '../lib/routeComparison';
+import { rankRoutes, timeTradeoff } from '../lib/routeComparison';
 import { RouteCard, type RouteCardProps } from './RouteCards/RouteCard';
 import type { RouteOption } from '../lib/routing';
 import { fareCatalog, fareConfig } from '../lib/fares/config';
@@ -8,8 +8,12 @@ import { priceRoute, traceFare, type FareEvidence } from '../lib/fares/routeAdap
 import type { FareProfile } from '../lib/fares/types';
 import { getStations } from '../lib/stations';
 import { loadIntegratedRoutes } from '../lib/integratedRoutes';
+import { JourneyDecisions, type JourneyWhatIfProps } from './Journey/JourneyDecisions';
+import type { JourneyNeeds, JourneyPriority } from '../lib/journey/types';
 
-interface Props {
+interface Props extends JourneyWhatIfProps {
+  profile?: FareProfile;
+  onProfileChange?: (profile: FareProfile) => void;
   routes: RouteOption[];
   activeRouteIndex: number;
   originName?: string;
@@ -18,11 +22,14 @@ interface Props {
   onEdit: () => void;
   onStartNav: RouteCardProps['onStartNav'];
   navState: RouteCardProps['navState'];
+  needs: JourneyNeeds;
+  onNeedsChange: (needs:JourneyNeeds)=>void;
 }
 
-export function RouteComparison({ routes, activeRouteIndex, originName, destName, onSelect, onEdit, onStartNav, navState }: Props) {
-  const [priority, setPriority] = useState<RoutePriority>('duration');
-  const [profile, setProfile] = useState<FareProfile>(fareConfig.defaultProfile);
+export function RouteComparison({ routes, activeRouteIndex, originName, destName, onSelect, onEdit, onStartNav, navState, needs, onNeedsChange,
+  profile = fareConfig.defaultProfile, onProfileChange: setProfile = () => {},
+  excludedService, onExcludedServiceChange, repeats, onRepeatsChange,
+}: Props) {
   const [evidence, setEvidence] = useState<FareEvidence>({});
   useEffect(() => {
     let active = true;
@@ -33,7 +40,7 @@ export function RouteComparison({ routes, activeRouteIndex, originName, destName
   }, [routes]);
   const pricedRoutes = useMemo(() => routes.map(route => priceRoute(route, profile, evidence)), [routes, profile, evidence]);
   useEffect(() => { pricedRoutes.forEach(route => traceFare(route, import.meta.env.DEV && import.meta.env.VITE_FARE_DEBUG === 'true')); }, [pricedRoutes]);
-  const ranked = rankRoutes(pricedRoutes, priority);
+  const ranked = rankRoutes(pricedRoutes, needs.priority==='balanced'?'duration':needs.priority);
   return (
     <div className="space-y-4">
       <div className="border-b border-border pb-4">
@@ -46,7 +53,8 @@ export function RouteComparison({ routes, activeRouteIndex, originName, destName
         </p>
         <label className="mt-4 flex items-center gap-2 text-sm font-medium">
           <SlidersHorizontal className="h-4 w-4" aria-hidden="true" /> Priorizar
-          <select value={priority} onChange={event => setPriority(event.target.value as RoutePriority)} className="ml-auto min-h-11 min-w-0 rounded-xl border border-border bg-background px-3 text-sm text-foreground focus-visible:outline-2 focus-visible:outline-sitva-green">
+          <select value={needs.priority} onChange={event => onNeedsChange({...needs,priority:event.target.value as JourneyPriority})} className="ml-auto min-h-11 min-w-0 rounded-xl border border-border bg-background px-3 text-sm text-foreground focus-visible:outline-2 focus-visible:outline-sitva-green">
+            <option value="balanced">Equilibrar viaje</option>
             <option value="duration">Menor tiempo</option>
             <option value="cost">Menor costo</option>
             <option value="walking">Menos caminata</option>
@@ -66,6 +74,9 @@ export function RouteComparison({ routes, activeRouteIndex, originName, destName
         </label>}
         <p className="mt-2 text-xs text-slate-500 dark:text-slate-400" role="status">{routes.length} {routes.length === 1 ? 'opción disponible' : 'opciones disponibles'} · Tiempos estimados; consulta condiciones de tarifa</p>
       </div>
+      <JourneyDecisions routes={pricedRoutes} needs={needs} onNeedsChange={onNeedsChange} onSelect={onSelect} activeRouteIndex={activeRouteIndex}
+        excludedService={excludedService} onExcludedServiceChange={onExcludedServiceChange}
+        repeats={repeats} onRepeatsChange={onRepeatsChange}/>
       {ranked.map(({ route, index }) => (
         <RouteCard key={route.id} route={route} routeIndex={index} isSelected={activeRouteIndex === index}
           originName={originName} destName={destName} onSelect={() => onSelect(index)} onStartNav={onStartNav} navState={navState}

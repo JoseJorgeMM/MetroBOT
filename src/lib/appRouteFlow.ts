@@ -65,6 +65,11 @@ export function completeAppRequest(state: AppRequestState, requestId: number): A
   return { ...state, activeRequest: null };
 }
 
+/** Preserve monotonic ids so an abandoned request can never own a later result. */
+export function cancelAppRequest(state:AppRequestState):AppRequestState {
+  return {...state,activeRequest:null};
+}
+
 export function assistantResponseForOutcome(
   outcome: RouteOutcome,
   response: string,

@@ -5,6 +5,7 @@ import {
   completeAppRequest,
   createAppRequestState,
   assistantResponseForOutcome,
+  cancelAppRequest,
 } from '../src/lib/appRouteFlow';
 
 const firstEndpoints = {
@@ -16,6 +17,16 @@ const secondEndpoints = {
   origin: { lat: 6.30, lng: -75.60, name: 'Universidad' },
   destination: { lat: 6.20, lng: -75.58, name: 'Terminal' },
 };
+
+test('abandoning a trip lets the new request own endpoints and ignores stale completion',()=>{
+  const first=admitRouteRequest(createAppRequestState(),firstEndpoints);
+  const cancelled=cancelAppRequest(first.state);
+  assert.equal(cancelled.activeRequest,null);
+  const second=admitRouteRequest(cancelled,secondEndpoints);
+  assert.notEqual(second.request?.id,first.request?.id);
+  assert.deepEqual(completeAppRequest(second.state,first.request!.id),second.state);
+  assert.deepEqual(second.request?.kind==='route'?second.request.endpoints:null,secondEndpoints);
+});
 
 test('a concurrent route request is rejected without replacing accepted endpoints', () => {
   const first = admitRouteRequest(createAppRequestState(), firstEndpoints);

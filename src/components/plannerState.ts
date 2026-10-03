@@ -87,12 +87,13 @@ export function createPlannerState({
   origin,
   destination,
   busesEnabled,
-}: Pick<PlannerState, 'origin' | 'destination' | 'busesEnabled'>): PlannerState {
+  initialQueries,
+}: Pick<PlannerState, 'origin' | 'destination' | 'busesEnabled'> & {initialQueries?:{origin:string;destination:string}}): PlannerState {
   return {
     origin,
     destination,
-    originQuery: origin?.name ?? '',
-    destinationQuery: destination?.name ?? '',
+    originQuery: origin?.name ?? initialQueries?.origin ?? '',
+    destinationQuery: destination?.name ?? initialQueries?.destination ?? '',
     busesEnabled,
     activeField: 'origin',
     results: [],
@@ -101,7 +102,7 @@ export function createPlannerState({
     currentLocation: null,
     loading: false,
     generation: 0,
-    editing: { origin: false, destination: false },
+    editing: { origin: !origin && !!initialQueries?.origin, destination: !destination && !!initialQueries?.destination },
     operation: null,
   };
 }

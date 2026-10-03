@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { CloudRain, X } from 'lucide-react';
-import { AssistantPanel } from './components/AssistantPanel';
+import { JourneyStudio } from './components/Journey/JourneyStudio';
+import { defaultNeeds, type JourneyNeeds } from './lib/journey/types';
+import { fareConfig } from './lib/fares/config';
+import type { FareProfile } from './lib/fares/types';
 import { HonestyBadge } from './components/HonestyBadge';
 import { InstallBanner } from './components/InstallBanner';
 import { MapComponent } from './components/Map/MapComponent';
@@ -22,13 +25,12 @@ import { UpdateToast } from './components/UpdateToast';
 import { useMobileSurface } from './hooks/useMobileSurface';
 import { useNavigation } from './hooks/useNavigation';
 import { computeHonestyAssessment } from './lib/honesty';
-import { processUserQuery } from './lib/gemini';
 import { runMigrations } from './lib/migration';
 import {
-  admitAssistantRequest,
   admitRouteRequest,
   completeAppRequest,
   createAppRequestState,
+  cancelAppRequest,
 } from './lib/appRouteFlow';
 import {
   isSheetResizable,
@@ -42,25 +44,23 @@ import { withDeadline } from './lib/requestDeadline';
 const DISCLAIMER_STORAGE_KEY = 'metrobot.disclaimer.dismissed.v1';
 const BUSES_TOGGLE_STORAGE_KEY = 'metrobot.buses.enabled.v1';
 
-type AssistantMessage = {
-  role: 'user' | 'assistant';
-  content: string;
-};
-
 const surfaceTitles = {
   explore: '¿A dónde vas?',
   planning: 'Planifica tu viaje',
   loading: 'Calculando rutas',
   results: 'Rutas sugeridas',
-  assistant: 'Pregúntale a MetroBot',
+  assistant: 'Diseña mi viaje',
   navigation: 'Navegación',
 } as const;
 
 export default function App() {
   const { surface, presentation, dispatch: dispatchSurface } = useMobileSurface();
   const nav = useNavigation();
-  const [query, setQuery] = useState('');
-  const [messages, setMessages] = useState<AssistantMessage[]>([]);
+  const [journeyNeeds, setJourneyNeeds] = useState<JourneyNeeds>(defaultNeeds);
+  const [fareProfile, setFareProfile] = useState<FareProfile>(fareConfig.defaultProfile);
+  const [excludedService, setExcludedService] = useState('');
+  const [journeyRepeats, setJourneyRepeats] = useState(1);
+  const [plannerQueries,setPlannerQueries]=useState<{origin:string;destination:string}|undefined>();
   const [routes, setRoutes] = useState<RouteOption[]>([]);
   const [pendingRoutes, setPendingRoutes] = useState<RouteOption[]>([]);
   const [activeRouteIndex, setActiveRouteIndex] = useState(0);
@@ -68,7 +68,6 @@ export default function App() {
   const [routeError, setRouteError] = useState<string | null>(null);
   const [providerNotice, setProviderNotice] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [showSupport, setShowSupport] = useState(false);
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [origin, setOrigin] = useState<PlaceValue | null>(null);
   const [dest, setDest] = useState<PlaceValue | null>(null);
@@ -139,12 +138,6 @@ export default function App() {
     };
   }, []);
 
-  useEffect(() => {
-    const lastMessage = document.querySelector('[role="log"] > :last-child');
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    lastMessage?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest' });
-  }, [messages]);
-
   const lastCueRef = useRef<typeof nav.cue>(null);
   useEffect(() => {
     if (nav.cue && nav.cue !== lastCueRef.current) {
@@ -184,10 +177,10 @@ export default function App() {
         const field = origin ? 'Destino' : 'Origen';
         document.querySelector<HTMLInputElement>(`input[aria-label="${field}"]`)?.focus();
       } else if (surface === 'assistant') {
-        document.querySelector<HTMLInputElement>('#assistant-query')?.focus();
+        document.querySelector<HTMLTextAreaElement>('#journey-query')?.focus();
       } else if (surface === 'explore' && previousSurface !== 'explore' && mapSelectionMode === null) {
         const selector = lastExploreActionRef.current === 'assistant'
-          ? '[aria-label="Pregúntale a MetroBot"]'
+          ? '[aria-label="Diseña mi viaje"]'
           : '[aria-label="Planear un viaje"]';
         document.querySelector<HTMLButtonElement>(selector)?.focus();
       }
@@ -213,51 +206,37 @@ export default function App() {
     }
   };
 
+  const cancelPendingRoute = () => {
+    appRequestRef.current=cancelAppRequest(appRequestRef.current);
+    setIsLoading(false);
+  };
+  const changeEndpoint = (field:PlannerField,place:PlaceValue|null) => {
+    cancelPendingRoute();
+    setRoutes([]);setPendingRoutes([]);setHonestyAssessment(null);
+    if(field==='origin')setOrigin(place);else setDest(place);
+  };
+
   const openPlanning = () => {
+    cancelPendingRoute();
+    setPlannerQueries(undefined);
     lastExploreActionRef.current = 'planning';
     setMapSelectionMode(null);
     dispatchSurface({ type: 'OPEN_PLANNING' });
   };
 
   const openAssistant = () => {
+    cancelPendingRoute();
     lastExploreActionRef.current = 'assistant';
     setMapSelectionMode(null);
     dispatchSurface({ type: 'OPEN_ASSISTANT' });
   };
 
   const closeSurface = () => {
+    cancelPendingRoute();
     setMapSelectionMode(null);
     dispatchSurface({ type: 'CLOSE' });
   };
 
-  const handleSubmit = async (event: React.FormEvent | null) => {
-    event?.preventDefault();
-    if (!query.trim()) return;
-    const admission = admitAssistantRequest(appRequestRef.current);
-    if (!admission.request) return;
-    appRequestRef.current = admission.state;
-    const request = admission.request;
-    const text = query;
-    setQuery('');
-    setMessages(current => [...current, { role: 'user', content: text }]);
-    setIsLoading(true);
-    try {
-      let suggestedRoute = false;
-      const response = await withDeadline(processUserQuery(text, () => {
-        suggestedRoute = true;
-      }, () => {}, { allowBuses: busesEnabled }));
-      if (appRequestRef.current.activeRequest?.id !== request.id) return;
-      // The assistant can explain transport, but cannot publish invented itineraries.
-      setMessages(current => [...current, { role: 'assistant', content: suggestedRoute
-        ? 'Para consultar recorridos de Google Maps, abre “Planear un viaje”, elige origen y destino y pulsa “Ver rutas”. El asistente no sustituye al planificador de rutas.'
-        : response }]);
-    } catch {
-      setMessages(current => [...current, { role: 'assistant', content: 'No pudimos completar la consulta. Puedes intentarlo nuevamente.' }]);
-    } finally {
-      appRequestRef.current = completeAppRequest(appRequestRef.current, request.id);
-      setIsLoading(false);
-    }
-  };
 
   const handleSearchRoute = (
     searchOrigin: PlaceValue,
@@ -329,8 +308,7 @@ export default function App() {
   };
 
   const handleMapPlaceSelected = (mode: PlannerField, place: PlaceValue) => {
-    if (mode === 'origin') setOrigin(place);
-    else setDest(place);
+    changeEndpoint(mode,place);
     setMapSelectionMode(null);
     dispatchSurface({ type: 'OPEN_PLANNING' });
   };
@@ -393,12 +371,12 @@ export default function App() {
             dest={dest}
             routes={routes}
             activeRouteIndex={activeRouteIndex}
-            onOriginSelect={(coords) => setOrigin(coords ? {
+            onOriginSelect={(coords) => changeEndpoint('origin',coords ? {
               lat: coords.lat,
               lng: coords.lng,
               name: coords.name || 'Origen seleccionado',
             } : null)}
-            onDestSelect={(coords) => setDest(coords ? {
+            onDestSelect={(coords) => changeEndpoint('destination',coords ? {
               lat: coords.lat,
               lng: coords.lng,
               name: coords.name || 'Destino seleccionado',
@@ -430,7 +408,7 @@ export default function App() {
               <QuickPicksBar
                 hidden={mapSelectionMode !== null}
                 onPickFavorite={(favorite) => {
-                  setDest({ lat: favorite.lat, lng: favorite.lng, name: favorite.name });
+                  changeEndpoint('destination',{ lat: favorite.lat, lng: favorite.lng, name: favorite.name });
                   openPlanning();
                 }}
               />
@@ -470,14 +448,16 @@ export default function App() {
                 </p>
               )}
               <TripPlannerPanel
+                initialQueries={plannerQueries}
                 origin={origin}
                 destination={dest}
                 busesEnabled={busesEnabled}
                 isLoading={isLoading}
-                onOriginChange={setOrigin}
-                onDestinationChange={setDest}
+                onOriginChange={place=>changeEndpoint('origin',place)}
+                onDestinationChange={place=>changeEndpoint('destination',place)}
                 onBusesEnabledChange={setBusPreference}
                 onRequestMapSelection={(mode) => {
+                  cancelPendingRoute();
                   setMapSelectionMode(mode);
                   dispatchSurface({ type: 'CLOSE' });
                 }}
@@ -552,20 +532,27 @@ export default function App() {
                   onEdit={openPlanning}
                   onStartNav={handleStartNav}
                   navState={nav.state}
+                  needs={journeyNeeds}
+                  onNeedsChange={setJourneyNeeds}
+                  profile={fareProfile}
+                  onProfileChange={setFareProfile}
+                  excludedService={excludedService}
+                  onExcludedServiceChange={setExcludedService}
+                  repeats={journeyRepeats}
+                  onRepeatsChange={setJourneyRepeats}
                 />
               )}
             </section>
           )}
 
           {surface === 'assistant' && (
-            <AssistantPanel
-              messages={messages}
-              query={query}
-              isLoading={isLoading}
-              showSupport={showSupport}
-              onQueryChange={setQuery}
-              onSubmit={() => void handleSubmit(null)}
-              onToggleSupport={() => setShowSupport((current) => !current)}
+            <JourneyStudio
+              origin={origin}
+              destination={dest}
+              needs={journeyNeeds}
+              onNeedsChange={setJourneyNeeds}
+              onPlan={handleSearchRoute}
+              onManualPlan={(start,end,queries)=>{changeEndpoint('origin',start);changeEndpoint('destination',end);openPlanning();setPlannerQueries(queries);}}
               onClose={closeSurface}
             />
           )}

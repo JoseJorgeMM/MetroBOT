@@ -1,5 +1,6 @@
 {
   "functions": {
-    "api/transit-routes.ts": { "maxDuration": 20 }
+    "api/transit-routes.ts": { "maxDuration": 20 },
+    "api/journey-intent.ts": { "maxDuration": 20 }
   }
 }
