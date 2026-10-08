@@ -10,6 +10,8 @@ import { getStations } from '../lib/stations';
 import { loadIntegratedRoutes } from '../lib/integratedRoutes';
 import { JourneyDecisions, type JourneyWhatIfProps } from './Journey/JourneyDecisions';
 import type { JourneyNeeds, JourneyPriority } from '../lib/journey/types';
+import { TransferCompanion } from './Journey/TransferCompanion';
+import { supportsSanAntonioTransfer } from '../lib/transfers';
 
 interface Props extends JourneyWhatIfProps {
   profile?: FareProfile;
@@ -77,6 +79,7 @@ export function RouteComparison({ routes, activeRouteIndex, originName, destName
       <JourneyDecisions routes={pricedRoutes} needs={needs} onNeedsChange={onNeedsChange} onSelect={onSelect} activeRouteIndex={activeRouteIndex}
         excludedService={excludedService} onExcludedServiceChange={onExcludedServiceChange}
         repeats={repeats} onRepeatsChange={onRepeatsChange}/>
+      {pricedRoutes[activeRouteIndex] && supportsSanAntonioTransfer(pricedRoutes[activeRouteIndex]) && <TransferCompanion key={pricedRoutes[activeRouteIndex].id}/>}
       {ranked.map(({ route, index }) => (
         <RouteCard key={route.id} route={route} routeIndex={index} isSelected={activeRouteIndex === index}
           originName={originName} destName={destName} onSelect={() => onSelect(index)} onStartNav={onStartNav} navState={navState}

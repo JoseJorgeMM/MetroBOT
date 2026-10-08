@@ -1,0 +1,25 @@
+{
+  "id": "san-antonio-a-b",
+  "version": 1,
+  "reviewedAt": "2026-10-03",
+  "title": "San Antonio · de la línea A a la B",
+  "target": "Línea B · sentido San Javier",
+  "indoorNavigation": false,
+  "facts": [
+    "San Antonio conecta las líneas A y B del Metro.",
+    "La línea B conecta San Antonio con San Javier; Estadio pertenece a esa línea.",
+    "Para esta conexión, contrasta las referencias a línea B y San Javier. Una mención en una señal no confirma tu ubicación ni el andén."
+  ],
+  "unknowns": [
+    "No hay un recorrido interior actualizado y validado en este piloto: no se indican giros, distancias ni escaleras concretas.",
+    "No se conoce en tiempo real el estado de ascensores, accesos o cerramientos. Si necesitas un recorrido sin escaleras, solicita orientación al personal.",
+    "Esta herramienta no confirma tarifas, continuidad de zona paga ni autorización para abordar."
+  ],
+  "notice": "El 22 de julio de 2026 el Metro anunció renovación de escaleras y cerramientos parciales temporales en San Antonio y San Javier. Es un antecedente: no confirma cierres vigentes hoy. Atiende la señalización y al personal en la estación.",
+  "sources": [
+    {"title":"Metro de Medellín · Línea B", "url":"https://www.metrodemedellin.gov.co/usuarios/sistema-integrado/linea-b", "supports":"Terminales, estaciones y transferencia; no geometría interior."},
+    {"title":"Metro de Medellín · Línea A", "url":"https://www.metrodemedellin.gov.co/usuarios/sistema-integrado/linea-a", "supports":"Red y estación San Antonio de la línea A."},
+    {"title":"Aviso de obras · 22/07/2026", "url":"https://www.metrodemedellin.gov.co/al-dia/noticias/las-estaciones-san-antonio-y-san-javier-estrenaran-escaleras-electricas-para-mejorar-la-experiencia-de-viaje", "supports":"Antecedente de cambios de infraestructura; no estado en vivo."},
+    {"title":"Reto de movilidad San Antonio B", "url":"https://www.metrodemedellin.gov.co/reto-movilidad-en-san-antonio-b", "supports":"Problema publicado de circulación de usuarios; no medición actual."}
+  ]
+}

@@ -5,6 +5,7 @@ import { getStations, type Station } from '../../lib/stations';
 import { requestJourneyIntent, stationCandidates } from '../../lib/journey/intent';
 import { defaultNeeds, type JourneyNeeds } from '../../lib/journey/types';
 import { NeedsControls } from './NeedsControls';
+import { TransferCompanion } from './TransferCompanion';
 
 interface Props {
   origin:PlaceValue|null;destination:PlaceValue|null;needs:JourneyNeeds;
@@ -62,6 +63,7 @@ export function JourneyStudio({origin,destination,needs,onNeedsChange,onPlan,onM
       <div><h2 className="text-2xl font-bold tracking-tight">Un viaje a tu medida.</h2><p className="mt-2 text-sm leading-relaxed text-muted-foreground">Cuéntanos qué necesitas. Convierte tus prioridades en un recorrido que puedas comparar.</p></div>
       <button type="button" aria-label="Cerrar diseño de viaje" onClick={onClose} className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full hover:bg-muted"><X className="h-5 w-5"/></button>
     </header>
+    <TransferCompanion/>
     <form onSubmit={e=>{e.preventDefault();void interpret();}} className="rounded-2xl border border-sitva-green/30 bg-sitva-green/5 p-4">
       <label htmlFor="journey-query" className="text-sm font-semibold">¿Qué necesitas para este viaje?</label>
       <textarea id="journey-query" rows={3} maxLength={1200} value={query} onChange={e=>editQuery(e.target.value)} placeholder="Voy de La Estrella al Estadio. Quiero saber cuánto cuesta y caminar poco." className="mt-2 w-full resize-y rounded-xl border border-border bg-background p-3 text-base leading-relaxed focus-visible:outline-sitva-green" />
