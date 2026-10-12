@@ -43,7 +43,9 @@ export function calculateFare(segments: FareSegment[], profile: FareProfile = fa
     const usesCollective = collective(segment.mode) || current.some(item => collective(item.mode));
     const window = usesCollective ? Math.min(data.regla_principal.ventana_integracion_colectivo_integrado_minutos, data.doble_integracion_colectiva.ventana_maxima_minutos) : data.regla_principal.ventana_integracion_masivo_minutos;
     const elapsed = start && start.source === next.source ? (next.value - start.value) / 60000 : NaN;
-    const continuousPaidArea = current.length === 1 && first.mode === 'METRO' && segment.mode === 'CABLE' && segment.paidArea === true;
+    const metroContinuation = segment.mode === 'METRO' && !!segment.metroContinuation && current.length > 0 &&
+      current.every((item, i) => item.mode === 'METRO' && (i === 0 || !!item.metroContinuation));
+    const continuousPaidArea = metroContinuation || (current.length === 1 && first.mode === 'METRO' && segment.mode === 'CABLE' && segment.paidArea === true);
     const expired = !continuousPaidArea && (usesCollective ? elapsed >= window : elapsed > window);
     // Arví has an independent fare, not a mass-transit integration.
     if (first && (segment.newJourney || expired || segment.mode === data.cable_arvi.codigo || first.mode === data.cable_arvi.codigo)) {
@@ -57,7 +59,8 @@ export function calculateFare(segments: FareSegment[], profile: FareProfile = fa
   if (current.length) groups.push(current);
 
   for (const group of groups) {
-    const modes = group.map(item => item.mode);
+    const continuousMetro = group.length > 1 && group.every((item, i) => item.mode === 'METRO' && (i === 0 || !!item.metroContinuation));
+    const modes = continuousMetro ? ['METRO'] : group.map(item => item.mode);
     const usesCollective = modes.some(collective);
     const times = group.map(clock);
     const consistent = times.every(time => Number.isFinite(time.value) && time.source === times[0].source);
@@ -71,8 +74,9 @@ export function calculateFare(segments: FareSegment[], profile: FareProfile = fa
     if (!data.perfiles_masivo[profile.id]) reject('Perfil tarifario desconocido.');
     else if (group.some(item => item.mode === 'ALIMENTADOR' && !config.feederBasins.includes(item.basin || ''))) reject('Falta confirmar alimentador de cuenca 3 o 6.');
     else if (group.some(item => (item.validationTime !== undefined && !Number.isFinite(Date.parse(item.validationTime))) || (item.scheduledTime !== undefined && !Number.isFinite(Date.parse(item.scheduledTime))))) reject('Hora de validación o salida inválida.');
-    else if (group.length > 1 && !paidArea && !ordered) reject('Faltan horas comparables y ordenadas desde la primera validación.');
-    else if (group.length > 1 && profile.payment !== 'civica') reject('La integración requiere confirmar el medio de pago Cívica.');
+    else if (continuousMetro && consistent && !ordered) reject('Los horarios del recorrido de Metro están en orden inverso.');
+    else if (group.length > 1 && !continuousMetro && !paidArea && !ordered) reject('Faltan horas comparables y ordenadas desde la primera validación.');
+    else if (group.length > 1 && !continuousMetro && profile.payment !== 'civica') reject('La integración requiere confirmar el medio de pago Cívica.');
     else if (usesCollective) {
       const buses = group.filter(item => collective(item.mode));
       const single = group.length === 2 && buses.length === 1 && group.some(item => rail(item.mode));
@@ -109,10 +113,18 @@ export function calculateFare(segments: FareSegment[], profile: FareProfile = fa
       }
       if (!chain.reason && (!chain.rule || !chain.group)) reject('La combinación no tiene una regla y un grupo tarifario explícitos.');
       if (!chain.reason) {
-        const price = profile.id === 'bancarizado' && group.length === 1 ? standalone(group[0])
+        const price = profile.id === 'bancarizado' && (group.length === 1 || continuousMetro) ? standalone(group[0])
           : data.equivalencia_integraciones_oficiales[chain.group!]?.[profile.id];
         if (!money(price)) reject('No hay tarifa para este grupo y perfil.');
         else chain.total = price;
+      }
+    }
+    if (chain.total !== null && continuousMetro) {
+      chain.charges = [chain.total, ...group.slice(1).map(() => 0)];
+      chain.timing = group.slice(1).every(item => item.metroContinuation === 'verified') ? 'paid_area' : 'unknown';
+      if (group.slice(1).some(item => item.metroContinuation === 'planned')) {
+        result.status = 'CONDICIONAL';
+        result.warnings.push('Un solo cobro de Metro condicionado a permanecer en la zona paga durante el cambio de línea en San Antonio.');
       }
     }
     if (chain.total !== null && !chain.charges) {
@@ -137,7 +149,7 @@ export function calculateFare(segments: FareSegment[], profile: FareProfile = fa
       const reason = chain.reason || 'Tarifa no determinada.';
       result.warnings.push(reason); result.unresolved.push({ modes, reason });
     } else {
-      if (group.length > 1) result.integrationApplied = true;
+      if (group.length > 1 && !continuousMetro) result.integrationApplied = true;
       if (group.length > 1 && chain.timing === 'scheduled') {
         result.status = 'CONDICIONAL'; result.warnings.push('Tarifa condicionada al horario previsto: las salidas no son validaciones de Cívica.');
       }
@@ -153,7 +165,7 @@ export function calculateFare(segments: FareSegment[], profile: FareProfile = fa
   }
   if (!segments.length || result.chains.some(chain => chain.total === null)) result.status = 'NO_DETERMINADA';
   else result.total = result.chains.reduce((sum, chain) => sum + chain.total!, 0);
-  if (result.status !== 'NO_DETERMINADA' && result.breakdown.every(item => item.baseFare !== null)) {
+  if (result.status !== 'NO_DETERMINADA' && !segments.some(item => item.metroContinuation) && result.breakdown.every(item => item.baseFare !== null)) {
     result.withoutIntegration = result.breakdown.reduce((sum, item) => sum + item.baseFare!, 0);
     if (result.withoutIntegration >= result.total!) result.savings = result.withoutIntegration - result.total!;
   }

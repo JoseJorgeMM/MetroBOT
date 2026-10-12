@@ -21,6 +21,7 @@ export const fareConfig = {
     alimentador_a_alimentador: 'integracion_3',
   } as Record<string, string>,
   feederBasins: ['3', '6'],
+  metroConnections: [{ station: 'san antonio', lines: ['A', 'B'] }],
 };
 export const fareCatalog: FareCatalog = catalog;
 export const formatCOP = (value: number) => `$${value.toLocaleString('es-CO', { maximumFractionDigits: 0 })} COP`;

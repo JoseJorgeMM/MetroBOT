@@ -4,6 +4,8 @@ export interface FareSegment {
   validationTime?: string;
   scheduledTime?: string;
   paidArea?: boolean;
+  /** Continuation of the preceding Metro leg, not another paid boarding. */
+  metroContinuation?: 'verified' | 'planned';
   newJourney?: boolean;
   zone?: string;
   basin?: string;

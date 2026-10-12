@@ -11,7 +11,7 @@ const normalizedLine = (value?: string) => (value || '').replace(/l[ií]nea\s*/g
 const modeCodes: Record<string, string> = { metro:'METRO', metrocable:'CABLE', tranvia:'TRANVIA', metroplus:'METROPLUS', encicla:'ENCICLA', walk:'WALK' };
 
 export function classifyRouteSegments(route: RouteOption, evidence: FareEvidence = {}): FareSegment[] {
-  return route.steps.map(step => {
+  const segments = route.steps.map(step => {
     const base: FareSegment = { mode: modeCodes[step.mode] || 'TIPO_TRANSPORTE_NO_DETERMINADO', name: step.line || step.instruction,
       scheduledTime: step.transit?.departureTime, evidence: `Modo estructurado: ${step.mode}` };
     if (step.fareInput) return { ...base, ...step.fareInput };
@@ -35,6 +35,31 @@ export function classifyRouteSegments(route: RouteOption, evidence: FareEvidence
     }
     return { ...base, evidence:'El proveedor no identifica la categoría tarifaria del bus' };
   });
+  const station = (value?: string) => (value || '').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().trim().replace(/^estacion\s+/,'').replace(/\s+\(linea [ab]\)$/,'');
+  for (let i = 1; i < segments.length; i++) {
+    const current = route.steps[i];
+    if (segments[i].mode !== 'METRO' || current.fareInput) continue;
+    let previous = i - 1;
+    let walking = 0;
+    while (previous >= 0 && route.steps[previous].mode === 'walk') {
+      const step = route.steps[previous];
+      if (!Number.isFinite(step.duration) || step.duration < 0) break;
+      walking += step.duration;
+      previous--;
+    }
+    if (previous < 0 || walking > 3 || segments[previous].mode !== 'METRO') continue;
+    const before = route.steps[previous];
+    const connection = fareConfig.metroConnections.find(item =>
+      item.lines.includes(normalizedLine(before.line)) && item.lines.includes(normalizedLine(current.line)) &&
+      normalizedLine(before.line) !== normalizedLine(current.line) &&
+      station(before.transit?.arrivalStop) === item.station && station(current.transit?.departureStop) === item.station);
+    if (!connection) continue;
+    const walks = route.steps.slice(previous + 1, i);
+    if (walks.some(step => [step.station?.name,step.station?.nameRef,step.transit?.departureStop,step.transit?.arrivalStop]
+      .some(name => name !== undefined && station(name) !== connection.station))) continue;
+    segments[i] = {...segments[i], metroContinuation:'planned', evidence:'Conexión A/B prevista en San Antonio; permanencia en zona paga por confirmar'};
+  }
+  return segments;
 }
 
 export function priceRoute(route: RouteOption, profile: FareProfile = fareConfig.defaultProfile, evidence: FareEvidence = {}): RouteOption {
