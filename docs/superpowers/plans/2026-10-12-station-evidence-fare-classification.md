@@ -16,7 +16,7 @@
 - Modify: `tests/fareAdapter.test.ts`
 - Modify: `src/lib/fares/routeAdapter.ts`
 
-- [x] Escribir una prueba que cree un bus Google de `Ruta N - U de A` a `Cisneros - Moda`, con agencia Metro de Medellín, coordenadas de ambas paradas MPLUS, línea oficial 1 y un Metro posterior.
+- [x] Escribir una prueba que cree un bus Google de `Ruta N - U de A` a `Cisneros - Moda`, con los rótulos de catálogo `Parada Ruta N` y `Parada Cisneros`, agencia Metro de Medellín, coordenadas de ambas paradas MPLUS, línea oficial 1 y un Metro posterior.
 - [x] Ejecutar `node --import tsx --test tests/fareAdapter.test.ts` y verificar que falla porque el bus sigue no determinado.
 - [x] Resolver las dos paradas con coincidencia nominal compatible y coordenadas, exigir agencia oficial y la misma línea de catálogo, y clasificar sólo entonces como `METROPLUS`.
 - [x] Reflejar el modo clasificado en los pasos y modos devueltos por `priceRoute`, manteniendo la tarifa calculada por el motor existente.

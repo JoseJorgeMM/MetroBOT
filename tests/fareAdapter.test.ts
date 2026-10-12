@@ -45,9 +45,10 @@ test('catalog identity must be unique and present before C3/C6 feeder classifica
   const catalog=[{id:'C3-001',name:'Ruta Integrada C3-001',stops:[]}];
   assert.equal(classifyRouteSegments(input,{routes:catalog})[0].mode,'ALIMENTADOR');
 });
-test('catalogued Metroplús stops classify a Google BUS before pricing Metroplús to Metro', () => {
-  const rutaN={id:'mplus-ruta-n',nombre:'Ruta N',sistema:'MPLUS',linea:'1',lat:6.268,lng:-75.568};
-  const cisneros={id:'mplus-cisneros',nombre:'Cisneros',sistema:'MPLUS',linea:'1',lat:6.251,lng:-75.582};
+test('catalogued Metroplús stop labels classify a Google BUS before pricing Metroplús to Metro', () => {
+  // These are the labels preserved by Estaciones_Sistema_Metro.csv, not aliases invented for the test.
+  const rutaN={id:'mplus-ruta-n',nombre:'Parada Ruta N',sistema:'MPLUS',linea:'1',lat:6.268,lng:-75.568};
+  const cisneros={id:'mplus-cisneros',nombre:'Parada Cisneros',sistema:'MPLUS',linea:'1',lat:6.251,lng:-75.582};
   const input:RouteOption={id:'ruta-n',source:'google',cost:-1,duration:28,transfers:1,modes:['bus','metro'],steps:[
     {mode:'bus',line:'Ruta N - U de A',instruction:'Autobús hacia Universidad de Medellín',duration:5,transit:{
       departureStop:'Ruta N - U de A',arrivalStop:'Cisneros - Moda',departureLocation:{lat:rutaN.lat,lng:rutaN.lng},arrivalLocation:{lat:cisneros.lat,lng:cisneros.lng},

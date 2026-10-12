@@ -10,7 +10,9 @@ import { urbanBudget, type UrbanFares, type UrbanChoices } from './urbanFares';
 export interface FareEvidence { stations?: Station[]; routes?: IntegratedRoute[]; urbanFares?:UrbanFares|null; urbanChoices?:UrbanChoices }
 const normalizedLine = (value?: string) => (value || '').replace(/l[ií]nea\s*/gi, '').trim().toUpperCase();
 const modeCodes: Record<string, string> = { metro:'METRO', metrocable:'CABLE', tranvia:'TRANVIA', metroplus:'METROPLUS', encicla:'ENCICLA', walk:'WALK' };
-const normalizedStationName = (value?: string) => (value || '').normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().replace(/[^a-z0-9]/g, '');
+/** Compare station identities, not presentation labels such as "Parada Ruta N". */
+const normalizedStationName = (value?: string) => (value || '').normalize('NFD').replace(/\p{M}/gu, '').toLowerCase()
+  .replace(/\b(estacion|parada|paradero)\b/g, '').replace(/[^a-z0-9]/g, '');
 const officialMetroAgency = (name: string) => /^(metro de medell[ií]n|empresa de transporte masivo del valle de aburr[aá])$/i.test(name.trim());
 
 /** Google may add a destination suffix to the official stop name (for example, "Cisneros - Moda"). */
