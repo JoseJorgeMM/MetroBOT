@@ -1,0 +1,10 @@
+{
+  "mode": "demo",
+  "sessions": [
+    {"schemaVersion":2,"pilot":"san-antonio-a-b","sessionId":"00000000-0000-4000-8000-000000000001","catalogVersion":1,"context":"field","phase":"baseline","observations":[{"stage":"connection","kind":"unclear"},{"stage":"connection","kind":"help-needed"}]},
+    {"schemaVersion":2,"pilot":"san-antonio-a-b","sessionId":"00000000-0000-4000-8000-000000000002","catalogVersion":1,"context":"field","phase":"baseline","observations":[{"stage":"sign","kind":"help-needed"}]},
+    {"schemaVersion":2,"pilot":"san-antonio-a-b","sessionId":"00000000-0000-4000-8000-000000000003","catalogVersion":1,"context":"field","phase":"assisted","observations":[{"stage":"connection","kind":"useful"},{"stage":"sign","kind":"help-needed"}]},
+    {"schemaVersion":2,"pilot":"san-antonio-a-b","sessionId":"00000000-0000-4000-8000-000000000004","catalogVersion":1,"context":"field","phase":"assisted","observations":[{"stage":"connection","kind":"unclear"},{"stage":"sign","kind":"useful"}]},
+    {"schemaVersion":2,"pilot":"san-antonio-a-b","sessionId":"00000000-0000-4000-8000-000000000005","catalogVersion":1,"context":"practice","phase":"unassigned","observations":[{"stage":"sign","kind":"useful"}]}
+  ]
+}

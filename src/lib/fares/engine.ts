@@ -14,6 +14,46 @@ const clock = (segment: FareSegment) => {
 export function calculateFare(segments: FareSegment[], profile: FareProfile = fareConfig.defaultProfile, data: FareCatalog = fareCatalog, config = fareConfig): FareResult {
   const modeData = Object.values(data.modos);
   const free = (segment: FareSegment) => segment.mode === 'WALK' || modeData.some(mode => mode.codigo === segment.mode && mode.costo === 0);
+  // A line change is not a second boarding in a mixed integration either.
+  // Reduce only evidenced, chronological continuations, then restore original indices.
+  if (segments.some(segment => !free(segment) && segment.mode !== 'METRO')) {
+    const owners = new Map<number, number>();
+    let previous = -1;
+    segments.forEach((segment, index) => {
+      if (free(segment)) return;
+      const before = segments[previous];
+      const start = before && clock(before), next = clock(segment);
+      const supplied = [before,segment].filter(Boolean).flatMap(item => [item.validationTime,item.scheduledTime]).filter(value => value !== undefined);
+      const valid = supplied.every(value => Number.isFinite(Date.parse(value!))) &&
+        (!start || !Number.isFinite(start.value) || !Number.isFinite(next.value) || (start.source === next.source && next.value >= start.value));
+      if (before?.mode === 'METRO' && segment.mode === 'METRO' && segment.metroContinuation && !segment.newJourney && valid) {
+        owners.set(index, owners.get(previous) ?? previous);
+      }
+      previous = index;
+    });
+    if (owners.size) {
+      const kept = segments.map((_,index)=>index).filter(index=>!owners.has(index));
+      const resolved = calculateFare(kept.map(index=>segments[index]), profile, data, config);
+      const rows = new Map(kept.map((index,i)=>[index,{...resolved.breakdown[i],index}]));
+      for (const [index,owner] of owners) {
+        const row = rows.get(owner)!;
+        rows.set(index,{...row,index,name:segments[index].name || 'METRO',baseFare:null,
+          charge:row.charge === null ? null : 0,description:row.charge === null ? 'Tarifa no determinada' : 'Cambio de línea en zona paga: $0 adicional'});
+      }
+      resolved.breakdown = segments.map((_,index)=>rows.get(index)!);
+      resolved.chains = resolved.chains.map(chain=>{
+        const original = chain.indices.map(index=>kept[index]);
+        const indices = segments.map((_,index)=>index).filter(index=>original.includes(owners.get(index) ?? index));
+        return {...chain,indices,charges:chain.total === null ? undefined : indices.map(index=>rows.get(index)!.charge!)};
+      });
+      resolved.withoutIntegration=null; resolved.savings=null;
+      if (resolved.total !== null && [...owners.keys()].some(index=>segments[index].metroContinuation === 'planned')) {
+        resolved.status='CONDICIONAL';
+        resolved.warnings.push('El cambio de línea de Metro requiere permanecer en la zona paga; no se cobra otro abordaje.');
+      }
+      return resolved;
+    }
+  }
   const standalone = (segment: FareSegment): number | null => {
     if (free(segment)) return 0;
     if (segment.mode === data.cable_arvi.codigo) {

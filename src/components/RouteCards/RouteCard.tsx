@@ -171,7 +171,7 @@ export function RouteCard({ route, isSelected, originName, destName, routeIndex 
             )}
             <div className="flex items-center space-x-1 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-full min-h-[32px]">
               <DollarSign className="w-4 h-4 text-slate-600 dark:text-slate-400" />
-              <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">{route.fare ? (route.fare.total === null ? 'Tarifa no determinada' : formatCOP(route.fare.total)) : 'Costo sin confirmar'}</span>
+              <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">{route.fare ? (route.fare.total === null ? 'Tarifa no determinada' : `${route.fare.status === 'CONDICIONAL' ? 'Estimado: ' : ''}${formatCOP(route.fare.total)}`) : 'Costo sin confirmar'}</span>
             </div>
           </div>
         </div>

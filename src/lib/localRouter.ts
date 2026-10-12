@@ -371,6 +371,14 @@ function formatGroupToStep(group: {
     mode: group.mode,
     duration: roundedDuration,
     line: group.line,
+    transit: group.mode === 'walk' || group.mode === 'encicla' ? undefined : {
+      departureStop: originStation.nombre,
+      arrivalStop: destStation.nombre,
+      departureLocation: { lat:originStation.lat,lng:originStation.lng },
+      arrivalLocation: { lat:destStation.lat,lng:destStation.lng },
+      // Local graph has station identity, but no live schedules or validation times.
+      agencies: [],
+    },
     station: {
       name: destStation.nombre,
       lat: destStation.lat,
@@ -502,6 +510,7 @@ export async function getLocalOfflineRoute(
       const uniqueModes = Array.from(new Set(cleanSteps.map(s => s.mode)));
 
       routeOptions.push(priceRoute({
+        source: 'local',
         id: `${cfg.id}-${Date.now()}`,
         modes: uniqueModes,
         duration,

@@ -12,6 +12,10 @@ import { JourneyDecisions, type JourneyWhatIfProps } from './Journey/JourneyDeci
 import type { JourneyNeeds, JourneyPriority } from '../lib/journey/types';
 import { TransferCompanion } from './Journey/TransferCompanion';
 import { supportsSanAntonioTransfer } from '../lib/transfers';
+import { loadUrbanFares, type UrbanChoices } from '../lib/fares/urbanFares';
+import { BusBudgetControls } from './RouteCards/BusBudgetControls';
+
+const budgetKey = (route:RouteOption) => JSON.stringify([route.id,route.source,route.userOrigin,route.userDest,route.steps.map(step=>[step.mode,step.line,step.transit,step.duration,step.instruction])]);
 
 interface Props extends JourneyWhatIfProps {
   profile?: FareProfile;
@@ -33,14 +37,17 @@ export function RouteComparison({ routes, activeRouteIndex, originName, destName
   excludedService, onExcludedServiceChange, repeats, onRepeatsChange,
 }: Props) {
   const [evidence, setEvidence] = useState<FareEvidence>({});
+  const [budgets,setBudgets] = useState<Record<string,UrbanChoices>>({});
   useEffect(() => {
     let active = true;
     if (routes.some(route => route.steps.some(step => step.mode === 'bus' || step.mode === 'bus_articulado'))) {
-      Promise.all([getStations(), loadIntegratedRoutes()]).then(([stations, catalog]) => { if (active) setEvidence({stations, routes:catalog}); });
+      Promise.allSettled([getStations(), loadIntegratedRoutes(),loadUrbanFares()]).then(([stations,catalog,urban])=>{
+        if(active) setEvidence({stations:stations.status==='fulfilled'?stations.value:[],routes:catalog.status==='fulfilled'?catalog.value:[],urbanFares:urban.status==='fulfilled'?urban.value:null});
+      });
     }
     return () => { active = false; };
   }, [routes]);
-  const pricedRoutes = useMemo(() => routes.map(route => priceRoute(route, profile, evidence)), [routes, profile, evidence]);
+  const pricedRoutes = useMemo(() => routes.map(route => priceRoute(route, profile, {...evidence,urbanChoices:budgets[budgetKey(route)]})), [routes, profile, evidence,budgets]);
   useEffect(() => { pricedRoutes.forEach(route => traceFare(route, import.meta.env.DEV && import.meta.env.VITE_FARE_DEBUG === 'true')); }, [pricedRoutes]);
   const ranked = rankRoutes(pricedRoutes, needs.priority==='balanced'?'duration':needs.priority);
   return (
@@ -79,11 +86,13 @@ export function RouteComparison({ routes, activeRouteIndex, originName, destName
       <JourneyDecisions routes={pricedRoutes} needs={needs} onNeedsChange={onNeedsChange} onSelect={onSelect} activeRouteIndex={activeRouteIndex}
         excludedService={excludedService} onExcludedServiceChange={onExcludedServiceChange}
         repeats={repeats} onRepeatsChange={onRepeatsChange}/>
-      {pricedRoutes[activeRouteIndex] && supportsSanAntonioTransfer(pricedRoutes[activeRouteIndex]) && <TransferCompanion key={pricedRoutes[activeRouteIndex].id}/>}
+      {pricedRoutes[activeRouteIndex] && supportsSanAntonioTransfer(pricedRoutes[activeRouteIndex]) && <TransferCompanion key={pricedRoutes[activeRouteIndex].id} fare={pricedRoutes[activeRouteIndex].fare}/>}
       {ranked.map(({ route, index }) => (
-        <RouteCard key={route.id} route={route} routeIndex={index} isSelected={activeRouteIndex === index}
+        <div key={budgetKey(routes[index])} className="space-y-2"><RouteCard route={route} routeIndex={index} isSelected={activeRouteIndex === index}
           originName={originName} destName={destName} onSelect={() => onSelect(index)} onStartNav={onStartNav} navState={navState}
           extraMinutes={routes.length > 1 ? timeTradeoff(route, routes) : null} />
+          <BusBudgetControls route={route} evidence={evidence} choices={budgets[budgetKey(routes[index])] || {}} onChange={choices=>setBudgets(previous=>({...previous,[budgetKey(routes[index])]:choices}))}/>
+        </div>
       ))}
     </div>
   );

@@ -1,0 +1,10 @@
+{
+  "version": "2026",
+  "validFrom": "2026-01-10",
+  "reviewBy": "2026-12-31",
+  "currency": "COP",
+  "scope": "medellin_urbano_pago_independiente",
+  "source": "https://www.medellin.gov.co/es/?p=491345",
+  "checkedAt": "2026-10-12",
+  "prices": { "bus": 3800, "micro": 3900 }
+}

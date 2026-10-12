@@ -39,7 +39,9 @@ export async function planTransit(origin: TripPoint, destination: TripPoint, pro
   if (!inArea(origin) || !inArea(destination)) return { routes: [], notice };
   const routes = await providers.local();
   return { notice, routes: routes.map(route => ({ ...route, source: 'local', googlePolyline: undefined,
-    steps: route.steps.map(step => ({ ...step, googlePolyline: undefined, transit: undefined })),
+    // Preserve the local graph's boarding/alighting identities. They are required
+    // to price an A/B connection; only provider-specific Google data is discarded.
+    steps: route.steps.map(step => ({ ...step, googlePolyline: undefined, transit: route.source === 'local' ? step.transit : undefined })),
     userOrigin: { ...origin, name: origin.name || 'Origen' }, userDest: { ...destination, name: destination.name || 'Destino' },
   })) };
 }

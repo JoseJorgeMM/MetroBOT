@@ -1,31 +1,35 @@
-import {useEffect,useRef,useState} from 'react';
+import {lazy,Suspense,useEffect,useRef,useState} from 'react';
 import {Camera,GitBranch,ShieldCheck} from 'lucide-react';
 import {loadTransferCatalog,type TransferCatalog} from '../../lib/transferCatalog';
-import {assessSign,summarizeObservations,type TransferObservation} from '../../lib/transfers';
+import {assessSign} from '../../lib/transfers';
+import {TransferEvaluation} from './TransferEvaluation';
+import {FareBreakdown} from '../RouteCards/FareBreakdown';
+import type {FareResult} from '../../lib/fares/types';
+const PilotDashboard=lazy(()=>import('./PilotDashboard').then(module=>({default:module.PilotDashboard})));
 
 const button='min-h-11 rounded-xl border border-border px-3 py-2 text-sm font-semibold hover:bg-muted disabled:opacity-50';
 
-export function TransferCompanion(){
+export function TransferCompanion({fare}:{fare?:FareResult}={}){
  const [open,setOpen]=useState(false);
+ const [panel,setPanel]=useState(false);
  return <section className="my-4 rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-4" aria-label="MetroBOT Conexiones">
   <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-300"><GitBranch size={18}/><span className="text-xs font-bold uppercase tracking-wider">Conexiones · piloto</span></div>
   <h3 className="mt-2 text-lg font-bold">¿Qué señal corresponde a tu conexión?</h3>
   <p className="mt-1 text-sm text-muted-foreground">San Antonio · A → B hacia San Javier. Comprueba referencias de una señal, sin un chat.</p>
   <button type="button" className={`${button} mt-3 w-full`} aria-expanded={open} onClick={()=>setOpen(v=>!v)}>{open?'Cerrar piloto de transbordo':'Explorar conexión San Antonio'}</button>
-  {open&&<TransferSession/>}
+  {open&&<TransferSession fare={fare}/>}
+  <button type="button" className={`${button} mt-3 w-full`} aria-expanded={panel} onClick={()=>setPanel(value=>!value)}>Panel de evaluación del piloto</button>
+  {panel&&<Suspense fallback={<p role="status">Cargando evaluación…</p>}><PilotDashboard onClose={()=>setPanel(false)}/></Suspense>}
  </section>;
 }
 
-function TransferSession(){
+function TransferSession({fare}:{fare?:FareResult}){
  const [catalog,setCatalog]=useState<TransferCatalog|null>(null);
  const [error,setError]=useState(''); const [busy,setBusy]=useState(false);
  const [text,setText]=useState('');const [result,setResult]=useState<ReturnType<typeof assessSign>|null>(null);
  const [image,setImage]=useState<string|null>(null); const [consent,setConsent]=useState(false);
  const [method,setMethod]=useState<'manual'|'gemini'|'gemini-edited'|null>(null);
  const [retained,setRetained]=useState(false);
- const [participate,setParticipate]=useState(false);
- const [events,setEvents]=useState<TransferObservation[]>([]);
- const [stage,setStage]=useState<TransferObservation['stage']>('connection');
  const request=useRef<AbortController|null>(null);const generation=useRef(0);
  useEffect(()=>{const controller=new AbortController();loadTransferCatalog(controller.signal).then(setCatalog).catch(()=>{if(!controller.signal.aborted)setError('No se pudo cargar la documentación. Cierra y vuelve a abrir el piloto.');});return()=>{controller.abort();request.current?.abort();generation.current++;};},[]);
  function invalidate(){generation.current++;request.current?.abort();request.current=null;setBusy(false);setResult(null);setError('');}
@@ -61,16 +65,12 @@ function TransferSession(){
   }catch(e){if(token===generation.current)setError(controller.signal.aborted?'Se agotó el tiempo de lectura. Puedes intentarlo de nuevo.':e instanceof Error?e.message:'No se pudo leer la señal.');}
   finally{clearTimeout(timer);if(token===generation.current){setBusy(false);request.current=null;}}
  }
- function record(kind:TransferObservation['kind']){if(participate)setEvents(old=>old.some(e=>e.stage===stage&&e.kind===kind)?old:[...old,{stage,kind}]);}
- function exportReport(){
-  const report={schemaVersion:1,pilot:'san-antonio-a-b',scope:'Una sesión local; no representa demanda ni usuarios únicos',catalogVersion:catalog?.version,summary:summarizeObservations(events),observations:events};
-  const url=URL.createObjectURL(new Blob([JSON.stringify(report,null,2)],{type:'application/json'}));
-  const a=document.createElement('a');a.href=url;a.download='metrobot-conexiones-observaciones.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
- }
  return <div className="mt-4 space-y-4 border-t border-border pt-4">
   {!catalog?<p role="status">{error||'Cargando fuentes del piloto…'}</p>:<>
    <p className="text-xs font-semibold text-amber-800 dark:text-amber-200">Piloto independiente, no servicio oficial del Metro. No es navegación interior ni confirma que puedas abordar.</p>
    <div className="rounded-xl bg-background p-3"><p className="text-xs text-muted-foreground">Conexión documentada</p><p className="mt-1 font-bold">{catalog.target}</p><p className="mt-2 text-sm">{catalog.facts[1]}</p></div>
+   {fare&&<FareBreakdown fare={fare}/>}
+   <p className="text-xs text-muted-foreground">El total corresponde a toda la cadena de viaje, no a este transbordo por separado. Mantenerse en la zona paga puede ser una condición tarifaria; este piloto no verifica tu ubicación ni la validación Cívica.</p>
    <details><summary className="min-h-11 cursor-pointer py-3 text-sm font-semibold">Fuentes y límites de esta conexión</summary>
     <p className="text-xs text-muted-foreground">Consulta documental: {catalog.reviewedAt}. No es una inspección presencial.</p>
     <ul className="my-3 list-disc space-y-2 pl-5 text-sm">{catalog.unknowns.map(s=><li key={s}>{s}</li>)}</ul>
@@ -91,14 +91,7 @@ function TransferSession(){
    <button type="button" className={`${button} w-full`} disabled={!text.trim()||busy} onClick={()=>{setResult(assessSign(text));if(!method)setMethod('manual');}}>He revisado el texto · comprobar referencias</button>
    {error&&<p role="alert" className="text-sm text-amber-800 dark:text-amber-200">{error}</p>}
    {result&&<div role="status" className="rounded-xl border border-border bg-background p-4"><ShieldCheck className="mb-2 h-5 w-5"/><p className="font-semibold">{result.status==='compatible'?'Referencias compatibles':result.status==='conflicting'?'Referencias distintas o ambiguas':'No hay evidencia suficiente'}</p><p className="mt-2 text-sm">{result.message}</p><p className="mt-2 text-xs text-muted-foreground">No confirma ubicación, flecha, pasillo ni andén. Sigue la señalización vigente y consulta al personal si tienes dudas.</p></div>}
-   <details className="border-t border-border pt-2"><summary className="min-h-11 cursor-pointer py-3 text-sm font-semibold">Evaluar esta experiencia · sesión local</summary>
-    <p className="text-xs text-muted-foreground">No es un reporte enviado al Metro ni una medición de congestión. Solo registra categorías elegidas; sin fotos, texto, GPS ni identidad. Se borra al cerrar el piloto salvo que descargues el archivo.</p>
-    <label className="my-3 flex min-h-11 items-center gap-2 text-sm"><input type="checkbox" checked={participate} onChange={e=>{setParticipate(e.target.checked);if(!e.target.checked)setEvents([]);}}/>Participar en la evaluación local</label>
-    {participate&&<><label className="block text-sm">Momento evaluado<select value={stage} onChange={e=>setStage(e.target.value as TransferObservation['stage'])} className="my-2 min-h-11 w-full rounded-xl border border-border bg-background px-3"><option value="connection">Comprender la conexión</option><option value="sign">Comprobar una señal</option></select></label><div className="flex flex-wrap gap-2">{([['unclear','No fue claro'],['help-needed','Necesité ayuda'],['useful','Me resultó útil']] as const).map(([kind,label])=><button type="button" key={kind} className={button} disabled={events.some(e=>e.stage===stage&&e.kind===kind)} onClick={()=>record(kind)}>{label}</button>)}</div></>}
-    <p role="status" className="my-3 text-xs">{events.length} observaciones en esta sesión. No equivalen a personas diferentes.</p>
-    <button type="button" className={button} disabled={!events.length} onClick={exportReport}>Descargar observaciones JSON</button>
-    <button type="button" className={`${button} ml-2`} disabled={!events.length} onClick={()=>setEvents([])}>Borrar observaciones</button>
-   </details>
+   <TransferEvaluation catalogVersion={catalog.version}/>
   </>}
  </div>;
 }

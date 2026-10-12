@@ -10,7 +10,7 @@ export interface RouteOption {
   googlePolyline?: string;
   fareText?: string;
   fare?: FareResult;
-  providerFare?: { amount?: number; text?: string };
+  providerFare?: { amount?: number; text?: string; currency?: string };
   id: string;
   modes: TransportMode[];
   duration: number;

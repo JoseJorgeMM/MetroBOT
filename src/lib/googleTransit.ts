@@ -111,6 +111,8 @@ export function mapGoogleRoutes(data: GoogleResponse, origin: TripPoint, destina
       // Existing comparison expects a number; -1 is its unknown-price sentinel.
       cost: fare?.currencyCode === 'COP' && Number.isFinite(amount) && amount >= 0 ? amount : -1,
       fareText: route.localizedValues?.transitFare?.text,
+      providerFare: fare ? { amount: Number.isFinite(amount) && amount >= 0 ? amount : undefined,
+        currency: fare.currencyCode, text: route.localizedValues?.transitFare?.text } : undefined,
       userOrigin: { ...origin, name: origin.name || 'Origen' },
       userDest: { ...destination, name: destination.name || 'Destino' },
     }];

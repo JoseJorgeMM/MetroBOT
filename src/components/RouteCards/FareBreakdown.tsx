@@ -6,11 +6,12 @@ const labels: Record<string,string> = { METRO:'Metro', CABLE:'Metrocable', TRANV
 export function FareBreakdown({ fare }: { fare: FareResult }) {
   return <section aria-label="Costo del viaje" className="mt-3 rounded-xl border border-border bg-muted/30 p-3">
     <div className="flex flex-wrap items-baseline justify-between gap-2">
-      <h4 className="text-sm font-semibold">Costo total del viaje</h4>
+      <h4 className="text-sm font-semibold">{fare.source === 'google' ? 'Total estimado por Google Maps' : fare.source === 'budget' ? 'Presupuesto total · buses pagados por separado' : 'Costo total del viaje'}</h4>
       <p className="text-lg font-bold">{fare.total === null ? 'Tarifa no determinada' : formatCOP(fare.total)}</p>
     </div>
-    <p className="mt-1 text-xs text-muted-foreground">Perfil: {fareCatalog.perfiles_masivo[fare.profile]?.descripcion || fare.profile} · Tarifario {fare.version}</p>
-    {fare.status === 'CONDICIONAL' && <p className="mt-2 text-xs font-semibold text-amber-700 dark:text-amber-300">Condicionado a los horarios previstos y requisitos de integración.</p>}
+    <p className="mt-1 text-xs text-muted-foreground">{fare.source === 'google' ? 'Perfil no informado por el proveedor · No aplica automáticamente tus descuentos Cívica' : `Perfil: ${fareCatalog.perfiles_masivo[fare.profile]?.descripcion || fare.profile} · Tarifario ${fare.version}`}</p>
+    {fare.status === 'CONDICIONAL' && <p className="mt-2 text-xs font-semibold text-amber-700 dark:text-amber-300">Estimación condicionada · revisa los requisitos antes de viajar.</p>}
+    {fare.warnings.length > 0 && <ul className="mt-2 space-y-1 text-xs text-amber-800 dark:text-amber-200">{fare.warnings.map(message => <li key={message}>{message}</li>)}</ul>}
     <details className="mt-2">
       <summary className="min-h-11 cursor-pointer py-3 text-sm font-semibold">Ver desglose tarifario</summary>
       <ol className="space-y-3">{fare.breakdown.filter(row => row.mode !== 'WALK').map(row => <li key={row.index} className="border-l-2 border-emerald-500 pl-3">
@@ -22,8 +23,7 @@ export function FareBreakdown({ fare }: { fare: FareResult }) {
         <p>Con integración: {formatCOP(fare.total)}</p>
         <p className="font-semibold text-emerald-700 dark:text-emerald-300">Ahorro: {formatCOP(fare.savings)}</p>
       </div>}
-      {fare.warnings.length > 0 && <ul className="mt-3 space-y-1 text-xs text-amber-800 dark:text-amber-200">{fare.warnings.map(message => <li key={message}>{message}</li>)}</ul>}
-      <p className="mt-3 text-xs text-muted-foreground">Fuente: configuración tarifaria de MetroBot. Los cobros efectivos dependen de la validación y el perfil habilitado.</p>
+      <p className="mt-3 text-xs text-muted-foreground">{fare.source === 'google' ? 'Fuente: total del itinerario informado por Google Maps; sin desglose de cobros por vehículo.' : 'Fuente: configuración tarifaria de MetroBot. Los cobros efectivos dependen de la validación y el perfil habilitado.'}</p>
     </details>
   </section>;
 }

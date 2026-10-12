@@ -29,6 +29,7 @@ export interface FareChain {
   reason?: string;
 }
 export interface FareResult {
+  source?: 'local' | 'google' | 'budget';
   status: 'DETERMINADA' | 'CONDICIONAL' | 'NO_DETERMINADA';
   total: number | null;
   currency: string;

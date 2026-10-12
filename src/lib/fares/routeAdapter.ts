@@ -5,8 +5,9 @@ import { matchStation } from '../routeStations';
 import { calculateFare } from './engine';
 import { fareConfig } from './config';
 import type { FareProfile, FareSegment } from './types';
+import { urbanBudget, type UrbanFares, type UrbanChoices } from './urbanFares';
 
-export interface FareEvidence { stations?: Station[]; routes?: IntegratedRoute[] }
+export interface FareEvidence { stations?: Station[]; routes?: IntegratedRoute[]; urbanFares?:UrbanFares|null; urbanChoices?:UrbanChoices }
 const normalizedLine = (value?: string) => (value || '').replace(/l[ií]nea\s*/gi, '').trim().toUpperCase();
 const modeCodes: Record<string, string> = { metro:'METRO', metrocable:'CABLE', tranvia:'TRANVIA', metroplus:'METROPLUS', encicla:'ENCICLA', walk:'WALK' };
 
@@ -63,9 +64,24 @@ export function classifyRouteSegments(route: RouteOption, evidence: FareEvidence
 }
 
 export function priceRoute(route: RouteOption, profile: FareProfile = fareConfig.defaultProfile, evidence: FareEvidence = {}): RouteOption {
-  const fare = calculateFare(classifyRouteSegments(route, evidence), profile);
+  const segments = classifyRouteSegments(route, evidence);
+  let fare = calculateFare(segments, profile);
+  const providerFare = route.providerFare || (route.source === 'google' && !route.fare ? { amount: route.cost >= 0 ? route.cost : undefined, text: route.fareText } : undefined);
+  // Only the structured provider total with an explicit currency is eligible.
+  // Legacy cost/text alone is not proof of currency or of a complete fare.
+  if (fare.total === null && route.source === 'google' && providerFare?.currency === 'COP' &&
+    typeof providerFare.amount === 'number' && Number.isFinite(providerFare.amount) && providerFare.amount > 0) {
+    fare = { ...fare, source:'google', total:providerFare.amount, status:'CONDICIONAL', profile:'no_informado',
+      integrationApplied:false, withoutIntegration:null, savings:null,
+      breakdown:fare.breakdown.map(row => ({...row, charge:row.mode === 'WALK' ? 0 : null, description:'Incluido en el total del proveedor; desglose no informado'})),
+      warnings:['Total estimado informado por Google Maps. No confirma descuentos del perfil seleccionado ni condiciones de Cívica.'],
+    };
+  }
+  if (fare.total === null && evidence.urbanFares && evidence.urbanChoices) {
+    fare = urbanBudget(segments,profile,evidence.urbanFares,evidence.urbanChoices) ?? fare;
+  }
   return { ...route, fare, cost: fare.total ?? -1, fareText: undefined,
-    providerFare: route.providerFare || (route.source === 'google' && !route.fare ? { amount: route.cost >= 0 ? route.cost : undefined, text: route.fareText } : undefined),
+    providerFare,
     steps: route.steps.map((step, i) => ({ ...step, cost: fare.breakdown[i]?.charge ?? undefined })),
   };
 }

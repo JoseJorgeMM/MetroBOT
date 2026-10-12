@@ -40,9 +40,9 @@ test('manual comparison stays local, rejects ambiguity, and closing discards obs
  await click('Descargar observaciones JSON');
  assert.ok(exported);
  const report=JSON.parse(await exported.text());
- assert.deepEqual(Object.keys(report).sort(),['schemaVersion','pilot','scope','catalogVersion','summary','observations'].sort());
+ assert.deepEqual(Object.keys(report).sort(),['schemaVersion','pilot','sessionId','catalogVersion','context','phase','observations'].sort());
  assert.deepEqual(report.observations,[{stage:'connection',kind:'help-needed'}]);
- assert.equal(report.summary.total,1);
+ assert.equal(report.schemaVersion,2);assert.equal(report.context,'practice');assert.equal(report.phase,'unassigned');assert.ok(report.sessionId);
  assert.doesNotMatch(JSON.stringify(report),/Niquía|visibleText|data:image|latitude|longitude/);
  await click('Cerrar piloto de transbordo');await click('Explorar conexión San Antonio');
  assert.match(container.textContent,/0 observaciones/);
