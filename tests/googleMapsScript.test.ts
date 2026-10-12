@@ -9,5 +9,5 @@ test('Google Maps loads asynchronously without blocking the mobile shell', async
   assert.match(loader, /loading: 'async'/);
   assert.match(loader, /script\.async = true/);
   assert.match(loader, /VITE_GOOGLE_MAPS_API_KEY/);
-  assert.doesNotMatch(loader, /libraries: 'places'/);
+  assert.match(loader, /libraries: 'places'/);
 });

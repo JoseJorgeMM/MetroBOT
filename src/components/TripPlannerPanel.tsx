@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowDownUp, Locate, MapPin, MousePointerClick, Search, Star, X } from 'lucide-react';
 import { useFavorites } from '../hooks/useFavorites';
+import { loadGoogleMaps } from '../lib/googleMapsLoader';
 import {
   createPlannerState,
   transitionPlanner,
@@ -42,6 +43,19 @@ function favoriteId(place: PlaceValue) {
   return `${place.lat.toFixed(6)},${place.lng.toFixed(6)}:${place.name}`;
 }
 
+type PlacesLibrary = {
+  AutocompleteSessionToken: new () => unknown;
+  AutocompleteSuggestion: {
+    fetchAutocompleteSuggestions: (request: Record<string, unknown>) => Promise<{ suggestions: Array<{ placePrediction?: GooglePlacePrediction }> }>;
+  };
+};
+type GooglePlacePrediction = {
+  placeId?: string;
+  text?: { toString: () => string };
+  toPlace: () => { displayName?: string; formattedAddress?: string; location?: { lat: number | (() => number); lng: number | (() => number) }; fetchFields: (request: { fields: string[] }) => Promise<void> };
+};
+const medellinBias = { center: { lat: 6.2442, lng: -75.5812 }, radius: 50000 };
+
 export function TripPlannerPanel({
   initialQueries,
   origin,
@@ -59,6 +73,8 @@ export function TripPlannerPanel({
   const plannerRef = useRef(planner);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lifecycleRef = useRef<AbortController | null>(null);
+  const placesLibraryRef = useRef<Promise<PlacesLibrary | null> | null>(null);
+  const placeTokensRef = useRef<Partial<Record<PlannerField, unknown>>>({});
   const callbacksRef = useRef({
     onOriginChange,
     onDestinationChange,
@@ -112,6 +128,18 @@ export function TripPlannerPanel({
     return transition;
   }
 
+  function loadPlacesLibrary() {
+    if (!placesLibraryRef.current) {
+      const maps = window.google?.maps?.importLibrary ? Promise.resolve(window.google.maps) : loadGoogleMaps();
+      placesLibraryRef.current = maps.then(async (googleMaps: any) => {
+        if (typeof googleMaps?.importLibrary !== 'function') return null;
+        const library = await googleMaps.importLibrary('places') as PlacesLibrary;
+        return library?.AutocompleteSuggestion && library?.AutocompleteSessionToken ? library : null;
+      }).catch(() => null);
+    }
+    return placesLibraryRef.current;
+  }
+
   function runEffect(effect: PlannerEffect) {
     if (!lifecycleRef.current || lifecycleRef.current.signal.aborted) return;
     switch (effect.type) {
@@ -155,31 +183,25 @@ export function TripPlannerPanel({
       || started.state.operation.request.generation !== request.generation
     ) return;
 
-    if (window.google?.maps?.places) {
+    const places = await loadPlacesLibrary();
+    if (signal.aborted) return;
+    if (places) {
       try {
-        const service = new google.maps.places.AutocompleteService();
-        const predictions = await new Promise<google.maps.places.AutocompletePrediction[] | null>((resolve) => {
-          service.getPlacePredictions({
-            input: text,
-            location: new google.maps.LatLng(6.2442, -75.5812),
-            radius: 50000,
-            componentRestrictions: { country: 'co' },
-          }, resolve);
+        const token = placeTokensRef.current[request.field] ||= new places.AutocompleteSessionToken();
+        const { suggestions } = await places.AutocompleteSuggestion.fetchAutocompleteSuggestions({
+          input: text, includedRegionCodes: ['co'], language: 'es', region: 'co', locationBias: medellinBias, sessionToken: token,
         });
         if (signal.aborted) return;
-        if (predictions?.length) {
-          dispatchPlanner({ type: 'settle-search', request, results: predictions.map((prediction) => ({
-            place_id: prediction.place_id,
-            display_name: prediction.description,
-            lat: '0',
-            lon: '0',
-            isGoogle: true,
-          })) });
+        const results: SearchResult[] = suggestions.flatMap(({ placePrediction }) => placePrediction ? [{
+          place_id: placePrediction.placeId || placePrediction.text?.toString() || 'google-place',
+          display_name: placePrediction.text?.toString() || 'Lugar de Google Maps', lat: '0', lon: '0', isGoogle: true, googlePrediction: placePrediction,
+        }] : []);
+        if (results.length) {
+          dispatchPlanner({ type: 'settle-search', request, results });
           return;
         }
-      } catch (error) {
+      } catch {
         if (signal.aborted) return;
-        console.error('Google SDK Search error:', error);
       }
     }
 
@@ -214,7 +236,7 @@ export function TripPlannerPanel({
     if (!request || !signal || signal.aborted) return;
     let lat = Number.parseFloat(result.lat);
     let lng = Number.parseFloat(result.lon);
-    const name = result.display_name.split(',')[0];
+    let name = result.display_name.split(',')[0];
 
     if (result.isGoogle) {
       const started = dispatchPlanner({ type: 'begin-search-result', request });
@@ -224,16 +246,17 @@ export function TripPlannerPanel({
         || started.state.operation.request.generation !== request.generation
       ) return;
       try {
-        const service = new google.maps.places.PlacesService(document.createElement('div'));
-        const location = await new Promise<any>((resolve, reject) => {
-          service.getDetails({ placeId: result.place_id }, (place, status) => {
-            if (status === google.maps.places.PlacesServiceStatus.OK && place?.geometry?.location) resolve(place.geometry.location);
-            else reject(status);
-          });
-        });
+        const prediction = result.googlePrediction as GooglePlacePrediction | undefined;
+        if (!prediction) throw Error('Predicción de Google no disponible.');
+        const place = prediction.toPlace();
+        await place.fetchFields({ fields: ['displayName', 'formattedAddress', 'location'] });
         if (signal.aborted) return;
-        lat = location.lat();
-        lng = location.lng();
+        const location = place.location;
+        const value = (coordinate: number | (() => number) | undefined) => typeof coordinate === 'function' ? coordinate() : coordinate;
+        lat = value(location?.lat) ?? Number.NaN;
+        lng = value(location?.lng) ?? Number.NaN;
+        name = place.displayName || name;
+        placeTokensRef.current[request.field] = undefined;
       } catch (error) {
         if (signal.aborted) return;
         console.error('Error fetching Google place details:', error);

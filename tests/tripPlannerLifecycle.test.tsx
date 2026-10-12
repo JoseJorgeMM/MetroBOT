@@ -116,17 +116,12 @@ test('StrictMode cleanup invalidates callbacks from its first setup', async t =>
 
 test('Google details delivered after unmount cannot update endpoints', async t => {
   const h = await harness(t, false, 'Old');
-  let details!: (place: unknown, status: string) => void;
-  const google = { maps: {
-    LatLng: class {},
-    places: {
-      AutocompleteService: class { getPlacePredictions(_query: unknown, callback: Function) {
-        callback([{ place_id: 'old', description: 'Old place' }]);
-      } },
-      PlacesService: class { getDetails(_query: unknown, callback: typeof details) { details = callback; } },
-      PlacesServiceStatus: { OK: 'OK' },
-    },
-  } };
+  let complete!: () => void;
+  const place = { location: { lat: 1, lng: 2 }, fetchFields: () => new Promise<void>(resolve => { complete = resolve; }) };
+  const google = { maps: { importLibrary: async () => ({
+    AutocompleteSessionToken: class {},
+    AutocompleteSuggestion: { fetchAutocompleteSuggestions: async () => ({ suggestions: [{ placePrediction: { placeId: 'old', text: { toString: () => 'Old place' }, toPlace: () => place } }] }) },
+  }) } };
   Object.assign(h.window, { google });
   const previous = Object.getOwnPropertyDescriptor(globalThis, 'google');
   Object.defineProperty(globalThis, 'google', { value: google, configurable: true });
@@ -137,6 +132,47 @@ test('Google details delivered after unmount cannot update endpoints', async t =
   await act(() => [...h.container.querySelectorAll('button')].find(button => button.getAttribute('role') === 'option')!.click());
   h.changes.length = 0;
   await h.unmount();
-  await act(async () => { details({ geometry: { location: { lat: () => 1, lng: () => 2 } } }, 'OK'); });
+  await act(async () => { complete(); });
   assert.deepEqual(h.changes, []);
+});
+
+test('Places (New) predicts and resolves only the selected location fields before the fallback', async t => {
+  const h = await harness(t, false, 'FOMAG');
+  t.mock.method(globalThis, 'fetch', async () => Response.json([]));
+  const fields: unknown[] = [];
+  const request: {value?:any} = {};
+  const place = {
+    displayName: 'FOMAG', formattedAddress: 'Avenida 33, Medellín',
+    location: { lat: 6.245, lng: -75.59 },
+    fetchFields: async (value: unknown) => { fields.push(value); },
+  };
+  const google = { maps: { importLibrary: async (library: string) => {
+    assert.equal(library, 'places');
+    return {
+      AutocompleteSessionToken: class {},
+      AutocompleteSuggestion: { fetchAutocompleteSuggestions: async (value: unknown) => {
+        request.value = value;
+        return { suggestions: [{ placePrediction: { placeId: 'fomag', text: { toString: () => 'FOMAG, Avenida 33, Medellín' }, toPlace: () => place } }] };
+      } },
+    };
+  } } };
+  Object.assign(h.window, { google });
+  const previous = Object.getOwnPropertyDescriptor(globalThis, 'google');
+  Object.defineProperty(globalThis, 'google', { value: google, configurable: true });
+  t.after(() => { if (previous) Object.defineProperty(globalThis, 'google', previous); else Reflect.deleteProperty(globalThis, 'google'); });
+  const input = h.container.querySelector('input')!;
+  await act(() => input.focus());
+  await act(async () => { await new Promise(resolve => setTimeout(resolve, 650)); });
+  assert.match(h.container.textContent, /FOMAG/);
+  assert.match(h.container.textContent, /Avenida 33, Medellín/);
+  assert.deepEqual(request.value, {
+    input: 'FOMAG', includedRegionCodes: ['co'], language: 'es', region: 'co',
+    locationBias: { center: { lat: 6.2442, lng: -75.5812 }, radius: 50000 }, sessionToken: request.value.sessionToken,
+  });
+  await act(async () => {
+    [...h.container.querySelectorAll('button')].find(button => button.getAttribute('role') === 'option')!.click();
+    await new Promise(resolve => setTimeout(resolve, 0));
+  });
+  assert.deepEqual(fields, [{ fields: ['displayName', 'formattedAddress', 'location'] }]);
+  assert.deepEqual(h.changes.at(-1), { lat: 6.245, lng: -75.59, name: 'FOMAG' });
 });

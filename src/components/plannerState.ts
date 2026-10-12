@@ -8,6 +8,8 @@ export type SearchResult = {
   lon: string;
   display_name: string;
   isGoogle?: boolean;
+  /** Ephemeral Places (New) prediction; never persisted or sent to another service. */
+  googlePrediction?: unknown;
 };
 
 type PlannerOperation =

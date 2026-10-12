@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowRight, SlidersHorizontal } from 'lucide-react';
-import { rankRoutes, timeTradeoff } from '../lib/routeComparison';
+import { rankRoutes, routeSystemLabels, timeTradeoff } from '../lib/routeComparison';
 import { RouteCard, type RouteCardProps } from './RouteCards/RouteCard';
 import type { RouteOption } from '../lib/routing';
 import { fareCatalog, fareConfig } from '../lib/fares/config';
@@ -49,7 +49,7 @@ export function RouteComparison({ routes, activeRouteIndex, originName, destName
   }, [routes]);
   const pricedRoutes = useMemo(() => routes.map(route => priceRoute(route, profile, {...evidence,urbanChoices:budgets[budgetKey(route)]})), [routes, profile, evidence,budgets]);
   useEffect(() => { pricedRoutes.forEach(route => traceFare(route, import.meta.env.DEV && import.meta.env.VITE_FARE_DEBUG === 'true')); }, [pricedRoutes]);
-  const ranked = rankRoutes(pricedRoutes, needs.priority==='balanced'?'duration':needs.priority);
+  const ranked = rankRoutes(pricedRoutes, needs.priority==='balanced'?'duration':needs.priority, evidence);
   return (
     <div className="space-y-4">
       <div className="border-b border-border pb-4">
@@ -70,6 +70,7 @@ export function RouteComparison({ routes, activeRouteIndex, originName, destName
             <option value="transfers">Menos transbordos</option>
           </select>
         </label>
+        <p className="mt-2 text-xs text-muted-foreground">Primero el sistema Metro, después alimentadores e integrados y al final buses convencionales o transporte sin confirmar. Dentro de cada grupo se respeta la opción de Priorizar.</p>
         <label className="mt-3 block text-sm font-medium">Perfil tarifario
           <select value={profile.id} onChange={event => setProfile({...profile,id:event.target.value,payment:event.target.value === 'bancarizado' ? 'bank' : 'civica'})} className="mt-1 min-h-11 w-full rounded-xl border border-border bg-background px-3 text-sm">
             {Object.entries(fareCatalog.perfiles_masivo).map(([id, value]) => <option key={id} value={id}>{value.descripcion}</option>)}
@@ -87,8 +88,10 @@ export function RouteComparison({ routes, activeRouteIndex, originName, destName
         excludedService={excludedService} onExcludedServiceChange={onExcludedServiceChange}
         repeats={repeats} onRepeatsChange={onRepeatsChange}/>
       {pricedRoutes[activeRouteIndex] && supportsSanAntonioTransfer(pricedRoutes[activeRouteIndex]) && <TransferCompanion key={pricedRoutes[activeRouteIndex].id} fare={pricedRoutes[activeRouteIndex].fare}/>}
-      {ranked.map(({ route, index }) => (
-        <div key={budgetKey(routes[index])} className="space-y-2"><RouteCard route={route} routeIndex={index} isSelected={activeRouteIndex === index}
+      {ranked.map(({ route, index, group }, position) => (
+        <div key={budgetKey(routes[index])} className="space-y-2">
+          {(position === 0 || ranked[position - 1].group !== group) && <h4 className="pt-3 text-sm font-bold text-foreground">{routeSystemLabels[group]}</h4>}
+          <RouteCard route={route} routeIndex={index} isSelected={activeRouteIndex === index}
           originName={originName} destName={destName} onSelect={() => onSelect(index)} onStartNav={onStartNav} navState={navState}
           extraMinutes={routes.length > 1 ? timeTradeoff(route, routes) : null} />
           <BusBudgetControls route={route} evidence={evidence} choices={budgets[budgetKey(routes[index])] || {}} onChange={choices=>setBudgets(previous=>({...previous,[budgetKey(routes[index])]:choices}))}/>

@@ -31,3 +31,39 @@ test('tradeoffs reflect actual candidates rather than a fabricated promise', () 
   assert.equal(timeTradeoff(routes[0], routes), 0);
   assert.equal(timeTradeoff(route('unknown', NaN, 0, 0), routes), null);
 });
+
+const transportRoute = (id:string, mode:RouteOption['steps'][number]['mode'], duration:number, fareMode?:string):RouteOption => ({
+  ...route(id,duration,duration, duration, duration),modes:[mode],
+  steps:[{mode,duration,instruction:id,...(fareMode?{fareInput:{mode:fareMode}}:{})}],
+});
+
+test('Metro system precedes integrated buses, and conventional or unknown buses stay last for every priority',()=>{
+  const input=[transportRoute('bus','bus',1),transportRoute('feeder','bus',2,'ALIMENTADOR'),transportRoute('metro','metro',80),transportRoute('mixed','metro',3)];
+  input[3].steps.push({mode:'bus',duration:1,instruction:'bus sin identificar'});
+  for(const priority of ['duration','cost','walking','transfers'] as const){
+    assert.deepEqual(rankRoutes(input,priority).map(x=>x.index),[2,1,0,3]);
+  }
+  assert.deepEqual(input.map(x=>x.id),['bus','feeder','metro','mixed']);
+});
+
+test('all selected priorities still order alternatives within the Metro group',()=>{
+  const input=routes.map(r=>({...r,steps:[...r.steps,{mode:'metro' as const,duration:10,instruction:'Metro'}]}));
+  input.unshift(transportRoute('conventional','bus',1));
+  assert.deepEqual(rankRoutes(input,'duration').map(x=>x.index),[1,3,2,0]);
+  assert.deepEqual(rankRoutes(input,'cost').map(x=>x.index),[2,3,1,0]);
+  assert.deepEqual(rankRoutes(input,'walking').map(x=>x.index),[3,2,1,0]);
+  assert.deepEqual(rankRoutes(input,'transfers').map(x=>x.index),[3,2,1,0]);
+});
+
+test('classification uses actual transport not fare availability, provider or route names',()=>{
+  const input=[transportRoute('Metro falso','bus',1),transportRoute('integrated','bus',2,'BUS_INTEGRADO'),transportRoute('micro','bus',3,'MICRO_INTEGRADO'),transportRoute('metroplus','bus_articulado',90,'METROPLUS'),transportRoute('cable','metrocable',80),transportRoute('tram','tranvia',70)];
+  input[0].source='google';input[0].cost=1000;input[4].cost=-1;
+  assert.deepEqual(rankRoutes(input,'duration').map(x=>x.index),[5,4,3,1,2,0]);
+});
+
+test('walking and bikes do not demote Metro and standalone active travel is not labelled Metro',()=>{
+  const metro=transportRoute('metro','metro',90);
+  metro.steps.push({mode:'walk',duration:5,instruction:'Camina'},{mode:'encicla',duration:5,instruction:'EnCicla'});
+  const input=[transportRoute('unknown','transit',1),transportRoute('walk','walk',2),metro];
+  assert.deepEqual(rankRoutes(input,'duration').map(x=>x.index),[2,1,0]);
+});

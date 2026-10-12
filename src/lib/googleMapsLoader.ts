@@ -1,6 +1,6 @@
 let pending: Promise<any> | undefined;
 
-/** One SDK request per page. Only Maps JS: no billable Places autocomplete. */
+/** One SDK request per page. Places is loaded only for user-initiated place search. */
 export function loadGoogleMaps(): Promise<any> {
   if (window.google?.maps?.Map) return Promise.resolve(window.google.maps);
   if (pending) return pending;
@@ -24,7 +24,7 @@ export function loadGoogleMaps(): Promise<any> {
     };
     script.async = true;
     script.onerror = fail;
-    script.src = `https://maps.googleapis.com/maps/api/js?${new URLSearchParams({ key, loading: 'async', callback: 'metroBotMapsReady', language: 'es', region: 'CO', v: 'quarterly' })}`;
+    script.src = `https://maps.googleapis.com/maps/api/js?${new URLSearchParams({ key, loading: 'async', callback: 'metroBotMapsReady', language: 'es', region: 'CO', libraries: 'places', v: 'quarterly' })}`;
     document.head.append(script);
   });
   return pending;
