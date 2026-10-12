@@ -45,3 +45,32 @@ test('catalog identity must be unique and present before C3/C6 feeder classifica
   const catalog=[{id:'C3-001',name:'Ruta Integrada C3-001',stops:[]}];
   assert.equal(classifyRouteSegments(input,{routes:catalog})[0].mode,'ALIMENTADOR');
 });
+test('catalogued Metroplús stops classify a Google BUS before pricing Metroplús to Metro', () => {
+  const rutaN={id:'mplus-ruta-n',nombre:'Ruta N',sistema:'MPLUS',linea:'1',lat:6.268,lng:-75.568};
+  const cisneros={id:'mplus-cisneros',nombre:'Cisneros',sistema:'MPLUS',linea:'1',lat:6.251,lng:-75.582};
+  const input:RouteOption={id:'ruta-n',source:'google',cost:-1,duration:28,transfers:1,modes:['bus','metro'],steps:[
+    {mode:'bus',line:'Ruta N - U de A',instruction:'Autobús hacia Universidad de Medellín',duration:5,transit:{
+      departureStop:'Ruta N - U de A',arrivalStop:'Cisneros - Moda',departureLocation:{lat:rutaN.lat,lng:rutaN.lng},arrivalLocation:{lat:cisneros.lat,lng:cisneros.lng},
+      departureTime:'2026-10-12T16:21:00-05:00',arrivalTime:'2026-10-12T16:25:00-05:00',agencies:[{name:'Metro de Medellín'}],
+    }},
+    {mode:'metro',line:'B',instruction:'Metro hacia San Javier',duration:3,transit:{departureStop:'Cisneros',arrivalStop:'Estadio',departureTime:'2026-10-12T16:36:00-05:00',arrivalTime:'2026-10-12T16:39:00-05:00',agencies:[{name:'Metro de Medellín'}]}},
+  ]};
+  const priced=priceRoute(input,undefined,{stations:[rutaN,cisneros]});
+  assert.deepEqual(classifyRouteSegments(input,{stations:[rutaN,cisneros]}).map(segment=>segment.mode),['METROPLUS','METRO']);
+  assert.deepEqual(priced.modes,['metroplus','metro']);
+  assert.equal(priced.steps[0].mode,'metroplus');
+  assert.equal(priced.fare?.total,3820);
+  assert.equal(priced.fare?.status,'CONDICIONAL');
+  assert.equal(priced.fare?.chains[0].category,'integracion_2');
+  assert.equal(priced.fare?.chains[0].group,'integraciones_1_4');
+});
+test('catalogued stops without the official agency remain an unpriced bus', () => {
+  const rutaN={id:'mplus-ruta-n',nombre:'Ruta N',sistema:'MPLUS',linea:'1',lat:6.268,lng:-75.568};
+  const cisneros={id:'mplus-cisneros',nombre:'Cisneros',sistema:'MPLUS',linea:'1',lat:6.251,lng:-75.582};
+  const input=route('bus');
+  input.steps[0].line='Ruta N - U de A';
+  input.steps[0].transit={departureStop:'Ruta N - U de A',arrivalStop:'Cisneros - Moda',departureLocation:{lat:rutaN.lat,lng:rutaN.lng},arrivalLocation:{lat:cisneros.lat,lng:cisneros.lng},agencies:[{name:'Operador no verificado'}]};
+  const priced=priceRoute(input,undefined,{stations:[rutaN,cisneros]});
+  assert.equal(classifyRouteSegments(input,{stations:[rutaN,cisneros]})[0].mode,'TIPO_TRANSPORTE_NO_DETERMINADO');
+  assert.equal(priced.fare?.total,null);
+});

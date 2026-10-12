@@ -1,6 +1,6 @@
 import type { RouteOption } from '../routing';
 import type { IntegratedRoute } from '../integratedRoutes';
-import type { Station } from '../stations';
+import { calculateDistance, type Station } from '../stations';
 import { matchStation } from '../routeStations';
 import { calculateFare } from './engine';
 import { fareConfig } from './config';
@@ -10,6 +10,23 @@ import { urbanBudget, type UrbanFares, type UrbanChoices } from './urbanFares';
 export interface FareEvidence { stations?: Station[]; routes?: IntegratedRoute[]; urbanFares?:UrbanFares|null; urbanChoices?:UrbanChoices }
 const normalizedLine = (value?: string) => (value || '').replace(/l[ií]nea\s*/gi, '').trim().toUpperCase();
 const modeCodes: Record<string, string> = { metro:'METRO', metrocable:'CABLE', tranvia:'TRANVIA', metroplus:'METROPLUS', encicla:'ENCICLA', walk:'WALK' };
+const normalizedStationName = (value?: string) => (value || '').normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().replace(/[^a-z0-9]/g, '');
+const officialMetroAgency = (name: string) => /^(metro de medell[ií]n|empresa de transporte masivo del valle de aburr[aá])$/i.test(name.trim());
+
+/** Google may add a destination suffix to the official stop name (for example, "Cisneros - Moda"). */
+function resolveMetroplusStop(name: string, point: { lat: number; lng: number }, stations: Station[]): Station | undefined {
+  const exact = matchStation(name, point, 'metroplus', stations);
+  if (exact) return exact;
+  const observed = normalizedStationName(name);
+  const candidates = new Map<string, Station>();
+  for (const station of stations) {
+    const canonical = normalizedStationName(station.nombre);
+    if (station.sistema !== 'MPLUS' || canonical.length < 5 || !observed.includes(canonical)) continue;
+    if (calculateDistance(point.lat, point.lng, station.lat, station.lng) > 300) continue;
+    candidates.set(`${canonical}:${normalizedLine(station.linea)}`, station);
+  }
+  return candidates.size === 1 ? [...candidates.values()][0] : undefined;
+}
 
 export function classifyRouteSegments(route: RouteOption, evidence: FareEvidence = {}): FareSegment[] {
   const segments = route.steps.map(step => {
@@ -27,11 +44,11 @@ export function classifyRouteSegments(route: RouteOption, evidence: FareEvidence
     }
     const transit = step.transit;
     if (transit?.departureLocation && transit.arrivalLocation) {
-      const departure = matchStation(transit.departureStop || '', transit.departureLocation, 'metroplus', evidence.stations || []);
-      const arrival = matchStation(transit.arrivalStop || '', transit.arrivalLocation, 'metroplus', evidence.stations || []);
-      const metroAgency = transit.agencies.some(agency => /^(metro de medell[ií]n|empresa de transporte masivo del valle de aburr[aá])$/i.test(agency.name.trim()));
-      if (metroAgency && departure && arrival && normalizedLine(departure.linea) === normalizedLine(step.line) && normalizedLine(arrival.linea) === normalizedLine(step.line)) {
-        return { ...base, mode:'METROPLUS', evidence:'Operador, línea y ambas estaciones coinciden con Metroplús en el catálogo local' };
+      const departure = resolveMetroplusStop(transit.departureStop || '', transit.departureLocation, evidence.stations || []);
+      const arrival = resolveMetroplusStop(transit.arrivalStop || '', transit.arrivalLocation, evidence.stations || []);
+      const metroAgency = transit.agencies.some(agency => officialMetroAgency(agency.name));
+      if (metroAgency && departure && arrival && normalizedLine(departure.linea) === normalizedLine(arrival.linea)) {
+        return { ...base, mode:'METROPLUS', evidence:'Operador oficial y ambas paradas coinciden en una misma línea Metroplús del catálogo local' };
       }
     }
     return { ...base, evidence:'El proveedor no identifica la categoría tarifaria del bus' };
@@ -80,9 +97,13 @@ export function priceRoute(route: RouteOption, profile: FareProfile = fareConfig
   if (fare.total === null && evidence.urbanFares && evidence.urbanChoices) {
     fare = urbanBudget(segments,profile,evidence.urbanFares,evidence.urbanChoices) ?? fare;
   }
-  return { ...route, fare, cost: fare.total ?? -1, fareText: undefined,
+  const steps = route.steps.map((step, i) => ({ ...step,
+    mode: segments[i]?.mode === 'METROPLUS' ? 'metroplus' as const : step.mode,
+    cost: fare.breakdown[i]?.charge ?? undefined,
+  }));
+  return { ...route, modes: steps.map(step => step.mode), fare, cost: fare.total ?? -1, fareText: undefined,
     providerFare,
-    steps: route.steps.map((step, i) => ({ ...step, cost: fare.breakdown[i]?.charge ?? undefined })),
+    steps,
   };
 }
 
