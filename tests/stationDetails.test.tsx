@@ -15,4 +15,8 @@ test('station card labels source, scheduled boarding and bicycle data limitation
   assert.match(html, /08:25/);
   assert.match(html, /Google Maps/);
   assert.match(html, /Catálogo local/);
+  assert.match(html, /bg-card/);
+  assert.match(html, /text-foreground/);
+  assert.match(html, /Datos disponibles: catálogo local/i);
+  assert.match(html, /Estado operativo no conectado/i);
 });

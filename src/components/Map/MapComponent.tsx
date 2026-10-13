@@ -17,7 +17,7 @@
 //                                      modes — solid, destination color)
 // -----------------------------------------------------------------------------
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, ZoomControl, useMap, Polyline } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -30,6 +30,7 @@ import { getRouteGeometry } from '@/src/lib/osrm';
 
 import { RouteOption } from '@/src/lib/routing';
 import { getVisibleStations } from '@/src/lib/mapStationsFilter';
+import { DEFAULT_VISIBLE_MAP_SYSTEMS, normalizeMapLayerSystem, type MapLayerSystem, visibleMapSystems as getVisibleMapSystems } from '@/src/lib/mapLayers';
 import { SupportCard } from '../SupportCard';
 import { StationDialog } from './StationDialog';
 import { nearbyStations } from '../../lib/routeStations';
@@ -55,12 +56,22 @@ const getMarkerColor = (sistema: string) => {
   switch (norm) {
     case 'metro': return '#00994C';
     case 'cable': return '#E31837';
-    case 'metroplus': return '#8a8d91';
-    case 'tranvia': return '#00994C';
+    case 'mplus':
+    case 'metroplus': return '#007E8A';
+    case 't':
+    case 'tranvia': return '#738F2D';
     case 'encicla': return '#00A4E4';
     case 'bus': return '#f59e0b'; // Amber for integrated buses
     default: return '#94a3b8';
   }
+};
+
+const mapLayerLabels: Record<MapLayerSystem, string> = {
+  Metro: 'Metro',
+  Cable: 'Metrocable',
+  MPLUS: 'Metroplús',
+  T: 'Tranvía',
+  EnCicla: 'EnCicla',
 };
 
 const createCustomMarker = (color: string) => {
@@ -142,6 +153,7 @@ export function MapComponent({
   const [selectedStation, setSelectedStation] = useState<Station | null>(null);
   const [loading, setLoading] = useState(true);
   const [isLegendExpanded, setIsLegendExpanded] = useState(false);
+  const [selectedMapSystems, setSelectedMapSystems] = useState<MapLayerSystem[]>(() => [...DEFAULT_VISIBLE_MAP_SYSTEMS]);
   const [routePaths, setRoutePaths] = useState<{[key: string]: [number, number][]}>( {});
   const [mapBounds, setMapBounds] = useState<L.LatLngBounds | null>(null);
 
@@ -155,6 +167,46 @@ export function MapComponent({
   const currentRoute = routes && routes.length > 0 ? routes[activeRouteIndex] : null;
   const routeOrigin = currentRoute ? currentRoute.originStation : null;
   const routeDest = currentRoute ? currentRoute.destinationStation : null;
+  const routeStations = useMemo(
+    () => getVisibleStations(stations, currentRoute, Boolean(isNavigating)),
+    [stations, currentRoute, isNavigating],
+  );
+  const routeSystems = useMemo(
+    () => routeStations.map(station => normalizeMapLayerSystem(station.sistema)).filter((system): system is MapLayerSystem => Boolean(system)),
+    [routeStations],
+  );
+  const activeMapSystems = useMemo(
+    () => isNavigating
+      ? getVisibleMapSystems({ isNavigating: true, routeSystems })
+      : selectedMapSystems,
+    [isNavigating, routeSystems, selectedMapSystems],
+  );
+  const displayedStations = useMemo(
+    () => routeStations.filter(station => {
+      const system = normalizeMapLayerSystem(station.sistema);
+      return system ? activeMapSystems.includes(system) : false;
+    }),
+    [routeStations, activeMapSystems],
+  );
+
+  const toggleMapLayer = (system: MapLayerSystem) => {
+    setSelectedMapSystems(selected => selected.includes(system)
+      ? selected.filter(item => item !== system)
+      : [...selected, system]);
+  };
+
+  const renderLayerOptions = () => <div className="mt-3 space-y-1 border-t border-border pt-2" aria-label="Capas de estaciones">
+    <p className="px-1 pb-1 text-[11px] font-semibold text-muted-foreground">Capas de estaciones</p>
+    {(Object.keys(mapLayerLabels) as MapLayerSystem[]).map(system => {
+      const isVisible = selectedMapSystems.includes(system);
+      return <label key={system} className="flex min-h-9 cursor-pointer items-center gap-2 rounded-lg px-1.5 text-[11px] font-medium text-foreground hover:bg-muted">
+        <input type="checkbox" checked={isVisible} onChange={() => toggleMapLayer(system)} className="h-4 w-4 accent-emerald-600" />
+        <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: getMarkerColor(system) }} aria-hidden="true" />
+        {mapLayerLabels[system]}
+      </label>;
+    })}
+    <p className="px-1 pt-1 text-[10px] leading-snug text-muted-foreground">EnCicla se mantiene oculta al iniciar para reducir ruido visual.</p>
+  </div>;
 
   useEffect(() => {
     async function updatePaths() {
@@ -537,7 +589,7 @@ export function MapComponent({
         {renderOriginMarker()}
         {renderDestMarker()}
 
-        {getVisibleStations(stations, currentRoute, isNavigating).map((station, idx) => (
+        {displayedStations.map((station, idx) => (
           <Marker 
             key={`${station.id}-${idx}`} 
             position={[station.lat, station.lng]}
@@ -577,7 +629,7 @@ export function MapComponent({
       )}
       
       {/* Mobile Vertical controls stack - Positioned higher to avoid bottom sheet overlaps */}
-      {!isNavigating && <div className="absolute top-3 right-3 z-[999] flex flex-col gap-2.5 pointer-events-none lg:hidden transition-all duration-300">
+      {!isNavigating && <div className="absolute top-3 right-3 z-[999] flex flex-col gap-2.5 pointer-events-none md:hidden transition-all duration-300">
         <MapLocationControl />
         {/* Zoom Controls (Customized for mobile) */}
         <div className="flex flex-col bg-card/90 backdrop-blur-md rounded-2xl shadow-lg border border-border/40 overflow-hidden pointer-events-auto">
@@ -623,14 +675,14 @@ export function MapComponent({
             onClick={() => setIsLegendExpanded(!isLegendExpanded)}
             className={`w-11 h-11 flex items-center justify-center bg-card/90 backdrop-blur-md rounded-2xl shadow-lg border border-border/40 pointer-events-auto transition-all active:scale-95 cursor-pointer ${isLegendExpanded ? 'text-sitva-blue border-sitva-blue/30 bg-blue-50/20' : 'text-foreground'}`}
             title="Leyendas"
-            aria-label={isLegendExpanded ? 'Ocultar leyenda del mapa' : 'Mostrar leyenda del mapa'}
+            aria-label={isLegendExpanded ? 'Ocultar capas del mapa' : 'Mostrar capas del mapa'}
           >
             <MapIcon className="w-5 h-5" />
           </button>
           
           {isLegendExpanded && (
             <div className="absolute right-13 bottom-0 bg-card/95 backdrop-blur-md border border-border/60 shadow-xl rounded-2xl p-3 w-36 flex flex-col gap-2 z-[1000] animate-in fade-in slide-in-from-right-3 duration-250">
-              <h4 className="text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider border-b border-border/10 pb-1">Leyenda</h4>
+              <h4 className="text-[11px] font-bold text-foreground uppercase tracking-wider border-b border-border/10 pb-1">Capas del mapa</h4>
               <div className="flex items-center gap-2">
                   <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: getMarkerColor('Metro') }}></div>
                   <span className="text-[11px] font-semibold text-foreground/95">Metro</span>
@@ -644,9 +696,14 @@ export function MapComponent({
                   <span className="text-[11px] font-semibold text-foreground/95">Metroplús</span>
               </div>
               <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: getMarkerColor('T') }}></div>
+                  <span className="text-[11px] font-semibold text-foreground/95">Tranvía</span>
+              </div>
+              <div className="flex items-center gap-2">
                   <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: getMarkerColor('EnCicla') }}></div>
                   <span className="text-[11px] font-semibold text-foreground/95">EnCicla</span>
               </div>
+              {renderLayerOptions()}
             </div>
           )}
         </div>
@@ -659,7 +716,7 @@ export function MapComponent({
       
       {/* Legend Area (Desktop only) */}
       {!isNavigating && <div
-        className={`hidden md:flex absolute top-4 right-4 bg-card/95 border border-border backdrop-blur shadow-xl rounded-2xl z-[1000] flex-col transition-all duration-300 pointer-events-auto overflow-hidden ${isLegendExpanded ? 'p-3 w-48' : 'p-2 w-auto hover:bg-card'}`}
+        className={`hidden md:flex absolute top-4 right-4 bg-card/95 border border-border backdrop-blur shadow-xl rounded-2xl z-[1000] flex-col transition-all duration-300 pointer-events-auto overflow-hidden ${isLegendExpanded ? 'p-3 w-56' : 'p-2 w-auto hover:bg-card'}`}
       >
          <div className="flex items-center justify-between gap-3">
            <button
@@ -672,7 +729,7 @@ export function MapComponent({
              <div className="p-1 bg-slate-100 dark:bg-slate-800 rounded-lg">
                <MapIcon className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" />
              </div>
-             <h4 className="text-xs font-bold text-foreground whitespace-nowrap">Leyendas</h4>
+             <h4 className="text-xs font-bold text-foreground whitespace-nowrap">Capas</h4>
            </button>
            <button 
              onClick={(e) => {
@@ -702,14 +759,19 @@ export function MapComponent({
                  <span className="text-[11px] font-medium text-foreground/80">Metroplús</span>
              </div>
              <div className="flex items-center gap-2">
+                 <div className="w-3 h-3 rounded-full border border-white/50 dark:border-slate-800 shadow-sm" style={{ backgroundColor: getMarkerColor('T') }}></div>
+                 <span className="text-[11px] font-medium text-foreground/80">Tranvía</span>
+             </div>
+             <div className="flex items-center gap-2">
                  <div className="w-3 h-3 rounded-full border border-white/50 dark:border-slate-800 shadow-sm" style={{ backgroundColor: getMarkerColor('EnCicla') }}></div>
                  <span className="text-[11px] font-medium text-foreground/80">EnCicla</span>
              </div>
              
              <div className="mt-2 pt-2 border-t border-border flex items-center gap-2">
                <Info className="w-3 h-3 text-sitva-blue" />
-               <span className="text-[11px] font-bold text-slate-600 dark:text-slate-300">Estaciones: {stations.length}</span>
+               <span className="text-[11px] font-bold text-muted-foreground">Mostrando: {displayedStations.length}</span>
              </div>
+             {renderLayerOptions()}
            </div>
          )}
       </div>}

@@ -167,7 +167,8 @@ test('Places (New) predicts and resolves only the selected location fields befor
   assert.match(h.container.textContent, /Avenida 33, Medellín/);
   assert.deepEqual(request.value, {
     input: 'FOMAG', includedRegionCodes: ['co'], language: 'es', region: 'co',
-    locationBias: { center: { lat: 6.2442, lng: -75.5812 }, radius: 50000 }, sessionToken: request.value.sessionToken,
+    locationBias: { center: { lat: 6.2442, lng: -75.5812 }, radius: 50000 },
+    locationRestriction: { south: 5.95, west: -75.82, north: 6.45, east: -75.3 }, sessionToken: request.value.sessionToken,
   });
   await act(async () => {
     [...h.container.querySelectorAll('button')].find(button => button.getAttribute('role') === 'option')!.click();

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ArrowDownUp, Locate, MapPin, MousePointerClick, Search, Star, X } from 'lucide-react';
 import { useFavorites } from '../hooks/useFavorites';
 import { loadGoogleMaps } from '../lib/googleMapsLoader';
+import { isWithinMetroArea, metroAreaRestriction } from '../lib/metroArea';
 import {
   createPlannerState,
   transitionPlanner,
@@ -189,7 +190,8 @@ export function TripPlannerPanel({
       try {
         const token = placeTokensRef.current[request.field] ||= new places.AutocompleteSessionToken();
         const { suggestions } = await places.AutocompleteSuggestion.fetchAutocompleteSuggestions({
-          input: text, includedRegionCodes: ['co'], language: 'es', region: 'co', locationBias: medellinBias, sessionToken: token,
+          input: text, includedRegionCodes: ['co'], language: 'es', region: 'co',
+          locationBias: medellinBias, locationRestriction: metroAreaRestriction, sessionToken: token,
         });
         if (signal.aborted) return;
         const results: SearchResult[] = suggestions.flatMap(({ placePrediction }) => placePrediction ? [{
@@ -210,7 +212,9 @@ export function TripPlannerPanel({
         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(normalizeQuery(text))}&limit=8&addressdetails=1&countrycodes=co`,
         { signal },
       );
-      const results = await response.json();
+      const results = (await response.json()).filter((result: SearchResult) => isWithinMetroArea({
+        lat: Number.parseFloat(result.lat), lng: Number.parseFloat(result.lon),
+      }));
       if (signal.aborted) return;
       dispatchPlanner({ type: 'settle-search', request, results });
     } catch (error) {
@@ -265,8 +269,10 @@ export function TripPlannerPanel({
       }
     }
 
-    if (Number.isFinite(lat) && Number.isFinite(lng)) {
+    if (isWithinMetroArea({ lat, lng })) {
       dispatchPlanner({ type: 'select-search-result', request, place: { lat, lng, name } });
+    } else {
+      dispatchPlanner({ type: 'search-result-failure', request });
     }
   };
 
