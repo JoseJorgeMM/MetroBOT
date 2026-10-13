@@ -45,7 +45,7 @@ export function MobileExploreSurface({
           ) : (
             <>
               <h1 className="mb-2 text-2xl font-bold tracking-tight text-foreground">¿A dónde vas?</h1>
-              <p className="mb-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300">Encuentra tu recorrido y elige entre tiempo, costo y menos caminata.</p>
+              <p className="mb-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300">Compara costo integrado, caminata y margen de transbordos para elegir cómo viajar.</p>
               <MobileExploreActions layout="row" onPlanTrip={onPlanTrip} onAskMetroBot={onAskMetroBot} />
               {quickPicks}
               <WeatherSummary weather={weather} />
@@ -62,7 +62,7 @@ export function MobileExploreSurface({
                 <h2 className="text-sm font-semibold">Un viaje a tu medida</h2>
                 <ol className="mt-4 list-decimal space-y-4 pl-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
                   <li>Busca tu destino o elige un punto en el mapa.</li>
-                  <li>Describe tu presupuesto y preferencias en «Diseña mi viaje».</li>
+                  <li>Indica tu presupuesto y límites de caminata en «Viajar con mis preferencias».</li>
                   <li>Compara los resultados y prueba qué cambia al ajustar tus condiciones.</li>
                 </ol>
                 <p className="mt-6 text-xs leading-relaxed text-slate-500 dark:text-slate-400">Las duraciones y tarifas son estimaciones. Revisa los tramos sin validar antes de abordar.</p>

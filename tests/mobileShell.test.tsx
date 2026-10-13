@@ -28,7 +28,7 @@ test('explore actions expose direct planning and journey design', () => {
     <MobileExploreActions onPlanTrip={() => {}} onAskMetroBot={() => {}} />,
   );
   assert.match(html, />Planear un viaje</);
-  assert.match(html, />Diseña mi viaje</);
+  assert.match(html, />Viajar con mis preferencias</);
   assert.match(html, /aria-label="Planear un viaje"/);
 });
 
@@ -145,7 +145,7 @@ test('compact explore keeps both core actions, rain, and quick picks outside the
   assert.ok(overlayStart >= 0, 'Explore must expose a map overlay');
   assert.ok(sheetScrollOwner > overlayStart, 'The compact sheet must follow the map overlay');
   assert.ok(html.indexOf('Planear un viaje') < sheetScrollOwner, 'The destination action must stay outside compact-sheet scrolling');
-  assert.ok(html.indexOf('Diseña mi viaje') >= overlayStart && html.indexOf('Diseña mi viaje') < sheetScrollOwner, 'Journey design must stay outside compact-sheet scrolling');
+  assert.ok(html.indexOf('Viajar con mis preferencias') >= overlayStart && html.indexOf('Viajar con mis preferencias') < sheetScrollOwner, 'Journey design must stay outside compact-sheet scrolling');
   assert.ok(html.indexOf('Lleva protección para la lluvia') >= overlayStart && html.indexOf('Lleva protección para la lluvia') < sheetScrollOwner, 'Rain context must stay with the map-first destination cluster');
   assert.doesNotMatch(html, /metrocables podrían operar con intermitencia/);
   assert.ok(html.indexOf('Casa') < sheetScrollOwner, 'Quick picks must stay outside compact-sheet scrolling');

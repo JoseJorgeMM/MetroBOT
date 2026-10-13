@@ -58,7 +58,7 @@ export function JourneyStudio({origin,destination,needs,onNeedsChange,onPlan,onM
     finally {if(abort.current===controller){setBusy(false);abort.current=null;}}
   }
   const select=(s:Station):PlaceValue=>({name:`${s.nombre} · ${s.sistema}${s.linea?` ${s.linea}`:''}`,lat:s.lat,lng:s.lng});
-  return <section aria-label="Diseña mi viaje" className="h-full min-h-0 overflow-y-auto bg-background p-4 pb-8 sm:p-5">
+  return <section aria-label="Viajar con mis preferencias" className="h-full min-h-0 overflow-y-auto bg-background p-4 pb-8 sm:p-5">
     <header className="mb-5 flex items-start justify-between gap-3">
       <div><h2 className="text-2xl font-bold tracking-tight">Un viaje a tu medida.</h2><p className="mt-2 text-sm leading-relaxed text-muted-foreground">Cuéntanos qué necesitas. Convierte tus prioridades en un recorrido que puedas comparar.</p></div>
       <button type="button" aria-label="Cerrar diseño de viaje" onClick={onClose} className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full hover:bg-muted"><X className="h-5 w-5"/></button>

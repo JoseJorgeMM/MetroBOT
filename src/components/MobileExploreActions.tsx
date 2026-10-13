@@ -21,11 +21,11 @@ export function MobileExploreActions({
       </button>
       <button
         type="button"
-        aria-label="Diseña mi viaje"
+        aria-label="Viajar con mis preferencias"
         className="min-h-12 w-full rounded-xl border border-slate-300 px-3 py-3 text-sm font-semibold text-slate-900 dark:text-slate-100"
         onClick={onAskMetroBot}
       >
-        Diseña mi viaje
+        Viajar con mis preferencias
       </button>
     </div>
   );

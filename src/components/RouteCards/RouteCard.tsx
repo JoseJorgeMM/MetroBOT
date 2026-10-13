@@ -7,6 +7,7 @@ import { walkingMinutes as getWalkingMinutes } from '../../lib/routeComparison';
 import { googleDirectionsUrl } from '../../lib/googleTransit';
 import { FareBreakdown } from './FareBreakdown';
 import { formatCOP } from '../../lib/fares/config';
+import { ConnectionRiskPanel } from './ConnectionRiskPanel';
 
 const ModeIcon = ({ mode, className }: { mode: string, className?: string }) => {
   switch (mode) {
@@ -196,6 +197,7 @@ export function RouteCard({ route, isSelected, originName, destName, routeIndex 
         </div>
 
         {route.fare && <FareBreakdown fare={route.fare} />}
+        <ConnectionRiskPanel route={route} />
         <details className="mt-3 border-t border-border" open={isSelected || undefined}>
           <summary className="min-h-11 cursor-pointer py-3 text-sm font-semibold text-foreground">Trayecto paso a paso · {steps.length} tramos</summary>
           <div className="space-y-3 border-l-2 border-border pl-3">
