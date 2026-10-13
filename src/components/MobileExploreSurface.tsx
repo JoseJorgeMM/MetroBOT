@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { TrainFront } from 'lucide-react';
 import { WeatherSummary } from './WeatherSummary';
+import { SystemStatus } from './SystemStatus';
 import type { WeatherData } from '../lib/weather';
 import type { SheetPresentation } from '../lib/mobileSurface';
 import { MobileBottomSheet } from './MobileBottomSheet';
@@ -49,6 +50,7 @@ export function MobileExploreSurface({
               <MobileExploreActions layout="row" onPlanTrip={onPlanTrip} onAskMetroBot={onAskMetroBot} />
               {quickPicks}
               <WeatherSummary weather={weather} />
+              <SystemStatus />
               {hasAvailableRoutes && (
                 <button
                   type="button"

@@ -1,5 +1,5 @@
 import { loadStations, Station } from './stations';
-import { fetchMetroNews } from './news';
+import { getServiceStatus } from './serviceStatusClient';
 import { loadIntegratedRoutes, matchIntegratedRoutes, IntegratedRoute } from './integratedRoutes';
 import type { FareResult, FareSegment } from './fares/types';
 
@@ -136,29 +136,22 @@ export async function getRoute(start: string, end: string): Promise<RouteOption[
 }
 
 export async function getStationStatus(stationId: string): Promise<string> {
+  const limitation = 'La fuente oficial solo informa sobre líneas; el estado de las estaciones está no verificado.';
+  const match = /^(?:l[ií]nea\s+)?([ABHJKLMPTO12])$/i.exec(stationId.trim());
+  if (!match) return 'Estado de la estación no verificado. ' + limitation;
+
+  const lineId = match[1].toUpperCase();
+  const source = ' Fuente: https://www.metrodemedellin.gov.co/. ';
   try {
-    const news = await fetchMetroNews();
-    const stationLower = stationId.toLowerCase();
-    const now = new Date();
-    const recentNews = news.filter(n => {
-      const pubDate = new Date(n.pubDate);
-      return (now.getTime() - pubDate.getTime()) < 12 * 60 * 60 * 1000;
-    });
-
-    for (const item of recentNews) {
-      const title = item.title.toLowerCase();
-      if (title.indexOf(stationLower) !== -1 || (stationLower.indexOf('linea') !== -1 && title.indexOf(stationLower) !== -1)) {
-        if (title.indexOf('cierre') !== -1 || title.indexOf('cerrada') !== -1 || title.indexOf('fuera de servicio') !== -1) {
-          return 'Alerta: ' + item.title + '. Se reporta cierre o suspension.';
-        }
-        if (title.indexOf('falla') !== -1 || title.indexOf('retraso') !== -1) {
-          return 'Aviso: ' + item.title + '. Se reportan retrasos tecnicos.';
-        }
-      }
+    const snapshot = await getServiceStatus();
+    const matches = snapshot.lines.filter(line => line.id === lineId);
+    const line = matches.length === 1 ? matches[0] : undefined;
+    if (snapshot.availability !== 'available' || !line) {
+      return `Línea ${lineId}: estado no verificado.` + source + limitation;
     }
-
-    return 'Operacion normal segun los ultimos reportes de noticias.';
-  } catch (e) {
-    return 'Operacion normal (No se pudo verificar noticias en tiempo real).';
+    const label = { normal: 'normal', warning: 'aviso', suspended: 'suspendida', unknown: 'no verificado' }[line.status];
+    return `Línea ${lineId}: ${label}. ${line.message}` + source + limitation;
+  } catch {
+    return `Línea ${lineId}: estado no verificado.` + source + limitation;
   }
 }

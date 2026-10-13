@@ -6,11 +6,13 @@ import {defineConfig, loadEnv} from 'vite';
 import { transitDevPlugin } from './server/transitDevPlugin';
 import { journeyDevPlugin } from './server/journeyDevPlugin';
 import { transferSignDevPlugin } from './server/transferSignDevPlugin';
+import { serviceStatusDevPlugin } from './server/serviceStatusDevPlugin';
 
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
     plugins: [
+      serviceStatusDevPlugin(),
       transitDevPlugin(env),
       journeyDevPlugin(env),
       transferSignDevPlugin(env),
