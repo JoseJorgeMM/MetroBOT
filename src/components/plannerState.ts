@@ -26,6 +26,7 @@ export type PlannerState = {
   busesEnabled: boolean;
   activeField: PlannerField;
   results: SearchResult[];
+  searchMessage: string | null;
   resultRequest: SearchRequest | null;
   search: SearchRequest | null;
   currentLocation: SearchRequest | null;
@@ -41,7 +42,7 @@ export type PlannerEvent =
   | { type: 'input'; field: PlannerField; value: string }
   | { type: 'focus-field'; field: PlannerField }
   | { type: 'begin-search'; request: SearchRequest }
-  | { type: 'settle-search'; request: SearchRequest; results: SearchResult[] }
+  | { type: 'settle-search'; request: SearchRequest; results: SearchResult[]; message?: string }
   | { type: 'begin-search-result'; request: SearchRequest }
   | { type: 'search-result-failure'; request: SearchRequest }
   | { type: 'select-search-result'; request: SearchRequest; place: PlaceValue }
@@ -77,6 +78,7 @@ function clearedSearchState(state: PlannerState) {
   return {
     ...state,
     results: [],
+    searchMessage: null,
     resultRequest: null,
     search: null,
     currentLocation: null,
@@ -99,6 +101,7 @@ export function createPlannerState({
     busesEnabled,
     activeField: 'origin',
     results: [],
+    searchMessage: null,
     resultRequest: null,
     search: null,
     currentLocation: null,
@@ -185,6 +188,7 @@ export function transitionPlanner(state: PlannerState, event: PlannerEvent): Pla
         state: {
           ...state,
           results: event.results,
+          searchMessage: event.message ?? (event.results.length ? null : 'No encontramos lugares. Prueba otra dirección o selecciona un punto en el mapa.'),
           resultRequest: event.request,
           loading: false,
           operation: null,
@@ -207,7 +211,7 @@ export function transitionPlanner(state: PlannerState, event: PlannerEvent): Pla
         || state.operation?.type !== 'search-result'
         || !sameRequest(state.operation.request, event.request)
       ) return { state, effects: [] };
-      return { state: { ...state, loading: false, operation: null }, effects: [] };
+      return { state: { ...state, loading: false, operation: null, searchMessage: 'No se pudo confirmar este lugar dentro del Valle de Aburrá. Intenta de nuevo o selecciona un punto en el mapa.' }, effects: [] };
 
     case 'select-search-result': {
       if (!sameRequest(state.search, event.request) || !sameRequest(state.resultRequest, event.request)) {

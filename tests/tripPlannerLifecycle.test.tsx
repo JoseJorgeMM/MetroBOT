@@ -151,6 +151,7 @@ test('Places (New) predicts and resolves only the selected location fields befor
     return {
       AutocompleteSessionToken: class {},
       AutocompleteSuggestion: { fetchAutocompleteSuggestions: async (value: unknown) => {
+        assert.ok(!('locationBias' in (value as object)), 'Google forbids bias together with restriction');
         request.value = value;
         return { suggestions: [{ placePrediction: { placeId: 'fomag', text: { toString: () => 'FOMAG, Avenida 33, Medellín' }, toPlace: () => place } }] };
       } },
@@ -167,7 +168,6 @@ test('Places (New) predicts and resolves only the selected location fields befor
   assert.match(h.container.textContent, /Avenida 33, Medellín/);
   assert.deepEqual(request.value, {
     input: 'FOMAG', includedRegionCodes: ['co'], language: 'es', region: 'co',
-    locationBias: { center: { lat: 6.2442, lng: -75.5812 }, radius: 50000 },
     locationRestriction: { south: 5.95, west: -75.82, north: 6.45, east: -75.3 }, sessionToken: request.value.sessionToken,
   });
   await act(async () => {
@@ -176,4 +176,38 @@ test('Places (New) predicts and resolves only the selected location fields befor
   });
   assert.deepEqual(fields, [{ fields: ['displayName', 'formattedAddress', 'location'] }]);
   assert.deepEqual(h.changes.at(-1), { lat: 6.245, lng: -75.59, name: 'FOMAG' });
+});
+
+test('Google errors are visible without leaking provider text and clear when input is cleared', async t => {
+  const h = await harness(t, false, 'FOMAG');
+  Object.assign(h.window, { google: { maps: { importLibrary: async () => ({
+    AutocompleteSessionToken: class {},
+    AutocompleteSuggestion: { fetchAutocompleteSuggestions: async () => { throw Error('key=secret-provider-value'); } },
+  }) } } });
+  t.mock.method(globalThis, 'fetch', async () => new Response('', { status: 503 }));
+  await act(() => h.container.querySelector('input')!.focus());
+  await act(async () => { await new Promise(resolve => setTimeout(resolve, 650)); });
+  assert.match(h.container.textContent, /Google Places no está disponible/);
+  assert.match(h.container.textContent, /Seleccionar en el mapa/);
+  assert.doesNotMatch(h.container.textContent, /secret-provider-value/);
+  await act(() => [...h.container.querySelectorAll('button')].find(button => button.getAttribute('aria-label') === 'Limpiar origen')!.click());
+  assert.doesNotMatch(h.container.textContent, /Google Places no está disponible/);
+});
+
+test('a failed library import can retry on the next search', async t => {
+  const h = await harness(t, false, 'FOMAG');
+  let calls = 0;
+  Object.assign(h.window, { google: { maps: { importLibrary: async () => {
+    calls++; if (calls === 1) throw Error('temporary network failure');
+    return { AutocompleteSessionToken: class {}, AutocompleteSuggestion: { fetchAutocompleteSuggestions: async () => ({ suggestions: [] }) } };
+  } } } });
+  t.mock.method(globalThis, 'fetch', async () => Response.json([]));
+  const input = h.container.querySelector('input')!;
+  await act(() => input.focus());
+  await act(async () => { await new Promise(resolve => setTimeout(resolve, 650)); });
+  await act(() => [...h.container.querySelectorAll('input')].find(input => input.getAttribute('aria-label') === 'Destino')!.focus());
+  await act(() => input.focus());
+  await act(async () => { await new Promise(resolve => setTimeout(resolve, 650)); });
+  assert.equal(calls, 2);
+  assert.match(h.container.textContent, /No encontramos lugares/);
 });

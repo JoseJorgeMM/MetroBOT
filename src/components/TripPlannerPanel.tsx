@@ -55,7 +55,6 @@ type GooglePlacePrediction = {
   text?: { toString: () => string };
   toPlace: () => { displayName?: string; formattedAddress?: string; location?: { lat: number | (() => number); lng: number | (() => number) }; fetchFields: (request: { fields: string[] }) => Promise<void> };
 };
-const medellinBias = { center: { lat: 6.2442, lng: -75.5812 }, radius: 50000 };
 
 export function TripPlannerPanel({
   initialQueries,
@@ -133,10 +132,11 @@ export function TripPlannerPanel({
     if (!placesLibraryRef.current) {
       const maps = window.google?.maps?.importLibrary ? Promise.resolve(window.google.maps) : loadGoogleMaps();
       placesLibraryRef.current = maps.then(async (googleMaps: any) => {
-        if (typeof googleMaps?.importLibrary !== 'function') return null;
+        if (typeof googleMaps?.importLibrary !== 'function') throw Error('PLACES_UNAVAILABLE');
         const library = await googleMaps.importLibrary('places') as PlacesLibrary;
-        return library?.AutocompleteSuggestion && library?.AutocompleteSessionToken ? library : null;
-      }).catch(() => null);
+        if (!library?.AutocompleteSuggestion || !library?.AutocompleteSessionToken) throw Error('PLACES_UNAVAILABLE');
+        return library;
+      }).catch(() => { placesLibraryRef.current = null; return null; });
     }
     return placesLibraryRef.current;
   }
@@ -186,12 +186,14 @@ export function TripPlannerPanel({
 
     const places = await loadPlacesLibrary();
     if (signal.aborted) return;
+    let googleFailed = !places;
     if (places) {
       try {
         const token = placeTokensRef.current[request.field] ||= new places.AutocompleteSessionToken();
         const { suggestions } = await places.AutocompleteSuggestion.fetchAutocompleteSuggestions({
           input: text, includedRegionCodes: ['co'], language: 'es', region: 'co',
-          locationBias: medellinBias, locationRestriction: metroAreaRestriction, sessionToken: token,
+          // Google accepts bias OR restriction, never both.
+          locationRestriction: metroAreaRestriction, sessionToken: token,
         });
         if (signal.aborted) return;
         const results: SearchResult[] = suggestions.flatMap(({ placePrediction }) => placePrediction ? [{
@@ -204,6 +206,7 @@ export function TripPlannerPanel({
         }
       } catch {
         if (signal.aborted) return;
+        googleFailed = true;
       }
     }
 
@@ -212,15 +215,20 @@ export function TripPlannerPanel({
         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(normalizeQuery(text))}&limit=8&addressdetails=1&countrycodes=co`,
         { signal },
       );
-      const results = (await response.json()).filter((result: SearchResult) => isWithinMetroArea({
+      if (!response.ok) throw Error('SEARCH_UNAVAILABLE');
+      const data: unknown = await response.json();
+      if (!Array.isArray(data)) throw Error('INVALID_SEARCH_RESPONSE');
+      const results = data.filter((result: SearchResult) => result && typeof result.display_name === 'string' && isWithinMetroArea({
         lat: Number.parseFloat(result.lat), lng: Number.parseFloat(result.lon),
       }));
       if (signal.aborted) return;
-      dispatchPlanner({ type: 'settle-search', request, results });
+      dispatchPlanner({ type: 'settle-search', request, results, message: googleFailed
+        ? 'Google Places no está disponible. Revisa la conexión; si persiste, verifica la clave, las APIs habilitadas y el dominio autorizado. Se consultó OpenStreetMap como respaldo.' : undefined });
     } catch (error) {
       if (signal.aborted) return;
-      console.error('Nominatim search error:', error);
-      dispatchPlanner({ type: 'settle-search', request, results: [] });
+      dispatchPlanner({ type: 'settle-search', request, results: [], message: googleFailed
+        ? 'Google Places no está disponible y tampoco se pudo consultar el respaldo. Revisa la conexión o usa «Seleccionar en el mapa».'
+        : 'Google no devolvió coincidencias y el respaldo no está disponible. Prueba otra dirección o selecciona un punto en el mapa.' });
     }
   }
 
@@ -401,7 +409,7 @@ export function TripPlannerPanel({
       )}
 
       <div aria-live="polite" className="min-h-5 text-sm text-slate-500">
-        {isBusy ? 'Buscando ubicación…' : ''}
+        {isBusy ? 'Buscando ubicación…' : planner.searchMessage || ''}
       </div>
 
       <details className="rounded-xl border border-border p-3">
